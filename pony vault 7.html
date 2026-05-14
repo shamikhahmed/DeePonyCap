@@ -1,0 +1,2262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PonyVault">
+    <meta name="theme-color" content="#FAF5F2">
+    <title>PonyVault • Premium Collectible Sanctuary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --st: env(safe-area-inset-top);
+            --sb: env(safe-area-inset-bottom);
+            --bg: #FAF5F2;
+            --card: #FFFFFF;
+            --text: #1A1A2E;
+            --text-light: #8B92A0;
+            --accent: #FF6B9D;
+            --accent-light: #FFB3D9;
+            --primary: #F8D6E6;
+            --secondary: #E8C5F0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        body.dark-mode {
+            --bg: #0F1419;
+            --card: #1A2332;
+            --text: #F5F7FA;
+            --text-light: #A0AEC0;
+        }
+
+        .app {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 1;
+        }
+
+        .bg-ambient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            animation: ambientShift 8s ease-in-out infinite;
+        }
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+            animation: floatOrb 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
+            50% { transform: translate(40px, -60px); opacity: 0.2; }
+        }
+
+        @keyframes ambientShift {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.05); }
+        }
+
+        .header {
+            padding: max(12px, var(--st)) 20px 16px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: none;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark-mode .header {
+            background: rgba(26, 35, 50, 0.8);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-info {
+            flex: 1;
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text);
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .header-greeting {
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-top: 2px;
+        }
+
+        .header-weather {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-header {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+        }
+
+        .btn-header:active {
+            transform: scale(0.88);
+            background: rgba(255, 107, 157, 0.2);
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 157, 0.2);
+            border-radius: 2px;
+        }
+
+        .pages {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            width: 100%;
+        }
+
+        .page {
+            flex: 0 0 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .page::-webkit-scrollbar {
+            display: none;
+        }
+
+        .page-content {
+            padding: 20px;
+            padding-bottom: calc(90px + 20px + max(0px, var(--sb)));
+        }
+
+        .nav {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            height: 58px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 28px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 40;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            padding-bottom: max(0px, calc(var(--sb) - 16px));
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        body.dark-mode .nav {
+            background: rgba(26, 35, 50, 0.98);
+        }
+
+        .nav-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 8px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+            position: relative;
+            animation: none;
+        }
+
+        .nav-btn:before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            bottom: -10px;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active {
+            color: var(--accent);
+            transform: scale(1.15);
+        }
+
+        .nav-btn.active:before {
+            opacity: 1;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
+        }
+
+        body.dark-mode .card {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .card:active {
+            transform: scale(0.97);
+            box-shadow: 0 12px 40px rgba(255, 182, 193, 0.18);
+        }
+
+        .card.gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            color: white;
+            box-shadow: 0 12px 40px rgba(255, 182, 193, 0.25);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 28px;
+            padding: 38px 24px;
+            color: white;
+            margin: 0 20px 20px 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(255, 182, 193, 0.25);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            animation: heroShimmer 6s ease-in-out infinite;
+        }
+
+        @keyframes heroShimmer {
+            0% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-greeting {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .hero-message {
+            font-size: 13px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .hero-weather {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 0 20px 20px 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .stat-card {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .stat-card:active {
+            transform: scale(0.96);
+        }
+
+        .stat-num {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-light);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .section {
+            margin: 28px 20px 0 20px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: var(--text);
+            letter-spacing: -0.6px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 20px 16px 20px;
+            padding-bottom: 8px;
+        }
+
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            white-space: nowrap;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+        }
+
+        body.dark-mode .filter-btn {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+        }
+
+        .filter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .shelf-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 20px;
+            padding-bottom: 8px;
+        }
+
+        .shelf-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pony-card {
+            flex: 0 0 110px;
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 18px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark-mode .pony-card {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .pony-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.6s;
+        }
+
+        .pony-card:active {
+            transform: scale(0.92);
+            box-shadow: 0 12px 40px rgba(255, 182, 193, 0.2);
+        }
+
+        .pony-card:active::before {
+            left: 100%;
+        }
+
+        .pony-emoji {
+            font-size: 40px;
+            margin-bottom: 6px;
+        }
+
+        .pony-name {
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .pony-rarity {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 9px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            padding: 2px 5px;
+            border-radius: 6px;
+            font-weight: 800;
+        }
+
+        .pony-cutie {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin: 0 20px;
+        }
+
+        .item-card {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 16px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        body.dark-mode .item-card {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .item-card:active {
+            transform: scale(0.94);
+            box-shadow: 0 12px 40px rgba(255, 182, 193, 0.2);
+        }
+
+        .item-emoji {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            color: var(--text-light);
+        }
+
+        .empty-emoji {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: flex-end;
+            z-index: 100;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal {
+            background: var(--bg);
+            width: 100%;
+            border-radius: 28px 28px 0 0;
+            padding: 24px;
+            padding-bottom: max(24px, var(--sb));
+            max-height: 92vh;
+            overflow-y: auto;
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.15);
+        }
+
+        body.dark-mode .modal-close {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .modal-close:active {
+            transform: scale(0.85);
+            background: var(--accent);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+        }
+
+        body.dark-mode .form-input, body.dark-mode .form-select {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.2), 0 4px 12px rgba(255, 182, 193, 0.15);
+            background: white;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .emoji-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .emoji-option {
+            aspect-ratio: 1;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+
+        body.dark-mode .emoji-option {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .emoji-option:active {
+            transform: scale(0.9);
+        }
+
+        .emoji-option.selected {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .color-option {
+            aspect-ratio: 1;
+            border: 3px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+
+        .color-option.selected {
+            border-color: var(--text);
+            transform: scale(1.1);
+        }
+
+        .color-option:active {
+            transform: scale(0.9);
+        }
+
+        .btn {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            width: 100%;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            color: var(--text);
+            border: none;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+        }
+
+        body.dark-mode .btn.secondary {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .btn.danger {
+            background: linear-gradient(135deg, #FF6B9D 0%, #FF4757 100%);
+        }
+
+        /* Onboarding */
+        .onboarding {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .onboarding.active {
+            display: flex;
+        }
+
+        .onboarding-card {
+            background: white;
+            border-radius: 28px;
+            padding: 40px 28px;
+            max-width: 100%;
+            width: 100%;
+            text-align: center;
+            animation: slideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .onboarding-emoji {
+            font-size: 56px;
+            margin-bottom: 16px;
+            animation: bounce 1.2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .onboarding-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .onboarding-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+
+        .onboarding-step {
+            display: none;
+        }
+
+        .onboarding-step.active {
+            display: block;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .option-btn {
+            padding: 16px 12px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 14px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+
+        .option-btn:active {
+            transform: scale(0.95);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.3);
+        }
+
+        .pet-card {
+            background: linear-gradient(135deg, rgba(248, 214, 230, 0.8), rgba(232, 197, 240, 0.8));
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(255, 182, 193, 0.2);
+        }
+
+        .pet-emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+            animation: petFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes petFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .pet-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .pet-stats {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .pet-level {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .wish-item {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(20px);
+            border: none;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);
+        }
+
+        body.dark-mode .wish-item {
+            background: rgba(26, 35, 50, 0.72);
+        }
+
+        .wish-item:active {
+            transform: scale(0.98);
+        }
+
+        .wish-text {
+            font-size: 13px;
+            color: var(--text);
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .wish-delete {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 107, 157, 0.15);
+            border: none;
+            border-radius: 50%;
+            color: var(--accent);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wish-delete:active {
+            transform: scale(0.85);
+            background: rgba(255, 107, 157, 0.3);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .data-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .code-input {
+            font-family: 'Courier New', monospace;
+            font-size: 12px !important;
+        }
+
+        .import-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: 12px;
+            text-align: center;
+            animation: slideUp 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-ambient" id="bgAmbient"></div>
+    <div class="bg-orb" id="orb1" style="width: 300px; height: 300px; top: -150px; left: -150px; background: #FF6B9D;"></div>
+    <div class="bg-orb" id="orb2" style="width: 250px; height: 250px; bottom: -125px; right: -125px; background: #E8C5F0;"></div>
+    <div class="bg-orb" id="orb3" style="width: 200px; height: 200px; top: 50%; left: 50%; background: #D6E8FF;"></div>
+
+    <div class="app">
+        <div class="header">
+            <div class="header-content">
+                <div class="header-info">
+                    <div class="header-title">PonyVault</div>
+                    <div class="header-subtitle" id="timeGreeting">Welcome to your sanctuary</div>
+                    <div class="header-greeting" id="locationGreeting"></div>
+                    <div class="header-weather" id="weatherDisplay"></div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-header" onclick="APP.toggleDarkMode()" id="themeBtn">🌙</button>
+                    <button class="btn-header" onclick="APP.modal('help')">❓</button>
+                    <button class="btn-header" onclick="APP.modal('settings')">⚙️</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="pages" id="pages">
+                <!-- Dashboard -->
+                <div class="page">
+                    <div class="page-content">
+                        <div class="hero-section">
+                            <div class="hero-content">
+                                <div class="hero-greeting" id="heroGreeting">Welcome! 🦄</div>
+                                <div class="hero-message" id="heroMessage">Keep building your collection</div>
+                                <div class="hero-weather" id="heroWeather"></div>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-num" id="statPonies">0</div>
+                                <div class="stat-label">Ponies</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num" id="statTotal">0</div>
+                                <div class="stat-label">Total Items</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num" id="statPlaysets">0</div>
+                                <div class="stat-label">Playsets</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-num" id="statAccessories">0</div>
+                                <div class="stat-label">Accessories</div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">⭐ Most Loved Pony</div>
+                            <div id="mostLovedPony" class="card gradient">
+                                <div style="text-align: center; padding: 40px 0; color: white;">
+                                    <div style="font-size: 48px; margin-bottom: 12px;">🦄</div>
+                                    <div style="font-size: 16px; font-weight: 700;">No Ponies Yet</div>
+                                    <div style="font-size: 12px; margin-top: 8px; opacity: 0.9;">Add your first pony to see it here!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">Generation Overview</div>
+                            <div id="genOverview"></div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">Quick Actions</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);" onclick="APP.modal('addPony')">
+                                    <div style="font-size: 28px; margin-bottom: 8px;">🦄</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Add Pony</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);" onclick="APP.modal('addPlayset')">
+                                    <div style="font-size: 28px; margin-bottom: 8px;">🏠</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Playset</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);" onclick="APP.modal('addAccessory')">
+                                    <div style="font-size: 28px; margin-bottom: 8px;">✨</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Accessory</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);" onclick="APP.goPage(5)">
+                                    <div style="font-size: 28px; margin-bottom: 8px;">🐾</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">My Pet</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ponies -->
+                <div class="page">
+                    <div class="page-content">
+                        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                            <input type="text" class="form-input" id="searchPonies" placeholder="Search ponies..." onkeyup="APP.filterPonies()" style="flex: 1; margin-bottom: 0;">
+                            <button class="btn" style="flex: 0 0 auto; width: auto; padding: 12px 16px; margin-bottom: 0;" onclick="APP.modal('addPony')">+</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="APP.filterGen('all')">All</button>
+                            <button class="filter-btn" onclick="APP.filterGen('G1')">G1</button>
+                            <button class="filter-btn" onclick="APP.filterGen('G2')">G2</button>
+                            <button class="filter-btn" onclick="APP.filterGen('G3')">G3</button>
+                            <button class="filter-btn" onclick="APP.filterGen('G4')">G4</button>
+                            <button class="filter-btn" onclick="APP.filterGen('G5')">G5</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn" onclick="APP.filterType('all')">All Types</button>
+                            <button class="filter-btn" onclick="APP.filterType('original')">Original</button>
+                            <button class="filter-btn" onclick="APP.filterType('blind-bag')">Blind Bag</button>
+                            <button class="filter-btn" onclick="APP.filterType('brushable')">Brushable</button>
+                            <button class="filter-btn" onclick="APP.filterType('plushie')">Plushie</button>
+                            <button class="filter-btn" onclick="APP.filterType('custom')">Custom</button>
+                            <button class="filter-btn" onclick="APP.filterType('mcdonalds')">McDonald's</button>
+                        </div>
+
+                        <div id="poniesGrid" class="grid"></div>
+                    </div>
+                </div>
+
+                <!-- Accessories -->
+                <div class="page">
+                    <div class="page-content">
+                        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                            <input type="text" class="form-input" id="searchAccessories" placeholder="Search accessories..." onkeyup="APP.filterAccessories()" style="flex: 1; margin-bottom: 0;">
+                            <button class="btn" style="flex: 0 0 auto; width: auto; padding: 12px 16px; margin-bottom: 0;" onclick="APP.modal('addAccessory')">+</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="APP.filterAccType('all')">All</button>
+                            <button class="filter-btn" onclick="APP.filterAccType('saddle')">Saddle</button>
+                            <button class="filter-btn" onclick="APP.filterAccType('bridle')">Bridle</button>
+                            <button class="filter-btn" onclick="APP.filterAccType('brush')">Brush</button>
+                            <button class="filter-btn" onclick="APP.filterAccType('comb')">Comb</button>
+                            <button class="filter-btn" onclick="APP.filterAccType('other')">Other</button>
+                        </div>
+
+                        <div id="accessoriesGrid" class="grid"></div>
+                    </div>
+                </div>
+
+                <!-- Playsets -->
+                <div class="page">
+                    <div class="page-content">
+                        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                            <input type="text" class="form-input" id="searchPlaysets" placeholder="Search playsets..." onkeyup="APP.filterPlaysets()" style="flex: 1; margin-bottom: 0;">
+                            <button class="btn" style="flex: 0 0 auto; width: auto; padding: 12px 16px; margin-bottom: 0;" onclick="APP.modal('addPlayset')">+</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="APP.filterPlaysetGen('all')">All</button>
+                            <button class="filter-btn" onclick="APP.filterPlaysetGen('G1')">G1</button>
+                            <button class="filter-btn" onclick="APP.filterPlaysetGen('G3')">G3</button>
+                            <button class="filter-btn" onclick="APP.filterPlaysetGen('G4')">G4</button>
+                            <button class="filter-btn" onclick="APP.filterPlaysetGen('G5')">G5</button>
+                        </div>
+
+                        <div id="playsetsGrid" class="grid"></div>
+                    </div>
+                </div>
+
+                <!-- Wishlist -->
+                <div class="page">
+                    <div class="page-content">
+                        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                            <input type="text" id="wishInput" class="form-input" placeholder="Add to wishlist..." style="flex: 1; margin-bottom: 0;">
+                            <button class="btn" style="flex: 0 0 auto; width: auto; padding: 12px 16px; margin-bottom: 0;" onclick="APP.addWish()">+</button>
+                        </div>
+
+                        <div class="filter-bar">
+                            <button class="filter-btn active" onclick="APP.filterWishType('all')">All</button>
+                            <button class="filter-btn" onclick="APP.filterWishType('pony')">Pony</button>
+                            <button class="filter-btn" onclick="APP.filterWishType('playset')">Playset</button>
+                            <button class="filter-btn" onclick="APP.filterWishType('accessory')">Accessory</button>
+                        </div>
+
+                        <div id="wishlistContainer"></div>
+                    </div>
+                </div>
+
+                <!-- My Pet -->
+                <div class="page">
+                    <div class="page-content">
+                        <div class="section">
+                            <div class="section-title">🐾 Your Companion Pony</div>
+                            <div id="petDisplay" class="pet-card">
+                                <div class="pet-emoji">🦄</div>
+                                <div class="pet-name">Create Your Pet</div>
+                                <div class="pet-stats">Tap to create your virtual pony companion!</div>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <button class="btn" onclick="APP.modal('createPet')">Create Pet Companion</button>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">Pet Interactions</div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; cursor: pointer; text-align: center;" onclick="APP.petInteraction('feed')">
+                                    <div style="font-size: 24px; margin-bottom: 6px;">🍎</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Feed</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; cursor: pointer; text-align: center;" onclick="APP.petInteraction('play')">
+                                    <div style="font-size: 24px; margin-bottom: 6px;">🎮</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Play</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; cursor: pointer; text-align: center;" onclick="APP.petInteraction('pet')">
+                                    <div style="font-size: 24px; margin-bottom: 6px;">❤️</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Pet</div>
+                                </button>
+                                <button class="card" style="border: none; background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); padding: 16px; border-radius: 16px; cursor: pointer; text-align: center;" onclick="APP.petInteraction('sleep')">
+                                    <div style="font-size: 24px; margin-bottom: 6px;">😴</div>
+                                    <div style="font-size: 12px; font-weight: 700; color: var(--text);">Sleep</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data & Settings -->
+                <div class="page">
+                    <div class="page-content">
+                        <div class="section">
+                            <div class="section-title">📊 Data Management</div>
+                            <div class="card">
+                                <button class="btn secondary" style="margin-bottom: 8px;" onclick="APP.exportData()">📥 Export Collection (JSON)</button>
+                                <button class="btn secondary" style="margin-bottom: 8px;" onclick="APP.modal('importData')">📤 Import Collection</button>
+                                <button class="btn secondary" style="margin-bottom: 8px;" onclick="APP.generateQR()">📱 Share as QR Code</button>
+                                <button class="btn danger" onclick="APP.resetData()">⚠️ Delete Everything</button>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">🎨 Customization</div>
+                            <div class="card">
+                                <label class="form-label">Background Theme</label>
+                                <select id="bgTheme" class="form-select" onchange="APP.setBgTheme(this.value)">
+                                    <option value="gradient">Gradient</option>
+                                    <option value="pastel">Pastel</option>
+                                    <option value="sunset">Sunset</option>
+                                    <option value="night">Night Sky</option>
+                                    <option value="vintage">Vintage</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="section">
+                            <div class="section-title">ℹ️ About</div>
+                            <div class="card">
+                                <div style="text-align: center; color: var(--text-light);">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">🦄</div>
+                                    <strong>PonyVault v7.0</strong><br>
+                                    <small>Your premium collectible sanctuary</small><br>
+                                    <small style="font-size: 10px; margin-top: 8px; opacity: 0.7;">Made with 💖 for pony collectors worldwide</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav">
+            <button class="nav-btn active" onclick="APP.goPage(0)">🏠</button>
+            <button class="nav-btn" onclick="APP.goPage(1)">🦄</button>
+            <button class="nav-btn" onclick="APP.goPage(2)">✨</button>
+            <button class="nav-btn" onclick="APP.goPage(3)">🏠</button>
+            <button class="nav-btn" onclick="APP.goPage(4)">⭐</button>
+            <button class="nav-btn" onclick="APP.goPage(5)">🐾</button>
+            <button class="nav-btn" onclick="APP.goPage(6)">⚙️</button>
+        </div>
+    </div>
+
+    <!-- Add Pony Modal -->
+    <div class="modal-overlay" id="addPonyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add Pony</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Pony Name *</label>
+                <input type="text" id="ponyName" class="form-input" placeholder="e.g., Butterscotch">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Choose Emoji</label>
+                <div class="emoji-picker" id="emojiPickerPony"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Generation *</label>
+                <select id="ponyGen" class="form-select">
+                    <option value="G1">G1 (1980s)</option>
+                    <option value="G2">G2 (1997-1999)</option>
+                    <option value="G3">G3 (2003-2008)</option>
+                    <option value="G4">G4 (2010-2019)</option>
+                    <option value="G5">G5 (2021-Present)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Type *</label>
+                <select id="ponyType" class="form-select">
+                    <option value="original">Original G-Series</option>
+                    <option value="blind-bag">Blind Bag</option>
+                    <option value="brushable">Brushable</option>
+                    <option value="plushie">Plushie</option>
+                    <option value="custom">Custom</option>
+                    <option value="mcdonalds">McDonald's Promotion</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Rarity *</label>
+                <select id="ponyRarity" class="form-select">
+                    <option value="Common">⭐ Common</option>
+                    <option value="Rare">⭐⭐ Rare</option>
+                    <option value="Epic">⭐⭐⭐ Epic</option>
+                    <option value="Legendary">⭐⭐⭐⭐ Legendary</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Color</label>
+                <div class="color-picker">
+                    <div class="color-option" onclick="this.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('ponyColor').value = 'Pink';" style="background: #FFB3D9;"></div>
+                    <div class="color-option" onclick="this.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('ponyColor').value = 'Purple';" style="background: #D8BFD8;"></div>
+                    <div class="color-option" onclick="this.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('ponyColor').value = 'Blue';" style="background: #87CEEB;"></div>
+                    <div class="color-option" onclick="this.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('ponyColor').value = 'Yellow';" style="background: #FFD700;"></div>
+                    <div class="color-option" onclick="this.parentElement.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected')); this.classList.add('selected'); document.getElementById('ponyColor').value = 'White';" style="background: #FFFFFF; border: 3px solid #DDD;"></div>
+                </div>
+                <input type="hidden" id="ponyColor" value="Pink">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cutie Mark 💖</label>
+                <select id="ponyMark" class="form-select">
+                    <option value="star">⭐ Star</option>
+                    <option value="heart">💖 Heart</option>
+                    <option value="flower">🌸 Flower</option>
+                    <option value="butterfly">🦋 Butterfly</option>
+                    <option value="sparkle">✨ Sparkle</option>
+                    <option value="moon">🌙 Moon</option>
+                    <option value="cloud">☁️ Cloud</option>
+                    <option value="rainbow">🌈 Rainbow</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Condition</label>
+                <select id="ponyCondition" class="form-select">
+                    <option value="Mint">Mint in Box</option>
+                    <option value="Near Mint">Near Mint</option>
+                    <option value="Excellent">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Fair">Fair</option>
+                    <option value="Played">Played With</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Year</label>
+                <input type="number" id="ponyYear" class="form-input" placeholder="e.g., 1985">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Origin/Variant</label>
+                <input type="text" id="ponyVariant" class="form-input" placeholder="e.g., UK Release, Japan Import">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Notes</label>
+                <textarea id="ponyNotes" class="form-input form-textarea" placeholder="Add any notes..."></textarea>
+            </div>
+
+            <button class="btn" onclick="APP.savePony()">Save Pony ✨</button>
+        </div>
+    </div>
+
+    <!-- Add Accessory Modal -->
+    <div class="modal-overlay" id="addAccessoryModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add Accessory</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Accessory Name *</label>
+                <input type="text" id="accName" class="form-input" placeholder="e.g., Pink Saddle">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Choose Emoji</label>
+                <div class="emoji-picker" id="emojiPickerAcc"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Type *</label>
+                <select id="accType" class="form-select">
+                    <option value="saddle">Saddle</option>
+                    <option value="bridle">Bridle</option>
+                    <option value="brush">Brush</option>
+                    <option value="comb">Comb</option>
+                    <option value="blanket">Blanket</option>
+                    <option value="hat">Hat</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Color</label>
+                <input type="text" id="accColor" class="form-input" placeholder="e.g., Pink, Rainbow">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Notes</label>
+                <textarea id="accNotes" class="form-input form-textarea" placeholder="Add any notes..."></textarea>
+            </div>
+
+            <button class="btn" onclick="APP.saveAccessory()">Save Accessory ✨</button>
+        </div>
+    </div>
+
+    <!-- Add Playset Modal -->
+    <div class="modal-overlay" id="addPlaysetModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Add Playset</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Playset Name *</label>
+                <input type="text" id="playsetName" class="form-input" placeholder="e.g., Garden Gazebo">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Choose Emoji</label>
+                <div class="emoji-picker" id="emojiPickerPlayset"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Generation *</label>
+                <select id="playsetGen" class="form-select">
+                    <option value="G1">G1</option>
+                    <option value="G2">G2</option>
+                    <option value="G3">G3</option>
+                    <option value="G4">G4</option>
+                    <option value="G5">G5</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Condition</label>
+                <select id="playsetCondition" class="form-select">
+                    <option value="Complete">Complete</option>
+                    <option value="Missing Pieces">Missing Pieces</option>
+                    <option value="Broken">Broken</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Year</label>
+                <input type="number" id="playsetYear" class="form-input" placeholder="e.g., 1985">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Notes</label>
+                <textarea id="playsetNotes" class="form-input form-textarea" placeholder="Add any notes..."></textarea>
+            </div>
+
+            <button class="btn" onclick="APP.savePlayset()">Save Playset 🏠</button>
+        </div>
+    </div>
+
+    <!-- Create Pet Modal -->
+    <div class="modal-overlay" id="createPetModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Create Your Pet Pony</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Pet Name *</label>
+                <input type="text" id="petName" class="form-input" placeholder="e.g., Sparkle">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Choose Emoji</label>
+                <div class="emoji-picker" id="emojiPickerPet"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Pet Personality</label>
+                <select id="petPersonality" class="form-select">
+                    <option value="playful">🎮 Playful</option>
+                    <option value="calm">☁️ Calm</option>
+                    <option value="energetic">⚡ Energetic</option>
+                    <option value="shy">🌸 Shy</option>
+                    <option value="friendly">💖 Friendly</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="APP.createPet()">Create Pet 🐾</button>
+        </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div class="modal-overlay" id="importDataModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Import Collection</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Paste JSON Code</label>
+                <textarea id="importCode" class="form-input code-input form-textarea" placeholder="Paste your exported JSON code here..."></textarea>
+            </div>
+
+            <button class="btn" onclick="APP.importData()">Import Data 📥</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Settings</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Your Name</label>
+                <input type="text" id="userName" class="form-input" placeholder="Your collector name...">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Theme</label>
+                <div class="options-grid">
+                    <button class="option-btn" onclick="APP.setTheme('light')">☀️ Light</button>
+                    <button class="option-btn" onclick="APP.setTheme('dark')">🌙 Dark</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Location (for greeting)</label>
+                <input type="text" id="userLocation" class="form-input" placeholder="Your city...">
+            </div>
+
+            <button class="btn secondary" style="margin-bottom: 8px;" onclick="APP.genDemo()">Generate Demo Data</button>
+            <button class="btn danger" onclick="APP.resetData()">Reset Everything</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">How to Use</div>
+                <button class="modal-close" onclick="APP.closeModal()">✕</button>
+            </div>
+
+            <div class="section">
+                <div style="background: linear-gradient(135deg, #F8D6E6, #E8C5F0); border-radius: 16px; padding: 16px; color: white; margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">🦄 Collecting Ponies</div>
+                    <div style="font-size: 12px; line-height: 1.6;">Add ponies from different generations (G1-G5), types (original, blind bag, brushable, plushie), and variants (McDonald's, imports). Track rarity, condition, and year.</div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #E8C5F0, #D6E8FF); border-radius: 16px; padding: 16px; color: white; margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">✨ Accessories & Playsets</div>
+                    <div style="font-size: 12px; line-height: 1.6;">Organize saddles, brushes, and other accessories. Track your playsets and their completion status.</div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #FFB3D9, #FFD6E8); border-radius: 16px; padding: 16px; color: white; margin-bottom: 16px;">
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">⭐ Wishlist</div>
+                    <div style="font-size: 12px; line-height: 1.6;">Keep a wishlist of ponies, playsets, and accessories you want to collect.</div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #D6E8FF, #C5D6FF); border-radius: 16px; padding: 16px; color: white;">
+                    <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">🐾 Pet Companion</div>
+                    <div style="font-size: 12px; line-height: 1.6;">Create and care for your virtual pony! Feed, play with, and pet your companion.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding -->
+    <div class="onboarding" id="onboarding">
+        <div class="onboarding-card">
+            <div class="onboarding-emoji">🦄</div>
+            <div class="onboarding-title">Welcome to PonyVault!</div>
+            <div class="onboarding-subtitle">Your premium collectible sanctuary</div>
+
+            <div class="onboarding-step active" id="step1">
+                <input type="text" id="onbName" class="form-input" placeholder="Your collector name..." style="margin-bottom: 20px; text-align: center;">
+                <button class="btn" onclick="APP.onbNext()">Continue ✨</button>
+            </div>
+
+            <div class="onboarding-step" id="step2">
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--text);">Pick your theme:</label>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="APP.onbTheme('light'); this.closest('.options-grid').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); this.classList.add('selected');">☀️ Light</button>
+                        <button class="option-btn" onclick="APP.onbTheme('dark'); this.closest('.options-grid').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); this.classList.add('selected');">🌙 Dark</button>
+                    </div>
+                </div>
+                <button class="btn" onclick="APP.onbNext()">Continue ✨</button>
+            </div>
+
+            <div class="onboarding-step" id="step3">
+                <div style="margin-bottom: 20px;">
+                    <label class="form-label" style="color: var(--text);">Start with:</label>
+                    <div class="options-grid">
+                        <button class="option-btn" onclick="APP.finishOnb('empty'); this.closest('.options-grid').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); this.classList.add('selected');">📝 Empty</button>
+                        <button class="option-btn" onclick="APP.finishOnb('demo'); this.closest('.options-grid').querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected')); this.classList.add('selected');">🎉 Demo Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const APP = {
+            state: {
+                user: { name: 'Collector', theme: 'light', darkMode: false, onboarded: false, location: 'Pony Land', bgTheme: 'gradient' },
+                ponies: [],
+                accessories: [],
+                playsets: [],
+                pet: null,
+                wishlist: [],
+                currentPage: 0,
+                filters: { genFilter: 'all', typeFilter: 'all', accTypeFilter: 'all', playsetGenFilter: 'all', wishTypeFilter: 'all' }
+            },
+
+            allEmojis: ['🦄', '🌸', '💖', '✨', '🎀', '💜', '🌙', '⭐', '🌈', '💫', '👑', '🌺', '🍒', '🌷', '🎪', '🏰', '🎠', '🎁', '🎀', '🌟', '💝', '🦋', '🌻', '🍓', '💎', '✨', '🎨', '🎭', '🎪', '🏠'],
+
+            init() {
+                this.load();
+                this.setupBackgroundTheme();
+                this.updateGreeting();
+                setInterval(() => this.updateGreeting(), 60000);
+                
+                if (!this.state.user.onboarded) {
+                    document.getElementById('onboarding').classList.add('active');
+                } else {
+                    this.applyTheme();
+                    this.render();
+                }
+
+                this.renderEmojiPickers();
+            },
+
+            load() {
+                const data = localStorage.getItem('pv_full');
+                if (data) this.state = JSON.parse(data);
+            },
+
+            save() {
+                localStorage.setItem('pv_full', JSON.stringify(this.state));
+            },
+
+            applyTheme() {
+                if (this.state.user.darkMode || this.state.user.theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('themeBtn').textContent = '☀️';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.getElementById('themeBtn').textContent = '🌙';
+                }
+            },
+
+            toggleDarkMode() {
+                this.state.user.darkMode = !this.state.user.darkMode;
+                this.save();
+                this.applyTheme();
+            },
+
+            setTheme(theme) {
+                this.state.user.theme = theme;
+                this.state.user.darkMode = theme === 'dark';
+                this.save();
+                this.applyTheme();
+            },
+
+            setupBackgroundTheme() {
+                const themes = {
+                    gradient: 'linear-gradient(135deg, rgba(248, 214, 230, 0.4) 0%, rgba(232, 197, 240, 0.2) 50%, rgba(214, 232, 255, 0.2) 100%)',
+                    pastel: 'linear-gradient(135deg, #FFE5F0 0%, #F0E5FF 50%, #E5F0FF 100%)',
+                    sunset: 'linear-gradient(135deg, #FFD4B0 0%, #FFB0D0 50%, #D0C0FF 100%)',
+                    night: 'linear-gradient(135deg, #1a0033 0%, #003366 50%, #001a4d 100%)',
+                    vintage: 'linear-gradient(135deg, #F5E6D3 0%, #E6D9F0 50%, #D9E6F5 100%)'
+                };
+                document.getElementById('bgAmbient').style.background = themes[this.state.user.bgTheme] || themes.gradient;
+            },
+
+            setBgTheme(theme) {
+                this.state.user.bgTheme = theme;
+                this.save();
+                this.setupBackgroundTheme();
+            },
+
+            updateGreeting() {
+                const hour = new Date().getHours();
+                let greeting, message, emoji;
+
+                if (hour < 6) {
+                    greeting = '🌙 Late Night';
+                    message = 'Still up collecting? Go get some sleep!';
+                } else if (hour < 12) {
+                    greeting = '🌅 Good Morning';
+                    message = 'Time to check your collection!';
+                } else if (hour < 17) {
+                    greeting = '☀️ Good Afternoon';
+                    message = 'How\'s your collecting going?';
+                } else if (hour < 21) {
+                    greeting = '🌆 Good Evening';
+                    message = 'Perfect time to organize!';
+                } else {
+                    greeting = '🌙 Good Night';
+                    message = 'Time to rest with your ponies...';
+                }
+
+                document.getElementById('heroGreeting').textContent = greeting;
+                document.getElementById('heroMessage').textContent = message;
+                document.getElementById('timeGreeting').textContent = `${greeting} ${this.state.user.name}!`;
+
+                // Location-based greeting
+                const location = this.state.user.location || 'Equestria';
+                document.getElementById('locationGreeting').textContent = `📍 ${location}`;
+
+                // Mock weather
+                const weatherOptions = ['☀️ Sunny', '⛅ Cloudy', '🌧️ Rainy', '❄️ Snowy', '⛈️ Stormy'];
+                const weather = weatherOptions[Math.floor(Math.random() * weatherOptions.length)];
+                document.getElementById('weatherDisplay').textContent = weather;
+                document.getElementById('heroWeather').textContent = weather;
+            },
+
+            renderEmojiPickers() {
+                const pickers = ['emojiPickerPony', 'emojiPickerAcc', 'emojiPickerPlayset', 'emojiPickerPet'];
+                pickers.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        el.innerHTML = this.allEmojis.map(e => 
+                            `<button class="emoji-option" onclick="document.getElementById('${id.replace('emojiPicker', 'pony' + id.replace('emojiPicker', '').toLowerCase()).slice(0, -5) || 'emoji'}Emoji').innerText='${e}'; this.closest('.emoji-picker').querySelectorAll('.emoji-option').forEach(x => x.classList.remove('selected')); this.classList.add('selected'); return false;">${e}</button>`
+                        ).join('');
+                    }
+                });
+            },
+
+            goPage(n) {
+                this.state.currentPage = n;
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.nav-btn')[n].classList.add('active');
+                document.getElementById('pages').style.transform = `translateX(calc(-${n} * 100%))`;
+                this.render();
+            },
+
+            modal(type) {
+                const modals = {
+                    addPony: 'addPonyModal',
+                    addAccessory: 'addAccessoryModal',
+                    addPlayset: 'addPlaysetModal',
+                    createPet: 'createPetModal',
+                    importData: 'importDataModal',
+                    settings: 'settingsModal',
+                    help: 'helpModal'
+                };
+                if (modals[type]) {
+                    document.getElementById(modals[type]).classList.add('active');
+                }
+            },
+
+            closeModal() {
+                document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+            },
+
+            savePony() {
+                const name = document.getElementById('ponyName').value.trim();
+                if (!name) return alert('Name required!');
+
+                this.state.ponies.push({
+                    id: Date.now(),
+                    name: name,
+                    emoji: document.getElementById('ponyName').parentElement.nextElementSibling.querySelector('.emoji-option.selected')?.innerText || '🦄',
+                    gen: document.getElementById('ponyGen').value,
+                    type: document.getElementById('ponyType').value,
+                    rarity: document.getElementById('ponyRarity').value,
+                    color: document.getElementById('ponyColor').value,
+                    mark: document.getElementById('ponyMark').value,
+                    condition: document.getElementById('ponyCondition').value,
+                    year: document.getElementById('ponyYear').value,
+                    variant: document.getElementById('ponyVariant').value,
+                    notes: document.getElementById('ponyNotes').value,
+                    created: Date.now()
+                });
+
+                this.save();
+                this.closeModal();
+                this.render();
+            },
+
+            saveAccessory() {
+                const name = document.getElementById('accName').value.trim();
+                if (!name) return alert('Name required!');
+
+                this.state.accessories.push({
+                    id: Date.now(),
+                    name: name,
+                    emoji: '✨',
+                    type: document.getElementById('accType').value,
+                    color: document.getElementById('accColor').value,
+                    notes: document.getElementById('accNotes').value
+                });
+
+                this.save();
+                this.closeModal();
+                this.render();
+            },
+
+            savePlayset() {
+                const name = document.getElementById('playsetName').value.trim();
+                if (!name) return alert('Name required!');
+
+                this.state.playsets.push({
+                    id: Date.now(),
+                    name: name,
+                    emoji: '🏠',
+                    gen: document.getElementById('playsetGen').value,
+                    condition: document.getElementById('playsetCondition').value,
+                    year: document.getElementById('playsetYear').value,
+                    notes: document.getElementById('playsetNotes').value
+                });
+
+                this.save();
+                this.closeModal();
+                this.render();
+            },
+
+            createPet() {
+                const name = document.getElementById('petName').value.trim();
+                if (!name) return alert('Name required!');
+
+                this.state.pet = {
+                    id: Date.now(),
+                    name: name,
+                    emoji: '🦄',
+                    personality: document.getElementById('petPersonality').value,
+                    level: 1,
+                    happiness: 100,
+                    items: 0,
+                    created: Date.now()
+                };
+
+                this.save();
+                this.closeModal();
+                this.render();
+            },
+
+            petInteraction(action) {
+                if (!this.state.pet) return alert('Create a pet first!');
+                
+                if (action === 'feed') this.state.pet.happiness = Math.min(100, this.state.pet.happiness + 10);
+                if (action === 'play') { this.state.pet.level++; this.state.pet.happiness = Math.min(100, this.state.pet.happiness + 15); }
+                if (action === 'pet') this.state.pet.happiness = Math.min(100, this.state.pet.happiness + 5);
+                if (action === 'sleep') { this.state.pet.level++; this.state.pet.happiness = 100; }
+
+                this.save();
+                this.render();
+            },
+
+            addWish() {
+                const text = document.getElementById('wishInput').value.trim();
+                if (!text) return;
+
+                this.state.wishlist.push({
+                    id: Date.now(),
+                    item: text,
+                    type: 'pony',
+                    priority: 'medium'
+                });
+
+                document.getElementById('wishInput').value = '';
+                this.save();
+                this.render();
+            },
+
+            deleteWish(id) {
+                this.state.wishlist = this.state.wishlist.filter(w => w.id !== id);
+                this.save();
+                this.render();
+            },
+
+            filterGen(gen) {
+                this.state.filters.genFilter = gen;
+                document.querySelectorAll('.filter-bar')[0].querySelectorAll('.filter-btn').forEach((b, i) => {
+                    if ((i === 0 && gen === 'all') || (i > 0 && b.innerText === gen)) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
+                this.render();
+            },
+
+            filterType(type) {
+                this.state.filters.typeFilter = type;
+                document.querySelectorAll('.filter-bar')[1]?.querySelectorAll('.filter-btn').forEach((b, i) => {
+                    if (b.innerText.includes(type === 'all' ? 'All' : type)) b.classList.add('active');
+                    else b.classList.remove('active');
+                });
+                this.render();
+            },
+
+            filterPonies() {
+                const q = document.getElementById('searchPonies').value.toLowerCase();
+                document.querySelectorAll('#poniesGrid .item-card').forEach(card => {
+                    const name = card.querySelector('.item-name')?.innerText.toLowerCase();
+                    card.style.display = name?.includes(q) ? '' : 'none';
+                });
+            },
+
+            filterAccessories() {
+                const q = document.getElementById('searchAccessories').value.toLowerCase();
+                document.querySelectorAll('#accessoriesGrid .item-card').forEach(card => {
+                    const name = card.querySelector('.item-name')?.innerText.toLowerCase();
+                    card.style.display = name?.includes(q) ? '' : 'none';
+                });
+            },
+
+            filterPlaysets() {
+                const q = document.getElementById('searchPlaysets').value.toLowerCase();
+                document.querySelectorAll('#playsetsGrid .item-card').forEach(card => {
+                    const name = card.querySelector('.item-name')?.innerText.toLowerCase();
+                    card.style.display = name?.includes(q) ? '' : 'none';
+                });
+            },
+
+            filterAccType(type) {
+                this.state.filters.accTypeFilter = type;
+                document.querySelectorAll('.filter-bar')[1]?.querySelectorAll('.filter-btn').forEach((b, i) => {
+                    if (b.innerText.includes(type === 'all' ? 'All' : type)) b.classList.add('active');
+                    else b.classList.remove('active');
+                });
+                this.render();
+            },
+
+            filterPlaysetGen(gen) {
+                this.state.filters.playsetGenFilter = gen;
+                document.querySelectorAll('.filter-bar')[2]?.querySelectorAll('.filter-btn').forEach((b, i) => {
+                    if ((i === 0 && gen === 'all') || (i > 0 && b.innerText === gen)) {
+                        b.classList.add('active');
+                    } else {
+                        b.classList.remove('active');
+                    }
+                });
+                this.render();
+            },
+
+            filterWishType(type) {
+                this.state.filters.wishTypeFilter = type;
+                this.render();
+            },
+
+            exportData() {
+                const data = {
+                    user: this.state.user,
+                    ponies: this.state.ponies,
+                    accessories: this.state.accessories,
+                    playsets: this.state.playsets,
+                    pet: this.state.pet,
+                    wishlist: this.state.wishlist,
+                    exported: new Date().toISOString()
+                };
+                const json = JSON.stringify(data, null, 2);
+                const blob = new Blob([json], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ponyvault_${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            },
+
+            importData() {
+                const code = document.getElementById('importCode').value.trim();
+                try {
+                    const data = JSON.parse(code);
+                    this.state.ponies = data.ponies || [];
+                    this.state.accessories = data.accessories || [];
+                    this.state.playsets = data.playsets || [];
+                    this.state.pet = data.pet || null;
+                    this.state.wishlist = data.wishlist || [];
+                    this.state.user = { ...this.state.user, ...data.user };
+                    this.save();
+                    this.closeModal();
+                    this.render();
+                    alert('✅ Collection imported successfully!');
+                } catch (e) {
+                    alert('❌ Invalid JSON format!');
+                }
+            },
+
+            generateDemo() {
+                const demoNames = ['Butterscotch', 'Minty', 'Zippy', 'Sunny Side', 'Cotton Candy', 'Twilight', 'Starlight', 'Rainbow Dash', 'Pinkie Pie', 'Fluttershy', 'Applejack', 'Rarity'];
+                this.state.ponies = demoNames.map((name, i) => ({
+                    id: Date.now() + i,
+                    name: name,
+                    emoji: this.allEmojis[i % this.allEmojis.length],
+                    gen: ['G1', 'G2', 'G3', 'G4', 'G5'][i % 5],
+                    type: ['original', 'blind-bag', 'brushable', 'plushie', 'custom'][i % 5],
+                    rarity: ['Common', 'Rare', 'Epic', 'Legendary'][i % 4],
+                    color: ['Pink', 'Purple', 'Blue', 'Yellow'][i % 4],
+                    mark: '⭐',
+                    condition: 'Mint',
+                    year: 1980 + i * 5,
+                    variant: 'US Release',
+                    notes: 'Demo pony',
+                    created: Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000
+                }));
+
+                this.state.accessories = [
+                    { id: Date.now() + 100, name: 'Pink Saddle', emoji: '✨', type: 'saddle', color: 'Pink', notes: 'Demo' },
+                    { id: Date.now() + 101, name: 'Blue Brush', emoji: '✨', type: 'brush', color: 'Blue', notes: 'Demo' }
+                ];
+
+                this.state.playsets = [
+                    { id: Date.now() + 200, name: 'Dream Castle', emoji: '🏰', gen: 'G1', condition: 'Complete', year: 1985, notes: 'Demo' }
+                ];
+
+                this.save();
+                this.closeModal();
+                this.render();
+            },
+
+            resetData() {
+                if (confirm('Reset EVERYTHING? This cannot be undone!')) {
+                    localStorage.clear();
+                    location.reload();
+                }
+            },
+
+            onbNext() {
+                const steps = ['step1', 'step2', 'step3'];
+                const active = Array.from(document.querySelectorAll('.onboarding-step')).findIndex(s => s.classList.contains('active'));
+                if (active < steps.length - 1) {
+                    document.getElementById(steps[active]).classList.remove('active');
+                    document.getElementById(steps[active + 1]).classList.add('active');
+                }
+            },
+
+            onbTheme(theme) {
+                this.state.user.theme = theme;
+                this.state.user.darkMode = theme === 'dark';
+                this.applyTheme();
+            },
+
+            finishOnb(mode) {
+                const name = document.getElementById('onbName').value.trim();
+                if (!name) return;
+                this.state.user.name = name;
+                this.state.user.onboarded = true;
+                this.save();
+
+                if (mode === 'demo') {
+                    this.generateDemo();
+                }
+
+                document.getElementById('onboarding').classList.remove('active');
+                this.render();
+            },
+
+            render() {
+                this.updateDashboard();
+                this.renderPonies();
+                this.renderAccessories();
+                this.renderPlaysets();
+                this.renderPet();
+                this.renderWishlist();
+            },
+
+            updateDashboard() {
+                const total = this.state.ponies.length + this.state.accessories.length + this.state.playsets.length;
+                document.getElementById('statPonies').innerText = this.state.ponies.length;
+                document.getElementById('statAccessories').innerText = this.state.accessories.length;
+                document.getElementById('statPlaysets').innerText = this.state.playsets.length;
+                document.getElementById('statTotal').innerText = total;
+
+                // Most loved pony
+                const mostLoved = this.state.ponies[0];
+                if (mostLoved) {
+                    document.getElementById('mostLovedPony').innerHTML = `
+                        <div style="text-align: center; padding: 20px;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">${mostLoved.emoji}</div>
+                            <div style="font-size: 16px; font-weight: 700; margin-bottom: 4px;">${mostLoved.name}</div>
+                            <div style="font-size: 12px; opacity: 0.9; margin-bottom: 8px;">Generation ${mostLoved.gen}</div>
+                            <div style="font-size: 11px; opacity: 0.85;">${mostLoved.color} ${mostLoved.type}</div>
+                        </div>
+                    `;
+                }
+
+                // Generation overview
+                const gens = { G1: 0, G2: 0, G3: 0, G4: 0, G5: 0 };
+                this.state.ponies.forEach(p => gens[p.gen]++);
+                const genHtml = Object.entries(gens).map(([gen, count]) => `
+                    <div style="background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(20px); border-radius: 14px; padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(255, 182, 193, 0.1);">
+                        <div>${gen}</div>
+                        <div style="font-weight: 700; color: var(--accent);">${count}</div>
+                    </div>
+                `).join('');
+                document.getElementById('genOverview').innerHTML = genHtml;
+            },
+
+            renderPonies() {
+                const filtered = this.state.filters.genFilter === 'all' 
+                    ? this.state.ponies 
+                    : this.state.ponies.filter(p => p.gen === this.state.filters.genFilter);
+
+                const html = filtered.length === 0 
+                    ? '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-light);"><div class="empty-emoji">🦄</div><div class="empty-text">No ponies yet. Add your first one!</div></div>'
+                    : filtered.map(p => `
+                        <div class="item-card">
+                            <div class="item-emoji">${p.emoji}</div>
+                            <div class="item-name">${p.name}</div>
+                            <div style="font-size: 9px; color: var(--text-light); margin-top: 4px;">${p.gen}</div>
+                        </div>
+                    `).join('');
+                document.getElementById('poniesGrid').innerHTML = html;
+            },
+
+            renderAccessories() {
+                const html = this.state.accessories.length === 0 
+                    ? '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-light);"><div class="empty-emoji">✨</div><div class="empty-text">No accessories yet</div></div>'
+                    : this.state.accessories.map(a => `
+                        <div class="item-card">
+                            <div class="item-emoji">${a.emoji}</div>
+                            <div class="item-name">${a.name}</div>
+                            <div style="font-size: 9px; color: var(--text-light); margin-top: 4px;">${a.color}</div>
+                        </div>
+                    `).join('');
+                document.getElementById('accessoriesGrid').innerHTML = html;
+            },
+
+            renderPlaysets() {
+                const html = this.state.playsets.length === 0 
+                    ? '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-light);"><div class="empty-emoji">🏠</div><div class="empty-text">No playsets yet</div></div>'
+                    : this.state.playsets.map(p => `
+                        <div class="item-card">
+                            <div class="item-emoji">${p.emoji}</div>
+                            <div class="item-name">${p.name}</div>
+                            <div style="font-size: 9px; color: var(--text-light); margin-top: 4px;">Gen ${p.gen}</div>
+                        </div>
+                    `).join('');
+                document.getElementById('playsetsGrid').innerHTML = html;
+            },
+
+            renderPet() {
+                if (this.state.pet) {
+                    document.getElementById('petDisplay').innerHTML = `
+                        <div class="pet-emoji">${this.state.pet.emoji}</div>
+                        <div class="pet-name">${this.state.pet.name}</div>
+                        <div class="pet-stats">Level ${this.state.pet.level} • Happiness ${this.state.pet.happiness}%</div>
+                        <div class="pet-level">${this.state.pet.personality}</div>
+                    `;
+                }
+            },
+
+            renderWishlist() {
+                const html = this.state.wishlist.length === 0 
+                    ? '<div style="text-align: center; padding: 60px 20px; color: var(--text-light);"><div class="empty-emoji">⭐</div><div class="empty-text">Add items to your wishlist!</div></div>'
+                    : this.state.wishlist.map(w => `
+                        <div class="wish-item">
+                            <div class="wish-text">${w.item}</div>
+                            <button class="wish-delete" onclick="APP.deleteWish(${w.id})">×</button>
+                        </div>
+                    `).join('');
+                document.getElementById('wishlistContainer').innerHTML = html;
+            }
+        };
+
+        APP.init();
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            const sw = `const C='pv-v7';self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(['/'])).catch(()=>{}));self.skipWaiting();});self.addEventListener('activate',e=>e.waitUntil(clients.claim()));self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response('Offline'))).catch(()=>new Response('Offline')));});`;
+            const blob = new Blob([sw], { type: 'application/javascript' });
+            navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
+        }
+    </script>
+</body>
+</html>
