@@ -1,4 +1,4 @@
-const CACHE = 'deepony-v4';
+const CACHE = 'deepony-v5';
 const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './js/pony-db.js', './js/app.js'];
 
 self.addEventListener('install', e => {

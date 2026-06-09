@@ -408,9 +408,19 @@ const Render = {
     const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
     const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
     const collValue = S.ponies.reduce((s,p) => s + (ponyValue(p) || 0), 0);
+    const today = new Date();
+    const anniv = S.ponies.filter(p => {
+      if (!p.acquiredDate) return false;
+      const d = new Date(p.acquiredDate);
+      return d.getMonth() === today.getMonth() && d.getDate() === today.getDate() && d.getFullYear() < today.getFullYear();
+    });
+    const annivHtml = anniv.length
+      ? `<div class="card" style="margin-top:14px;border-color:var(--pink)"><div class="section-title">🎂 Collection anniversaries today</div>${anniv.map(p=>`<div style="padding:6px 0">${this.esc(p.name)} · G${p.generation} · ${new Date(p.acquiredDate).getFullYear()}</div>`).join('')}</div>`
+      : '';
     document.getElementById('tab-stable').innerHTML = `
       <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
       <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
+      ${annivHtml}
       <div class="card">
         <div class="big-num" id="counterNum">0</div>
         <div class="big-label">ponies in your collection</div>
@@ -544,6 +554,16 @@ const Render = {
         <div class="stat-box"><div class="n">${S.ponies.filter(p=>p.isFavourite).length}</div><div class="l">Favourites</div></div>
         <div class="stat-box"><div class="n">${(S.accessories||[]).length}</div><div class="l">Accessories</div></div>
         ${collValue ? `<div class="stat-box" style="grid-column:1/-1"><div class="n">$${collValue.toLocaleString()}</div><div class="l">Est. Collection Value</div></div>` : ''}
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="section-title">Generation checklist</div>
+        ${gens.map(x=>{
+          const db = (window.PONY_DB && window.PONY_DB[x.g]) ? window.PONY_DB[x.g].length : 0;
+          const owned = new Set(S.ponies.filter(p=>p.generation===x.g).map(p=>p.name.toLowerCase())).size;
+          const pct = db ? Math.min(100, Math.round((owned/db)*100)) : 0;
+          return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>G${x.g} ${GEN_EMOJI[x.g]}</span><strong>${x.c} owned · ${owned} unique names${db?` / ~${db} in db`:'')}</strong></div>
+            <div class="progress-bar" style="margin-top:6px"><span style="width:${pct}%;background:var(--g${x.g})"></span></div></div>`;
+        }).join('')}
       </div>
       <div class="card" style="margin-top:14px">
         <div class="section-title">By Generation</div>

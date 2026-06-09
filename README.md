@@ -6,11 +6,24 @@ Your magical My Little Pony collection tracker — soft, sparkly, and child-frie
 
 ## Features
 
-- 🏠 **Stable** — greeting, pony counter, generation rainbow
+- 🏠 **Stable** — greeting, pony counter, generation rainbow, **collection anniversaries**
 - 🦄 **Collection** — photos, filters, search, 5 generations
 - 💫 **Wishlist** — dream ponies with priority
 - 🗂️ **Shelves** — organise by shelf location
-- 🌈 **Stats** — bubbles, achievements, collection health
+- 🌈 **Stats** — bubbles, achievements, **generation checklist**, collection health
+
+## New in v2.2
+
+- **Generation checklist** — unique names owned vs pony name database per gen
+- **Anniversary banner** — ponies acquired on this day in prior years show on Stable
+
+## Ideas for later
+
+- Wishlist reference photos + target price
+- Accessory gallery with multi-pony linking
+- Smart duplicate / variant tracking (same name, different condition)
+- Trade/swap log between collectors
+- QR labels for physical shelf boxes
 
 ## Install on iPhone
 
