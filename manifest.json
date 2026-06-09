@@ -1,13 +1,20 @@
 {
   "name": "DeePonyOS",
   "short_name": "DeePonyOS",
-  "description": "Your magical pony collection tracker",
-  "start_url": "/",
+  "description": "Your magical pony collection tracker ✨",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen"],
   "background_color": "#FFF5F8",
   "theme_color": "#FF6B9D",
   "orientation": "portrait",
+  "categories": ["lifestyle", "entertainment"],
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ]
 }

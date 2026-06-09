@@ -3,12 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DeePonyOS">
-<meta name="theme-color" content="#FF6B9D">
+<meta name="theme-color" content="#FF6B9D" id="themeMeta">
+<meta name="format-detection" content="telephone=no">
 <title>DeePonyOS ✨</title>
 <link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icon-512.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -21,9 +27,32 @@
   --g1:#C084FC;--g2:#6EE7B7;--g3:#93C5FD;--g4:#FCD34D;--g5:#FF6B9D;
   --nav-h:72px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
 }
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:500;overflow:hidden}
-button,input,select,textarea{font:inherit}
-.app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t)}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:500;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+html.standalone body{padding:0}
+button,input,select,textarea{font:inherit;-webkit-user-select:text;user-select:text}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:
+  radial-gradient(ellipse 80% 50% at 20% 0%,rgba(255,107,157,.12),transparent 55%),
+  radial-gradient(ellipse 60% 40% at 85% 15%,rgba(192,132,252,.1),transparent 50%),
+  radial-gradient(ellipse 50% 30% at 50% 100%,rgba(252,211,77,.08),transparent 45%)}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;font-size:.65rem;opacity:.35;animation:float 3s ease-in-out infinite}
+.splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#FFF5F8 0%,#FFE5F0 40%,#E9D5FF 100%);transition:opacity .5s ease,visibility .5s}
+.splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+.splash-logo{width:110px;height:110px;border-radius:32px;background:linear-gradient(135deg,var(--pink),var(--purple));display:flex;align-items:center;justify-content:center;font-size:3.5rem;box-shadow:0 20px 50px rgba(255,107,157,.35);animation:splashPop .7s cubic-bezier(.34,1.56,.64,1) both}
+.splash-title{margin-top:22px;font-size:2rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--pink));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite,splashFade .7s .2s both}
+.splash-sub{margin-top:8px;font-size:.85rem;color:var(--text-soft);letter-spacing:.12em;text-transform:uppercase;animation:splashFade .7s .4s both}
+.splash-bar{width:120px;height:4px;border-radius:99px;background:rgba(255,107,157,.15);margin-top:36px;overflow:hidden;animation:splashFade .7s .5s both}
+.splash-bar div{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--purple));border-radius:99px;transition:width 1.2s ease}
+@keyframes splashPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes splashFade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.install-hint{position:fixed;left:12px;right:12px;bottom:calc(var(--nav-h) + var(--safe-b) + 12px);background:#fff;border:2px solid var(--pink-lighter);border-radius:20px;padding:14px 16px;box-shadow:var(--shadow);z-index:95;display:none;align-items:center;gap:12px}
+.install-hint.show{display:flex}
+.install-hint p{flex:1;font-size:.8rem;line-height:1.45;color:var(--text-soft)}
+.install-hint strong{color:var(--pink)}
+.toast-wrap{position:fixed;top:calc(12px + var(--safe-t));left:50%;transform:translateX(-50%);z-index:800;pointer-events:none}
+.toast{background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--r-pill);font-size:.85rem;font-weight:700;box-shadow:var(--shadow);opacity:0;transition:opacity .3s}
+.toast.show{opacity:1}
+.app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t);position:relative;z-index:1}
 .main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 80px)}
 .screen{display:none;animation:fadeUp .3s ease}
 .screen.on{display:block}
@@ -121,11 +150,16 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .ach{display:flex;align-items:center;gap:10px;padding:12px;border-radius:16px;background:var(--bg-card);margin-bottom:8px;box-shadow:var(--shadow-sm);opacity:.45}
 .ach.unlocked{opacity:1;border:2px solid var(--yellow)}
 .ach .ic{font-size:1.5rem}
-.onboard{position:fixed;inset:0;background:var(--bg);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.onboard{position:fixed;inset:0;background:linear-gradient(165deg,#FFF5F8,#FFE5F0 45%,#E9D5FF);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;padding-top:calc(32px + var(--safe-t));text-align:center}
 .onboard.hide{display:none}
-.onboard-emoji{font-size:5rem;animation:float 2s ease infinite;margin-bottom:20px}
-.onboard h1{font-size:1.8rem;margin-bottom:8px}
-.onboard p{color:var(--text-soft);line-height:1.6;margin-bottom:28px;max-width:320px}
+.onboard-card{width:100%;max-width:360px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-radius:var(--r-lg);padding:28px 24px;box-shadow:var(--shadow)}
+.onboard-dots{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.onboard-dots i{width:8px;height:8px;border-radius:50%;background:var(--pink-lighter);display:block}
+.onboard-dots i.on{background:var(--pink);width:22px;border-radius:99px}
+.onboard-emoji{font-size:4.5rem;animation:float 2s ease infinite;margin-bottom:16px}
+.onboard h1{font-size:1.65rem;margin-bottom:8px;background:linear-gradient(135deg,var(--pink),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.onboard p{color:var(--text-soft);line-height:1.6;margin-bottom:22px;font-size:.95rem}
+.btn-p.shimmer{background:linear-gradient(90deg,var(--pink),#ff8fb8,var(--purple),var(--pink));background-size:300% 100%;animation:shimmer 4s linear infinite}
 .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:600;overflow:hidden}
 .confetti{position:absolute;width:10px;height:10px;border-radius:2px;animation:confettiFall 3s ease forwards}
 .detail-photo{width:100%;height:220px;border-radius:var(--r);object-fit:cover;margin-bottom:16px;background:var(--pink-lighter);display:flex;align-items:center;justify-content:center;font-size:4rem}
@@ -138,34 +172,52 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 </style>
 </head>
 <body>
+<div class="stars" id="stars"></div>
 <div class="confetti-wrap" id="confetti"></div>
+<div class="toast-wrap"><div class="toast" id="toast"></div></div>
 
-<div class="onboard" id="onboard">
-  <div id="ob1">
-    <div class="onboard-emoji">🦄</div>
-    <h1>Welcome to DeePonyOS ✨</h1>
-    <p>Your magical pony collection, beautifully organised</p>
-    <button class="btn-p" onclick="OB.next(2)">Next →</button>
+<div class="splash" id="splash">
+  <div class="splash-logo">🦄</div>
+  <div class="splash-title">DeePonyOS</div>
+  <div class="splash-sub">Magical Collection ✨</div>
+  <div class="splash-bar"><div id="splashFill"></div></div>
+</div>
+
+<div class="onboard hide" id="onboard">
+  <div class="onboard-card" id="ob1">
+    <div class="onboard-dots"><i class="on"></i><i></i><i></i></div>
+    <div class="onboard-emoji">🦄✨</div>
+    <h1>Welcome, Collector!</h1>
+    <p>Your magical pony toybox — soft, sparkly, and made just for you 💕</p>
+    <button class="btn-p shimmer" onclick="OB.next(2)">Let's Go! →</button>
   </div>
-  <div id="ob2" style="display:none">
-    <div class="onboard-emoji">🌟</div>
+  <div class="onboard-card" id="ob2" style="display:none">
+    <div class="onboard-dots"><i></i><i class="on"></i><i></i></div>
+    <div class="onboard-emoji">🌟💖</div>
     <h1>What's your name?</h1>
-    <div class="fg" style="width:100%;max-width:320px;text-align:left">
+    <div class="fg" style="text-align:left">
       <label class="fl">Collector name</label>
-      <input class="inp" id="obName" placeholder="Your collector name...">
+      <input class="inp" id="obName" placeholder="e.g. Princess Sparkle...">
     </div>
-    <div class="fg" style="width:100%;max-width:320px;text-align:left">
+    <div class="fg" style="text-align:left">
       <label class="fl">Collecting since (optional)</label>
       <input class="inp" type="date" id="obSince">
     </div>
-    <button class="btn-p" onclick="OB.next(3)">Continue →</button>
+    <button class="btn-p shimmer" onclick="OB.next(3)">Continue →</button>
   </div>
-  <div id="ob3" style="display:none">
-    <div class="onboard-emoji">🎉</div>
+  <div class="onboard-card" id="ob3" style="display:none">
+    <div class="onboard-dots"><i></i><i></i><i class="on"></i></div>
+    <div class="onboard-emoji">🎉🌈</div>
     <h1>You're all set!</h1>
-    <p>Let's add your first pony!</p>
-    <button class="btn-p" onclick="OB.finish()">Add My First Pony 🦄</button>
+    <p>Time to fill your stable with magical ponies!</p>
+    <button class="btn-p shimmer" onclick="OB.finish()">Add My First Pony 🦄</button>
   </div>
+</div>
+
+<div class="install-hint" id="installHint">
+  <span style="font-size:1.6rem">📲</span>
+  <p><strong>Install DeePonyOS</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!</p>
+  <button class="btn-g" style="padding:8px 12px;font-size:.75rem" onclick="Install.dismiss()">✕</button>
 </div>
 
 <div class="app" id="app" style="display:none">
@@ -256,11 +308,64 @@ const Photo = {
   }
 };
 
+const Toast = {
+  show(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(Toast._tm);
+    Toast._tm = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+};
+
+const Haptic = { tap() { if (navigator.vibrate) navigator.vibrate(8); } };
+
+const Stars = {
+  init() {
+    const w = document.getElementById('stars');
+    const em = ['✨','⭐','💫','🌟','💖'];
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('span');
+      s.className = 'star';
+      s.textContent = em[i % em.length];
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top = (Math.random() * 100) + '%';
+      s.style.animationDelay = (Math.random() * 2) + 's';
+      w.appendChild(s);
+    }
+  }
+};
+
+const Splash = {
+  run(cb) {
+    const fill = document.getElementById('splashFill');
+    requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
+    setTimeout(() => {
+      document.getElementById('splash').classList.add('hide');
+      cb();
+    }, 1600);
+  }
+};
+
+const Install = {
+  maybeShow() {
+    if (localStorage.getItem('deepony_install_dismiss')) return;
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    if (!standalone && ios) document.getElementById('installHint').classList.add('show');
+  },
+  dismiss() {
+    localStorage.setItem('deepony_install_dismiss', '1');
+    document.getElementById('installHint').classList.remove('show');
+  }
+};
+
 const OB = {
   next(n) {
-    document.getElementById('ob1').style.display = n===1?'block':'none';
-    document.getElementById('ob2').style.display = n===2?'block':'none';
-    document.getElementById('ob3').style.display = n===3?'block':'none';
+    ['ob1','ob2','ob3'].forEach((id,i) => {
+      document.getElementById(id).style.display = (i+1)===n ? 'block' : 'none';
+    });
+    Haptic.tap();
     if (n===3) Confetti.burst();
   },
   finish() {
@@ -270,7 +375,9 @@ const OB = {
     Store.save();
     document.getElementById('onboard').classList.add('hide');
     document.getElementById('app').style.display = 'flex';
+    Confetti.burst();
     Render.all();
+    Install.maybeShow();
     UI.openAdd();
   }
 };
@@ -295,6 +402,7 @@ const Confetti = {
 
 const Nav = {
   go(tab) {
+    Haptic.tap();
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
     document.getElementById('tab-'+tab).classList.add('on');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.tab===tab));
@@ -423,7 +531,9 @@ const Render = {
     const keys = Object.keys(shelves).filter(k=>k!=='__unshelved__').sort();
     let html = `<h1 class="greet">🗂️ My Shelves</h1><p class="sub">Where your ponies live</p>`;
     keys.forEach(s => {
-      html += `<div class="shelf-sec"><div class="shelf-hdr" onclick="UI.filterShelf('${this.esc(s).replace(/'/g,"\\'")}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies</div>
+      const js = String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      html += `<div class="shelf-sec"><div class="shelf-hdr" onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies
+        <button class="btn-g" style="margin-left:8px;padding:4px 10px;font-size:.7rem" onclick="event.stopPropagation();UI.renameShelf('${js}')">Rename</button></div>
         <div class="row-scroll">${shelves[s].map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
     });
     if (shelves.__unshelved__) {
@@ -568,12 +678,12 @@ const UI = {
     catch(err) { alert('Could not load photo'); }
   },
   savePony() {
-    if (!formState.name.trim()) { alert('Name is required'); return; }
+    if (!formState.name.trim()) { Toast.show('Name is required 💕'); return; }
     const pony = { ...formState, id: editingId||uid(), name: formState.name.trim(), createdAt: editingId?(S.ponies.find(p=>p.id===editingId)?.createdAt||Date.now()):Date.now() };
     if (editingId) S.ponies = S.ponies.map(p=>p.id===editingId?pony:p);
     else S.ponies.push(pony);
-    Store.save(); this.closeSheet(); Render.all();
-    if (S.ponies.length===1) Confetti.burst();
+    Store.save(); this.closeSheet(); Render.all(); Toast.show(editingId ? 'Pony updated ✨' : 'New pony added 🦄');
+    if (!editingId) Confetti.burst();
   },
   openDetail(id) {
     const p = S.ponies.find(x=>x.id===id);
@@ -588,9 +698,24 @@ const UI = {
       ${[['Generation',`G${p.generation} ${GEN_EMOJI[p.generation]}`],['Type',TYPE_LABELS[p.type]],['Colour',p.colour],['Size',SIZE_LABELS[p.size]],['Shelf',p.shelf||'—'],['Original',p.isOriginal?'Yes':'Extra'],['Condition',COND_LABELS[p.condition]],['Favourite',p.isFavourite?'❤️':'—'],['Most Played',p.isMostPlayed?'🎮':'—'],['Acquired',p.acquiredDate||'—'],['Notes',p.notes||'—']].map(([k,v])=>`<div class="detail-row"><span>${k}</span><span>${Render.esc(v)}</span></div>`).join('')}
       <div class="detail-actions">
         <button class="btn-p" onclick="UI.openEdit('${id}')">Edit</button>
+        <button class="btn-g" onclick="UI.sharePony('${id}')">Share</button>
         <button class="btn-d" onclick="UI.deletePony('${id}')">Delete</button>
         <button class="btn-g" onclick="UI.closeSheet()">Close</button>
       </div>`);
+  },
+  sharePony(id) {
+    const p = S.ponies.find(x=>x.id===id);
+    if (!p) return;
+    const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyOS`;
+    if (navigator.share) navigator.share({ title: p.name, text }).catch(()=>{});
+    else { navigator.clipboard.writeText(text).then(()=>Toast.show('Copied to clipboard ✨')); }
+  },
+  renameShelf(oldName) {
+    const n = prompt('New shelf name:', oldName);
+    if (!n || !n.trim()) return;
+    const nn = n.trim();
+    S.ponies.forEach(p => { if ((p.shelf||'').trim() === oldName) p.shelf = nn; });
+    Store.save(); Render.shelves(); Toast.show('Shelf renamed ✨');
   },
   async onDetailPhoto(e) {
     const file = e.target.files[0];
@@ -623,16 +748,23 @@ const UI = {
 };
 
 function boot() {
-  Store.load();
-  if (!S.onboardingDone) {
-    document.getElementById('onboard').classList.remove('hide');
-    document.getElementById('app').style.display = 'none';
-  } else {
-    document.getElementById('onboard').classList.add('hide');
-    document.getElementById('app').style.display = 'flex';
-    Render.all();
+  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+    document.documentElement.classList.add('standalone');
   }
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+  Stars.init();
+  Store.load();
+  Splash.run(() => {
+    if (!S.onboardingDone) {
+      document.getElementById('onboard').classList.remove('hide');
+      document.getElementById('app').style.display = 'none';
+    } else {
+      document.getElementById('onboard').classList.add('hide');
+      document.getElementById('app').style.display = 'flex';
+      Render.all();
+      Install.maybeShow();
+    }
+  });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 boot();
 </script>
