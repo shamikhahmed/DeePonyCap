@@ -104,8 +104,9 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .mini-card .pony-img{height:80px;font-size:2rem}
 .mini-card .pony-body{padding:8px}
 .mini-card .pony-name{font-size:.75rem}
-.nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));padding-bottom:var(--safe-b);background:#fff;border-top:2px solid var(--pink-lighter);display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;z-index:100}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-soft);font-size:.65rem;font-weight:700;padding:4px}
+.nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));padding-bottom:var(--safe-b);background:#fff;border-top:2px solid var(--pink-lighter);display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;z-index:100;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{flex:1;min-width:56px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-soft);font-size:.6rem;font-weight:700;padding:4px 2px}
 .nav-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:all .2s}
 .nav-btn.on .nav-icon{background:var(--pink);box-shadow:var(--shadow-sm);animation:bounce .4s ease}
 .nav-btn.on{color:var(--pink)}
@@ -169,6 +170,46 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .rainbow-note{text-align:center;font-size:.85rem;color:var(--text-soft);margin-top:8px;font-weight:700}
 .empty{text-align:center;padding:40px 20px;color:var(--text-soft)}
 .empty span{font-size:3rem;display:block;margin-bottom:12px}
+.sheet-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sheet-hdr h2{margin:0}
+.sheet-close{width:40px;height:40px;border-radius:50%;border:2px solid var(--pink-lighter);background:#fff;font-size:1.1rem;cursor:pointer}
+.form-actions{display:flex;gap:10px;margin-top:8px}
+.form-actions .btn-p,.form-actions .btn-g{flex:1}
+.photo-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:8px}
+.photo-thumb{width:72px;height:72px;border-radius:14px;overflow:hidden;position:relative;border:2px solid var(--pink-lighter)}
+.photo-thumb.primary{border-color:var(--pink);box-shadow:0 0 0 2px var(--pink-light)}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-rm{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:.65rem;cursor:pointer}
+.photo-upload.small{width:72px;height:72px;border-radius:14px;font-size:1.4rem;margin:0}
+.photo-hint{text-align:center;font-size:.75rem;color:var(--text-soft);margin-bottom:12px}
+.detail-gallery{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px}
+.detail-gallery .detail-photo{flex:0 0 85%;height:200px;border-radius:var(--r);object-fit:cover}
+.detail-gallery .detail-photo.main{flex:0 0 100%}
+.pager{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:16px;font-size:.85rem;font-weight:700}
+.pager button:disabled{opacity:.4}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.toggle{padding:8px 18px;border-radius:var(--r-pill);border:2px solid var(--pink-lighter);background:#fff;font-weight:800;cursor:pointer}
+.toggle.on{background:var(--pink);color:#fff;border-color:var(--pink)}
+.acc-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--pink-lighter)}
+.ob-actions{display:flex;flex-direction:column;gap:10px;width:100%}
+.ob-actions .btn-g{width:100%}
+@keyframes popIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+.pop-in{animation:popIn .35s ease}
+html.collector-mode{--pink:#6D28D9;--pink-light:#C4B5FD;--pink-lighter:#EDE9FE;--bg:#F9FAFB;--shadow:0 4px 20px rgba(109,40,217,.08)}
+html.collector-mode .stars{display:none}
+html.collector-mode .fab{animation:none;background:var(--pink)}
+html.collector-mode .big-num{animation:none;color:var(--pink)}
+html.collector-mode body::before{opacity:.4}
+html.dark-mode{--bg:#111827;--bg-card:#1F2937;--text:#F9FAFB;--text-soft:#9CA3AF;--pink-lighter:#374151;--shadow:0 8px 32px rgba(0,0,0,.35)}
+html.dark-mode .nav,html.dark-mode .card,html.dark-mode .inp,html.dark-mode .sel{background:#1F2937;color:var(--text)}
+html.dark-mode body::before{opacity:.15}
+.storage-bar{height:8px;border-radius:99px;background:var(--pink-lighter);overflow:hidden;margin-top:8px}
+.storage-bar span{display:block;height:100%;background:var(--mint);transition:width .3s}
+.storage-warn .storage-bar span{background:var(--yellow)}
+.storage-critical .storage-bar span{background:#EF4444}
+.storage-critical{border:2px solid rgba(239,68,68,.3)}
+.dup-warn{background:#FEF3C7;color:#92400E;padding:10px 12px;border-radius:12px;font-size:.8rem;margin-bottom:10px}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style>
 </head>
 <body>
@@ -189,7 +230,10 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
     <div class="onboard-emoji">🦄✨</div>
     <h1>Welcome, Collector!</h1>
     <p>Your magical pony toybox — soft, sparkly, and made just for you 💕</p>
-    <button class="btn-p shimmer" onclick="OB.next(2)">Let's Go! →</button>
+    <div class="ob-actions">
+      <button class="btn-p shimmer" onclick="OB.next(2)">Let's Go! →</button>
+      <button class="btn-g" onclick="OB.finish(true)">Skip intro</button>
+    </div>
   </div>
   <div class="onboard-card" id="ob2" style="display:none">
     <div class="onboard-dots"><i></i><i class="on"></i><i></i></div>
@@ -203,14 +247,21 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
       <label class="fl">Collecting since (optional)</label>
       <input class="inp" type="date" id="obSince">
     </div>
-    <button class="btn-p shimmer" onclick="OB.next(3)">Continue →</button>
+    <div class="ob-actions">
+      <button class="btn-p shimmer" onclick="OB.next(3)">Continue →</button>
+      <button class="btn-g" onclick="OB.back(1)">← Back</button>
+    </div>
   </div>
   <div class="onboard-card" id="ob3" style="display:none">
     <div class="onboard-dots"><i></i><i></i><i class="on"></i></div>
     <div class="onboard-emoji">🎉🌈</div>
     <h1>You're all set!</h1>
     <p>Time to fill your stable with magical ponies!</p>
-    <button class="btn-p shimmer" onclick="OB.finish()">Add My First Pony 🦄</button>
+    <div class="ob-actions">
+      <button class="btn-p shimmer" onclick="OB.finish(false)">Add My First Pony 🦄</button>
+      <button class="btn-g" onclick="OB.finish(true)">Skip for now — explore first</button>
+      <button class="btn-g" onclick="OB.back(2)">← Back</button>
+    </div>
   </div>
 </div>
 
@@ -227,6 +278,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
     <div class="screen" id="tab-wishlist"></div>
     <div class="screen" id="tab-shelves"></div>
     <div class="screen" id="tab-stats"></div>
+    <div class="screen" id="tab-settings"></div>
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony">+</button>
   <nav class="nav">
@@ -235,6 +287,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
     <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div>Wishlist</button>
     <button class="nav-btn" data-tab="shelves" onclick="Nav.go('shelves')"><div class="nav-icon">🗂️</div>Shelves</button>
     <button class="nav-btn" data-tab="stats" onclick="Nav.go('stats')"><div class="nav-icon">🌈</div>Stats</button>
+    <button class="nav-btn" data-tab="settings" onclick="Nav.go('settings')"><div class="nav-icon">⚙️</div>Settings</button>
   </nav>
 </div>
 
@@ -244,529 +297,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
   <div id="sheetBody"></div>
 </div>
 
-<script>
-const STORAGE_KEY = 'deePonyOS_v1';
-const GEN_COLORS = {1:'g1',2:'g2',3:'g3',4:'g4',5:'g5'};
-const GEN_EMOJI = {1:'💜',2:'💚',3:'💙',4:'💛',5:'🩷'};
-const TYPE_LABELS = {mlp:'🦄 MLP',filly:'🎀 Filly',velvet:'🧸 Velvet',palace_pet:'🏰 Palace',special:'✨ Special'};
-const TYPE_KEYS = ['mlp','filly','velvet','palace_pet','special'];
-const COND_LABELS = {mint:'✨ Mint',good:'👍 Good',played:'🎮 Played',loved:'💕 Loved'};
-const SIZE_LABELS = {mini:'Mini',standard:'Standard',large:'Large',extra_large:'XL'};
-const SHELF_SUGGEST = ['Shelf 1','Shelf 2','Windowsill','Display Case','Box'];
-
-let S = { ponies:[], wishlist:[], collector:{name:'',since:''}, onboardingDone:false };
-let filter = { chip:'all', q:'', sort:'name' };
-let editingId = null;
-let detailId = null;
-let formState = {};
-
-const uid = () => Math.random().toString(36).slice(2,10);
-
-const Store = {
-  load() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) S = { ...S, ...JSON.parse(raw) };
-    } catch(e) {}
-    if (!S.onboardingDone && !S.ponies.length) {
-      S.ponies = [
-        {id:uid(),name:'Twilight Sparkle',generation:4,type:'mlp',colour:'Purple with pink streak',size:'standard',shelf:'Shelf 1',isOriginal:true,condition:'mint',isFavourite:true,isMostPlayed:false,photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-3},
-        {id:uid(),name:'Pinkie Pie',generation:4,type:'mlp',colour:'Pink all over',size:'standard',shelf:'Shelf 1',isOriginal:true,condition:'good',isFavourite:true,isMostPlayed:true,photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-2},
-        {id:uid(),name:'Baby Cotton Candy',generation:1,type:'mlp',colour:'Pink with purple hair',size:'mini',shelf:'Shelf 2',isOriginal:true,condition:'loved',isFavourite:false,isMostPlayed:false,photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-1}
-      ];
-    }
-  },
-  save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); }
-};
-
-const Photo = {
-  async compress(file) {
-    return new Promise((resolve, reject) => {
-      const r = new FileReader();
-      r.onload = () => {
-        const img = new Image();
-        img.onload = () => {
-          let q = 0.85, w = img.width, h = img.height;
-          const max = 800;
-          if (w > max) { h = h * max / w; w = max; }
-          const draw = (quality) => {
-            const c = document.createElement('canvas');
-            c.width = w; c.height = h;
-            c.getContext('2d').drawImage(img, 0, 0, w, h);
-            const url = c.toDataURL('image/jpeg', quality);
-            if (url.length > 680000 && quality > 0.4) draw(quality - 0.15);
-            else resolve(url);
-          };
-          draw(q);
-        };
-        img.onerror = reject;
-        img.src = r.result;
-      };
-      r.onerror = reject;
-      r.readAsDataURL(file);
-    });
-  }
-};
-
-const Toast = {
-  show(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(Toast._tm);
-    Toast._tm = setTimeout(() => t.classList.remove('show'), 2600);
-  }
-};
-
-const Haptic = { tap() { if (navigator.vibrate) navigator.vibrate(8); } };
-
-const Stars = {
-  init() {
-    const w = document.getElementById('stars');
-    const em = ['✨','⭐','💫','🌟','💖'];
-    for (let i = 0; i < 18; i++) {
-      const s = document.createElement('span');
-      s.className = 'star';
-      s.textContent = em[i % em.length];
-      s.style.left = (Math.random() * 100) + '%';
-      s.style.top = (Math.random() * 100) + '%';
-      s.style.animationDelay = (Math.random() * 2) + 's';
-      w.appendChild(s);
-    }
-  }
-};
-
-const Splash = {
-  run(cb) {
-    const fill = document.getElementById('splashFill');
-    requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
-    setTimeout(() => {
-      document.getElementById('splash').classList.add('hide');
-      cb();
-    }, 1600);
-  }
-};
-
-const Install = {
-  maybeShow() {
-    if (localStorage.getItem('deepony_install_dismiss')) return;
-    const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
-    if (!standalone && ios) document.getElementById('installHint').classList.add('show');
-  },
-  dismiss() {
-    localStorage.setItem('deepony_install_dismiss', '1');
-    document.getElementById('installHint').classList.remove('show');
-  }
-};
-
-const OB = {
-  next(n) {
-    ['ob1','ob2','ob3'].forEach((id,i) => {
-      document.getElementById(id).style.display = (i+1)===n ? 'block' : 'none';
-    });
-    Haptic.tap();
-    if (n===3) Confetti.burst();
-  },
-  finish() {
-    S.collector.name = document.getElementById('obName').value.trim() || 'Collector';
-    S.collector.since = document.getElementById('obSince').value || '';
-    S.onboardingDone = true;
-    Store.save();
-    document.getElementById('onboard').classList.add('hide');
-    document.getElementById('app').style.display = 'flex';
-    Confetti.burst();
-    Render.all();
-    Install.maybeShow();
-    UI.openAdd();
-  }
-};
-
-const Confetti = {
-  burst() {
-    const w = document.getElementById('confetti');
-    const colors = ['#FF6B9D','#C084FC','#FCD34D','#6EE7B7','#93C5FD'];
-    for (let i = 0; i < 40; i++) {
-      const d = document.createElement('div');
-      d.className = 'confetti';
-      d.style.left = Math.random()*100+'%';
-      d.style.top = '-10px';
-      d.style.background = colors[i%colors.length];
-      d.style.animationDelay = (Math.random()*0.8)+'s';
-      d.style.animationDuration = (2+Math.random()*2)+'s';
-      w.appendChild(d);
-      setTimeout(() => d.remove(), 5000);
-    }
-  }
-};
-
-const Nav = {
-  go(tab) {
-    Haptic.tap();
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
-    document.getElementById('tab-'+tab).classList.add('on');
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.tab===tab));
-    Render.all();
-  }
-};
-
-const Render = {
-  all() {
-    const on = document.querySelector('.screen.on').id.replace('tab-','');
-    if (on==='stable') this.stable();
-    if (on==='collection') this.collection();
-    if (on==='wishlist') this.wishlist();
-    if (on==='shelves') this.shelves();
-    if (on==='stats') this.stats();
-  },
-  esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
-  ponyCard(p, mini) {
-    const g = GEN_COLORS[p.generation]||'g5';
-    const img = p.photo
-      ? `<img src="${p.photo}" alt="">`
-      : `<div class="pony-img" style="background:linear-gradient(135deg,var(--${g.replace('g','g')}),var(--pink-lighter))">🦄</div>`;
-    const photoBlock = p.photo ? `<div class="pony-img">${img}</div>` : img.replace('class="pony-img"','class="pony-img"');
-    const cls = mini ? 'mini-card' : 'pony-card';
-    return `<div class="${cls}" onclick="UI.openDetail('${p.id}')">
-      ${p.photo ? `<div class="pony-img"><img src="${p.photo}" alt=""></div>` : `<div class="pony-img" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))">🦄</div>`}
-      <div class="pony-body">
-        <div class="pony-name">${this.esc(p.name)} ${p.isFavourite?'❤️':''}${p.isMostPlayed?'🎮':''}</div>
-        <div class="badges">
-          <span class="badge ${g}">G${p.generation}</span>
-          <span class="badge" style="background:var(--pink-light);color:var(--text)">${TYPE_LABELS[p.type]||p.type}</span>
-        </div>
-      </div>
-    </div>`;
-  },
-  stable() {
-    const n = S.ponies.length;
-    const name = S.collector.name || 'Collector';
-    const gens = [1,2,3,4,5].map(g => ({g, c: S.ponies.filter(p=>p.generation===g).length}));
-    const total = n || 1;
-    const bars = gens.map(x => `<span style="width:${(x.c/total*100)||0}%;background:var(--g${x.g})"></span>`).join('');
-    const pills = gens.map(x => `<button class="pill g${x.g}" onclick="filter.chip='g${x.g}';Nav.go('collection')">G${x.g} ${GEN_EMOJI[x.g]} ${x.c}</button>`).join('');
-    const types = TYPE_KEYS.map(t => `<div class="type-card"><span>${TYPE_LABELS[t].split(' ')[0]}</span>${t.replace('_',' ')}<br><strong>${S.ponies.filter(p=>p.type===t).length}</strong></div>`).join('');
-    const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
-    const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
-    document.getElementById('tab-stable').innerHTML = `
-      <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
-      <p class="sub">${n ? `You have ${n} magical ponies! 🎉 ${n>0?'🎊✨🌈':''}` : 'Your stable awaits its first pony!'}</p>
-      <div class="card">
-        <div class="big-num" id="counterNum">0</div>
-        <div class="big-label">ponies in your collection</div>
-        <div class="progress-bar">${bars}</div>
-        <div class="rainbow-note">Rainbow spread across all generations</div>
-      </div>
-      <div class="row-scroll">${pills}</div>
-      <div class="type-grid">${types}</div>
-      ${recent.length?`<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
-      ${faves.length?`<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}`;
-    Anim.countUp(document.getElementById('counterNum'), n);
-  },
-  filteredPonies() {
-    let list = [...S.ponies];
-    const q = filter.q.toLowerCase();
-    if (q) list = list.filter(p => p.name.toLowerCase().includes(q) || (p.colour||'').toLowerCase().includes(q));
-    const c = filter.chip;
-    if (c.startsWith('g')) list = list.filter(p => p.generation === parseInt(c.slice(1)));
-    else if (TYPE_KEYS.includes(c)) list = list.filter(p => p.type === c);
-    else if (c==='faves') list = list.filter(p => p.isFavourite);
-    else if (c==='played') list = list.filter(p => p.isMostPlayed);
-    else if (c==='originals') list = list.filter(p => p.isOriginal);
-    else if (c==='extras') list = list.filter(p => !p.isOriginal);
-    if (filter.sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
-    else if (filter.sort==='gen') list.sort((a,b)=>a.generation-b.generation||a.name.localeCompare(b.name));
-    else if (filter.sort==='recent') list.sort((a,b)=>b.createdAt-a.createdAt);
-    else if (filter.sort==='condition') { const o={mint:0,good:1,played:2,loved:3}; list.sort((a,b)=>(o[a.condition]||0)-(o[b.condition]||0)); }
-    return list;
-  },
-  collection() {
-    const chips = [['all','All'],['g1','G1'],['g2','G2'],['g3','G3'],['g4','G4'],['g5','G5'],
-      ...TYPE_KEYS.map(t=>[t,TYPE_LABELS[t]]),['faves','❤️ Faves'],['played','🎮 Most Played'],['originals','Originals'],['extras','Extras']];
-    const list = this.filteredPonies();
-    document.getElementById('tab-collection').innerHTML = `
-      <div class="search-wrap"><input class="search" placeholder="Search ponies..." value="${this.esc(filter.q)}" oninput="filter.q=this.value;Render.collection()"></div>
-      <div class="chips">${chips.map(([k,l])=>`<button class="chip${filter.chip===k?' on':''}" onclick="filter.chip='${k}';Render.collection()">${l}</button>`).join('')}</div>
-      <div class="sort-row">Sort <select onchange="filter.sort=this.value;Render.collection()">
-        <option value="name"${filter.sort==='name'?' selected':''}>Name</option>
-        <option value="gen"${filter.sort==='gen'?' selected':''}>Generation</option>
-        <option value="recent"${filter.sort==='recent'?' selected':''}>Recently Added</option>
-        <option value="condition"${filter.sort==='condition'?' selected':''}>Condition</option>
-      </select> · ${list.length} ponies</div>
-      <div class="grid">${list.length?list.map(p=>this.ponyCard(p)).join(''):'<div class="empty" style="grid-column:1/-1"><span>🦄</span>No ponies yet — tap + to add!</div>'}</div>`;
-  },
-  wishlist() {
-    const groups = {must:[],want:[],someday:[]};
-    S.wishlist.forEach(w => (groups[w.priority]||groups.someday).push(w));
-    const renderGroup = (title, key, items) => items.length ? `<div class="section-title">${title}</div>`+
-      items.map(w=>`<div class="wish-item ${key}">
-        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${GEN_COLORS[w.generation]||'g5'}">G${w.generation}</span></div>
-        <div style="font-size:.8rem;color:var(--text-soft);margin-bottom:8px">${TYPE_LABELS[w.type]||w.type} ${w.notes? '· '+this.esc(w.notes):''}</div>
-        <div style="display:flex;gap:8px">
-          <button class="btn-g" onclick="UI.gotWish('${w.id}')">Got it! 🎉</button>
-          <button class="btn-d" onclick="UI.delWish('${w.id}')">Delete</button>
-        </div></div>`).join('') : '';
-    document.getElementById('tab-wishlist').innerHTML = `
-      <h1 class="greet">💫 My Wishlist</h1>
-      <p class="sub">Ponies you dream of having · ${S.wishlist.length} on your list ✨</p>
-      <div class="card">
-        <div class="fg"><label class="fl">Pony name</label><input class="inp" id="wName" placeholder="Dream pony name..."></div>
-        <div class="fg"><label class="fl">Generation</label><select class="sel" id="wGen">${[1,2,3,4,5].map(g=>`<option value="${g}">G${g}</option>`).join('')}</select></div>
-        <div class="fg"><label class="fl">Type</label><select class="sel" id="wType">${TYPE_KEYS.map(t=>`<option value="${t}">${TYPE_LABELS[t]}</option>`).join('')}</select></div>
-        <div class="fg"><label class="fl">Priority</label><select class="sel" id="wPri"><option value="must">🔴 Must Have</option><option value="want">🟡 Want</option><option value="someday">🟢 Someday</option></select></div>
-        <div class="fg"><label class="fl">Notes</label><input class="inp" id="wNotes" placeholder="Where to find, etc."></div>
-        <button class="btn-p" onclick="UI.addWish()">Add to Wishlist ✨</button>
-      </div>
-      ${renderGroup('🔴 Must Have','must',groups.must)}
-      ${renderGroup('🟡 Want','want',groups.want)}
-      ${renderGroup('🟢 Someday','someday',groups.someday)}`;
-  },
-  shelves() {
-    const shelves = {};
-    S.ponies.forEach(p => {
-      const s = (p.shelf||'').trim() || '__unshelved__';
-      if (!shelves[s]) shelves[s] = [];
-      shelves[s].push(p);
-    });
-    const keys = Object.keys(shelves).filter(k=>k!=='__unshelved__').sort();
-    let html = `<h1 class="greet">🗂️ My Shelves</h1><p class="sub">Where your ponies live</p>`;
-    keys.forEach(s => {
-      const js = String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      html += `<div class="shelf-sec"><div class="shelf-hdr" onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies
-        <button class="btn-g" style="margin-left:8px;padding:4px 10px;font-size:.7rem" onclick="event.stopPropagation();UI.renameShelf('${js}')">Rename</button></div>
-        <div class="row-scroll">${shelves[s].map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
-    });
-    if (shelves.__unshelved__) {
-      html += `<div class="shelf-sec"><div class="shelf-hdr">📦 Unshelved — ${shelves.__unshelved__.length}</div>
-        <div class="row-scroll">${shelves.__unshelved__.map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
-    }
-    if (!S.ponies.length) html += '<div class="empty"><span>🗂️</span>No shelves yet!</div>';
-    document.getElementById('tab-shelves').innerHTML = html;
-  },
-  stats() {
-    const n = S.ponies.length;
-    const gens = [1,2,3,4,5].map(g=>({g,c:S.ponies.filter(p=>p.generation===g).length}));
-    const maxG = gens.reduce((a,b)=>b.c>a.c?b:a,{g:0,c:0});
-    const maxBubble = Math.max(...gens.map(x=>x.c),1);
-    const types = TYPE_KEYS.map(t=>({t,c:S.ponies.filter(p=>p.type===t).length}));
-    const conds = ['mint','good','played','loved'].map(c=>({c,n:S.ponies.filter(p=>p.condition===c).length}));
-    const condTotal = conds.reduce((a,x)=>a+x.n,0)||1;
-    const orig = S.ponies.filter(p=>p.isOriginal).length;
-    const sizes = ['mini','standard','large','extra_large'].map(s=>({s,n:S.ponies.filter(p=>p.size===s).length}));
-    const achs = [
-      {id:'first',ic:'🏆',t:'First Pony!',ok:n>=1},
-      {id:'g1fan',ic:'💜',t:'Generation 1 Fan — 5+ G1',ok:S.ponies.filter(p=>p.generation===1).length>=5},
-      {id:'rainbow',ic:'🌈',t:'Rainbow Collector — 1 of each gen',ok:gens.every(x=>x.c>=1)},
-      {id:'lover',ic:'❤️',t:'Pony Lover — 10+ favourites',ok:S.ponies.filter(p=>p.isFavourite).length>=10},
-      {id:'shelf',ic:'📚',t:'Shelf Master — 3+ shelves',ok:new Set(S.ponies.map(p=>p.shelf).filter(Boolean)).size>=3},
-      {id:'big',ic:'🌟',t:'Big Collection — 50+ ponies',ok:n>=50}
-    ];
-    document.getElementById('tab-stats').innerHTML = `
-      <h1 class="greet">🌈 My Stats</h1>
-      <div class="stat-grid">
-        <div class="stat-box"><div class="n">${n}</div><div class="l">Total Ponies</div></div>
-        <div class="stat-box"><div class="n">${S.wishlist.length}</div><div class="l">Wishlist</div></div>
-        <div class="stat-box"><div class="n">${S.ponies.filter(p=>p.isFavourite).length}</div><div class="l">Favourites</div></div>
-        <div class="stat-box"><div class="n">${S.ponies.filter(p=>p.isMostPlayed).length}</div><div class="l">Most Played</div></div>
-      </div>
-      <div class="card" style="margin-top:14px">
-        <div class="section-title">By Generation</div>
-        <div class="bubble-chart">${gens.map(x=>{
-          const sz = 50 + (x.c/maxBubble)*70;
-          return `<div class="bubble g${x.g}" style="width:${sz}px;height:${sz}px;background:var(--g${x.g});color:${x.g===2||x.g===3||x.g===4?'#1F2937':'#fff'}">G${x.g}<br><strong>${x.c}</strong></div>`;
-        }).join('')}</div>
-        ${maxG.c?`<p class="rainbow-note">Gen ${maxG.g} is your largest generation! ${GEN_EMOJI[maxG.g]}</p>`:''}
-      </div>
-      <div class="card">
-        <div class="section-title">By Type</div>
-        ${types.map(x=>`<div style="display:flex;justify-content:space-between;padding:8px 0"><span>${TYPE_LABELS[x.t]}</span><strong>${x.c} (${n?Math.round(x.c/n*100):0}%)</strong></div>`).join('')}
-      </div>
-      <div class="card">
-        <div class="section-title">Collection Health 💕</div>
-        <div class="progress-bar">${conds.map(x=>`<span style="width:${x.n/condTotal*100}%;background:${x.c==='mint'?'var(--mint)':x.c==='good'?'var(--blue)':x.c==='played'?'var(--yellow)':'var(--pink)'}"></span>`).join('')}</div>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:.8rem">${conds.map(x=>`${COND_LABELS[x.c]} ${x.n}`).join(' · ')}</div>
-        <p style="margin-top:12px;font-size:.85rem">Originals: ${orig} (${n?Math.round(orig/n*100):0}%) · Extras: ${n-orig}</p>
-        <p style="font-size:.85rem;margin-top:6px">${sizes.map(x=>`${SIZE_LABELS[x.s]}: ${x.n}`).join(' · ')}</p>
-      </div>
-      <div class="section-title">Achievements</div>
-      ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}`;
-  }
-};
-
-const Anim = {
-  countUp(el, target) {
-    if (!el) return;
-    let cur = 0;
-    const step = Math.max(1, Math.ceil(target / 30));
-    const t = setInterval(() => {
-      cur = Math.min(target, cur + step);
-      el.textContent = cur;
-      if (cur >= target) clearInterval(t);
-    }, 30);
-  }
-};
-
-const UI = {
-  openSheet(html) {
-    document.getElementById('sheetBody').innerHTML = html;
-    document.getElementById('sheetBg').classList.add('on');
-    document.getElementById('sheet').classList.add('on');
-  },
-  closeSheet() {
-    document.getElementById('sheetBg').classList.remove('on');
-    document.getElementById('sheet').classList.remove('on');
-    editingId = null; detailId = null;
-  },
-  defaultForm(p) {
-    return {
-      name: p?.name||'', generation: p?.generation||4, type: p?.type||'mlp',
-      colour: p?.colour||'', size: p?.size||'standard', shelf: p?.shelf||'Shelf 1',
-      isOriginal: p?.isOriginal!==false, condition: p?.condition||'good',
-      isFavourite: p?.isFavourite||false, isMostPlayed: p?.isMostPlayed||false,
-      photo: p?.photo||null, acquiredDate: p?.acquiredDate||'', notes: p?.notes||''
-    };
-  },
-  openAdd(prefill) {
-    editingId = null;
-    formState = this.defaultForm(prefill);
-    this.renderForm('Add Pony 🦄');
-  },
-  openEdit(id) {
-    const p = S.ponies.find(x=>x.id===id);
-    if (!p) return;
-    editingId = id;
-    formState = this.defaultForm(p);
-    this.renderForm('Edit Pony');
-  },
-  renderForm(title) {
-    const f = formState;
-    const gOpts = [1,2,3,4,5].map(g=>`<button type="button" class="opt g${g}${f.generation===g?' on':''}" onclick="UI.setForm('generation',${g})">G${g}</button>`).join('');
-    const tOpts = TYPE_KEYS.map(t=>`<button type="button" class="opt${f.type===t?' on':''}" onclick="UI.setForm('type','${t}')">${TYPE_LABELS[t]}</button>`).join('');
-    const sOpts = ['mini','standard','large','extra_large'].map(s=>`<button type="button" class="opt${f.size===s?' on':''}" onclick="UI.setForm('size','${s}')">${SIZE_LABELS[s]}</button>`).join('');
-    const cOpts = Object.keys(COND_LABELS).map(c=>`<button type="button" class="opt${f.condition===c?' on':''}" onclick="UI.setForm('condition','${c}')">${COND_LABELS[c]}</button>`).join('');
-    const shelfList = SHELF_SUGGEST.map(s=>`<option value="${s}"${f.shelf===s?' selected':''}>`).join('');
-    this.openSheet(`<h2>${title}</h2>
-      <div class="photo-upload" onclick="document.getElementById('photoIn').click()">
-        ${f.photo?`<img src="${f.photo}" alt="">`:'Tap to add photo 📸'}
-      </div>
-      <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="UI.onPhoto(event)">
-      <div class="fg"><label class="fl">Name *</label><input class="inp" value="${Render.esc(f.name)}" oninput="formState.name=this.value"></div>
-      <div class="fg"><label class="fl">Generation</label><div class="sel-row">${gOpts}</div></div>
-      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>
-      <div class="fg"><label class="fl">Colour</label><input class="inp" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
-      <div class="fg"><label class="fl">Size</label><div class="sel-row">${sOpts}</div></div>
-      <div class="fg"><label class="fl">Shelf</label><input class="inp" list="shelfDL" value="${Render.esc(f.shelf)}" oninput="formState.shelf=this.value"><datalist id="shelfDL">${shelfList}</datalist></div>
-      <div class="fg"><label class="fl">Original or Extra</label><div class="toggle-row">
-        <button type="button" class="opt${f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',true)">Original ✓</button>
-        <button type="button" class="opt${!f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',false)">Extra 📦</button></div></div>
-      <div class="fg"><label class="fl">Condition</label><div class="sel-row">${cOpts}</div></div>
-      <div class="fg"><label class="fl">Favourite?</label><div class="toggle-row">
-        <button type="button" class="opt${f.isFavourite?' on':''}" onclick="UI.setForm('isFavourite',true)">❤️ Yes</button>
-        <button type="button" class="opt${!f.isFavourite?' on':''}" onclick="UI.setForm('isFavourite',false)">No</button></div></div>
-      <div class="fg"><label class="fl">Most Played?</label><div class="toggle-row">
-        <button type="button" class="opt${f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',true)">🎮 Yes</button>
-        <button type="button" class="opt${!f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',false)">No</button></div></div>
-      <div class="fg"><label class="fl">Acquired</label><input class="inp" type="date" value="${f.acquiredDate}" oninput="formState.acquiredDate=this.value"></div>
-      <div class="fg"><label class="fl">Notes</label><textarea class="ta" oninput="formState.notes=this.value">${Render.esc(f.notes)}</textarea></div>
-      <button class="btn-p" onclick="UI.savePony()">Save Pony ✨</button>`);
-  },
-  setForm(k,v) { formState[k]=v; this.renderForm(editingId?'Edit Pony':'Add Pony 🦄'); },
-  async onPhoto(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    try { formState.photo = await Photo.compress(file); this.renderForm(editingId?'Edit Pony':'Add Pony 🦄'); }
-    catch(err) { alert('Could not load photo'); }
-  },
-  savePony() {
-    if (!formState.name.trim()) { Toast.show('Name is required 💕'); return; }
-    const pony = { ...formState, id: editingId||uid(), name: formState.name.trim(), createdAt: editingId?(S.ponies.find(p=>p.id===editingId)?.createdAt||Date.now()):Date.now() };
-    if (editingId) S.ponies = S.ponies.map(p=>p.id===editingId?pony:p);
-    else S.ponies.push(pony);
-    Store.save(); this.closeSheet(); Render.all(); Toast.show(editingId ? 'Pony updated ✨' : 'New pony added 🦄');
-    if (!editingId) Confetti.burst();
-  },
-  openDetail(id) {
-    const p = S.ponies.find(x=>x.id===id);
-    if (!p) return;
-    detailId = id;
-    const g = GEN_COLORS[p.generation];
-    this.openSheet(`<h2>${Render.esc(p.name)}</h2>
-      <div class="detail-photo" onclick="document.getElementById('photoIn2').click()">
-        ${p.photo?`<img src="${p.photo}" style="width:100%;height:100%;object-fit:cover;border-radius:var(--r)">`:'🦄'}
-      </div>
-      <input type="file" id="photoIn2" accept="image/*" style="display:none" onchange="UI.onDetailPhoto(event)">
-      ${[['Generation',`G${p.generation} ${GEN_EMOJI[p.generation]}`],['Type',TYPE_LABELS[p.type]],['Colour',p.colour],['Size',SIZE_LABELS[p.size]],['Shelf',p.shelf||'—'],['Original',p.isOriginal?'Yes':'Extra'],['Condition',COND_LABELS[p.condition]],['Favourite',p.isFavourite?'❤️':'—'],['Most Played',p.isMostPlayed?'🎮':'—'],['Acquired',p.acquiredDate||'—'],['Notes',p.notes||'—']].map(([k,v])=>`<div class="detail-row"><span>${k}</span><span>${Render.esc(v)}</span></div>`).join('')}
-      <div class="detail-actions">
-        <button class="btn-p" onclick="UI.openEdit('${id}')">Edit</button>
-        <button class="btn-g" onclick="UI.sharePony('${id}')">Share</button>
-        <button class="btn-d" onclick="UI.deletePony('${id}')">Delete</button>
-        <button class="btn-g" onclick="UI.closeSheet()">Close</button>
-      </div>`);
-  },
-  sharePony(id) {
-    const p = S.ponies.find(x=>x.id===id);
-    if (!p) return;
-    const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyOS`;
-    if (navigator.share) navigator.share({ title: p.name, text }).catch(()=>{});
-    else { navigator.clipboard.writeText(text).then(()=>Toast.show('Copied to clipboard ✨')); }
-  },
-  renameShelf(oldName) {
-    const n = prompt('New shelf name:', oldName);
-    if (!n || !n.trim()) return;
-    const nn = n.trim();
-    S.ponies.forEach(p => { if ((p.shelf||'').trim() === oldName) p.shelf = nn; });
-    Store.save(); Render.shelves(); Toast.show('Shelf renamed ✨');
-  },
-  async onDetailPhoto(e) {
-    const file = e.target.files[0];
-    if (!file || !detailId) return;
-    const photo = await Photo.compress(file);
-    S.ponies = S.ponies.map(p=>p.id===detailId?{...p,photo}:p);
-    Store.save(); this.openDetail(detailId);
-  },
-  deletePony(id) {
-    if (!confirm('Remove this pony from your stable?')) return;
-    S.ponies = S.ponies.filter(p=>p.id!==id);
-    Store.save(); this.closeSheet(); Render.all();
-  },
-  addWish() {
-    const name = document.getElementById('wName').value.trim();
-    if (!name) return;
-    S.wishlist.push({ id:uid(), name, generation:parseInt(document.getElementById('wGen').value), type:document.getElementById('wType').value, priority:document.getElementById('wPri').value, notes:document.getElementById('wNotes').value.trim(), addedAt:Date.now() });
-    Store.save(); Render.wishlist();
-  },
-  delWish(id) { S.wishlist = S.wishlist.filter(w=>w.id!==id); Store.save(); Render.wishlist(); },
-  gotWish(id) {
-    const w = S.wishlist.find(x=>x.id===id);
-    if (!w) return;
-    S.wishlist = S.wishlist.filter(x=>x.id!==id);
-    Store.save();
-    Confetti.burst();
-    this.openAdd({ name:w.name, generation:w.generation, type:w.type, notes:w.notes });
-  },
-  filterShelf(s) { filter.chip='all'; filter.q=''; Nav.go('collection'); setTimeout(()=>{ filter.q=s; Render.collection(); },50); }
-};
-
-function boot() {
-  if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
-    document.documentElement.classList.add('standalone');
-  }
-  Stars.init();
-  Store.load();
-  Splash.run(() => {
-    if (!S.onboardingDone) {
-      document.getElementById('onboard').classList.remove('hide');
-      document.getElementById('app').style.display = 'none';
-    } else {
-      document.getElementById('onboard').classList.add('hide');
-      document.getElementById('app').style.display = 'flex';
-      Render.all();
-      Install.maybeShow();
-    }
-  });
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
-boot();
-</script>
+<script src="js/pony-db.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
