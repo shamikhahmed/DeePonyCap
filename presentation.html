@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>DeePonyOS — Presentation</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#000;--accent:#FF6B9D;--accent2:#C77DFF;--ok:#FFD60A;--text:#fff;--text2:#a0a0a0;--text3:#505050;--border:rgba(255,255,255,.08);--sans:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif}
+html,body{width:100%;height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;user-select:none}
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:200;transition:width .4s;box-shadow:0 0 8px var(--accent)}
+#counter{position:fixed;bottom:28px;right:28px;font-size:12px;color:var(--text3);z-index:200;font-variant-numeric:tabular-nums}
+#dots{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:200}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--text3);cursor:pointer;transition:all .3s}
+.dot.on{width:18px;border-radius:3px;background:var(--accent)}
+#fsBtn{position:fixed;top:20px;right:20px;z-index:200;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text2);padding:6px 12px;border-radius:99px;font-size:11px;cursor:pointer}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 48px;text-align:center;opacity:0;pointer-events:none;transform:scale(1.04);transition:opacity .4s,transform .4s}
+.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}
+.anim{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
+.slide.active .anim{opacity:1;transform:none}
+.slide.active .anim:nth-child(2){transition-delay:.08s}
+.slide.active .anim:nth-child(3){transition-delay:.16s}
+.slide.active .anim:nth-child(4){transition-delay:.24s}
+.slide.active .anim:nth-child(5){transition-delay:.32s}
+.label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+h2{font-size:clamp(32px,6vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:14px}
+.tagline{font-size:clamp(14px,2vw,18px);color:var(--text2);line-height:1.55;max-width:620px}
+.url-big{font-family:ui-monospace,Menlo,monospace;font-size:clamp(13px,2.2vw,20px);color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:4px;margin-top:20px}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.stat{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:14px;padding:14px 20px;min-width:110px}
+.sv{font-size:22px;font-weight:800;color:var(--accent)}
+.sk{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.pain{display:flex;flex-direction:column;gap:10px;max-width:520px;width:100%;margin-top:20px;text-align:left}
+.pain-item{display:flex;gap:10px;padding:12px 14px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;font-size:14px;color:var(--text2)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:640px;width:100%;margin-top:20px}
+.card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:left}
+.card-t{font-weight:700;font-size:14px;margin:8px 0 4px}
+.card-d{font-size:12px;color:var(--text2);line-height:1.45}
+.pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:20px;max-width:560px}
+.pill{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:99px;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text2)}
+.credit{position:absolute;bottom:36px;right:32px;font-size:11px;color:var(--text3)}
+@media(max-width:600px){.slide{padding:40px 22px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="counter">01 / 07</div>
+<div id="dots"></div>
+<button id="fsBtn" onclick="toggleFS()">⛶ Fullscreen</button>
+<div id="deck"><div class="slide" id="s0"><div class="anim label">2026</div><h2>DeePonyOS</h2><div class="tagline" style="font-size:1.2rem;color:var(--text);margin-bottom:8px">Stable Relationship Tracker</div><div class="tagline">Collection · Wishlist · Shelves · Anniversaries</div><a class="url-big" href="https://shamikhahmed.github.io/DeePonyOS/" target="_blank" rel="noopener">shamikhahmed.github.io/DeePonyOS/</a>
+      <div style="margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+        <a href="pitch.html" style="font-size:12px;color:var(--text2)">Pitch deck</a>
+        <a href="landing.html" style="font-size:12px;color:var(--text2)">Landing</a>
+        <a href="docs/GUIDE.md" style="font-size:12px;color:var(--text2)">Guide</a>
+      </div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s1"><div class="anim label">The Problem</div><h2>Scattered.</h2><h2 style="color:var(--accent)">Overwhelming.</h2><div class="tagline">MLP collections and memories are scattered across photos and spreadsheets.</div><div class="pain"><div class="pain-item"><span>•</span>Hard to track owned vs wishlist ponies</div><div class="pain-item"><span>•</span>Anniversaries get forgotten</div><div class="pain-item"><span>•</span>No kid-friendly offline home for the fandom</div></div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s2"><div class="anim label">The Solution</div><h2>DeePonyOS</h2><div class="tagline">A sparkly offline PWA for your Stable — collection, stats, milestones.</div><div class="stat-row"><div class="stat"><div class="sv">0</div><div class="sk">Servers</div></div><div class="stat"><div class="sv">100%</div><div class="sk">Offline</div></div><div class="stat"><div class="sv">PWA</div><div class="sk">Install</div></div></div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s3"><div class="anim label">Pillars</div><h2>Four pillars.</h2><div class="grid"><div class="card"><div style="font-size:1.6rem">🏠</div><div class="card-t">Stable</div><div class="card-d">Your pony roster at a glance</div></div><div class="card"><div style="font-size:1.6rem">💖</div><div class="card-t">Wishlist</div><div class="card-d">Dream ponies with priority tags</div></div><div class="card"><div style="font-size:1.6rem">📚</div><div class="card-t">Shelves</div><div class="card-d">Organise by wave, store, or custom</div></div><div class="card"><div style="font-size:1.6rem">🎂</div><div class="card-t">Dates</div><div class="card-d">Anniversaries & gen checklists</div></div></div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s4"><div class="anim label">Features</div><h2>Built for daily use.</h2><div class="pills"><div class="pill">Offline PWA</div><div class="pill">Photo-friendly cards</div><div class="pill">Generation trackers</div><div class="pill">Child-safe local data</div></div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s5"><div class="anim label">Who it's for</div><h2>Collectors, parents, and fans who want a dedicated Stable app.</h2><div class="tagline">Private. On your device. No account required.</div><div class="credit">by Shamikh Ahmed</div></div>
+<div class="slide" id="s6"><div class="anim label">Live Now</div><h2>Open DeePonyOS</h2><div class="tagline">Install on iPhone · Add to Home Screen · Works offline</div><a class="url-big" href="https://shamikhahmed.github.io/DeePonyOS/" target="_blank" rel="noopener">shamikhahmed.github.io/DeePonyOS/</a>
+      <div style="margin-top:16px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+        <a href="pitch.html" style="font-size:12px;color:var(--text2)">Pitch deck</a>
+        <a href="landing.html" style="font-size:12px;color:var(--text2)">Landing</a>
+        <a href="docs/GUIDE.md" style="font-size:12px;color:var(--text2)">Guide</a>
+      </div><div class="credit">by Shamikh Ahmed</div></div></div>
+<script>
+const total=7;let cur=0;
+const slides=document.querySelectorAll('.slide'),progress=document.getElementById('progress'),counter=document.getElementById('counter'),dotsEl=document.getElementById('dots');
+for(let i=0;i<total;i++){const d=document.createElement('div');d.className='dot';d.onclick=()=>go(i);dotsEl.appendChild(d);}
+function go(n){if(n===cur)return;slides[cur].classList.remove('active');cur=Math.max(0,Math.min(total-1,n));slides[cur].classList.add('active');progress.style.width=((cur+1)/total*100)+'%';counter.textContent=String(cur+1).padStart(2,'0')+' / '+String(total).padStart(2,'0');document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));}
+document.addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(cur+1);}if(['ArrowLeft','ArrowUp'].includes(e.key)){e.preventDefault();go(cur-1);}});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>50)go(dx>0?cur+1:cur-1);});
+document.addEventListener('click',e=>{if(['BUTTON','A'].includes(e.target.tagName))return;if(e.clientX>innerWidth/2)go(cur+1);else go(cur-1);});
+function toggleFS(){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();}
+go(0);
+</script>
+</body>
+</html>

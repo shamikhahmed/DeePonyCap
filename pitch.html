@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>DeePonyOS — Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#FF6B9D;--accent2:#C77DFF;--muted:rgba(255,255,255,.55);--dim:rgba(255,255,255,.25)}
+html{scroll-behavior:smooth}
+body{font-family:Inter,-apple-system,sans-serif;background:#000;color:#fff;overflow-x:hidden}
+.slide{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:72px 40px;position:relative;text-align:center}
+@media(max-width:600px){.slide{padding:64px 22px}}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:none}
+#nav-dots{position:fixed;right:16px;top:50%;transform:translateY(-50%);z-index:100;display:flex;flex-direction:column;gap:8px}
+.nav-dot{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,.25);cursor:pointer}
+.nav-dot.active{background:#fff;transform:scale(1.3)}
+#export-btn{position:fixed;top:16px;right:16px;z-index:100;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:8px 16px;border-radius:99px;font-size:12px;cursor:pointer;font-family:inherit}
+h1{font-size:clamp(3rem,12vw,7rem);font-weight:900;letter-spacing:-.05em;line-height:1}
+h2{font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1rem}
+.sub{color:var(--muted);font-size:clamp(1rem,2.2vw,1.2rem);max-width:560px;line-height:1.6;margin:0 auto 2rem}
+.badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.badge{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:10px 18px;font-size:.85rem;font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:720px;width:100%;margin-top:2rem;text-align:left}
+@media(max-width:600px){.cards{grid-template-columns:1fr}}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:20px}
+.card h3{font-size:1rem;margin-bottom:.4rem}
+.card p{font-size:.85rem;color:var(--muted);line-height:1.55}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:2rem}
+.btn{padding:16px 28px;border-radius:99px;font-weight:700;font-size:.95rem;text-decoration:none;border:none;cursor:pointer;font-family:inherit}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 8px 28px color-mix(in srgb,var(--accent) 40%,transparent)}
+.btn-s{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff}
+#s1{background:radial-gradient(ellipse 70% 60% at 50% 40%,color-mix(in srgb,var(--accent) 25%,transparent),#000)}
+#s2{background:#0a0a0a}
+#s3{background:radial-gradient(ellipse 80% 60% at 30% 70%,color-mix(in srgb,var(--accent2) 20%,transparent),#050505)}
+#s4{background:#000}
+#s5{background:radial-gradient(ellipse 70% 50% at 50% 50%,color-mix(in srgb,var(--accent) 18%,transparent),#000)}
+@media print{#nav-dots,#export-btn{display:none!important}.slide{page-break-after:always;min-height:100vh}.reveal{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+<div id="nav-dots"></div>
+<button id="export-btn" onclick="window.print()">⬇ Export PDF</button>
+
+<section class="slide" id="s1">
+  <div>
+    <div style="font-size:4rem;margin-bottom:.5rem" class="reveal">🦄</div>
+    <h1 class="reveal delay-1">DeePonyOS</h1>
+    <p class="sub reveal delay-2">Stable Relationship Tracker</p>
+    <p class="sub reveal delay-3" style="font-size:.9rem">Collection · Wishlist · Shelves · Anniversaries</p>
+    <p class="reveal delay-4" style="color:var(--dim);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase">Scroll to explore ↓</p>
+  </div>
+</section>
+
+<section class="slide" id="s2">
+  <div style="max-width:800px;width:100%">
+    <h2 class="reveal">The problem</h2>
+    <p class="sub reveal delay-1">MLP collections and memories are scattered across photos and spreadsheets.</p>
+    <div class="cards">
+      <div class="card reveal delay-1"><h3>Pain 1</h3><p>Hard to track owned vs wishlist ponies</p></div><div class="card reveal delay-2"><h3>Pain 2</h3><p>Anniversaries get forgotten</p></div><div class="card reveal delay-3"><h3>Pain 3</h3><p>No kid-friendly offline home for the fandom</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s3">
+  <div style="max-width:800px;width:100%">
+    <h2 class="reveal">Introducing DeePonyOS</h2>
+    <p class="sub reveal delay-1">A sparkly offline PWA for your Stable — collection, stats, milestones.</p>
+    <div class="badges reveal delay-2">
+      <span class="badge">📱 PWA</span><span class="badge">🔒 Private</span><span class="badge">✈️ Offline</span>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s4">
+  <div style="max-width:900px;width:100%">
+    <h2 class="reveal">Core pillars</h2>
+    <div class="cards">
+      <div class="card reveal delay-1"><div style="font-size:1.8rem;margin-bottom:.5rem">🏠</div><h3>Stable</h3><p>Your pony roster at a glance</p></div><div class="card reveal delay-2"><div style="font-size:1.8rem;margin-bottom:.5rem">💖</div><h3>Wishlist</h3><p>Dream ponies with priority tags</p></div><div class="card reveal delay-3"><div style="font-size:1.8rem;margin-bottom:.5rem">📚</div><h3>Shelves</h3><p>Organise by wave, store, or custom</p></div><div class="card reveal delay-4"><div style="font-size:1.8rem;margin-bottom:.5rem">🎂</div><h3>Dates</h3><p>Anniversaries & gen checklists</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="s5">
+  <div style="max-width:700px;width:100%">
+    <h2 class="reveal">Your DeePonyOS awaits.</h2>
+    <p class="sub reveal delay-1">Collectors, parents, and fans who want a dedicated Stable app.</p>
+    <div class="btn-row reveal delay-2">
+      <a class="btn btn-p" href="https://shamikhahmed.github.io/DeePonyOS/" target="_blank" rel="noopener">Open DeePonyOS</a>
+      <a class="btn btn-s" href="presentation.html">📊 Presentation</a>
+      <a class="btn btn-s" href="landing.html">🌐 Landing</a>
+      <a class="btn btn-s" href="docs/GUIDE.md">📖 Guide</a>
+      <a class="btn btn-s" href="https://github.com/shamikhahmed/DeePonyOS" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <p class="reveal delay-3" style="margin-top:2.5rem;font-size:.75rem;color:var(--dim)">© 2026 Shamikh Ahmed · shamikhahmed.github.io/DeePonyOS/</p>
+  </div>
+</section>
+
+<script>
+const slides=document.querySelectorAll('.slide'),nav=document.getElementById('nav-dots');
+slides.forEach((s,i)=>{const d=document.createElement('button');d.className='nav-dot'+(i?'':' active');d.onclick=()=>s.scrollIntoView({behavior:'smooth'});nav.appendChild(d);});
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.querySelectorAll('.reveal').forEach(r=>r.classList.add('visible'));}),{threshold:.2});
+slides.forEach(s=>obs.observe(s));
+let cur=0;window.addEventListener('scroll',()=>{slides.forEach((s,i)=>{const r=s.getBoundingClientRect();if(Math.abs(r.top)<innerHeight/2)cur=i;});nav.querySelectorAll('.nav-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));},{passive:true});
+document.querySelectorAll('#s1 .reveal').forEach(el=>setTimeout(()=>el.classList.add('visible'),80));
+</script>
+</body>
+</html>
