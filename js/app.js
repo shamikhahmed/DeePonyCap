@@ -155,14 +155,16 @@ const DemoSeed = {
       createdAt: Date.now() - (i + 1) * 86400000,
     }));
   },
-  load() {
-    if (!confirm('Load demo collection (18 ponies)? Replaces your current ponies.')) return;
+  load(opts) {
+    const silent = opts && opts.silent;
+    if (!silent && !confirm('Load demo collection (18 ponies)? Replaces your current ponies.')) return;
     S.ponies = DemoSeed.ponies();
     S.collector = { name: 'Demo Collector', since: '2020-01-01' };
     S.onboardingDone = true;
     Store.save();
     Render.all();
-    Toast.show('Demo collection loaded ✨');
+    if (!silent) Toast.show('Demo collection loaded ✨');
+    return true;
   }
 };
 
@@ -976,7 +978,16 @@ async function boot() {
   }
   Stars.init();
   await Store.load();
+  const demo = new URLSearchParams(location.search).get('demo') === '1';
   Splash.run(() => {
+    if (demo && DemoSeed && DemoSeed.load) {
+      DemoSeed.load({ silent: true });
+      document.getElementById('onboard').classList.add('hide');
+      document.getElementById('app').style.display = 'flex';
+      Nav.go('stable');
+      Install.maybeShow();
+      return;
+    }
     if (!S.onboardingDone) {
       document.getElementById('onboard').classList.remove('hide');
       document.getElementById('app').style.display = 'none';
