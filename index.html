@@ -76,6 +76,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .pill.g3{background:var(--g3);color:#1F2937}.pill.g4{background:var(--g4);color:#1F2937}
 .pill.g5{background:var(--g5);color:#fff}
 .type-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
+@media (max-width:380px){.type-grid{grid-template-columns:repeat(3,1fr)}}
 .type-card{background:var(--pink-lighter);border-radius:16px;padding:10px 6px;text-align:center;font-size:.7rem;font-weight:700}
 .type-card span{display:block;font-size:1.2rem;margin-bottom:4px}
 .section-title{font-size:1rem;font-weight:800;margin:18px 0 10px}
@@ -106,7 +107,8 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .mini-card .pony-name{font-size:.75rem}
 .nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--nav-h) + var(--safe-b));padding-bottom:var(--safe-b);background:#fff;border-top:2px solid var(--pink-lighter);display:flex;justify-content:space-around;align-items:flex-start;padding-top:8px;z-index:100;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .nav::-webkit-scrollbar{display:none}
-.nav-btn{flex:1;min-width:56px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-soft);font-size:.6rem;font-weight:700;padding:4px 2px}
+.nav-btn{flex:1;min-width:48px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-soft);font-size:.6rem;font-weight:700;padding:4px 2px}
+@media (max-width:390px){.nav-btn{min-width:44px}.nav-label{display:none}}
 .nav-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;transition:all .2s}
 .nav-btn.on .nav-icon{background:var(--pink);box-shadow:var(--shadow-sm);animation:bounce .4s ease}
 .nav-btn.on{color:var(--pink)}
@@ -144,7 +146,7 @@ h1,h2,h3{font-weight:800;letter-spacing:-.02em}
 .shelf-hdr{font-size:1.05rem;font-weight:800;margin-bottom:10px;cursor:pointer}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .stat-box{background:var(--bg-card);border-radius:var(--r);padding:18px;text-align:center;box-shadow:var(--shadow-sm)}
-.stat-box .n{font-size:2.2rem;font-weight:800;color:var(--pink)}
+.stat-box .n{font-size:2.2rem;font-weight:800;color:var(--pink);font-variant-numeric:tabular-nums}
 .stat-box .l{font-size:.75rem;color:var(--text-soft);font-weight:700;margin-top:4px}
 .bubble-chart{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:16px 0}
 .bubble{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;flex-direction:column;font-size:.75rem}
@@ -211,6 +213,9 @@ html.dark-mode body::before{opacity:.15}
 .dup-warn{background:#FEF3C7;color:#92400E;padding:10px 12px;border-radius:12px;font-size:.8rem;margin-bottom:10px}
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/identity.css">
 </head>
 <body>
 <div class="stars" id="stars"></div>
@@ -282,12 +287,12 @@ html.dark-mode body::before{opacity:.15}
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony">+</button>
   <nav class="nav">
-    <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div>Stable</button>
-    <button class="nav-btn" data-tab="collection" onclick="Nav.go('collection')"><div class="nav-icon">🦄</div>Collection</button>
-    <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div>Wishlist</button>
-    <button class="nav-btn" data-tab="shelves" onclick="Nav.go('shelves')"><div class="nav-icon">🗂️</div>Shelves</button>
-    <button class="nav-btn" data-tab="stats" onclick="Nav.go('stats')"><div class="nav-icon">🌈</div>Stats</button>
-    <button class="nav-btn" data-tab="settings" onclick="Nav.go('settings')"><div class="nav-icon">⚙️</div>Settings</button>
+    <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
+    <button class="nav-btn" data-tab="collection" onclick="Nav.go('collection')"><div class="nav-icon">🦄</div><span class="nav-label">Collection</span></button>
+    <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
+    <button class="nav-btn" data-tab="shelves" onclick="Nav.go('shelves')"><div class="nav-icon">🗂️</div><span class="nav-label">Shelves</span></button>
+    <button class="nav-btn" data-tab="stats" onclick="Nav.go('stats')"><div class="nav-icon">🌈</div><span class="nav-label">Stats</span></button>
+    <button class="nav-btn" data-tab="settings" onclick="Nav.go('settings')"><div class="nav-icon">⚙️</div><span class="nav-label">Settings</span></button>
   </nav>
 </div>
 

@@ -1,0 +1,63 @@
+/* DeePonyOS — Toy Shelf Wonderland */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
+
+:root {
+  --pink: #ff5c9a;
+  --pink-light: #ff9ec7;
+  --pink-lighter: #ffe0ef;
+  --purple: #b794f6;
+  --bg: #fff0f6;
+  --bg-card: #ffffff;
+  --r: 28px;
+  --r-lg: 36px;
+  --r-pill: 999px;
+  --shadow: 0 12px 40px rgba(255, 92, 154, 0.18);
+  --font: 'Nunito', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font) !important;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 158, 199, 0.35), transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(183, 148, 246, 0.25), transparent 45%),
+    var(--bg) !important;
+}
+
+h1, h2, h3, .section-title, .sheet h2, .pony-name {
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 900 !important;
+}
+
+#nav, .nav {
+  border-top: 4px solid var(--pink-lighter) !important;
+  border-radius: 24px 24px 0 0 !important;
+  box-shadow: 0 -8px 32px rgba(255, 92, 154, 0.12) !important;
+}
+
+.nav-btn.on .nav-icon {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.pony-card, .stat-box, .wish-item, .btn-p, .inp, .sheet {
+  border-radius: var(--r) !important;
+}
+
+.fab {
+  border-radius: 50% !important;
+  animation: ponyBounce 2.5s ease-in-out infinite !important;
+}
+
+@keyframes ponyBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.03); }
+}
+
+.chip.on, .pill.g1, .btn-p {
+  border-radius: var(--r-pill) !important;
+  font-weight: 800 !important;
+}
+
+.stat-box .n {
+  font-family: 'Nunito', sans-serif !important;
+  font-weight: 900 !important;
+}
