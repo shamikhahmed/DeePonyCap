@@ -1,5 +1,5 @@
 {
-  "name": "deeponyos",
+  "name": "deeponycap",
   "private": true,
   "scripts": {
     "test": "playwright test",

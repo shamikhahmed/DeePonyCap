@@ -1,7 +1,7 @@
 {
-  "name": "DeePonyOS",
-  "short_name": "DeePonyOS",
-  "description": "Your magical pony collection tracker ✨",
+  "name": "DeePonyCap",
+  "short_name": "DeePonyCap",
+  "description": "DeePonyCap by Capricorn Systems — your magical pony collection tracker ✨",
   "id": "./",
   "start_url": "./",
   "scope": "./",

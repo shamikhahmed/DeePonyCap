@@ -1,6 +1,6 @@
 {
   "appId": "com.shamikhahmed.deeponyos",
-  "appName": "DeePonyOS",
+  "appName": "DeePonyCap",
   "webDir": ".",
   "server": {
     "androidScheme": "https"
