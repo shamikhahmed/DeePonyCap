@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DeePonyCap">
-<meta name="theme-color" content="#D9468F" id="themeMeta">
+<meta name="theme-color" content="#C4367A" id="themeMeta">
 <meta name="format-detection" content="telephone=no">
 <meta name="author" content="Capricorn Systems">
 <title>DeePonyCap ✨</title>
@@ -22,28 +22,28 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --pink:#D9468F;--pink-light:#E879A9;--pink-lighter:#E8B4CC;
-  --purple:#A78BFA;--purple-light:#E8E0F8;--yellow:#FDE68A;--mint:#A7F3D0;
-  --blue:#BFDBFE;--coral:#F5A0B0;--bg:#F0C4D8;--bg-card:#FFF5FA;
-  --text:#3D1E49;--text-soft:#6B4A75;
-  --shadow:0 16px 34px rgba(217,70,143,0.22);--shadow-sm:0 8px 20px rgba(167,139,250,0.14);
+  --pink:#C4367A;--pink-light:#D45A92;--pink-lighter:#D8A8BC;
+  --purple:#8B5CF6;--purple-light:#DDD6FE;--yellow:#FDE68A;--mint:#86EFAC;
+  --blue:#93C5FD;--coral:#E879A9;--bg:#D4A0B8;--bg-card:#FFF8FC;
+  --text:#2D1235;--text-soft:#5C2348;
+  --shadow:0 16px 34px rgba(140,40,80,0.18);--shadow-sm:0 8px 20px rgba(120,60,100,0.12);
   --r:32px;--r-lg:42px;--r-pill:999px;
   --g1:#C4B5FD;--g2:#A7F3D0;--g3:#BFDBFE;--g4:#FDE68A;--g5:#E879A9;
   --nav-h:72px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
 }
-html,body{height:100%;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:700;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+html,body{height:100%;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:600;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;line-height:1.45}
 html.standalone body{padding:0}
 button,input,select,textarea{font:inherit;-webkit-user-select:text;user-select:text}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:
-  radial-gradient(circle at 15% 12%,rgba(217,70,143,.22),transparent 44%),
-  radial-gradient(circle at 86% 8%,rgba(167,139,250,.2),transparent 38%),
-  radial-gradient(circle at 82% 85%,rgba(190,242,212,.24),transparent 36%),
-  radial-gradient(circle at 12% 92%,rgba(253,230,138,.2),transparent 30%)}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;background:
-  radial-gradient(circle at 12px 12px,rgba(232,180,204,.35) 1.7px,transparent 0) 0 0/38px 38px}
+  radial-gradient(circle at 15% 12%,rgba(160,50,90,.16),transparent 44%),
+  radial-gradient(circle at 86% 8%,rgba(120,80,180,.12),transparent 38%),
+  radial-gradient(circle at 82% 85%,rgba(100,180,140,.14),transparent 36%),
+  radial-gradient(circle at 12% 92%,rgba(200,160,80,.1),transparent 30%)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;background:
+  radial-gradient(circle at 12px 12px,rgba(180,120,150,.22) 1.7px,transparent 0) 0 0/38px 38px}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;font-size:.65rem;opacity:.35;animation:float 3s ease-in-out infinite}
-.splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#EDD0E0 0%,#E0A8C0 40%,#D0A0D8 100%);transition:opacity .5s ease,visibility .5s}
+.splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#D8A8BC 0%,#C890A8 40%,#B888B8 100%);transition:opacity .5s ease,visibility .5s}
 .splash.hide{opacity:0;visibility:hidden;pointer-events:none}
 .splash-logo{width:110px;height:110px;border-radius:32px;background:linear-gradient(135deg,var(--pink),var(--purple));display:flex;align-items:center;justify-content:center;font-size:3.5rem;box-shadow:0 20px 50px rgba(255,107,157,.35);animation:splashPop .7s cubic-bezier(.34,1.56,.64,1) both}
 .splash-title{margin-top:22px;font-size:2rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--pink));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite,splashFade .7s .2s both}
@@ -69,11 +69,12 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opac
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
-h1,h2,h3{font-weight:800;letter-spacing:-.02em}
+h1,h2,h3{font-weight:700;letter-spacing:-.01em;line-height:1.2}
 h1,h2,h3,.greet,.section-title,.pony-name,.shelf-hdr,.nav-label,.btn-p,.btn-g,.btn-d{font-family:'Baloo 2','Nunito',sans-serif}
+.greet,.section-title,.pony-name{font-weight:700}
 .greet{font-size:1.75rem;margin-bottom:4px}
 .sub{color:var(--text-soft);font-size:.95rem;margin-bottom:16px}
-.card{background:linear-gradient(180deg,#fff 0%,#fff9fd 100%);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:14px;border:2px solid rgba(249,168,212,.3)}
+.card{background:linear-gradient(180deg,#fff 0%,#fff9fd 100%);border-radius:var(--r);box-shadow:var(--shadow-sm);padding:20px;margin-bottom:14px;border:2px solid rgba(180,100,130,.22);color:var(--text)}
 .big-num{font-size:5rem;font-weight:800;color:var(--pink);text-align:center;line-height:1;animation:bounce 2s ease infinite}
 .big-label{text-align:center;color:var(--text-soft);font-size:.9rem;margin-top:4px}
 .row-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
