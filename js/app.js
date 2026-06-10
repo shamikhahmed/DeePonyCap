@@ -120,6 +120,52 @@ const Store = {
   }
 };
 
+const DemoSeed = {
+  ponies() {
+    const names = [
+      ['Twilight Sparkle', 4, 'mlp', 'Purple', 'Shelf 1', 'mint'],
+      ['Rainbow Dash', 4, 'mlp', 'Blue', 'Shelf 1', 'good'],
+      ['Fluttershy', 4, 'mlp', 'Yellow', 'Shelf 1', 'mint'],
+      ['Rarity', 4, 'mlp', 'White', 'Display Case', 'mint'],
+      ['Applejack', 4, 'mlp', 'Orange', 'Shelf 2', 'good'],
+      ['Pinkie Pie', 4, 'mlp', 'Pink', 'Shelf 1', 'played'],
+      ['Princess Celestia', 4, 'special', 'White/gold', 'Display Case', 'mint'],
+      ['Spike', 4, 'special', 'Purple/green', 'Shelf 2', 'good'],
+      ['Baby Cotton Candy', 1, 'mlp', 'Pink', 'Shelf 3', 'loved'],
+      ['Minty', 3, 'mlp', 'Green', 'Shelf 3', 'good'],
+      ['Wysteria', 3, 'mlp', 'Purple', 'Shelf 3', 'mint'],
+      ['Star Swirl', 2, 'mlp', 'Blue', 'Windowsill', 'played'],
+      ['Firefly', 1, 'mlp', 'Pink', 'Box', 'loved'],
+      ['Gusty', 1, 'mlp', 'White', 'Box', 'good'],
+      ['Sunny Daze', 3, 'filly', 'Yellow', 'Shelf 2', 'mint'],
+      ['Cuddles', 3, 'velvet', 'Pink', 'Shelf 2', 'good'],
+      ['Twilight Sparkle (G5)', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
+      ['Izzy Moonbow', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
+    ];
+    return names.map((n, i) => ({
+      id: uid(),
+      name: n[0], generation: n[1], type: n[2], colour: n[3],
+      size: n[1] === 1 ? 'mini' : 'standard', shelf: n[4],
+      isOriginal: true, condition: n[5],
+      isFavourite: i < 4, isMostPlayed: i === 5,
+      photos: [], photo: null,
+      acquiredDate: new Date(Date.now() - (i + 1) * 86400000 * 30).toISOString().slice(0, 10),
+      notes: 'Demo pony — fictional collection data',
+      purchaseValue: 8 + i, estimatedValue: 12 + i * 2,
+      createdAt: Date.now() - (i + 1) * 86400000,
+    }));
+  },
+  load() {
+    if (!confirm('Load demo collection (18 ponies)? Replaces your current ponies.')) return;
+    S.ponies = DemoSeed.ponies();
+    S.collector = { name: 'Demo Collector', since: '2020-01-01' };
+    S.onboardingDone = true;
+    Store.save();
+    Render.all();
+    Toast.show('Demo collection loaded ✨');
+  }
+};
+
 const Theme = {
   apply() {
     document.documentElement.classList.toggle('collector-mode', !!S.settings?.collectorMode);
@@ -631,6 +677,11 @@ const Render = {
         <div class="fg"><label class="fl">Collecting since</label><input class="inp" type="date" id="setSince" value="${S.collector.since||''}" onchange="S.collector.since=this.value;Store.save()"></div>
       </div>
       <div class="card">
+        <div class="section-title">Enterprise Demo 📦</div>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:12px">Load a sample collection (18 ponies across G1–G5) for investor demos. Replaces current collection after confirm.</p>
+        <button class="btn-p" onclick="DemoSeed.load()">Load Demo Collection</button>
+      </div>
+      <div class="card">
         <div class="section-title">Backup & Restore 💾</div>
         <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:12px">Export your full collection to move to a new device. Import merges into this app.</p>
         <button class="btn-p" onclick="Backup.export()">Export Backup</button>
@@ -652,7 +703,7 @@ const Render = {
       </div>
       <div class="card">
         <div class="section-title">About</div>
-        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyOS v2.1 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
+        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyOS v2.2.0 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
         <button class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay Onboarding</button>
       </div>`;
   }

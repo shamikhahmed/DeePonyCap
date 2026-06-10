@@ -91,10 +91,15 @@ Organise by physical location:
 
 ## Data & privacy
 
-- All data stored in `localStorage` on your device
-- No accounts, no cloud sync
-- Photos stored as base64 in local storage — export device backups via iCloud if needed
+- Catalog metadata (names, gens, shelves) in **localStorage**
+- **Photos** in **IndexedDB** via `PhotoIDB` — keeps localStorage under quota
+- No accounts, no cloud sync, no telemetry
+- Export `.deepony` backups before device migration or storage cleanup
 - Works offline after first load
+
+## Enterprise demo
+
+**Settings → Load Demo Collection** — 18 anonymized ponies across G1–G5 for investor walkthroughs (no code edits).
 
 ---
 
