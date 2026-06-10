@@ -7,8 +7,8 @@
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "fullscreen"],
-  "background_color": "#FFF5F8",
-  "theme_color": "#FF6B9D",
+  "background_color": "#F0C4D8",
+  "theme_color": "#D9468F",
   "orientation": "portrait",
   "categories": ["lifestyle", "entertainment"],
   "icons": [

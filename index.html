@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DeePonyCap">
-<meta name="theme-color" content="#F472B6" id="themeMeta">
+<meta name="theme-color" content="#D9468F" id="themeMeta">
 <meta name="format-detection" content="telephone=no">
 <meta name="author" content="Capricorn Systems">
 <title>DeePonyCap ✨</title>
@@ -22,28 +22,28 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --pink:#F472B6;--pink-light:#F9A8D4;--pink-lighter:#FCE7F3;
-  --purple:#A78BFA;--purple-light:#EDE9FE;--yellow:#FDE68A;--mint:#A7F3D0;
-  --blue:#BFDBFE;--coral:#FDB4C0;--bg:#FFF1FA;--bg-card:#FFFFFF;
-  --text:#3D1E49;--text-soft:#7B5A8A;
-  --shadow:0 16px 34px rgba(244,114,182,0.22);--shadow-sm:0 8px 20px rgba(167,139,250,0.14);
+  --pink:#D9468F;--pink-light:#E879A9;--pink-lighter:#E8B4CC;
+  --purple:#A78BFA;--purple-light:#E8E0F8;--yellow:#FDE68A;--mint:#A7F3D0;
+  --blue:#BFDBFE;--coral:#F5A0B0;--bg:#F0C4D8;--bg-card:#FFF5FA;
+  --text:#3D1E49;--text-soft:#6B4A75;
+  --shadow:0 16px 34px rgba(217,70,143,0.22);--shadow-sm:0 8px 20px rgba(167,139,250,0.14);
   --r:32px;--r-lg:42px;--r-pill:999px;
-  --g1:#C4B5FD;--g2:#A7F3D0;--g3:#BFDBFE;--g4:#FDE68A;--g5:#F9A8D4;
+  --g1:#C4B5FD;--g2:#A7F3D0;--g3:#BFDBFE;--g4:#FDE68A;--g5:#E879A9;
   --nav-h:72px;--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
 }
 html,body{height:100%;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:700;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 html.standalone body{padding:0}
 button,input,select,textarea{font:inherit;-webkit-user-select:text;user-select:text}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:
-  radial-gradient(circle at 15% 12%,rgba(244,114,182,.26),transparent 44%),
-  radial-gradient(circle at 86% 8%,rgba(167,139,250,.22),transparent 38%),
+  radial-gradient(circle at 15% 12%,rgba(217,70,143,.22),transparent 44%),
+  radial-gradient(circle at 86% 8%,rgba(167,139,250,.2),transparent 38%),
   radial-gradient(circle at 82% 85%,rgba(190,242,212,.24),transparent 36%),
   radial-gradient(circle at 12% 92%,rgba(253,230,138,.2),transparent 30%)}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;background:
-  radial-gradient(circle at 12px 12px,rgba(249,168,212,.35) 1.7px,transparent 0) 0 0/38px 38px}
+  radial-gradient(circle at 12px 12px,rgba(232,180,204,.35) 1.7px,transparent 0) 0 0/38px 38px}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;font-size:.65rem;opacity:.35;animation:float 3s ease-in-out infinite}
-.splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#FFF5F8 0%,#FFE5F0 40%,#E9D5FF 100%);transition:opacity .5s ease,visibility .5s}
+.splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#EDD0E0 0%,#E0A8C0 40%,#D0A0D8 100%);transition:opacity .5s ease,visibility .5s}
 .splash.hide{opacity:0;visibility:hidden;pointer-events:none}
 .splash-logo{width:110px;height:110px;border-radius:32px;background:linear-gradient(135deg,var(--pink),var(--purple));display:flex;align-items:center;justify-content:center;font-size:3.5rem;box-shadow:0 20px 50px rgba(255,107,157,.35);animation:splashPop .7s cubic-bezier(.34,1.56,.64,1) both}
 .splash-title{margin-top:22px;font-size:2rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--pink));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite,splashFade .7s .2s both}
