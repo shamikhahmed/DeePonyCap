@@ -1,5 +1,5 @@
-const CACHE = 'deepony-v5';
-const ASSETS = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './js/pony-db.js', './js/app.js'];
+const CACHE = 'deepony-v6';
+const ASSETS = ['./', './index.html', './landing.html', './presentation.html', './pitch.html', './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './js/pony-db.js', './js/photo-store.js', './js/app.js'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));

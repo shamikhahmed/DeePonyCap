@@ -74,12 +74,12 @@ const Store = {
       return true;
     } catch { return false; }
   },
-  load() {
+  async load() {
     try {
       let raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
         const v1 = localStorage.getItem(STORAGE_KEY_V1);
-        if (v1 && Store.migrateV1(v1)) return;
+        if (v1 && Store.migrateV1(v1)) { await Store._hydratePhotos(); return; }
       }
       if (raw) {
         const parsed = JSON.parse(raw);
@@ -89,6 +89,7 @@ const Store = {
           accessories: parsed.accessories || []
         };
         S.ponies = (parsed.ponies || []).map(normalizePony);
+        await Store._hydratePhotos();
       }
     } catch(e) {}
     if (!S.settings) S.settings = { collectorMode: false, darkMode: false };
@@ -102,9 +103,20 @@ const Store = {
     }
     Theme.apply();
   },
+  async _hydratePhotos() {
+    if (!window.PhotoIDB) return;
+    S.ponies = await PhotoIDB.migrateFromLegacy(S.ponies);
+  },
   save() {
     S.version = 2;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
+    if (window.PhotoIDB) {
+      PhotoIDB.stripForSave(S.ponies).then(stripped => {
+        const payload = { ...S, ponies: stripped };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      }).catch(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(S)));
+    } else {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
+    }
   }
 };
 
@@ -907,12 +919,12 @@ const UI = {
   }
 };
 
-function boot() {
+async function boot() {
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
     document.documentElement.classList.add('standalone');
   }
   Stars.init();
-  Store.load();
+  await Store.load();
   Splash.run(() => {
     if (!S.onboardingDone) {
       document.getElementById('onboard').classList.remove('hide');
@@ -924,6 +936,6 @@ function boot() {
       Install.maybeShow();
     }
   });
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6').catch(()=>{});
 }
 boot();
