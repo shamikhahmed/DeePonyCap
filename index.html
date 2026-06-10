@@ -59,7 +59,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opac
 .toast-wrap{position:fixed;top:calc(12px + var(--safe-t));left:50%;transform:translateX(-50%);z-index:800;pointer-events:none}
 .toast{background:var(--text);color:#fff;padding:12px 20px;border-radius:var(--r-pill);font-size:.85rem;font-weight:700;box-shadow:var(--shadow);opacity:0;transition:opacity .3s}
 .toast.show{opacity:1}
-.app{height:100%;display:flex;flex-direction:column;padding-top:var(--safe-t);position:relative;z-index:1}
+.app{height:100dvh;min-height:0;display:flex;flex-direction:column;padding-top:var(--safe-t);position:relative;z-index:1}
 .main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px calc(var(--nav-h) + var(--safe-b) + 80px)}
 .screen{display:none;animation:fadeUp .3s ease}
 .screen.on{display:block}
@@ -220,6 +220,25 @@ html.dark-mode body::before{opacity:.15}
 .storage-critical{border:2px solid rgba(239,68,68,.3)}
 .dup-warn{background:#FEF3C7;color:#92400E;padding:10px 12px;border-radius:12px;font-size:.8rem;margin-bottom:10px}
 .fg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html,body{height:100dvh}
+.main{flex:1;min-height:0;overscroll-behavior:contain}
+.nav-btn{min-height:44px}
+@media (min-width:900px){
+  html{background:#1a1020}
+  .app{max-width:430px;margin:0 auto;width:100%;box-shadow:0 0 60px rgba(0,0,0,.45);position:relative}
+  .splash,.onboard,.sheet-bg{left:0;right:0;margin:0 auto;max-width:430px}
+  .nav{left:50%;right:auto;transform:translateX(-50%);width:min(410px,calc(100vw - 40px))}
+  .fab{right:max(20px,calc(50vw - 195px))}
+  .sheet{left:50%;right:auto;width:100%;max-width:430px;transform:translateX(-50%) translateY(100%)}
+  .sheet.on{transform:translateX(-50%) translateY(0)}
+  .toast-wrap{max-width:430px;width:100%}
+}
+@media (min-width:769px) and (hover:hover) and (pointer:fine){
+  :root{--safe-t:0px;--safe-b:0px}
+  .app{padding-top:0}
+  .main{padding-bottom:calc(var(--nav-h) + 80px)}
+  .onboard{padding-top:32px}
+}
 </style>
 <link rel="stylesheet" href="css/identity.css">
 </head>
