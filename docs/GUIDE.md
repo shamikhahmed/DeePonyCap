@@ -2,7 +2,7 @@
 
 DeePonyOS is a **magical My Little Pony collection tracker** — soft, sparkly, and child-friendly. Track ponies, wishlists, shelves, and collection stats across five generations.
 
-**Live app:** https://shamikhahmed.github.io/DeePonyOS/
+**Live app:** https://shamikhahmed.github.io/DeePonyCap/
 
 ---
 

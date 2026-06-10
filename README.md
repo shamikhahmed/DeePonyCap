@@ -2,8 +2,8 @@
 
 DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tracker**, soft, sparkly, and child-friendly.
 
-🔗 **Live:** https://shamikhahmed.github.io/DeePonyOS/  
-📁 **Repo:** https://github.com/shamikhahmed/DeePonyOS
+🔗 **Live:** https://shamikhahmed.github.io/DeePonyCap/  
+📁 **Repo:** https://github.com/shamikhahmed/DeePonyCap
 
 ---
 

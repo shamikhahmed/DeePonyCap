@@ -25,4 +25,4 @@
 
 ## Reporting
 
-Open a private security issue on the [DeePonyOS GitHub repo](https://github.com/shamikhahmed/DeePonyOS) for vulnerabilities.
+Open a private security issue on the [DeePonyOS GitHub repo](https://github.com/shamikhahmed/DeePonyCap) for vulnerabilities.

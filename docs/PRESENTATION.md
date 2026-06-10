@@ -9,7 +9,7 @@
 
 *Stable · Collection · Wishlist · Shelves · Stats*
 
-**Live:** shamikhahmed.github.io/DeePonyOS
+**Live:** shamikhahmed.github.io/DeePonyCap
 
 ---
 
