@@ -22,3 +22,25 @@
 
 ## Version
 See `VERSION.json` — current `2.2.0`.
+
+## Phase 4 scaffold (June 2026)
+
+- [x] `capacitor.config.json` — appId configured
+- [x] `package.json` — `@capacitor/core`, `@capacitor/ios`, `@capacitor/cli`
+- [x] Scripts: `npm run cap:sync`, `npm run cap:ios`
+- [x] `icon-1024.png` for App Store Connect (from `icon-512.png` upscale or generate-icons)
+- [ ] `npx cap add ios` — run after Xcode installed (`npm run cap:init`)
+- [ ] TestFlight upload — requires Apple Developer account
+
+### Xcode setup (when ready)
+
+```bash
+npm install
+npm run cap:init    # cap add ios + sync (first time)
+npm run cap:ios     # open Xcode
+```
+
+**You do NOT need Swift Playgrounds** — use **Xcode.app** from the Mac App Store for Capacitor iOS builds.
+
+### Privacy policy URL
+Use hosted: `https://shamikhahmed.github.io/<AppName>/privacy.html`

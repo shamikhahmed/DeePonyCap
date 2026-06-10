@@ -1,0 +1,12 @@
+{
+  "appId": "com.shamikhahmed.deeponyos",
+  "appName": "DeePonyOS",
+  "webDir": ".",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "scrollEnabled": true
+  }
+}
