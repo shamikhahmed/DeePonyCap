@@ -1,4 +1,4 @@
-# DeePonyOS — App Store / TestFlight Prep
+# DeePonyCap — App Store / TestFlight Prep
 
 ## Current state
 - **Shipped as PWA** on GitHub Pages (Add to Home Screen).
@@ -7,7 +7,7 @@
 ## Capacitor plan
 1. `npm init` + `@capacitor/cli` in repo root (webDir: `.`)
 2. `npx cap add ios` — copy `index.html` entry, icons from `icon-512.png`
-3. Configure `Info.plist`: `NSPhotoLibraryUsageDescription` if photos (DeePonyOS)
+3. Configure `Info.plist`: `NSPhotoLibraryUsageDescription` if photos (DeePonyCap)
 4. Disable third-party cookies; keep localStorage/IndexedDB
 
 ## TestFlight checklist

@@ -40,7 +40,7 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 ## Local dev
 
 ```bash
-cd DeePonyOS
+cd DeePonyCap
 python3 -m http.server 8765
 # → http://localhost:8765
 ```

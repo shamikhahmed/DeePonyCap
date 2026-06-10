@@ -357,8 +357,8 @@ const Install = {
       if (hint) {
         const p = hint.querySelector('p');
         if (p) p.innerHTML = android
-          ? '<strong>Install DeePonyOS</strong> — Chrome menu → <strong>Add to Home screen</strong> or <strong>Install app</strong>'
-          : '<strong>Install DeePonyOS</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!';
+          ? '<strong>Install DeePonyCap</strong> — Chrome menu → <strong>Add to Home screen</strong> or <strong>Install app</strong>'
+          : '<strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!';
         hint.classList.add('show');
       }
     }
@@ -703,7 +703,7 @@ const Render = {
       </div>
       <div class="card">
         <div class="section-title">About</div>
-        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyOS v2.2.0 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
+        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v2.2.0 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
         <button class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay Onboarding</button>
       </div>`;
   }
@@ -887,7 +887,7 @@ const UI = {
   sharePony(id) {
     const p = S.ponies.find(x=>x.id===id);
     if (!p) return;
-    const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyOS`;
+    const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyCap`;
     if (navigator.share) navigator.share({ title: p.name, text }).catch(()=>{});
     else { navigator.clipboard.writeText(text).then(()=>Toast.show('Copied to clipboard ✨')); }
   },

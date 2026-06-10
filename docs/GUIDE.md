@@ -1,6 +1,6 @@
-# DeePonyOS — User Guide
+# DeePonyCap — User Guide
 
-DeePonyOS is a **magical My Little Pony collection tracker** — soft, sparkly, and child-friendly. Track ponies, wishlists, shelves, and collection stats across five generations.
+DeePonyCap is a **magical My Little Pony collection tracker** — soft, sparkly, and child-friendly. Track ponies, wishlists, shelves, and collection stats across five generations.
 
 **Live app:** https://shamikhahmed.github.io/DeePonyCap/
 
@@ -8,7 +8,7 @@ DeePonyOS is a **magical My Little Pony collection tracker** — soft, sparkly, 
 
 ## Getting started
 
-1. Open DeePonyOS in Safari on iPhone or iPad.
+1. Open DeePonyCap in Safari on iPhone or iPad.
 2. Watch the splash animation — onboarding appears on first visit.
 3. Set your collector name and favourite generation.
 4. Land on **Stable** — your home screen with pony count and rainbow.
@@ -40,7 +40,7 @@ DeePonyOS is a **magical My Little Pony collection tracker** — soft, sparkly, 
 
 ## Generations
 
-DeePonyOS supports five MLP generations with colour-coded pills:
+DeePonyCap supports five MLP generations with colour-coded pills:
 
 - G1 · G2 · G3 · G4 · G5
 
@@ -122,4 +122,4 @@ Organise by physical location:
 
 ---
 
-*DeePonyOS © 2026 Shamikh Ahmed*
+*DeePonyCap © 2026 Shamikh Ahmed*

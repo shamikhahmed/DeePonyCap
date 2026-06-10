@@ -1,4 +1,4 @@
-# DeePonyOS — Security Notes
+# DeePonyCap — Security Notes
 
 ## Local-only data
 
@@ -8,7 +8,7 @@
 
 ## COPPA-friendly design
 
-- DeePonyOS is designed for **child-friendly collection tracking** with large tap targets and simple language.
+- DeePonyCap is designed for **child-friendly collection tracking** with large tap targets and simple language.
 - **Parents should supervise** device use, photo uploads, and backup exports.
 - No social features, chat, or data collection from children — all data stays on the family device.
 - Not affiliated with Hasbro or MLP brand owners — fan collection tool only.
@@ -25,4 +25,4 @@
 
 ## Reporting
 
-Open a private security issue on the [DeePonyOS GitHub repo](https://github.com/shamikhahmed/DeePonyCap) for vulnerabilities.
+Open a private security issue on the [DeePonyCap GitHub repo](https://github.com/shamikhahmed/DeePonyCap) for vulnerabilities.

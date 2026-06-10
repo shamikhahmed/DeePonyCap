@@ -1,10 +1,10 @@
-# DeePonyOS — Product Presentation
+# DeePonyCap — Product Presentation
 
 ---
 
 ## Slide 1 — Title
 
-# DeePonyOS ✨
+# DeePonyCap ✨
 ### Your Magical Pony Collection OS
 
 *Stable · Collection · Wishlist · Shelves · Stats*

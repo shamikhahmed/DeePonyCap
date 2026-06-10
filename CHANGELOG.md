@@ -1,4 +1,4 @@
-# Changelog — DeePonyOS
+# Changelog — DeePonyCap
 
 ## 2.2.0 (2026-06-10)
 - Portfolio CTO pass: PWA icons (192/512 maskable), service worker cache bump (`deepony-v6`)
