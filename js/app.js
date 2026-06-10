@@ -573,7 +573,7 @@ const Render = {
           const db = (window.PONY_DB && window.PONY_DB[x.g]) ? window.PONY_DB[x.g].length : 0;
           const owned = new Set(S.ponies.filter(p=>p.generation===x.g).map(p=>p.name.toLowerCase())).size;
           const pct = db ? Math.min(100, Math.round((owned/db)*100)) : 0;
-          return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>G${x.g} ${GEN_EMOJI[x.g]}</span><strong>${x.c} owned · ${owned} unique names${db?` / ~${db} in db`:'')}</strong></div>
+          return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>G${x.g} ${GEN_EMOJI[x.g]}</span><strong>${x.c} owned · ${owned} unique names${db ? ` / ~${db} in db` : ''}</strong></div>
             <div class="progress-bar" style="margin-top:6px"><span style="width:${pct}%;background:var(--g${x.g})"></span></div></div>`;
         }).join('')}
       </div>
