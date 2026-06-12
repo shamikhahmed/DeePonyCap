@@ -1,6 +1,8 @@
 'use strict';
-const STORAGE_KEY = 'deePonyOS_v2';
+const STORAGE_KEY = 'deeponycap_v2';
+const STORAGE_KEY_LEGACY = 'deePonyOS_v2';
 const STORAGE_KEY_V1 = 'deePonyOS_v1';
+const STORAGE_KEY_V1_LEGACY = 'deeponycap_v1';
 const PAGE_SIZE = 40;
 const GEN_COLORS = {1:'g1',2:'g2',3:'g3',4:'g4',5:'g5'};
 const GEN_EMOJI = {1:'💜',2:'💚',3:'💙',4:'💛',5:'🩷'};
@@ -43,13 +45,29 @@ function ponyValue(p) {
 }
 
 const StorageHealth = {
-  bytes() { try { return new Blob([localStorage.getItem(STORAGE_KEY) || '']).size; } catch { return 0; } },
+  bytes() { try { return new Blob([localStorage.getItem(STORAGE_KEY) || localStorage.getItem(STORAGE_KEY_LEGACY) || '']).size; } catch { return 0; } },
   pct() { return Math.min(100, Math.round(StorageHealth.bytes() / STORAGE_LIMIT * 100)); },
+  mb() { return (StorageHealth.bytes() / (1024 * 1024)).toFixed(2); },
+  photoBytes() {
+    return S.ponies.reduce((sum, p) => {
+      const photos = p.photos?.length ? p.photos : (p.photo ? [p.photo] : []);
+      return sum + photos.reduce((n, ph) => n + (typeof ph === 'string' ? ph.length : 0), 0);
+    }, 0);
+  },
   label() {
     const p = StorageHealth.pct();
-    if (p >= 90) return { level: 'critical', text: 'Storage almost full — export backup & remove photos' };
-    if (p >= 70) return { level: 'warn', text: 'Storage getting full — consider fewer/lighter photos' };
-    return { level: 'ok', text: 'Storage healthy' };
+    const mb = StorageHealth.mb();
+    if (p >= 95) return { level: 'critical', text: `${mb} MB / 5 MB — storage critical; export backup & remove photos now` };
+    if (p >= 85) return { level: 'critical', text: `${mb} MB / 5 MB — near limit; compress or delete photos soon` };
+    if (p >= 75) return { level: 'warn', text: `${mb} MB / 5 MB — photos filling storage; consider compressing` };
+    if (p >= 60) return { level: 'warn', text: `${mb} MB / 5 MB — monitor photo sizes as collection grows` };
+    return { level: 'ok', text: `${mb} MB / 5 MB — storage healthy` };
+  },
+  photoWarning() {
+    const inline = StorageHealth.photoBytes();
+    if (inline >= STORAGE_LIMIT * 0.85) return 'Inline photos are using most of your 5 MB quota — export a backup before adding more.';
+    if (inline >= STORAGE_LIMIT * 0.65) return 'Photo data is growing — use Compress all photos or export a backup.';
+    return '';
   }
 };
 
@@ -57,6 +75,19 @@ function findDuplicate(name, gen, excludeId) {
   const nl = (name || '').trim().toLowerCase();
   if (!nl) return null;
   return S.ponies.find(p => p.id !== excludeId && p.name.trim().toLowerCase() === nl && p.generation === gen);
+}
+
+function readStorageRaw() {
+  let raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) return raw;
+  for (const lk of [STORAGE_KEY_LEGACY, STORAGE_KEY_V1, STORAGE_KEY_V1_LEGACY]) {
+    raw = localStorage.getItem(lk);
+    if (raw) {
+      localStorage.setItem(STORAGE_KEY, raw);
+      return raw;
+    }
+  }
+  return null;
 }
 
 const Store = {
@@ -76,9 +107,9 @@ const Store = {
   },
   async load() {
     try {
-      let raw = localStorage.getItem(STORAGE_KEY);
+      let raw = readStorageRaw();
       if (!raw) {
-        const v1 = localStorage.getItem(STORAGE_KEY_V1);
+        const v1 = localStorage.getItem(STORAGE_KEY_V1) || localStorage.getItem(STORAGE_KEY_V1_LEGACY);
         if (v1 && Store.migrateV1(v1)) { await Store._hydratePhotos(); return; }
       }
       if (raw) {
@@ -652,6 +683,7 @@ const Render = {
     const dm = S.settings?.darkMode;
     const stor = StorageHealth.label();
     const storPct = StorageHealth.pct();
+    const photoWarn = StorageHealth.photoWarning();
     const ponyOpts = S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('');
     document.getElementById('tab-settings').innerHTML = `
       <h1 class="greet">⚙️ Settings</h1>
@@ -660,6 +692,7 @@ const Render = {
         <div class="section-title">Storage</div>
         <div class="storage-bar"><span style="width:${storPct}%"></span></div>
         <p style="font-size:.85rem;margin-top:8px">${storPct}% used · ${stor.text}</p>
+        ${photoWarn ? `<p style="font-size:.8rem;margin-top:8px;color:var(--yellow);font-weight:700">${photoWarn}</p>` : ''}
         <button class="btn-g" style="width:100%;margin-top:8px" onclick="UI.compressAllPhotos()">Compress all photos</button>
       </div>
       <div class="card">

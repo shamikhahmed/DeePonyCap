@@ -38,7 +38,7 @@
   --pink:#C4367A;--pink-light:#D45A92;--pink-lighter:#D8A8BC;
   --purple:#8B5CF6;--purple-light:#DDD6FE;--yellow:#FDE68A;--mint:#86EFAC;
   --blue:#93C5FD;--coral:#E879A9;--bg:#D4A0B8;--bg-card:#FFF8FC;
-  --text:#2D1235;--text-soft:#5C2348;
+  --text:#2D1235;--text-soft:#4A1E3A;
   --shadow:0 16px 34px rgba(140,40,80,0.18);--shadow-sm:0 8px 20px rgba(120,60,100,0.12);
   --r:32px;--r-lg:42px;--r-pill:999px;
   --g1:#C4B5FD;--g2:#A7F3D0;--g3:#BFDBFE;--g4:#FDE68A;--g5:#E879A9;
@@ -224,8 +224,15 @@ html.collector-mode .stars{display:none}
 html.collector-mode .fab{animation:none;background:var(--pink)}
 html.collector-mode .big-num{animation:none;color:var(--pink)}
 html.collector-mode body::before{opacity:.4}
-html.dark-mode{--bg:#111827;--bg-card:#1F2937;--text:#F9FAFB;--text-soft:#9CA3AF;--pink-lighter:#374151;--shadow:0 8px 32px rgba(0,0,0,.35)}
+html.dark-mode{--bg:#111827;--bg-card:#1F2937;--text:#F9FAFB;--text-soft:#CBD5E1;--pink-lighter:#374151;--shadow:0 8px 32px rgba(0,0,0,.35)}
 html.dark-mode .nav,html.dark-mode .card,html.dark-mode .inp,html.dark-mode .sel{background:#1F2937;color:var(--text)}
+html.dark-mode .card{border-color:rgba(244,114,182,.28)}
+html.dark-mode .section-title,html.dark-mode .greet,html.dark-mode .pony-name{color:#F9FAFB}
+html.dark-mode .sub,html.dark-mode .fl,html.dark-mode .sort-row,html.dark-mode .empty{color:#CBD5E1}
+html.dark-mode .nav-btn{color:#D1D5DB}
+html.dark-mode .nav-btn.on{color:#F9A8D4}
+html.dark-mode .setting-row strong{color:#F9FAFB}
+html.dark-mode .setting-row span{font-size:.8rem;color:#CBD5E1}
 html.dark-mode body::before{opacity:.15}
 .storage-bar{height:8px;border-radius:99px;background:var(--pink-lighter);overflow:hidden;margin-top:8px}
 .storage-bar span{display:block;height:100%;background:var(--mint);transition:width .3s}
