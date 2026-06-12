@@ -77,6 +77,17 @@ function findDuplicate(name, gen, excludeId) {
   return S.ponies.find(p => p.id !== excludeId && p.name.trim().toLowerCase() === nl && p.generation === gen);
 }
 
+function findSimilarPonies(name, gen, excludeId) {
+  const nl = (name || '').trim().toLowerCase();
+  if (!nl || nl.length < 2) return [];
+  return S.ponies.filter(p => {
+    if (p.id === excludeId || p.generation !== gen) return false;
+    const pn = p.name.trim().toLowerCase();
+    if (pn === nl) return false;
+    return pn.startsWith(nl) || nl.startsWith(pn) || pn.includes(nl) || nl.includes(pn);
+  }).slice(0, 3);
+}
+
 function readStorageRaw() {
   let raw = localStorage.getItem(STORAGE_KEY);
   if (raw) return raw;
@@ -690,7 +701,47 @@ const Render = {
         <p style="font-size:.85rem;margin-top:6px">${sizes.map(x=>`${SIZE_LABELS[x.s]}: ${x.n}`).join(' · ')}</p>
       </div>
       <div class="section-title">Achievements</div>
-      ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}`;
+      ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}
+      <button class="share-card-btn" onclick="UI.exportShareCard()">🖼️ Save Collection Card (PNG)</button>`;
+  },
+  exportShareCard() {
+    const n = S.ponies.length;
+    const collValue = S.ponies.reduce((s,p) => s + (ponyValue(p) || 0), 0);
+    const favs = S.ponies.filter(p => p.isFavourite).length;
+    const name = S.collector?.name || 'My Collection';
+    const canvas = document.createElement('canvas');
+    canvas.width = 600; canvas.height = 340;
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0, 0, 600, 340);
+    grad.addColorStop(0, '#FFF5F8'); grad.addColorStop(1, '#E9D5FF');
+    ctx.fillStyle = grad; ctx.fillRect(0, 0, 600, 340);
+    ctx.fillStyle = '#EC4899'; ctx.font = 'bold 28px Nunito, sans-serif';
+    ctx.fillText('🦄 DeePonyCap', 32, 52);
+    ctx.fillStyle = '#1F2937'; ctx.font = 'bold 22px Nunito, sans-serif';
+    ctx.fillText(name, 32, 88);
+    ctx.font = '16px Nunito, sans-serif'; ctx.fillStyle = '#6B7280';
+    ctx.fillText(`${n} ponies · ${favs} favourites · ${S.wishlist.length} wishlist`, 32, 118);
+    if (collValue) { ctx.fillStyle = '#9333EA'; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(`Est. value $${collValue.toLocaleString()}`, 32, 152); }
+    [1,2,3,4,5].forEach((g,i) => {
+      const c = S.ponies.filter(p => p.generation === g).length;
+      const x = 32 + i * 108;
+      ctx.fillStyle = ['#9333EA','#86EFAC','#93C5FD','#FDE047','#F9A8D4'][i];
+      ctx.beginPath(); ctx.arc(x + 36, 230, 36, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = g === 2 || g === 3 || g === 4 ? '#1F2937' : '#fff';
+      ctx.font = 'bold 14px Nunito, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(`G${g}`, x + 36, 224); ctx.fillText(String(c), x + 36, 242);
+    });
+    ctx.textAlign = 'left'; ctx.fillStyle = '#9CA3AF'; ctx.font = '12px Nunito, sans-serif';
+    ctx.fillText(new Date().toLocaleDateString(), 32, 310);
+    canvas.toBlob(blob => {
+      if (!blob) { Toast.show('Could not create image'); return; }
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `deeponycap-stats-${Date.now()}.png`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      Toast.show('Collection card saved ✨');
+    }, 'image/png');
   },
   accessoryGallery() {
     const items = S.accessories || [];
@@ -844,6 +895,7 @@ const UI = {
     this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
       <div class="photo-row">${photoGrid}<div class="photo-upload small" onclick="document.getElementById('photoIn').click()">${photos.length?'+':'📸'}</div></div>
       <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="UI.onPhoto(event)" multiple>
+      ${f.generation === 4 ? `<div class="g4-bulk-stub"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 G4 bulk photo import (beta)</span></label><p style="margin:6px 0 0;font-size:.75rem;color:#78350F">Select multiple G4 photos — first batch attaches here; full batch import coming soon.</p></div>` : ''}
       <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Tap to add photos (up to 5)'}</p>
       <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.generation, f.name)}</datalist></div>
       <div class="fg"><label class="fl">Generation</label><div class="sel-row">${gOpts}</div></div>
@@ -883,7 +935,22 @@ const UI = {
     const el = document.getElementById('dupWarn');
     if (!el) return;
     const dup = findDuplicate(formState.name, formState.generation, editingId);
-    el.innerHTML = dup ? `<p class="dup-warn">⚠️ You already have <strong>${Render.esc(dup.name)}</strong> (G${dup.generation}) on ${Render.esc(dup.shelf||'unshelved')}</p>` : '';
+    const similar = findSimilarPonies(formState.name, formState.generation, editingId);
+    let html = '';
+    if (dup) html += `<p class="dup-warn">⚠️ You already have <strong>${Render.esc(dup.name)}</strong> (G${dup.generation}) on ${Render.esc(dup.shelf||'unshelved')}</p>`;
+    if (similar.length) {
+      html += `<div class="dup-variant">Similar in your collection: ${similar.map(p =>
+        `<button type="button" onclick="UI.openDetail('${p.id}');UI.closeSheet()">${Render.esc(p.name)}</button>`
+      ).join(' · ')}</div>`;
+    }
+    el.innerHTML = html;
+  },
+  async onG4Bulk(e) {
+    const files = [...(e.target.files || [])];
+    if (!files.length) return;
+    Toast.show(`G4 bulk import: ${files.length} photo(s) queued (stub)`);
+    await this.onPhoto(e);
+    e.target.value = '';
   },
   updateWishSuggest(q) {
     const dl = document.getElementById('wishNames');
