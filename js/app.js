@@ -465,6 +465,7 @@ const Render = {
     if (on==='wishlist') this.wishlist();
     if (on==='shelves') this.shelves();
     if (on==='stats') this.stats();
+    if (on==='accessories') this.accessoryGallery();
     if (on==='settings') this.settings();
   },
   esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
@@ -512,6 +513,10 @@ const Render = {
       <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
       <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
       ${annivHtml}
+      <div class="card" style="margin-top:0;cursor:pointer" onclick="Nav.go('accessories')">
+        <div class="section-title">🎀 Accessory Gallery</div>
+        <p style="font-size:.85rem;color:var(--text-soft)">${(S.accessories||[]).length ? `${S.accessories.length} accessories · tap to browse photos` : 'Add playsets & accessories with photos'}</p>
+      </div>
       <div class="card">
         <div class="big-num" id="counterNum">0</div>
         <div class="big-label">ponies in your collection</div>
@@ -570,13 +575,18 @@ const Render = {
     const groups = {must:[],want:[],someday:[]};
     S.wishlist.forEach(w => (groups[w.priority]||groups.someday).push(w));
     const renderGroup = (title, key, items) => items.length ? `<div class="section-title">${title}</div>`+
-      items.map(w=>`<div class="wish-item ${key}">
-        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${GEN_COLORS[w.generation]||'g5'}">G${w.generation}</span></div>
+      items.map(w=>{
+        const ph = w.photo || (w.photos && w.photos[0]) || '';
+        const target = w.targetPrice != null ? `$${Number(w.targetPrice).toLocaleString()}` : '';
+        return `<div class="wish-item ${key}">
+        ${ph ? `<div class="pony-img" style="height:120px;margin-bottom:10px;border-radius:16px;overflow:hidden"><img src="${ph}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
+        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${GEN_COLORS[w.generation]||'g5'}">G${w.generation}</span>${target ? ` <span class="badge" style="background:var(--mint);color:#1F2937">🎯 ${target}</span>` : ''}</div>
         <div style="font-size:.8rem;color:var(--text-soft);margin-bottom:8px">${TYPE_LABELS[w.type]||w.type} ${w.notes? '· '+this.esc(w.notes):''}</div>
         <div style="display:flex;gap:8px">
           <button class="btn-g" onclick="UI.gotWish('${w.id}')">Got it! 🎉</button>
           <button class="btn-d" onclick="UI.delWish('${w.id}')">Delete</button>
-        </div></div>`).join('') : '';
+        </div></div>`;
+      }).join('') : '';
     document.getElementById('tab-wishlist').innerHTML = `
       <h1 class="greet">💫 My Wishlist</h1>
       <p class="sub">Ponies you dream of having · ${S.wishlist.length} on your list ✨</p>
@@ -586,6 +596,10 @@ const Render = {
         <div class="fg"><label class="fl">Generation</label><select class="sel" id="wGen" onchange="UI.updateWishSuggest(document.getElementById('wName').value)">${[1,2,3,4,5].map(g=>`<option value="${g}">G${g}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Type</label><select class="sel" id="wType">${TYPE_KEYS.map(t=>`<option value="${t}">${TYPE_LABELS[t]}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Priority</label><select class="sel" id="wPri"><option value="must">🔴 Must Have</option><option value="want">🟡 Want</option><option value="someday">🟢 Someday</option></select></div>
+        <div class="fg-row">
+          <div class="fg"><label class="fl">Target price ($)</label><input class="inp" type="number" step="0.01" id="wTarget" placeholder="optional"></div>
+          <div class="fg"><label class="fl">Reference photo</label><input type="file" id="wPhoto" accept="image/*" style="font-size:.75rem"></div>
+        </div>
         <div class="fg"><label class="fl">Notes</label><input class="inp" id="wNotes" placeholder="Where to find, etc."></div>
         <button class="btn-p" onclick="UI.addWish()">Add to Wishlist ✨</button>
       </div>
@@ -678,6 +692,28 @@ const Render = {
       <div class="section-title">Achievements</div>
       ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}`;
   },
+  accessoryGallery() {
+    const items = S.accessories || [];
+    const cards = items.map(a => {
+      const linked = (a.ponyIds || []).map(id => S.ponies.find(p => p.id === id)).filter(Boolean);
+      const ph = a.photo || (a.photos && a.photos[0]) || '';
+      return `<div class="card" style="margin-bottom:12px;cursor:pointer" onclick="UI.openAccessory('${a.id}')">
+        ${ph ? `<div style="height:140px;border-radius:16px;overflow:hidden;margin-bottom:10px"><img src="${ph}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : `<div style="height:100px;border-radius:16px;background:linear-gradient(135deg,var(--pink-lighter),var(--purple-light));display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:10px">🎀</div>`}
+        <div style="font-weight:800;font-size:1rem">${this.esc(a.name)}</div>
+        ${linked.length ? `<div style="font-size:.8rem;color:var(--text-soft);margin-top:6px">${linked.map(p => `🦄 ${this.esc(p.name)}`).join(' · ')}</div>` : '<div style="font-size:.8rem;color:var(--text-soft);margin-top:6px">No pony linked</div>'}
+      </div>`;
+    }).join('');
+    document.getElementById('tab-accessories').innerHTML = `
+      <h1 class="greet">🎀 Accessory Gallery</h1>
+      <p class="sub">${items.length ? `${items.length} playsets & accessories` : 'Photos of accessories linked to your ponies'}</p>
+      <div class="card">
+        <div class="fg"><label class="fl">Name</label><input class="inp" id="accNameGal" placeholder="e.g. Ponyville Playset"></div>
+        <div class="fg"><label class="fl">Link to pony</label><select class="sel" id="accPonyGal"><option value="">— none —</option>${S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('')}</select></div>
+        <div class="fg"><label class="fl">Photo</label><input type="file" id="accPhotoGal" accept="image/*" capture="environment"></div>
+        <button class="btn-p" onclick="UI.addAccessoryFromGallery()">Add Accessory ✨</button>
+      </div>
+      ${items.length ? cards : '<div class="empty"><span>🎀</span>No accessories yet — add one above or in Settings</div>'}`;
+  },
   settings() {
     const cm = S.settings?.collectorMode;
     const dm = S.settings?.darkMode;
@@ -733,8 +769,9 @@ const Render = {
         <button class="btn-g" onclick="UI.addAccessory()">Add</button>
         ${(S.accessories||[]).map(a=>{
           const linked = (a.ponyIds||[]).map(id => S.ponies.find(p=>p.id===id)?.name).filter(Boolean).join(', ');
-          return `<div class="acc-item"><div><span>${this.esc(a.name)}</span>${linked?`<br><span style="font-size:.7rem;color:var(--text-soft)">🦄 ${this.esc(linked)}</span>`:''}</div><button class="btn-d" style="padding:4px 10px;font-size:.7rem" onclick="UI.delAccessory('${a.id}')">✕</button></div>`;
-        }).join('') || '<p style="font-size:.85rem;color:var(--text-soft);margin-top:8px">No accessories logged yet</p>'}
+          const hasPhoto = !!(a.photo || (a.photos && a.photos[0]));
+          return `<div class="acc-item"><div><span>${this.esc(a.name)}</span>${hasPhoto?' 📷':''}${linked?`<br><span style="font-size:.7rem;color:var(--text-soft)">🦄 ${this.esc(linked)}</span>`:''}</div><button class="btn-d" style="padding:4px 10px;font-size:.7rem" onclick="UI.delAccessory('${a.id}')">✕</button></div>`;
+        }).join('') || '<p style="font-size:.85rem;color:var(--text-soft);margin-top:8px">No accessories logged yet · <button class="btn-g" style="padding:4px 10px;font-size:.7rem" onclick="Nav.go(\'accessories\')">Open Gallery</button></p>'}
       </div>
       <div class="card">
         <div class="section-title">About</div>
@@ -952,8 +989,25 @@ const UI = {
   addWish() {
     const name = document.getElementById('wName').value.trim();
     if (!name) return;
-    S.wishlist.push({ id:uid(), name, generation:parseInt(document.getElementById('wGen').value), type:document.getElementById('wType').value, priority:document.getElementById('wPri').value, notes:document.getElementById('wNotes').value.trim(), addedAt:Date.now() });
-    Store.save(); Render.wishlist(); Toast.show('Added to wishlist 💫');
+    const file = document.getElementById('wPhoto')?.files?.[0];
+    const targetRaw = document.getElementById('wTarget')?.value;
+    const base = {
+      id: uid(), name,
+      generation: parseInt(document.getElementById('wGen').value),
+      type: document.getElementById('wType').value,
+      priority: document.getElementById('wPri').value,
+      notes: document.getElementById('wNotes').value.trim(),
+      targetPrice: targetRaw ? parseFloat(targetRaw) : null,
+      photo: null, photos: [],
+      addedAt: Date.now()
+    };
+    const finish = (item) => {
+      S.wishlist.push(item);
+      Store.save(); Render.wishlist(); Toast.show('Added to wishlist 💫');
+    };
+    if (file) {
+      Photo.compress(file).then(url => finish({ ...base, photo: url, photos: [url] })).catch(() => finish(base));
+    } else finish(base);
   },
   delWish(id) { S.wishlist = S.wishlist.filter(w=>w.id!==id); Store.save(); Render.wishlist(); },
   gotWish(id) {
@@ -970,12 +1024,39 @@ const UI = {
     if (!name) return;
     const ponyId = document.getElementById('accPony')?.value || '';
     S.accessories = S.accessories || [];
-    S.accessories.push({ id: uid(), name, ponyIds: ponyId ? [ponyId] : [], addedAt: Date.now() });
+    S.accessories.push({ id: uid(), name, ponyIds: ponyId ? [ponyId] : [], photo: null, photos: [], addedAt: Date.now() });
     Store.save(); Render.settings(); Toast.show('Accessory added ✨');
+  },
+  async addAccessoryFromGallery() {
+    const name = document.getElementById('accNameGal')?.value?.trim();
+    if (!name) { Toast.show('Name required'); return; }
+    const ponyId = document.getElementById('accPonyGal')?.value || '';
+    const file = document.getElementById('accPhotoGal')?.files?.[0];
+    let photo = null;
+    if (file) {
+      try { photo = await Photo.compress(file); } catch {}
+    }
+    S.accessories = S.accessories || [];
+    S.accessories.push({ id: uid(), name, ponyIds: ponyId ? [ponyId] : [], photo, photos: photo ? [photo] : [], addedAt: Date.now() });
+    Store.save(); Render.accessoryGallery(); Toast.show('Accessory added ✨');
+  },
+  openAccessory(id) {
+    const a = (S.accessories || []).find(x => x.id === id);
+    if (!a) return;
+    const ph = a.photo || (a.photos && a.photos[0]) || '';
+    const linked = (a.ponyIds || []).map(pid => S.ponies.find(p => p.id === pid)).filter(Boolean);
+    this.openSheet(`${Render.sheetHdr(Render.esc(a.name), 'UI.closeSheet()')}
+      ${ph ? `<img src="${ph}" style="width:100%;border-radius:var(--r);margin-bottom:12px" alt="">` : '<div style="text-align:center;font-size:3rem;padding:24px">🎀</div>'}
+      ${linked.length ? `<div class="section-title">Linked ponies</div>${linked.map(p => `<div style="padding:8px 0;cursor:pointer" onclick="UI.closeSheet();UI.openDetail('${p.id}')">🦄 ${Render.esc(p.name)} · G${p.generation}</div>`).join('')}` : '<p style="font-size:.85rem;color:var(--text-soft)">No pony linked</p>'}
+      <button class="btn-d" style="width:100%;margin-top:12px" onclick="UI.delAccessory('${a.id}');UI.closeSheet()">Remove</button>`);
   },
   delAccessory(id) {
     S.accessories = (S.accessories || []).filter(a=>a.id!==id);
-    Store.save(); Render.settings();
+    Store.save();
+    const on = document.querySelector('.screen.on')?.id?.replace('tab-','');
+    if (on === 'accessories') Render.accessoryGallery();
+    else if (on === 'settings') Render.settings();
+    else Render.all();
   },
   importCsv(file) {
     if (!file) return;
