@@ -41,7 +41,7 @@
 <body>
 <div class="stars" id="stars"></div>
 <div class="confetti-wrap" id="confetti"></div>
-<div class="toast-wrap"><div class="toast" id="toast"></div></div>
+<div class="toast-wrap" role="status" aria-live="polite" aria-atomic="true"><div class="toast" id="toast"></div></div>
 
 <div class="splash" id="splash">
   <div class="splash-logo">🦄</div>
@@ -107,8 +107,8 @@
     <div class="screen" id="tab-accessories"></div>
     <div class="screen" id="tab-settings"></div>
   </div>
-  <button class="fab" onclick="UI.openAdd()" aria-label="Add pony">+</button>
-  <nav class="nav">
+  <button class="fab" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog">+</button>
+  <nav class="nav" aria-label="Main navigation">
     <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
     <button class="nav-btn" data-tab="collection" onclick="Nav.go('collection')"><div class="nav-icon">🦄</div><span class="nav-label">Collection</span></button>
     <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
