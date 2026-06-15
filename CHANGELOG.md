@@ -1,5 +1,8 @@
 # Changelog — DeePonyCap
 
+## 2.5.1 (2026-06-15)
+- Restore pre–Capricorn identity home-screen icons; service worker cache bump.
+
 ## 2.5.0 (2026-06-15)
 - Extract inline styles to `css/app.css` for faster loads and easier maintenance.
 - Shelf **Share** button — copy or native-share a shelf summary with pony names.
