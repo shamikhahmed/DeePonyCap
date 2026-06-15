@@ -199,6 +199,9 @@ const DemoSeed = {
   },
   load(opts) {
     const silent = opts && opts.silent;
+    if (!silent) {
+      try { localStorage.setItem('deeponycap_pin_backup', JSON.stringify(S)); } catch (e) {}
+    }
     if (!silent && !confirm('Load demo collection (18 ponies)? Replaces your current ponies.')) return;
     S.ponies = DemoSeed.ponies();
     S.collector = { name: 'Demo Collector', since: '2020-01-01' };
@@ -808,9 +811,8 @@ const Render = {
         <div class="fg"><label class="fl">Collecting since</label><input class="inp" type="date" id="setSince" value="${S.collector.since||''}" onchange="S.collector.since=this.value;Store.save()"></div>
       </div>
       <div class="card">
-        <div class="section-title">Enterprise Demo 📦</div>
-        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:12px">Load a sample collection (18 ponies across G1–G5) for investor demos. Replaces current collection after confirm.</p>
-        <button class="btn-p" onclick="DemoSeed.load()">Load Demo Collection</button>
+        <div class="section-title">Try demo</div>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:0">Open with <strong>?demo=1</strong> for a sample collection — your stable is not replaced from Settings.</p>
       </div>
       <div class="card">
         <div class="section-title">Backup & Restore 💾</div>
