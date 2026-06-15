@@ -1,5 +1,11 @@
 # Changelog — DeePonyCap
 
+## 2.5.0 (2026-06-15)
+- Extract inline styles to `css/app.css` for faster loads and easier maintenance.
+- Shelf **Share** button — copy or native-share a shelf summary with pony names.
+- Richer empty states on Stable, Collection, and Shelves (with optional demo collection).
+- Service worker precaches `app.css` + `identity.css`; cache bump `deeponycap-v34`.
+
 ## 2.4.1 (2026-06-12)
 - Phase P4: Playwright test for accessories gallery tab; service worker cache bump.
 

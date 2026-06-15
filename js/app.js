@@ -537,7 +537,8 @@ const Render = {
       <div class="row-scroll">${pills}</div>
       <div class="type-grid">${types}</div>
       ${recent.length?`<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
-      ${faves.length?`<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}`;
+      ${faves.length?`<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
+      ${!n ? `<div class="empty"><span>🦄</span><p>Your stable is empty — tap <strong>+</strong> to add a pony, or try a demo collection.</p><button class="btn-p" style="margin-top:12px" onclick="DemoSeed.load()">Try demo collection ✨</button></div>` : ''}`;
     Anim.countUp(document.getElementById('counterNum'), n);
   },
   filteredPonies() {
@@ -575,7 +576,7 @@ const Render = {
         <option value="recent"${filter.sort==='recent'?' selected':''}>Recently Added</option>
         <option value="condition"${filter.sort==='condition'?' selected':''}>Condition</option>
       </select> · ${list.length} ponies</div>
-      <div class="grid">${slice.length?slice.map(p=>this.ponyCard(p)).join(''):'<div class="empty" style="grid-column:1/-1"><span>🦄</span>No ponies yet — tap + to add!</div>'}</div>
+      <div class="grid">${slice.length?slice.map(p=>this.ponyCard(p)).join(''):`<div class="empty" style="grid-column:1/-1"><span>🦄</span><p>No ponies yet — tap <strong>+</strong> to add your first friend.</p>${!S.ponies.length?'<button class="btn-g" style="margin-top:12px" onclick="DemoSeed.load()">Try demo collection</button>':''}</div>`}</div>
       ${pages>1?`<div class="pager">
         <button class="btn-g" ${filter.page<=0?'disabled':''} onclick="filter.page--;Render.collection()">← Prev</button>
         <span>Page ${filter.page+1} / ${pages}</span>
@@ -629,15 +630,23 @@ const Render = {
     let html = `<h1 class="greet">🗂️ My Shelves</h1><p class="sub">Where your ponies live</p>`;
     keys.forEach(s => {
       const js = String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      html += `<div class="shelf-sec"><div class="shelf-hdr" onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies
-        <button class="btn-g" style="margin-left:8px;padding:4px 10px;font-size:.7rem" onclick="event.stopPropagation();UI.renameShelf('${js}')">Rename</button></div>
+      html += `<div class="shelf-sec"><div class="shelf-hdr"><span onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies</span>
+        <span class="shelf-actions">
+          <button class="btn-g shelf-btn" onclick="UI.shareShelf('${js}')">Share</button>
+          <button class="btn-g shelf-btn" onclick="UI.renameShelf('${js}')">Rename</button>
+        </span></div>
         <div class="row-scroll">${shelves[s].map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
     });
     if (shelves.__unshelved__) {
       html += `<div class="shelf-sec"><div class="shelf-hdr">📦 Unshelved — ${shelves.__unshelved__.length}</div>
         <div class="row-scroll">${shelves.__unshelved__.map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
     }
-    if (!S.ponies.length) html += '<div class="empty"><span>🗂️</span>No shelves yet!</div>';
+    if (!S.ponies.length) {
+      html += `<div class="empty"><span>🗂️</span><p>Shelves group ponies by where they live — set a shelf name when you add or edit a pony.</p>
+        <button class="btn-g" style="margin-top:12px" onclick="DemoSeed.load()">Try demo collection</button></div>`;
+    } else if (!keys.length && !shelves.__unshelved__) {
+      html += `<div class="empty"><span>📦</span><p>All ponies are unshelved — edit a pony and add a shelf name to organize them.</p></div>`;
+    }
     document.getElementById('tab-shelves').innerHTML = html;
   },
   stats() {
@@ -1029,6 +1038,15 @@ const UI = {
     const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyCap`;
     if (navigator.share) navigator.share({ title: p.name, text }).catch(()=>{});
     else { navigator.clipboard.writeText(text).then(()=>Toast.show('Copied to clipboard ✨')); }
+  },
+  shareShelf(shelfName) {
+    const list = S.ponies.filter(p => (p.shelf || '').trim() === shelfName);
+    if (!list.length) return;
+    const preview = list.slice(0, 10).map(p => p.name).join(', ');
+    const more = list.length > 10 ? ` +${list.length - 10} more` : '';
+    const text = `🗄️ ${shelfName} (${list.length} ponies): ${preview}${more} · DeePonyCap`;
+    if (navigator.share) navigator.share({ title: `${shelfName} shelf`, text }).catch(()=>{});
+    else { navigator.clipboard.writeText(text).then(()=>Toast.show('Shelf copied to clipboard ✨')); }
   },
   renameShelf(oldName) {
     const n = prompt('New shelf name:', oldName);
