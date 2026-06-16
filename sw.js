@@ -1,4 +1,4 @@
-const CACHE = 'deeponycap-v35';
+const CACHE = 'deeponycap-v36';
 const ASSETS = [
   './css/app.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',

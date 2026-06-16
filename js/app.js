@@ -767,6 +767,7 @@ const Render = {
       </div>`;
     }).join('');
     document.getElementById('tab-accessories').innerHTML = `
+      <button type="button" class="btn-g" style="min-height:44px;margin-bottom:12px" onclick="Nav.go('stable')">← Back to Stable</button>
       <h1 class="greet">🎀 Accessory Gallery</h1>
       <p class="sub">${items.length ? `${items.length} playsets & accessories` : 'Photos of accessories linked to your ponies'}</p>
       <div class="card">
@@ -837,7 +838,7 @@ const Render = {
       </div>
       <div class="card">
         <div class="section-title">About</div>
-        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v2.2.0 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
+        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v2.5.1 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
         <button class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay Onboarding</button>
       </div>`;
   }
@@ -1199,6 +1200,6 @@ async function boot() {
       Install.maybeShow();
     }
   });
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=6').catch(()=>{});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=36').catch(()=>{});
 }
 boot();
