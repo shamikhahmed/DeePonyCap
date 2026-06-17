@@ -6,7 +6,7 @@
 <title>DeePonyCap — Every pony. One stable.</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
+:root{--accent:#c4367a;
   --pink:#FF6B9D;--pink-light:#FFB3D9;--pink-lighter:#FFE5F0;
   --purple:#C084FC;--mint:#6EE7B7;--yellow:#FCD34D;--blue:#93C5FD;
   --bg:#0d0810;--bg2:#1a1020;--text:#fff;--muted:#a89ab0;
@@ -118,13 +118,19 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
   padding:12px 16px;font-size:12px;font-weight:600}
 .flow-arrow{color:var(--pink);opacity:.6}
 @media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}.split{flex-direction:column}}
+
+.deck-shot{display:block;width:100%;height:auto;margin:0;object-fit:cover;object-position:top center}
+.phone-b:has(.deck-shot),.phone-body:has(.deck-shot),.phone-screen:has(.deck-shot),.phone-inner:has(.deck-shot),.term-b:has(.deck-shot){padding:0!important;min-height:0!important;overflow:hidden}
+.term-b .deck-shot{border-radius:0 0 12px 12px}
+.deck-shot-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+.deck-shot-frame{width:min(100%,280px);border-radius:24px;overflow:hidden;border:2px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+
 </style>
 
   <link rel="stylesheet" href="css/capricorn-core.css">
   <script src="js/vendor/gsap.min.js"></script>
   <script src="js/vendor/ScrollTrigger.min.js"></script>
   <script src="js/capricorn-scene.js"></script>
-  <script src="js/capricorn-deck.js"></script>
 </head>
 <body>
 <div class="cap-scroll-progress" aria-hidden="true"></div>
@@ -149,10 +155,9 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
   <div class="overline a1">Why We Built This</div>
   <div class="headline a2">The <span class="grad">Problem</span></div>
   <div class="pain a3">
-    <div class="pain-item"><span>📸</span><div><strong style="color:#fff">Photos everywhere</strong><br>Camera roll, boxes, spreadsheets — no single Stable.</div></div>
-    <div class="pain-item"><span>💖</span><div><strong style="color:#fff">Wishlist chaos</strong><br>Can't remember which variant you wanted or its priority.</div></div>
-    <div class="pain-item"><span>🎂</span><div><strong style="color:#fff">Anniversaries forgotten</strong><br>Acquisition dates lost — magic moments never resurface.</div></div>
-    <div class="pain-item"><span>👶</span><div><strong style="color:#fff">No child-safe app</strong><br>Collecting apps are corporate, ad-filled, or too complex.</div></div>
+    <div class="pain-item"><span>📱</span><div><strong style="color:#fff">Collectors use spreadsheets</strong><br>Collectors use spreadsheets — kids can't use spreadsheets.</div></div>
+    <div class="pain-item"><span>🌡️</span><div><strong style="color:#fff">Toy apps bombard children with ads and …</strong><br>Toy apps bombard children with ads and account walls.</div></div>
+    <div class="pain-item"><span>🧪</span><div><strong style="color:#fff">Photo collections of shelves shouldn't …</strong><br>Photo collections of shelves shouldn't upload to someone else's server.</div></div>
   </div>
 </div>
 
@@ -174,8 +179,7 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
   <div class="split a3">
     <div class="phone">
       <div class="phone-bar">🦄 Stable</div>
-      <div class="phone-body">
-        <div style="font-size:12px;font-weight:700;color:#6B7280;margin-bottom:4px">Hi, Sparkle Collector!</div>
+      <div class="phone-body"><img class="deck-shot" src="https://shamikhahmed.github.io/assets/screenshots/deeponycap-2.png" alt="DeePonyCap stable home screen" width="280" height="606" loading="lazy" decoding="async"></div>
         <div class="big-num">47</div>
         <div style="text-align:center;font-size:11px;font-weight:700;color:#6B7280">ponies in your Stable</div>
         <div class="rainbow a4"><span style="background:var(--g1)"></span><span style="background:var(--g2)"></span><span style="background:var(--g3)"></span><span style="background:var(--g4)"></span><span style="background:var(--g5)"></span></div>
@@ -190,6 +194,10 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
     </div>
   </div>
 </div>
+
+<div class="slide"</div>
+
+<div class="slide"</div>
 
 <div class="slide" id="s5">
   <div class="overline a1">Generations</div>
@@ -221,9 +229,8 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
   <div class="overline a1">Wishlist</div>
   <div class="headline a2">Dream Ponies. <span class="grad">Prioritised.</span></div>
   <div class="phone a3" style="max-width:280px">
-    <div class="phone-bar">💖 Wishlist</div>
-    <div class="phone-body" style="min-height:280px">
-      <div class="wish must">🦄 Minty G1 Reissue — Must have</div>
+    <div class="phone-bar">⭐ Wishlist</div>
+    <div class="phone-body" style="min-height:280px"><img class="deck-shot" src="https://shamikhahmed.github.io/assets/screenshots/deeponycap-4.png" alt="DeePonyCap G1–G5 collection" width="280" height="606" loading="lazy" decoding="async"></div>
       <div class="wish want">🌸 Fluttershy G3 — Want</div>
       <div class="wish someday">⭐ Princess Celestia G4 — Someday</div>
       <div class="wish want">🎀 Pinkie Pie G4 SDCC — Want</div>
@@ -233,19 +240,26 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
   <div class="sub a4" style="margin-top:14px"><strong style="color:#F87171">Must</strong> red · <strong style="color:var(--yellow)">Want</strong> yellow · <strong style="color:var(--mint)">Someday</strong> mint — move to Collection when acquired</div>
 </div>
 
+<div class="slide"</div>
+
+<div class="slide"</div>
+
 <div class="slide" id="s8">
   <div class="overline a1">Shelves</div>
   <div class="headline a2">Physical <span class="grad">Organisation</span></div>
   <div class="phone a3" style="max-width:280px">
     <div class="phone-bar">📚 Shelves</div>
-    <div class="phone-body">
-      <div class="shelf-card"><div class="shelf-icon">🩷</div><div><div style="font-weight:800;font-size:12px">Pink Shelf</div><div style="font-size:10px;color:#6B7280">14 ponies</div></div></div>
+    <div class="phone-body"><img class="deck-shot" src="https://shamikhahmed.github.io/assets/screenshots/deeponycap-5.png" alt="DeePonyCap wishlist tiers" width="280" height="606" loading="lazy" decoding="async"></div><div><div style="font-weight:800;font-size:12px">Pink Shelf</div><div style="font-size:10px;color:#6B7280">14 ponies</div></div></div>
       <div class="shelf-card"><div class="shelf-icon">📦</div><div><div style="font-weight:800;font-size:12px">Box 3 — G1</div><div style="font-size:10px;color:#6B7280">8 ponies</div></div></div>
       <div class="shelf-card"><div class="shelf-icon">✨</div><div><div style="font-weight:800;font-size:12px">Display Case</div><div style="font-size:10px;color:#6B7280">6 ponies</div></div></div>
     </div>
   </div>
   <div class="sub a4" style="margin-top:14px">Create shelf names · assign from edit screen · browse what's where</div>
 </div>
+
+<div class="slide"</div>
+
+<div class="slide"</div>
 
 <div class="slide" id="s9">
   <div class="overline a1">Stats</div>
