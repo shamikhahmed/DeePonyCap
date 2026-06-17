@@ -1,9 +1,20 @@
-const CACHE = 'deeponycap-v36';
+const CACHE = 'deeponycap-v37';
 const ASSETS = [
   './css/app.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
   './manifest.json', './icon.svg', './icon-192.png', './icon-512.png',
-  './js/pony-db.js', './js/photo-store.js', './js/app.js'];
+  './js/pony-db.js', './js/photo-store.js', './js/app.js',
+  './js/capricorn-motion.js',
+  './js/capricorn-premium-nav.js',
+  './js/capricorn-cinematic.js',
+  './js/capricorn-deck.js',
+  './js/capricorn-deck-pro.js',
+  './js/capricorn-pitch.js',
+  './js/vendor/gsap.min.js',
+  './js/vendor/ScrollTrigger.min.js',
+  './privacy.html',
+  './changelog.html',
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
