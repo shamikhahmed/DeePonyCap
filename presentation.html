@@ -119,8 +119,15 @@ html,body{width:100%;height:100%;background:var(--bg);color:var(--text);
 .flow-arrow{color:var(--pink);opacity:.6}
 @media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}.split{flex-direction:column}}
 </style>
+
+  <link rel="stylesheet" href="css/capricorn-core.css">
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/capricorn-scene.js"></script>
+  <script src="js/capricorn-deck.js"></script>
 </head>
 <body>
+<div class="cap-scroll-progress" aria-hidden="true"></div>
 <canvas id="spark-canvas"></canvas>
 <div id="progress"></div>
 <button id="fullscreen-btn" title="Fullscreen">⛶</button>
