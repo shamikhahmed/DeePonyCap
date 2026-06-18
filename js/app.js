@@ -714,7 +714,7 @@ const Render = {
       </div>
       <div class="section-title">Achievements</div>
       ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}
-      <button class="share-card-btn" onclick="UI.exportShareCard()">🖼️ Save Collection Card (PNG)</button>`;
+      <button class="share-card-btn" onclick="Render.exportShareCard()">🖼️ Save Collection Card (PNG)</button>`;
   },
   exportShareCard() {
     const n = S.ponies.length;
