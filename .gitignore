@@ -5,3 +5,7 @@
 .env.*
 node_modules/
 test-results/
+
+ios/
+DerivedData/
+*.xcworkspace/xcuserdata/

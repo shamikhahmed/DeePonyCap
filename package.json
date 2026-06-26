@@ -4,6 +4,7 @@
   "scripts": {
     "test": "playwright test",
     "serve": "python3 -m http.server 8770",
+    "preflight": "bash scripts/app-store-preflight.sh",
     "cap:init": "npx cap add ios 2>/dev/null || true && npx cap sync ios",
     "cap:sync": "npx cap sync ios",
     "cap:ios": "npx cap open ios",

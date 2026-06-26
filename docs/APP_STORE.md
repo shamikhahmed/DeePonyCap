@@ -1,46 +1,47 @@
-# DeePonyCap — App Store / TestFlight Prep
+# DeePonyCap — App Store Readiness
 
-## Current state
-- **Shipped as PWA** on GitHub Pages (Add to Home Screen).
-- **Capacitor scaffold (planned):** wrap static build in `@capacitor/core` iOS shell.
+## Demo URL
 
-## Capacitor plan
-1. `npm init` + `@capacitor/cli` in repo root (webDir: `.`)
-2. `npx cap add ios` — copy `index.html` entry, icons from `icon-512.png`
-3. Configure `Info.plist`: `NSPhotoLibraryUsageDescription` if photos (DeePonyCap)
-4. Disable third-party cookies; keep localStorage/IndexedDB
+`https://shamikhahmed.github.io/DeePonyCap/?demo=1`
 
-## TestFlight checklist
-- [ ] App icons 1024×1024 from `icon-512.png`
-- [ ] Privacy nutrition labels: **Data Not Collected** (local-only)
-- [ ] Screenshots: iPhone 6.7" + 6.1"
-- [ ] Review notes: offline PWA, no account required
-- [ ] Export compliance: no encryption beyond standard iOS APIs
+## Screenshot checklist (iPhone 6.7" / 6.5")
 
-## Disclaimers (MLP collection tracker)
-- Fan collection tool; not affiliated with Hasbro or MLP brand owners.
+Capture these tabs with demo mode loaded:
 
-## Version
-See `VERSION.json` — current `2.2.0`.
+| # | Screen | What to show |
+|---|--------|----------------|
+| 1 | **Stable** | Counter, collection goals, generation pills |
+| 2 | **Collection** | Grid with generation emojis (no photos) |
+| 3 | **Wishlist** | Must / Want / Someday groups with target prices |
+| 4 | **Stats** | Bubble chart + achievements + share card button |
+| 5 | **Add Pony sheet** | Form with pony name autocomplete |
+| 6 | **Settings** | Parent lock + privacy + offline messaging |
 
-## Phase 4 scaffold (June 2026)
+Export at 1290×2796 or use Xcode Simulator → Screenshot.
 
-- [x] `capacitor.config.json` — appId configured
-- [x] `package.json` — `@capacitor/core`, `@capacitor/ios`, `@capacitor/cli`
-- [x] Scripts: `npm run cap:sync`, `npm run cap:ios`
-- [x] `icon-1024.png` for App Store Connect (from `icon-512.png` upscale or generate-icons)
-- [ ] `npx cap add ios` — run after Xcode installed (`npm run cap:init`)
-- [ ] TestFlight upload — requires Apple Developer account
+## App Store copy hooks
 
-### Xcode setup (when ready)
+- **Subtitle:** Magical pony collection tracker
+- **Keywords:** MLP, pony, collection, kids, offline, photos, wishlist
+- **Privacy:** No data collected — see `privacy.html`
 
-```bash
-npm install
-npm run cap:init    # cap add ios + sync (first time)
-npm run cap:ios     # open Xcode
-```
+## Child safety (shipped)
 
-**You do NOT need Swift Playgrounds** — use **Xcode.app** from the Mac App Store for Capacitor iOS builds.
+- No accounts or sign-in
+- No analytics or third-party SDKs in the kid flow
+- No external links inside the main app shell (privacy/changelog are same-origin)
+- Optional parent PIN for export / import / delete
+- All photos and data stay on device (localStorage + optional IndexedDB)
 
-### Privacy policy URL
-Use hosted: `https://shamikhahmed.github.io/<AppName>/privacy.html`
+## Pre-submission
+
+- [x] Playwright smoke tests (`npm test` or `scripts/app-store-preflight.sh`)
+- [x] `?demo=1` loads 18 ponies + 7 wishlist items
+- [x] Parent PIN for export/delete
+- [x] `VERSION.json` + `sw.js` cache synced (`deeponycap-v37`)
+- [x] Privacy policy (no third-party tracking claims)
+- [x] `icon-1024.png` for App Store
+- [x] `ios-templates/PrivacyInfo.xcprivacy` + Info.plist snippet
+- [ ] **You:** Install CocoaPods → `npx cap add ios` → Archive in Xcode
+- [ ] **You:** Capture screenshots (checklist above)
+- [ ] **You:** Create App Store Connect listing (`docs/APP_STORE_CONNECT.md`)

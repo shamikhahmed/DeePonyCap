@@ -3,10 +3,20 @@
   "appName": "DeePonyCap",
   "webDir": ".",
   "server": {
-    "androidScheme": "https"
+    "androidScheme": "https",
+    "iosScheme": "capacitor"
   },
   "ios": {
     "contentInset": "automatic",
-    "scrollEnabled": true
+    "scrollEnabled": true,
+    "preferredContentMode": "mobile",
+    "backgroundColor": "#F0C4D8"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "backgroundColor": "#F0C4D8",
+      "showSpinner": false
+    }
   }
 }

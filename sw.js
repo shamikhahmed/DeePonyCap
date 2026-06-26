@@ -1,9 +1,12 @@
-const CACHE = 'deeponycap-v36';
+importScripts('./js/version.js');
+
+const CACHE = self.SW_CACHE || 'deeponycap-v41';
 const ASSETS = [
   './css/app.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
-  './manifest.json', './icon.svg', './icon-192.png', './icon-512.png',
-  './js/pony-db.js', './js/photo-store.js', './js/app.js',
+  './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './icon-1024.png',
+  './js/version.js', './js/data-store.js', './js/migrations.js', './js/pony-db.js', './js/photo-store.js',
+  './js/app.js', './js/excellence.js', './js/app-update.js',
   './js/capricorn-motion.js',
   './js/capricorn-premium-nav.js',
   './js/capricorn-cinematic.js',
@@ -14,11 +17,15 @@ const ASSETS = [
   './js/vendor/ScrollTrigger.min.js',
   './privacy.html',
   './changelog.html',
+  './VERSION.json',
 ];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
-  self.skipWaiting();
+});
+
+self.addEventListener('message', e => {
+  if (e.data && e.data.type === 'SKIP_WAITING') self.skipWaiting();
 });
 
 self.addEventListener('activate', e => {

@@ -1,0 +1,28 @@
+/* DeePonyOS — toy-shelf identity overlay (base chrome in index.html) */
+
+:root {
+  --font-display: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+}
+
+h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .nav-label, .btn-p, .btn-g, .btn-d, .sheet h2 {
+  font-family: var(--font-display) !important;
+}
+
+.stat-box .n, .big-num {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+}
+
+.fab {
+  animation: ponyBounce 2.5s ease-in-out infinite;
+}
+
+@keyframes ponyBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-6px) scale(1.03); }
+}
+
+.nav-btn.on .nav-icon {
+  transform: scale(1.06) rotate(-2deg);
+}

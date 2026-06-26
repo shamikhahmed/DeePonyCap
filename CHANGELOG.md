@@ -1,5 +1,74 @@
 # Changelog — DeePonyCap
 
+## 3.0.0 (2026-06-26) — Major release
+
+DeePonyCap 3.0 is the production-ready PWA release: full collection tracker, kid-safe design, IndexedDB storage, user-controlled updates, and 25 automated tests.
+
+### Highlights
+- **Premium delight:** Collection Timeline, Pony Passport, Storybook Mode (print/PDF)
+- **IndexedDB-first storage** — no 5 MB localStorage ceiling; photos + data on device
+- **User-controlled PWA updates** — Update now / Not now; auto-update opt-in only
+- **Schema migrations** — safe upgrades from older saved data
+- **Parent PIN sheet** — polished modal for export/import/delete protection
+- **G4 bulk photo import** — filename matching, create or update ponies
+- **Collection tools** — fuzzy search, smart suggestions, bulk shelf ops, 21 achievements
+- **Accessory gallery** — categories, search, sort
+- **Recovery snapshots** + backup validation
+- **Accessibility** — skip link, dialog semantics, keyboard cards, reduced motion
+- First version archive at `/releases/v3.0.0/` for users who want to pin this release
+
+See entries below for incremental 2.7–2.9 development notes.
+
+## 2.9.0 (2026-06-26) — PWA update control & data preservation
+- **User-controlled updates** — no forced `skipWaiting`; banner + Settings with Update now / Not now.
+- **Auto-update toggle** — default OFF; users choose when to apply new versions.
+- **Pre-update backup prompt** — optional export before applying update.
+- **Schema migrations** (`js/migrations.js`) — safe upgrades from older stored data.
+- **IndexedDB-first** documented in `docs/PWA_DEPLOYMENT.md`.
+- **Version archives** — `scripts/archive-version.sh` for `/releases/vX.Y.Z/` pinned installs.
+- CSV import now parent-gated.
+- Service worker cache `deeponycap-v40`.
+
+## 2.8.0 (2026-06-26) — Storage & Roadmap
+- **IndexedDB-first storage** — full collection in IDB; no 5 MB localStorage ceiling.
+- **Storage health** — shows IndexedDB quota via `navigator.storage.estimate()`.
+- **Parent PIN sheet** — polished modal replaces `prompt()` for setup & verify.
+- **G4 bulk photo import** — complete: filename matching, DB lookup, create/update ponies.
+- **Storybook Print/PDF** — A4 print layout via browser print dialog.
+- Recovery snapshots now stored in IndexedDB when available.
+- Service worker cache `deeponycap-v39`.
+
+## 2.7.0 (2026-06-26) — Product Excellence
+- **Collection Timeline** — visual acquisition journey in Stats.
+- **Pony Passport** — rich profile sheet with milestones, accessories, share card, clone.
+- **Storybook Mode** — scrapbook album browse for kids.
+- **Fuzzy search** + pony DB aliases (DJ Pon-3 / Vinyl Scratch, etc.).
+- **Smart suggestions** on Stable (missing Mane Six, wishlist hints).
+- **Collection insights** — top gen, fave gen, shelf distribution, wishlist %.
+- **12 new achievements** (First Favourite, Mane Six, Shelf Organizer, …).
+- **Accessory gallery** — categories, search, sort, linked pony counts.
+- **Collection tools** — bulk shelf move, favorite shelf, mark extras.
+- **Data safety** — backup validation, auto recovery snapshots (last 3).
+- **Accessibility** — skip link, dialog semantics, Escape to close, keyboard cards, reduced motion.
+- **PWA** — manifest shortcuts (Add Pony, Wishlist, Storybook); SW `deeponycap-v38`.
+- **Tests** — 10 new Playwright excellence scenarios.
+
+## 2.6.0 (2026-06-26)
+- **App Store readiness:** privacy policy rewrite, `icon-1024` in manifest, iOS templates (`PrivacyInfo.xcprivacy`, Info.plist snippet).
+- **App Store Connect copy:** `docs/APP_STORE_CONNECT.md`, preflight script `npm run preflight`.
+- Expanded Playwright tests (demo, privacy, parent lock).
+- **P0–P4 polish pass:** demo wishlist + banner, sheet close fix, generation emojis on cards/detail.
+- **Collection goals** on Stable (G4 Mane Six, G1 Babies) with progress bars.
+- **Backup nudge** when storage ≥ 75%.
+- **Achievements** unlock confetti + haptic; Dreamer fires on demo load.
+- **Parent PIN** for export, import, delete (optional).
+- **Haptic toggle** in Settings; success vibration on wishlist → collection.
+- **Market comps** — log manual sold prices per pony (Collector Mode detail).
+- **Pony DB** validation hints on add/wishlist forms.
+- **Seasonal themes** — winter/spring accents + birthday sparkle on anniversaries.
+- **Privacy & Safety** card with links to privacy/changelog.
+- Service worker cache `deeponycap-v37`; docs for App Store screenshots + Capacitor build.
+
 ## 2.5.1 (2026-06-15)
 - Restore pre–Capricorn identity home-screen icons; service worker cache bump.
 

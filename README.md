@@ -7,19 +7,22 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 
 ---
 
-## Features
+## Features (v2.6)
 
-- 🏠 **Stable** — greeting, pony counter, generation rainbow, collection anniversaries
-- 🦄 **Collection** — photos, filters, search, 5 generations (G1–G5)
-- 💫 **Wishlist** — dream ponies with Must / Want / Someday priority
-- 🗂️ **Shelves** — organise by physical shelf location
-- 🌈 **Stats** — bubbles, achievements, generation checklist, collection health
-- 🌙 **Modes** — default child-friendly, Collector mode, dark mode
+- 🏠 **Stable** — goals, backup nudge, anniversaries, generation rainbow
+- 🦄 **Collection** — photos, filters, pony DB autocomplete, duplicate warnings
+- 💫 **Wishlist** — priorities, target prices, reference photos
+- 🗂️ **Shelves** — organise + share shelf summaries
+- 🌈 **Stats** — achievements, PNG share card, generation checklist
+- 🔒 **Parent lock** — optional PIN for export/import/delete
+- 📊 **Collector mode** — sold comps, values, catalog view
+- ✨ **Demo:** append `?demo=1` to the live URL
 
-## New in v2.2
+## New in v2.6
 
-- **Generation checklist** — unique names owned vs pony name database per gen
-- **Anniversary banner** — ponies acquired on this day in prior years show on Stable
+- Collection goals (G4 Mane Six, G1 Babies), achievement confetti, haptics
+- Parent PIN, privacy card, seasonal birthday sparkle
+- See [CHANGELOG.md](CHANGELOG.md)
 
 ## Install on iPhone
 
@@ -36,6 +39,20 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 - [ ] Stats generation checklist renders
 - [ ] App works offline after first load
 - [ ] Safe area: nav and FAB clear home indicator
+
+## App Store readiness (v2.6.0)
+
+```bash
+npm run preflight   # tests + asset checks
+```
+
+**Done in code:** privacy policy, parent lock, offline PWA, `icon-1024`, iOS templates, 6 smoke tests passing.
+
+**You still need on your Mac:**
+1. `brew install cocoapods`
+2. `npx cap add ios` → copy `ios-templates/` into `ios/App/App/`
+3. Xcode Archive → App Store Connect
+4. Screenshots + listing copy from `docs/APP_STORE_CONNECT.md`
 
 ## Local dev
 
@@ -54,6 +71,9 @@ Push to `main` — Pages serves from repo root with `.nojekyll`.
 | Resource | Path |
 |----------|------|
 | User guide | [docs/GUIDE.md](docs/GUIDE.md) |
+| App Store checklist | [docs/APP_STORE.md](docs/APP_STORE.md) |
+| App Store Connect copy | [docs/APP_STORE_CONNECT.md](docs/APP_STORE_CONNECT.md) |
+| Capacitor build | [docs/CAPACITOR_BUILD.md](docs/CAPACITOR_BUILD.md) |
 | Presentation | [docs/PRESENTATION.md](docs/PRESENTATION.md) |
 | Landing page | [landing.html](landing.html) |
 

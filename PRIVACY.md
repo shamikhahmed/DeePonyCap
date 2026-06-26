@@ -1,23 +1,41 @@
 # DeePonyCap — Privacy Policy
 
-**Last updated:** June 10, 2026
+**Last updated:** June 26, 2026
 
-DeePonyCap is an offline-first Progressive Web App. **Your data stays on your device** unless you explicitly export it.
+DeePonyCap is an offline-first app for tracking My Little Pony collections. **Your data stays on your device** unless you explicitly export it.
 
 ## What we collect
-- **Nothing by default.** No accounts, analytics SDKs, or third-party trackers ship in this app.
-- Optional features (e.g. VaultCap LLM import) send data only when you enable them and supply your own API key at runtime.
 
-## Storage
-- App state is stored in **localStorage** and/or **IndexedDB** in your browser.
-- Uninstalling or clearing site data removes local copies.
+- **Nothing.** No accounts, analytics, advertising, or third-party trackers.
+- No data is sent to Capricorn Systems or any server when you use the app.
+
+## What is stored on your device
+
+- Pony collection (names, photos, shelves, wishlist, accessories)
+- Optional parent PIN (stored as a one-way hash on device only)
+- Preferences (theme, collector mode, haptics)
+
+Storage uses **localStorage** and optionally **IndexedDB** for photos. Uninstalling the app or clearing site data removes everything.
+
+## Photos & camera
+
+- Photos you add are saved locally on your device.
+- The app may request camera or photo library access only when you tap to add a photo.
 
 ## Network
-- Live price or proxy features may call endpoints you configure (e.g. LedgerCap PSX proxy).
-- GitHub Pages serves static files only — no server-side access to your vault.
+
+- The web version loads static files from GitHub Pages (same as any website).
+- After the first load, the app works **offline** via the service worker.
+- There are no background sync calls or cloud backups unless you export a file yourself.
 
 ## Children
-- DeePonyCap is child-friendly; still, parents should supervise device sharing and exports.
+
+- DeePonyCap is designed to be child-friendly.
+- Parents can enable an optional **Parent Lock** PIN for export, import, and delete actions.
+- We recommend parents supervise exports and device sharing.
 
 ## Contact
-Built by Capricorn Systems — issues via the DeePonyCap GitHub repository.
+
+Built by Capricorn Systems — [GitHub Issues](https://github.com/shamikhahmed/DeePonyCap/issues)
+
+**Privacy policy URL:** https://shamikhahmed.github.io/DeePonyCap/privacy.html
