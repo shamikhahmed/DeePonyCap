@@ -20,7 +20,7 @@ let S = {
 };
 const STORAGE_LIMIT = 5 * 1024 * 1024;
 let filter = { chip:'all', q:'', sort:'name', page:0 };
-let logFilter = { logSection:'g1', logSort:'name', logView:'register' };
+let logFilter = { logSection:'g1', logSort:'name', logView:'register', mcdCountry:'all' };
 let accFilter = { q:'', cat:'all', sort:'name' };
 let editingId = null;
 let detailId = null;
@@ -294,9 +294,9 @@ const DemoSeed = {
       ['Twilight Sparkle (G5)', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
       ['Izzy Moonbow', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
     ];
-    return names.map((n, i) => ({
+    const base = names.map((n, i) => normalizePony({
       id: uid(),
-      name: n[0], generation: n[1], type: n[2], colour: n[3],
+      name: n[0], generation: n[1], type: n[2], colour: n[3], category: 'mlp',
       size: n[1] === 1 ? 'mini' : 'standard', shelf: n[4],
       isOriginal: true, condition: n[5],
       isFavourite: i < 4, isMostPlayed: i === 5,
@@ -306,6 +306,23 @@ const DemoSeed = {
       purchaseValue: 8 + i, estimatedValue: 12 + i * 2,
       createdAt: Date.now() - (i + 1) * 86400000,
     }));
+    const mcd = [
+      ['Happy Meal Twilight', 'USA', '2014', 'Purple', 'Shelf 4'],
+      ['Happy Meal Rainbow Dash', 'USA', '2015', 'Blue', 'Shelf 4'],
+      ['McDonald\'s Fluttershy', 'UK', '2012', 'Yellow', 'Shelf 4'],
+      ['McDonald\'s Applejack', 'Canada', '2013', 'Orange', 'Box'],
+      ['McDonald\'s Pinkie Pie', 'UK', '2012', 'Pink', 'Shelf 4'],
+    ];
+    const mcdPonies = mcd.map((n, i) => normalizePony({
+      id: uid(), name: n[0], category: 'mcdonalds', type: 'mcdonalds', generation: 4,
+      mcdCountry: n[1], mcdYear: n[2], colour: n[3], shelf: n[4],
+      size: 'mini', isOriginal: true, condition: 'good',
+      isFavourite: false, isMostPlayed: false, photos: [], photo: null,
+      catalogNumber: String(100 + i), hairColour: n[3], cutieMark: 'Happy Meal cutie',
+      acquiredDate: `${n[2]}-06-15`, notes: 'Demo McDonald\'s pony',
+      purchaseValue: 3, estimatedValue: 8, createdAt: Date.now() - (20 + i) * 86400000,
+    }));
+    return base.concat(mcdPonies);
   },
   wishlist() {
     return [

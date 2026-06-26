@@ -76,7 +76,52 @@ const CollectorSuite = (() => {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  function logRow(p, sectionId) {
+  function mcdCountryCounts(ponies) {
+    const counts = {};
+    poniesForSection('mcd', ponies).forEach(p => {
+      const c = (p.mcdCountry || '').trim() || 'Unknown';
+      counts[c] = (counts[c] || 0) + 1;
+    });
+    return counts;
+  }
+
+  function mcdCountryOrder(countries) {
+    const known = MCD_COUNTRIES.filter(c => countries.includes(c));
+    const rest = countries.filter(c => !MCD_COUNTRIES.includes(c)).sort();
+    return [...known, ...rest];
+  }
+
+  function groupMcDonalds(list) {
+    const byCountry = {};
+    list.forEach(p => {
+      const c = (p.mcdCountry || '').trim() || 'Unknown';
+      if (!byCountry[c]) byCountry[c] = [];
+      byCountry[c].push(p);
+    });
+    return mcdCountryOrder(Object.keys(byCountry)).map(country => {
+      const ponies = byCountry[country];
+      const byYear = {};
+      ponies.forEach(p => {
+        const y = (p.mcdYear || '').trim() || 'Unknown year';
+        if (!byYear[y]) byYear[y] = [];
+        byYear[y].push(p);
+      });
+      const years = Object.keys(byYear).sort((a, b) => {
+        if (a === 'Unknown year') return 1;
+        if (b === 'Unknown year') return -1;
+        return b.localeCompare(a);
+      });
+      return {
+        country,
+        yearGroups: years.map(year => ({
+          year,
+          ponies: sortLogPonies(byYear[year], 'name'),
+        })),
+      };
+    });
+  }
+
+  function logRow(p, sectionId, opts) {
     const id = p.id;
     const open = `Excellence.openPassport('${id}')`;
     const num = esc(p.catalogNumber || '—');
@@ -88,57 +133,198 @@ const CollectorSuite = (() => {
     const year = esc(acquiredYear(p) || '—');
     const shelf = esc(p.shelf || '—');
     const brand = esc(p.brand || '—');
-    const mcd = esc(`${p.mcdCountry || '—'} · ${p.mcdYear || '—'}`);
+    const cutie = esc(p.cutieMark || '—');
+    const release = esc(p.mcdYear || '—');
+    const rowAttrs = `class="log-row" role="button" tabindex="0" onclick="${open}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${open}}}"`;
     if (sectionId === 'other') {
-      return `<tr class="log-row" role="button" tabindex="0" onclick="${open}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${open}}">
-        <td>${num}</td><td class="log-name">${name}</td><td>${brand}</td><td>${colour}</td><td>${hair}</td><td>${type}</td><td>${size}</td><td>${year}</td><td>${shelf}</td></tr>`;
+      return `<tr ${rowAttrs}>
+        <td>${num}</td><td class="log-name">${name}</td><td>${brand}</td><td>${colour}</td><td>${hair}</td><td>${type}</td><td>${size}</td><td>${year}</td><td>${cutie}</td><td>${shelf}</td></tr>`;
     }
     if (sectionId === 'mcd') {
-      return `<tr class="log-row" role="button" tabindex="0" onclick="${open}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${open}}">
-        <td>${num}</td><td class="log-name">${name}</td><td>${mcd}</td><td>${colour}</td><td>${hair}</td><td>${size}</td><td>${year}</td><td>${shelf}</td></tr>`;
+      return `<tr ${rowAttrs}>
+        <td>${num}</td><td class="log-name">${name}</td><td>${release}</td><td>${colour}</td><td>${hair}</td><td>${size}</td><td>${year}</td><td>${cutie}</td><td>${shelf}</td></tr>`;
     }
-    return `<tr class="log-row" role="button" tabindex="0" onclick="${open}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${open}}">
-      <td>${num}</td><td class="log-name">${name}</td><td>${colour}</td><td>${hair}</td><td>${type}</td><td>${size}</td><td>${year}</td><td>${shelf}</td></tr>`;
+    return `<tr ${rowAttrs}>
+      <td>${num}</td><td class="log-name">${name}</td><td>${colour}</td><td>${hair}</td><td>${type}</td><td>${size}</td><td>${year}</td><td>${cutie}</td><td>${shelf}</td></tr>`;
   }
 
-  function logHead(sectionId) {
+  function logHead(sectionId, groupedMcd) {
     if (sectionId === 'other') {
-      return '<tr><th>#</th><th>Name</th><th>Brand</th><th>Colour</th><th>Hair</th><th>Type</th><th>Size</th><th>Year</th><th>Shelf</th></tr>';
+      return '<tr><th>#</th><th>Name</th><th>Brand</th><th>Colour</th><th>Hair</th><th>Type</th><th>Size</th><th>Year</th><th>Cutie</th><th>Shelf</th></tr>';
     }
     if (sectionId === 'mcd') {
-      return '<tr><th>#</th><th>Name</th><th>Country · Year</th><th>Colour</th><th>Hair</th><th>Size</th><th>Year got</th><th>Shelf</th></tr>';
+      return groupedMcd
+        ? '<tr><th>#</th><th>Name</th><th>Release</th><th>Colour</th><th>Hair</th><th>Size</th><th>Year got</th><th>Cutie</th><th>Shelf</th></tr>'
+        : '<tr><th>#</th><th>Name</th><th>Country · Year</th><th>Colour</th><th>Hair</th><th>Size</th><th>Year got</th><th>Cutie</th><th>Shelf</th></tr>';
     }
-    return '<tr><th>#</th><th>Name</th><th>Colour</th><th>Hair</th><th>Type</th><th>Size</th><th>Year</th><th>Shelf</th></tr>';
+    return '<tr><th>#</th><th>Name</th><th>Colour</th><th>Hair</th><th>Type</th><th>Size</th><th>Year</th><th>Cutie</th><th>Shelf</th></tr>';
   }
 
-  function renderLogs(container, state, filter, renderCard) {
-    const section = filter.logSection || 'g4';
-    const secMeta = LOG_SECTIONS.find(s => s.id === section) || LOG_SECTIONS[3];
+  function renderMcdRegister(list) {
+    const groups = groupMcDonalds(list);
+    if (!groups.length) {
+      return '<div class="empty"><span>🍟</span><p>No McDonald\'s ponies in this log yet.</p></div>';
+    }
+    return groups.map(g => {
+      const yearBlocks = g.yearGroups.map(yg => `
+        <div class="mcd-year-block">
+          <h4 class="mcd-year-hdr">📅 ${esc(yg.year)} <span class="mcd-year-count">${yg.ponies.length}</span></h4>
+          <div class="log-table-wrap mcd-table-wrap">
+            <table class="log-table"><thead>${logHead('mcd', true)}</thead>
+            <tbody>${yg.ponies.map(p => logRow(p, 'mcd')).join('')}</tbody></table>
+          </div>
+        </div>`).join('');
+      return `<section class="mcd-country-group card">
+        <h3 class="mcd-country-hdr">🌍 ${esc(g.country)} <span class="mcd-country-count">${g.yearGroups.reduce((n, y) => n + y.ponies.length, 0)} ponies</span></h3>
+        ${yearBlocks}
+      </section>`;
+    }).join('');
+  }
+
+  function renderRegisterTable(section, list) {
+    if (section === 'mcd') return renderMcdRegister(list);
+    if (!list.length) return '';
+    return `<div class="log-table-wrap"><table class="log-table"><thead>${logHead(section, false)}</thead><tbody>${list.map(p => logRow(p, section)).join('')}</tbody></table></div>`;
+  }
+
+  function filteredLogList(section, state, filter) {
     const q = (filter.q || '').toLowerCase();
     let list = poniesForSection(section, state.ponies);
+    if (section === 'mcd' && filter.mcdCountry && filter.mcdCountry !== 'all') {
+      list = list.filter(p => ((p.mcdCountry || '').trim() || 'Unknown') === filter.mcdCountry);
+    }
     if (q) {
       list = list.filter(p => (window.Excellence ? Excellence.matchPony(p, q) : (
         (p.name || '').toLowerCase().includes(q) ||
         (p.colour || '').toLowerCase().includes(q) ||
         (p.hairColour || '').toLowerCase().includes(q) ||
         (p.brand || '').toLowerCase().includes(q) ||
+        (p.mcdCountry || '').toLowerCase().includes(q) ||
+        (p.mcdYear || '').toLowerCase().includes(q) ||
         (p.shelf || '').toLowerCase().includes(q) ||
         (p.catalogNumber || '').toLowerCase().includes(q)
       )));
     }
-    list = sortLogPonies(list, filter.logSort || 'name');
+    if (section !== 'mcd') list = sortLogPonies(list, filter.logSort || 'name');
+    return list;
+  }
+
+  function appState() {
+    if (typeof S !== 'undefined') return S;
+    if (window.S) return window.S;
+    return { ponies: [], collector: {} };
+  }
+
+  function exportGenerationLogPrint(sectionId) {
+    const state = appState();
+    const filter = { ...(window.filter || {}), ...(window.logFilter || {}), logSection: sectionId || window.logFilter?.logSection || 'g1' };
+    const section = filter.logSection;
+    const secMeta = LOG_SECTIONS.find(s => s.id === section) || LOG_SECTIONS[0];
+    const list = filteredLogList(section, state, filter);
+    const collector = state?.collector?.name || 'My Collection';
+    const date = new Date().toLocaleDateString();
+    const E = esc;
+
+    function printTableHead(sec, groupedMcd) {
+      return logHead(sec, groupedMcd).replace(/<\/?tr>/g, '').split('<th>').filter(Boolean).map(h => h.replace(/<\/th>/, ''));
+    }
+
+    function printRows(sec, ponies, groupedMcd) {
+      return ponies.map(p => {
+        const cells = [];
+        const push = v => cells.push(E(v || '—'));
+        if (sec === 'other') {
+          push(p.catalogNumber); push(p.name); push(p.brand); push(p.colour); push(p.hairColour);
+          push((window.TYPE_LABELS && TYPE_LABELS[p.type]) || p.type); push((window.SIZE_LABELS && SIZE_LABELS[p.size]) || p.size);
+          push(acquiredYear(p)); push(p.cutieMark); push(p.shelf);
+        } else if (sec === 'mcd') {
+          push(p.catalogNumber); push(p.name);
+          push(groupedMcd ? p.mcdYear : `${p.mcdCountry || '—'} · ${p.mcdYear || '—'}`);
+          push(p.colour); push(p.hairColour); push((window.SIZE_LABELS && SIZE_LABELS[p.size]) || p.size);
+          push(acquiredYear(p)); push(p.cutieMark); push(p.shelf);
+        } else {
+          push(p.catalogNumber); push(p.name); push(p.colour); push(p.hairColour);
+          push((window.TYPE_LABELS && TYPE_LABELS[p.type]) || p.type); push((window.SIZE_LABELS && SIZE_LABELS[p.size]) || p.size);
+          push(acquiredYear(p)); push(p.cutieMark); push(p.shelf);
+        }
+        return `<tr>${cells.map(c => `<td>${c}</td>`).join('')}</tr>`;
+      }).join('');
+    }
+
+    function printTable(sec, ponies, groupedMcd) {
+      const heads = printTableHead(sec, groupedMcd);
+      return `<table><thead><tr>${heads.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${printRows(sec, ponies, groupedMcd)}</tbody></table>`;
+    }
+
+    let body = '';
+    if (section === 'mcd') {
+      const groups = groupMcDonalds(list);
+      body = groups.map(g => {
+        const inner = g.yearGroups.map(yg => `
+          <h3>${E(g.country)} · ${E(yg.year)} (${yg.ponies.length})</h3>
+          ${printTable('mcd', yg.ponies, true)}`).join('');
+        return `<section class="print-group"><h2>🍟 ${E(g.country)}</h2>${inner}</section>`;
+      }).join('');
+    } else {
+      const sorted = sortLogPonies(list, filter.logSort || 'name');
+      body = printTable(section, sorted, false);
+    }
+
+    const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>${E(collector)} — ${E(secMeta.label)} Log</title>
+<style>
+@page { size: A4 landscape; margin: 12mm; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1F2937;font-size:9pt}
+.print-cover{text-align:center;padding:16mm 8mm 10mm;border-bottom:2px solid #EC4899;margin-bottom:8mm}
+.print-cover h1{font-size:22pt;color:#C4367A;margin-bottom:4mm}
+.print-cover p{font-size:11pt;color:#6B7280}
+.print-group{margin-bottom:10mm;page-break-inside:avoid}
+h2{font-size:14pt;color:#9333EA;margin:8mm 0 4mm}
+h3{font-size:11pt;color:#4B5563;margin:5mm 0 2mm}
+table{width:100%;border-collapse:collapse;margin-bottom:6mm}
+th,td{border:1px solid #E5E7EB;padding:4px 6px;text-align:left;vertical-align:top}
+th{background:#FFF5F8;color:#9D174D;font-size:8pt;text-transform:uppercase;letter-spacing:.03em}
+tr:nth-child(even) td{background:#FFFBFC}
+.print-footer{margin-top:8mm;text-align:center;font-size:8pt;color:#9CA3AF}
+@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style></head><body>
+<div class="print-cover"><h1>${secMeta.emoji} ${E(secMeta.label)} Collection Log</h1>
+<p>${E(collector)} · ${list.length} ponies · DeePonyCap · ${date}</p></div>
+${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.</p>'}
+<div class="print-footer">Private collection register · DeePonyCap v${E(window.APP_VERSION || '3.0.0')}</div>
+</body></html>`;
+
+    const win = window.open('', '_blank', 'noopener');
+    if (!win) { window.Toast?.show('Allow pop-ups to print register'); return; }
+    win.document.write(html);
+    win.document.close();
+    win.onload = () => { setTimeout(() => win.print(), 400); };
+    window.Toast?.show('Opening print dialog…');
+  }
+
+  function renderLogs(container, state, filter, renderCard) {
+    const section = filter.logSection || 'g4';
+    const secMeta = LOG_SECTIONS.find(s => s.id === section) || LOG_SECTIONS[3];
+    const list = filteredLogList(section, state, filter);
     const view = filter.logView || 'register';
     const chips = LOG_SECTIONS.map(s => {
       const n = poniesForSection(s.id, state.ponies).length;
-      return `<button type="button" class="chip${section === s.id ? ' on' : ''}" onclick="logFilter.logSection='${s.id}';filter.page=0;Render.logs()">${s.emoji} ${s.label}${n ? ` (${n})` : ''}</button>`;
+      return `<button type="button" class="chip${section === s.id ? ' on' : ''}" onclick="logFilter.logSection='${s.id}';logFilter.mcdCountry='all';filter.page=0;Render.logs()">${s.emoji} ${s.label}${n ? ` (${n})` : ''}</button>`;
     }).join('');
 
+    const mcdCounts = section === 'mcd' ? mcdCountryCounts(state.ponies) : {};
+    const mcdCountries = section === 'mcd' ? mcdCountryOrder(Object.keys(mcdCounts)) : [];
+    const mcdChips = section === 'mcd' ? `<div class="chips mcd-country-chips">
+      <button type="button" class="chip${(filter.mcdCountry || 'all') === 'all' ? ' on' : ''}" onclick="logFilter.mcdCountry='all';Render.logs()">All (${poniesForSection('mcd', state.ponies).length})</button>
+      ${mcdCountries.map(c => `<button type="button" class="chip${filter.mcdCountry === c ? ' on' : ''}" onclick="logFilter.mcdCountry='${esc(c).replace(/'/g, "\\'")}';Render.logs()">${esc(c)} (${mcdCounts[c]})</button>`).join('')}
+    </div>` : '';
+
     const table = list.length
-      ? `<div class="log-table-wrap"><table class="log-table"><thead>${logHead(section)}</thead><tbody>${list.map(p => logRow(p, section)).join('')}</tbody></table></div>`
+      ? renderRegisterTable(section, list)
       : `<div class="empty"><span>${secMeta.emoji}</span><p>No ponies in this log yet — tap <strong>+</strong> to add one.</p></div>`;
 
     const cards = list.length
-      ? `<div class="grid">${list.map(p => renderCard(p)).join('')}</div>`
+      ? `<div class="grid">${sortLogPonies(list, filter.logSort || 'name').map(p => renderCard(p)).join('')}</div>`
       : `<div class="empty"><span>${secMeta.emoji}</span><p>No ponies in this log yet.</p></div>`;
 
     container.innerHTML = `
@@ -146,10 +332,12 @@ const CollectorSuite = (() => {
       <p class="sub">${list.length} ponies · your private collection register</p>
       <div class="search-wrap"><input class="search" type="search" aria-label="Search log" placeholder="Search this log…" value="${esc(filter.q)}" oninput="filter.q=this.value;filter.page=0;Render.logs()"></div>
       <div class="chips log-chips">${chips}</div>
+      ${mcdChips}
       <div class="log-toolbar">
+        <button type="button" class="btn-p log-print-btn" onclick="CollectorSuite.exportGenerationLogPrint('${section}')">🖨️ Print / Save PDF</button>
         <div class="sort-row" style="margin:0;flex:1">
           <label for="logSort">Sort</label>
-          <select id="logSort" class="sort-select" onchange="logFilter.logSort=this.value;Render.logs()">
+          <select id="logSort" class="sort-select" onchange="logFilter.logSort=this.value;Render.logs()"${section === 'mcd' ? ' disabled title="McDonald\'s log is grouped by country and year"' : ''}>
             <option value="name"${(filter.logSort || 'name') === 'name' ? ' selected' : ''}>Name</option>
             <option value="number"${filter.logSort === 'number' ? ' selected' : ''}>Number</option>
             <option value="year"${filter.logSort === 'year' ? ' selected' : ''}>Year acquired</option>
@@ -229,6 +417,9 @@ const CollectorSuite = (() => {
     acquiredYear,
     ponyBadge,
     poniesForSection,
+    groupMcDonalds,
+    filteredLogList,
+    exportGenerationLogPrint,
     renderLogs,
     renderPonyMap,
     applyAccent,
