@@ -6,8 +6,9 @@ const STORAGE_KEY_V1_LEGACY = 'deeponycap_v1';
 const PAGE_SIZE = 40;
 const GEN_COLORS = {1:'g1',2:'g2',3:'g3',4:'g4',5:'g5'};
 const GEN_EMOJI = {1:'💜',2:'💚',3:'💙',4:'💛',5:'🩷'};
-const TYPE_LABELS = {mlp:'🦄 MLP',filly:'🎀 Filly',velvet:'🧸 Velvet',palace_pet:'🏰 Palace',special:'✨ Special'};
+const TYPE_LABELS = {mlp:'🦄 MLP',filly:'🎀 Filly',velvet:'🧸 Velvet',palace_pet:'🏰 Palace',special:'✨ Special',mcdonalds:'🍟 McDonald\'s',other_brand:'🐴 Other brand'};
 const TYPE_KEYS = ['mlp','filly','velvet','palace_pet','special'];
+const CATEGORY_LABELS = {mlp:'My Little Pony',other:'Other pony brand',mcdonalds:"McDonald's pony"};
 const COND_LABELS = {mint:'✨ Mint',good:'👍 Good',played:'🎮 Played',loved:'💕 Loved'};
 const SIZE_LABELS = {mini:'Mini',standard:'Standard',large:'Large',extra_large:'XL'};
 const SHELF_SUGGEST = ['Shelf 1','Shelf 2','Windowsill','Display Case','Box'];
@@ -19,6 +20,7 @@ let S = {
 };
 const STORAGE_LIMIT = 5 * 1024 * 1024;
 let filter = { chip:'all', q:'', sort:'name', page:0 };
+let logFilter = { logSection:'g1', logSort:'name', logView:'register' };
 let accFilter = { q:'', cat:'all', sort:'name' };
 let editingId = null;
 let detailId = null;
@@ -36,12 +38,24 @@ function normalizePony(p) {
   const photos = Array.isArray(p.photos) ? p.photos.filter(Boolean) : [];
   if (!photos.length && p.photo) photos.push(p.photo);
   const soldComps = Array.isArray(p.soldComps) ? p.soldComps.filter(c => c && c.amount > 0) : [];
+  const category = p.category || (p.mcdCountry || p.type === 'mcdonalds' ? 'mcdonalds' : (p.brand || p.generation === 0 ? 'other' : 'mlp'));
   return {
     ...p, photos, photo: photos[0] || null,
+    category,
+    catalogNumber: p.catalogNumber || '',
+    hairColour: p.hairColour || '',
+    cutieMark: p.cutieMark || '',
+    brand: p.brand || '',
+    mcdCountry: p.mcdCountry || '',
+    mcdYear: p.mcdYear != null ? String(p.mcdYear) : '',
     purchaseValue: p.purchaseValue != null ? Number(p.purchaseValue) : null,
     estimatedValue: p.estimatedValue != null ? Number(p.estimatedValue) : null,
     soldComps,
   };
+}
+
+function ponyBadgeLabel(p) {
+  return window.CollectorSuite ? CollectorSuite.ponyBadge(p) : `G${p.generation || '?'}`;
 }
 
 function pinHash(pin) {
@@ -79,6 +93,7 @@ function ponyValue(p) {
 
 const StorageHealth = {
   _est: null,
+  _idb: false,
   async refreshEstimate() {
     if (window.DataStore) {
       this._est = await DataStore.estimateUsage();
@@ -91,6 +106,7 @@ const StorageHealth = {
   },
   quota() {
     if (this._est?.quota) return this._est.quota;
+    if (this.usesIdb()) return 500 * 1024 * 1024;
     return STORAGE_LIMIT;
   },
   pct() {
@@ -99,7 +115,7 @@ const StorageHealth = {
     return Math.min(100, Math.round(this.bytes() / q * 100));
   },
   mb() { return (this.bytes() / (1024 * 1024)).toFixed(2); },
-  usesIdb() { return !!(window.DataStore && localStorage.getItem(DataStore.LS_POINTER)); },
+  usesIdb() { return this._idb || !!(window.DataStore && (localStorage.getItem(DataStore.LS_POINTER) || (S && S.version >= 4))); },
   photoBytes() {
     return S.ponies.reduce((sum, p) => {
       const photos = p.photos?.length ? p.photos : (p.photo ? [p.photo] : []);
@@ -169,6 +185,7 @@ const Store = {
       settings: {
         collectorMode: false, darkMode: false, hapticsEnabled: true,
         parentPinEnabled: false, parentPinHash: null, updatePolicy: 'ask',
+        accentTheme: 'pink',
         ...(parsed.settings || {}),
       },
       accessories: parsed.accessories || [],
@@ -196,6 +213,7 @@ const Store = {
         const fromIdb = await DataStore.load();
         if (fromIdb) {
           Store._applyParsed(fromIdb);
+          StorageHealth._idb = true;
           await Store._hydratePhotos();
           await StorageHealth.refreshEstimate();
           return;
@@ -209,6 +227,7 @@ const Store = {
       if (raw) {
         Store._applyParsed(JSON.parse(raw));
         await Store._hydratePhotos();
+        StorageHealth._idb = !!window.DataStore;
         await Store.save();
       }
     } catch (e) {
@@ -241,10 +260,11 @@ const Store = {
       const payload = { ...S, ponies };
       if (window.DataStore) {
         await DataStore.save(payload);
+        StorageHealth._idb = true;
       } else {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
       }
-      StorageHealth.refreshEstimate();
+      await StorageHealth.refreshEstimate();
     };
     persist().catch(() => {
       try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); } catch {}
@@ -320,9 +340,17 @@ const Theme = {
   apply() {
     document.documentElement.classList.toggle('collector-mode', !!S.settings?.collectorMode);
     document.documentElement.classList.toggle('dark-mode', !!S.settings?.darkMode);
+    if (window.CollectorSuite) CollectorSuite.applyAccent(S.settings?.accentTheme || 'pink');
     if (window.Seasonal) Seasonal.apply();
     const meta = document.getElementById('themeMeta');
     if (meta) meta.content = S.settings?.darkMode ? '#1F2937' : (S.settings?.collectorMode ? '#6D28D9' : '#FF6B9D');
+  },
+  setAccent(id) {
+    S.settings.accentTheme = id;
+    Store.save();
+    Theme.apply();
+    Render.settings();
+    Toast.show('Theme updated ✨');
   },
   toggle() {
     S.settings.collectorMode = !S.settings.collectorMode;
@@ -342,11 +370,13 @@ const Theme = {
 
 const Csv = {
   export() {
-    const header = 'name,generation,type,colour,size,shelf,condition,isOriginal,purchaseValue,estimatedValue,notes';
+    const header = 'name,category,generation,catalogNumber,type,colour,hairColour,size,shelf,brand,mcdCountry,mcdYear,cutieMark,acquiredDate,condition,isOriginal,purchaseValue,estimatedValue,notes';
     const rows = S.ponies.map(p => [
-      `"${(p.name||'').replace(/"/g,'""')}"`, p.generation, p.type,
-      `"${(p.colour||'').replace(/"/g,'""')}"`, p.size,
-      `"${(p.shelf||'').replace(/"/g,'""')}"`, p.condition, p.isOriginal ? 1 : 0,
+      `"${(p.name||'').replace(/"/g,'""')}"`, p.category || 'mlp', p.generation, `"${(p.catalogNumber||'').replace(/"/g,'""')}"`, p.type,
+      `"${(p.colour||'').replace(/"/g,'""')}"`, `"${(p.hairColour||'').replace(/"/g,'""')}"`, p.size,
+      `"${(p.shelf||'').replace(/"/g,'""')}"`, `"${(p.brand||'').replace(/"/g,'""')}"`, `"${(p.mcdCountry||'').replace(/"/g,'""')}"`, p.mcdYear || '',
+      `"${(p.cutieMark||'').replace(/"/g,'""')}"`, p.acquiredDate || '',
+      p.condition, p.isOriginal ? 1 : 0,
       ponyValue(p) ?? '', p.estimatedValue ?? '', `"${(p.notes||'').replace(/"/g,'""')}"`
     ].join(','));
     const blob = new Blob([[header, ...rows].join('\n')], { type: 'text/csv' });
@@ -682,12 +712,14 @@ const DemoUI = {
     const demo = new URLSearchParams(location.search).get('demo') === '1';
     if (!demo || sessionStorage.getItem('deepony_demo_dismiss')) return;
     const b = document.getElementById('demoBanner');
-    if (b) b.style.display = 'flex';
+    if (b) b.style.display = 'block';
+    document.getElementById('main')?.classList.add('demo-active');
   },
   dismissBanner() {
     sessionStorage.setItem('deepony_demo_dismiss', '1');
     const b = document.getElementById('demoBanner');
     if (b) b.style.display = 'none';
+    document.getElementById('main')?.classList.remove('demo-active');
   }
 };
 
@@ -738,11 +770,19 @@ const Confetti = {
 
 const Nav = {
   go(tab) {
+    if (tab === 'collection') tab = 'logs';
+    if (tab === 'shelves') tab = 'map';
     Haptic.tap();
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
     document.getElementById('tab-'+tab).classList.add('on');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.tab===tab));
+    const gear = document.querySelector('.app-settings-btn');
+    if (gear) gear.hidden = tab === 'settings';
     Render.all();
+  },
+  goLog(section) {
+    if (section) logFilter.logSection = section;
+    Nav.go('logs');
   }
 };
 
@@ -750,9 +790,9 @@ const Render = {
   all() {
     const on = document.querySelector('.screen.on')?.id?.replace('tab-','');
     if (on==='stable') this.stable();
-    if (on==='collection') this.collection();
+    if (on==='logs' || on==='collection') this.logs();
     if (on==='wishlist') this.wishlist();
-    if (on==='shelves') this.shelves();
+    if (on==='map' || on==='shelves') this.ponyMap();
     if (on==='stats') this.stats();
     if (on==='accessories') this.accessoryGallery();
     if (on==='settings') this.settings();
@@ -773,11 +813,24 @@ const Render = {
       <div class="pony-body">
         <div class="pony-name">${this.esc(p.name)} ${p.isFavourite?'❤️':''}${p.isMostPlayed?'🎮':''}${photoCount>1?` 📷${photoCount}`:''}</div>
         <div class="badges">
-          <span class="badge ${g}">G${p.generation}</span>
+          <span class="badge ${g}">${this.esc(ponyBadgeLabel(p))}</span>
           <span class="badge" style="background:var(--pink-light);color:var(--text)">${TYPE_LABELS[p.type]||p.type}</span>
           ${(S.settings?.collectorMode && ponyValue(p)) ? `<span class="badge" style="background:var(--mint);color:#1F2937">$${ponyValue(p)}</span>` : ''}
         </div>
       </div>
+    </div>`;
+  },
+  shelfPonyCard(p) {
+    const g = GEN_COLORS[p.generation]||'g5';
+    const ph = ponyPhoto(p);
+    const emoji = GEN_EMOJI[p.generation] || '🦄';
+    const id = p.id;
+    return `<div class="mini-card shelf-pony" draggable="true" data-pony-id="${id}"
+      ondragstart="UI.shelfDragStart(event,'${id}')" ondragend="UI.shelfDragEnd(event)"
+      onclick="UI.openMoveShelf('${id}')">
+      <button type="button" class="shelf-move-btn" aria-label="Move ${this.esc(p.name)}" onclick="event.stopPropagation();UI.openMoveShelf('${id}')">↕</button>
+      ${ph ? `<div class="pony-img"><img src="${ph}" alt="" loading="lazy"></div>` : `<div class="pony-img" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))">${emoji}</div>`}
+      <div class="pony-body"><div class="pony-name">${this.esc(p.name)}</div></div>
     </div>`;
   },
   stable() {
@@ -786,7 +839,10 @@ const Render = {
     const gens = [1,2,3,4,5].map(g => ({g, c: S.ponies.filter(p=>p.generation===g).length}));
     const total = n || 1;
     const bars = gens.map(x => `<span style="width:${(x.c/total*100)||0}%;background:var(--g${x.g})"></span>`).join('');
-    const pills = gens.map(x => `<button class="pill g${x.g}" onclick="filter.chip='g${x.g}';filter.page=0;Nav.go('collection')">G${x.g} ${GEN_EMOJI[x.g]} ${x.c}</button>`).join('');
+    const pills = gens.map(x => `<button class="pill g${x.g}" onclick="Nav.goLog('g${x.g}')">G${x.g} ${GEN_EMOJI[x.g]} ${x.c}</button>`).join('');
+    const otherN = S.ponies.filter(p => (p.category || 'mlp') === 'other').length;
+    const mcdN = S.ponies.filter(p => (p.category || '') === 'mcdonalds' || p.mcdCountry).length;
+    const extraPills = `${otherN ? `<button class="pill" style="background:var(--coral);color:#fff" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button class="pill" style="background:#F59E0B;color:#1F2937" onclick="Nav.goLog('mcd')">🍟 McD ${mcdN}</button>` : ''}`;
     const types = TYPE_KEYS.map(t => `<div class="type-card"><span>${TYPE_LABELS[t].split(' ')[0]}</span>${t.replace('_',' ')}<br><strong>${S.ponies.filter(p=>p.type===t).length}</strong></div>`).join('');
     const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
     const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
@@ -821,10 +877,6 @@ const Render = {
       <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
       ${backupNudge}
       ${annivHtml}
-      <div class="card" style="margin-top:0;cursor:pointer" onclick="Nav.go('accessories')">
-        <div class="section-title">🎀 Accessory Gallery</div>
-        <p style="font-size:.85rem;color:var(--text-soft)">${(S.accessories||[]).length ? `${S.accessories.length} accessories · tap to browse photos` : 'Add playsets & accessories with photos'}</p>
-      </div>
       <div class="card">
         <div class="big-num" id="counterNum">0</div>
         <div class="big-label">ponies in your collection</div>
@@ -833,7 +885,12 @@ const Render = {
       </div>
       ${goalsHtml ? `<div class="card"><div class="section-title">Collection goals 🎯</div>${goalsHtml}</div>` : ''}
       ${window.Excellence ? Excellence.suggestionsHtml() : ''}
-      <div class="row-scroll">${pills}</div>
+      <div class="row-scroll">${pills}${extraPills}</div>
+      <div class="premium-views">
+        <button type="button" class="btn-g" onclick="Nav.goLog('g1')">📋 Generation logs</button>
+        <button type="button" class="btn-g" onclick="Nav.go('map')">🗺️ Pony Map</button>
+        <button type="button" class="btn-g" onclick="Nav.go('stats')">🌈 Stats</button>
+      </div>
       <div class="type-grid">${types}</div>
       ${recent.length?`<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
       ${faves.length?`<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
@@ -859,31 +916,19 @@ const Render = {
     else if (filter.sort==='condition') { const o={mint:0,good:1,played:2,loved:3}; list.sort((a,b)=>(o[a.condition]||0)-(o[b.condition]||0)); }
     return list;
   },
-  collection() {
-    const chips = [['all','All'],['g1','G1'],['g2','G2'],['g3','G3'],['g4','G4'],['g5','G5'],
-      ...TYPE_KEYS.map(t=>[t,TYPE_LABELS[t]]),['faves','❤️ Faves'],['played','🎮 Most Played'],['originals','Originals'],['extras','Extras']];
-    const list = this.filteredPonies();
-    const pages = Math.max(1, Math.ceil(list.length / PAGE_SIZE));
-    if (filter.page >= pages) filter.page = pages - 1;
-    if (filter.page < 0) filter.page = 0;
-    const slice = list.slice(filter.page * PAGE_SIZE, (filter.page + 1) * PAGE_SIZE);
-    const suggestions = window.ponyNameSuggestions ? '' : '';
-    document.getElementById('tab-collection').innerHTML = `
-      <div class="search-wrap"><input class="search" type="search" aria-label="Search ponies" placeholder="Search ponies (fuzzy)..." value="${this.esc(filter.q)}" oninput="filter.q=this.value;filter.page=0;Render.collection()"></div>
-      <div class="chips">${chips.map(([k,l])=>`<button class="chip${filter.chip===k?' on':''}" onclick="filter.chip='${k}';filter.page=0;Render.collection()">${l}</button>`).join('')}</div>
-      <div class="sort-row">Sort <select onchange="filter.sort=this.value;filter.page=0;Render.collection()">
-        <option value="name"${filter.sort==='name'?' selected':''}>Name</option>
-        <option value="gen"${filter.sort==='gen'?' selected':''}>Generation</option>
-        <option value="recent"${filter.sort==='recent'?' selected':''}>Recently Added</option>
-        <option value="condition"${filter.sort==='condition'?' selected':''}>Condition</option>
-      </select> · ${list.length} ponies</div>
-      <div class="grid">${slice.length?slice.map(p=>this.ponyCard(p)).join(''):`<div class="empty" style="grid-column:1/-1"><span>🦄</span><p>No ponies yet — tap <strong>+</strong> to add your first friend.</p>${!S.ponies.length?'<button class="btn-g" style="margin-top:12px" onclick="DemoSeed.load()">Try demo collection</button>':''}</div>`}</div>
-      ${pages>1?`<div class="pager">
-        <button class="btn-g" ${filter.page<=0?'disabled':''} onclick="filter.page--;Render.collection()">← Prev</button>
-        <span>Page ${filter.page+1} / ${pages}</span>
-        <button class="btn-g" ${filter.page>=pages-1?'disabled':''} onclick="filter.page++;Render.collection()">Next →</button>
-      </div>`:''}`;
+  logs() {
+    if (!window.CollectorSuite) {
+      document.getElementById('tab-logs').innerHTML = '<div class="empty"><span>📋</span><p>Loading logs…</p></div>';
+      return;
+    }
+    const merged = { ...filter, ...logFilter };
+    CollectorSuite.renderLogs(document.getElementById('tab-logs'), S, merged, (p) => this.ponyCard(p));
   },
+  ponyMap() {
+    if (!window.CollectorSuite) return;
+    CollectorSuite.renderPonyMap(document.getElementById('tab-map'), S, ponyPhoto);
+  },
+  collection() { this.logs(); },
   wishlist() {
     const groups = {must:[],want:[],someday:[]};
     S.wishlist.forEach(w => (groups[w.priority]||groups.someday).push(w));
@@ -921,7 +966,8 @@ const Render = {
       ${renderGroup('🟡 Want','want',groups.want)}
       ${renderGroup('🟢 Someday','someday',groups.someday)}`;
   },
-  shelves() {
+  shelves() { this.ponyMap(); },
+  shelfOrganize() {
     const shelves = {};
     S.ponies.forEach(p => {
       const s = (p.shelf||'').trim() || '__unshelved__';
@@ -929,27 +975,25 @@ const Render = {
       shelves[s].push(p);
     });
     const keys = Object.keys(shelves).filter(k=>k!=='__unshelved__').sort();
-    let html = `<h1 class="greet">🗂️ My Shelves</h1><p class="sub">Where your ponies live</p>`;
+    let html = `<button type="button" class="btn-g" style="margin-bottom:12px" onclick="Render.ponyMap()">← Back to Pony Map</button>
+      <h1 class="greet">🗂️ Organize Shelves</h1><p class="sub">Tap ↕ or drag ponies between shelves</p>`;
     keys.forEach(s => {
       const js = String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      html += `<div class="shelf-sec"><div class="shelf-hdr"><span onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies</span>
+      html += `<div class="shelf-sec shelf-drop" data-shelf="${this.esc(s)}" ondragover="UI.shelfDragOver(event)" ondragleave="UI.shelfDragLeave(event)" ondrop="UI.shelfDrop(event,'${js}')"><div class="shelf-hdr"><span onclick="UI.filterShelf('${js}')">🗄️ ${this.esc(s)} — ${shelves[s].length} ponies</span>
         <span class="shelf-actions">
           <button class="btn-g shelf-btn" onclick="UI.shareShelf('${js}')">Share</button>
           <button class="btn-g shelf-btn" onclick="UI.renameShelf('${js}')">Rename</button>
         </span></div>
-        <div class="row-scroll">${shelves[s].map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
+        <div class="row-scroll">${shelves[s].map(p=>this.shelfPonyCard(p)).join('')}</div></div>`;
     });
     if (shelves.__unshelved__) {
-      html += `<div class="shelf-sec"><div class="shelf-hdr">📦 Unshelved — ${shelves.__unshelved__.length}</div>
-        <div class="row-scroll">${shelves.__unshelved__.map(p=>this.ponyCard(p,true)).join('')}</div></div>`;
+      html += `<div class="shelf-sec shelf-drop" data-shelf="" ondragover="UI.shelfDragOver(event)" ondragleave="UI.shelfDragLeave(event)" ondrop="UI.shelfDrop(event,'')"><div class="shelf-hdr">📦 Unshelved — ${shelves.__unshelved__.length}</div>
+        <div class="row-scroll">${shelves.__unshelved__.map(p=>this.shelfPonyCard(p)).join('')}</div></div>`;
     }
     if (!S.ponies.length) {
-      html += `<div class="empty"><span>🗂️</span><p>Shelves group ponies by where they live — set a shelf name when you add or edit a pony.</p>
-        <button class="btn-g" style="margin-top:12px" onclick="DemoSeed.load()">Try demo collection</button></div>`;
-    } else if (!keys.length && !shelves.__unshelved__) {
-      html += `<div class="empty"><span>📦</span><p>All ponies are unshelved — edit a pony and add a shelf name to organize them.</p></div>`;
+      html += `<div class="empty"><span>🗂️</span><p>Set a shelf name when you add or edit a pony.</p></div>`;
     }
-    document.getElementById('tab-shelves').innerHTML = html;
+    document.getElementById('tab-map').innerHTML = html;
   },
   stats() {
     const n = S.ponies.length;
@@ -1069,12 +1113,11 @@ const Render = {
       </div>`;
     }).join('');
     document.getElementById('tab-accessories').innerHTML = `
-      <button type="button" class="btn-g" style="min-height:44px;margin-bottom:12px" onclick="Nav.go('stable')">← Back to Stable</button>
-      <h1 class="greet">🎀 Accessory Gallery</h1>
-      <p class="sub">${total ? `${total} playsets & accessories` : 'Photos of accessories linked to your ponies'}${q || accFilter.cat !== 'all' ? ` · showing ${items.length}` : ''}</p>
+      <h1 class="greet">🎀 Extras & Playsets</h1>
+      <p class="sub">${total ? `${total} accessories & playsets` : 'Photos of playsets linked to your ponies'}${q || accFilter.cat !== 'all' ? ` · showing ${items.length}` : ''}</p>
       <div class="search-wrap"><input class="search" type="search" aria-label="Search accessories" placeholder="Search accessories..." value="${this.esc(accFilter.q)}" oninput="accFilter.q=this.value;Render.accessoryGallery()"></div>
       <div class="chips">${cats.map(c => `<button type="button" class="chip${accFilter.cat===c?' on':''}" onclick="accFilter.cat='${c}';Render.accessoryGallery()">${c === 'all' ? 'All' : c}</button>`).join('')}</div>
-      <div class="sort-row">Sort <select onchange="accFilter.sort=this.value;Render.accessoryGallery()">
+      <div class="sort-row"><label for="accSort" style="white-space:nowrap">Sort</label><select id="accSort" class="sort-select" onchange="accFilter.sort=this.value;Render.accessoryGallery()">
         <option value="name"${accFilter.sort==='name'?' selected':''}>Name</option>
         <option value="recent"${accFilter.sort==='recent'?' selected':''}>Recently added</option>
         <option value="linked"${accFilter.sort==='linked'?' selected':''}>Most linked</option>
@@ -1086,9 +1129,10 @@ const Render = {
         <div class="fg"><label class="fl">Photo</label><input type="file" id="accPhotoGal" accept="image/*" capture="environment"></div>
         <button class="btn-p" onclick="UI.addAccessoryFromGallery()">Add Accessory ✨</button>
       </div>
-      ${items.length ? cards : '<div class="empty"><span>🎀</span>No accessories yet — add one above or in Settings</div>'}`;
+      ${items.length ? cards : '<div class="empty"><span>🎀</span>No extras yet — add one above</div>'}`;
   },
-  settings() {
+  async settings() {
+    await StorageHealth.refreshEstimate();
     const cm = S.settings?.collectorMode;
     const dm = S.settings?.darkMode;
     const hx = S.settings?.hapticsEnabled !== false;
@@ -1096,11 +1140,17 @@ const Render = {
     const stor = StorageHealth.label();
     const storPct = StorageHealth.pct();
     const photoWarn = StorageHealth.photoWarning();
-    const ponyOpts = S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('');
+    const ver = window.APP_VERSION || '3.0.0';
     document.getElementById('tab-settings').innerHTML = `
+      <button type="button" class="btn-g" style="margin-bottom:12px;min-height:44px" onclick="Nav.go('stable')">← Back</button>
       <h1 class="greet">⚙️ Settings</h1>
-      <p class="sub">Backup, display & collector tools</p>
+      <p class="sub">Backup, display & tools</p>
       ${window.AppUpdate ? AppUpdate.settingsHtml() : ''}
+      <div class="card">
+        <div class="section-title">Personalisation 🎨</div>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:10px">Pick a colourful theme for your private collection log.</p>
+        <div class="accent-swatches">${window.CollectorSuite ? CollectorSuite.accentPickerHtml(S.settings?.accentTheme || 'pink', 'Theme.setAccent') : ''}</div>
+      </div>
       <div class="card storage-card storage-${stor.level}">
         <div class="section-title">Storage</div>
         <div class="storage-bar"><span style="width:${storPct}%"></span></div>
@@ -1169,19 +1219,8 @@ const Render = {
         <button class="btn-g" style="width:100%;margin-top:10px" onclick="UI.restoreRecovery()">Recover auto-snapshot</button>
       </div>
       <div class="card">
-        <div class="section-title">Accessories & Playsets (optional)</div>
-        <div class="fg"><label class="fl">Name</label><input class="inp" id="accName" placeholder="e.g. Ponyville Playset"></div>
-        <div class="fg"><label class="fl">Link to pony (optional)</label><select class="sel" id="accPony"><option value="">— none —</option>${ponyOpts}</select></div>
-        <button class="btn-g" onclick="UI.addAccessory()">Add</button>
-        ${(S.accessories||[]).map(a=>{
-          const linked = (a.ponyIds||[]).map(id => S.ponies.find(p=>p.id===id)?.name).filter(Boolean).join(', ');
-          const hasPhoto = !!(a.photo || (a.photos && a.photos[0]));
-          return `<div class="acc-item"><div><span>${this.esc(a.name)}</span>${hasPhoto?' 📷':''}${linked?`<br><span style="font-size:.7rem;color:var(--text-soft)">🦄 ${this.esc(linked)}</span>`:''}</div><button class="btn-d" style="padding:4px 10px;font-size:.7rem" onclick="UI.delAccessory('${a.id}')">✕</button></div>`;
-        }).join('') || '<p style="font-size:.85rem;color:var(--text-soft);margin-top:8px">No accessories logged yet · <button class="btn-g" style="padding:4px 10px;font-size:.7rem" onclick="Nav.go(\'accessories\')">Open Gallery</button></p>'}
-      </div>
-      <div class="card">
         <div class="section-title">About</div>
-        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v2.6.0 · ${S.ponies.length} ponies · ${(StorageHealth.bytes()/1024).toFixed(0)} KB stored</p>
+        <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v${ver} · ${S.ponies.length} ponies</p>
         <button class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay Onboarding</button>
       </div>`;
   }
@@ -1213,9 +1252,12 @@ const UI = {
   },
   defaultForm(p) {
     const photos = p?.photos?.length ? [...p.photos] : (p?.photo ? [p.photo] : []);
+    const category = p?.category || 'mlp';
     return {
-      name: p?.name||'', generation: p?.generation||4, type: p?.type||'mlp',
-      colour: p?.colour||'', size: p?.size||'standard', shelf: p?.shelf||'Shelf 1',
+      name: p?.name||'', category, generation: p?.generation||4, type: p?.type||'mlp',
+      catalogNumber: p?.catalogNumber||'', colour: p?.colour||'', hairColour: p?.hairColour||'',
+      cutieMark: p?.cutieMark||'', brand: p?.brand||'', mcdCountry: p?.mcdCountry||'', mcdYear: p?.mcdYear||'',
+      size: p?.size||'standard', shelf: p?.shelf||'Shelf 1',
       isOriginal: p?.isOriginal!==false, condition: p?.condition||'good',
       isFavourite: p?.isFavourite||false, isMostPlayed: p?.isMostPlayed||false,
       photos, photo: photos[0]||null, acquiredDate: p?.acquiredDate||'', notes: p?.notes||'',
@@ -1229,6 +1271,12 @@ const UI = {
   openAdd(prefill) {
     editingId = null;
     formState = this.defaultForm(prefill);
+    if (!prefill && logFilter.logSection) {
+      const sec = logFilter.logSection;
+      if (sec.startsWith('g')) formState = { ...formState, category: 'mlp', generation: parseInt(sec.slice(1), 10) };
+      else if (sec === 'other') formState = { ...formState, category: 'other', type: 'other_brand' };
+      else if (sec === 'mcd') formState = { ...formState, category: 'mcdonalds', type: 'mcdonalds' };
+    }
     this.renderForm('Add Pony 🦄');
   },
   openEdit(id) {
@@ -1240,24 +1288,46 @@ const UI = {
   },
   renderForm(title) {
     const f = formState;
+    const cat = f.category || 'mlp';
+    const catOpts = Object.keys(CATEGORY_LABELS).map(c =>
+      `<button type="button" class="opt${cat===c?' on':''}" onclick="UI.setForm('category','${c}')">${CATEGORY_LABELS[c]}</button>`
+    ).join('');
     const gOpts = [1,2,3,4,5].map(g=>`<button type="button" class="opt g${g}${f.generation===g?' on':''}" onclick="UI.setForm('generation',${g})">G${g}</button>`).join('');
     const tOpts = TYPE_KEYS.map(t=>`<button type="button" class="opt${f.type===t?' on':''}" onclick="UI.setForm('type','${t}')">${TYPE_LABELS[t]}</button>`).join('');
     const sOpts = ['mini','standard','large','extra_large'].map(s=>`<button type="button" class="opt${f.size===s?' on':''}" onclick="UI.setForm('size','${s}')">${SIZE_LABELS[s]}</button>`).join('');
     const cOpts = Object.keys(COND_LABELS).map(c=>`<button type="button" class="opt${f.condition===c?' on':''}" onclick="UI.setForm('condition','${c}')">${COND_LABELS[c]}</button>`).join('');
     const shelfList = [...new Set([...SHELF_SUGGEST, ...S.ponies.map(p=>p.shelf).filter(Boolean)])].map(s=>`<option value="${Render.esc(s)}"${f.shelf===s?' selected':''}>`).join('');
+    const mcdCountries = (window.CollectorSuite?.MCD_COUNTRIES || ['USA','UK','Canada','Other']).map(c =>
+      `<option value="${c}"${f.mcdCountry===c?' selected':''}>${c}</option>`).join('');
     const photos = f.photos || [];
     const photoGrid = photos.map((ph,i)=>`<div class="photo-thumb${i===0?' primary':''}" onclick="UI.setPrimaryPhoto(${i})"><img src="${ph}" alt=""><button type="button" class="photo-rm" onclick="event.stopPropagation();UI.removePhoto(${i})">✕</button></div>`).join('');
+    const mlpFields = cat === 'mlp' ? `
+      <div class="fg"><label class="fl">Generation</label><div class="sel-row">${gOpts}</div></div>
+      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>` : '';
+    const otherFields = cat === 'other' ? `
+      <div class="fg"><label class="fl">Brand name</label><input class="inp" value="${Render.esc(f.brand)}" placeholder="e.g. Lisa Frank, Schleich…" oninput="formState.brand=this.value"></div>
+      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>` : '';
+    const mcdFields = cat === 'mcdonalds' ? `
+      <div class="fg-row">
+        <div class="fg"><label class="fl">Country</label><select class="sel" onchange="formState.mcdCountry=this.value">${mcdCountries}</select></div>
+        <div class="fg"><label class="fl">Release year</label><input class="inp" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
+      </div>` : '';
     this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
       <div class="photo-row">${photoGrid}<div class="photo-upload small" onclick="document.getElementById('photoIn').click()">${photos.length?'+':'📸'}</div></div>
       <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="UI.onPhoto(event)" multiple>
-      ${f.generation === 4 ? `<div class="g4-bulk-stub"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 G4 bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:#78350F">Select multiple G4 photos — matches names from filenames or creates new ponies.</p></div>` : ''}
+      ${cat === 'mlp' && f.generation === 4 ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 G4 bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple G4 photos — matches names from filenames or creates new ponies.</p></div>` : ''}
       <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Tap to add photos (up to 5)'}</p>
+      <div class="fg"><label class="fl">Category</label><div class="sel-row">${catOpts}</div></div>
+      <div class="fg"><label class="fl">Log number</label><input class="inp" value="${Render.esc(f.catalogNumber)}" placeholder="Your collection # (optional)" oninput="formState.catalogNumber=this.value"></div>
       <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.generation, f.name)}</datalist></div>
-      <div class="fg"><label class="fl">Generation</label><div class="sel-row">${gOpts}</div></div>
-      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>
-      <div class="fg"><label class="fl">Colour</label><input class="inp" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
+      ${mlpFields}${otherFields}${mcdFields}
+      <div class="fg-row">
+        <div class="fg"><label class="fl">Body colour</label><input class="inp" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
+        <div class="fg"><label class="fl">Hair colour</label><input class="inp" value="${Render.esc(f.hairColour)}" placeholder="Purple, rainbow…" oninput="formState.hairColour=this.value"></div>
+      </div>
       <div class="fg"><label class="fl">Size</label><div class="sel-row">${sOpts}</div></div>
-      <div class="fg"><label class="fl">Shelf</label><input class="inp" list="shelfDL" value="${Render.esc(f.shelf)}" oninput="formState.shelf=this.value"><datalist id="shelfDL">${shelfList}</datalist></div>
+      <div class="fg"><label class="fl">Cutie mark</label><input class="inp" value="${Render.esc(f.cutieMark)}" placeholder="Stars, balloons, or none" oninput="formState.cutieMark=this.value"></div>
+      <div class="fg"><label class="fl">Shelf / divider location</label><input class="inp" list="shelfDL" value="${Render.esc(f.shelf)}" oninput="formState.shelf=this.value"><datalist id="shelfDL">${shelfList}</datalist></div>
       <div class="fg"><label class="fl">Original or Extra</label><div class="toggle-row">
         <button type="button" class="opt${f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',true)">Original ✓</button>
         <button type="button" class="opt${!f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',false)">Extra 📦</button></div></div>
@@ -1268,7 +1338,7 @@ const UI = {
       <div class="fg"><label class="fl">Most Played?</label><div class="toggle-row">
         <button type="button" class="opt${f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',true)">🎮 Yes</button>
         <button type="button" class="opt${!f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',false)">No</button></div></div>
-      <div class="fg"><label class="fl">Acquired</label><input class="inp" type="date" value="${f.acquiredDate}" oninput="formState.acquiredDate=this.value"></div>
+      <div class="fg"><label class="fl">Year acquired</label><input class="inp" type="date" value="${f.acquiredDate}" oninput="formState.acquiredDate=this.value"></div>
       <div class="fg-row">
         <div class="fg"><label class="fl">Paid ($)</label><input class="inp" type="number" step="0.01" value="${f.purchaseValue??''}" placeholder="optional" oninput="formState.purchaseValue=this.value?parseFloat(this.value):null"></div>
         <div class="fg"><label class="fl">Est. value ($)</label><input class="inp" type="number" step="0.01" value="${f.estimatedValue??''}" placeholder="optional" oninput="formState.estimatedValue=this.value?parseFloat(this.value):null"></div>
@@ -1456,6 +1526,68 @@ const UI = {
     S.ponies.forEach(p => { if ((p.shelf||'').trim() === oldName) p.shelf = nn; });
     Store.save(); Render.shelves(); Toast.show('Shelf renamed ✨');
   },
+  _shelfDragId: null,
+  shelfDragStart(e, id) {
+    this._shelfDragId = id;
+    e.dataTransfer.setData('text/plain', id);
+    e.dataTransfer.effectAllowed = 'move';
+    e.currentTarget.classList.add('dragging');
+  },
+  shelfDragEnd(e) {
+    e.currentTarget.classList.remove('dragging');
+    document.querySelectorAll('.shelf-drop.drag-over').forEach(el => el.classList.remove('drag-over'));
+    this._shelfDragId = null;
+  },
+  shelfDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    e.currentTarget.classList.add('drag-over');
+  },
+  shelfDragLeave(e) {
+    e.currentTarget.classList.remove('drag-over');
+  },
+  shelfDrop(e, shelfName) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const id = e.dataTransfer.getData('text/plain') || this._shelfDragId;
+    if (!id) return;
+    this.movePonyToShelf(id, shelfName);
+  },
+  movePonyToShelf(id, shelfName) {
+    const p = S.ponies.find(x => x.id === id);
+    if (!p) return;
+    const ns = (shelfName || '').trim();
+    const cur = (p.shelf || '').trim();
+    if (cur === ns) return;
+    p.shelf = ns;
+    Store.save();
+    Render.shelves();
+    Toast.show(ns ? `Moved to ${ns} 🗄️` : 'Moved to unshelved 📦');
+    Haptic.tap();
+  },
+  openMoveShelf(id) {
+    const p = S.ponies.find(x => x.id === id);
+    if (!p) return;
+    const shelves = [...new Set(S.ponies.map(x => (x.shelf || '').trim()).filter(Boolean))];
+    const cur = (p.shelf || '').trim();
+    const btns = [
+      ...shelves.filter(s => s !== cur).map(s => {
+        const js = String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        return `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','${js}');UI.closeSheet()">🗄️ ${Render.esc(s)}</button>`;
+      }),
+      cur ? `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','');UI.closeSheet()">📦 Unshelved</button>` : '',
+      `<button type="button" class="btn-g" onclick="UI.promptNewShelf('${id}')">+ New shelf…</button>`
+    ].filter(Boolean).join('');
+    this.openSheet(`${Render.sheetHdr(`Move ${Render.esc(p.name)}`, 'UI.closeSheet()')}
+      <p class="pin-sub">Tap a shelf or drag ponies on the Shelves tab</p>
+      <div class="shelf-move-list">${btns || '<p style="font-size:.85rem;color:var(--text-soft)">No other shelves yet — create one below</p>'}</div>`);
+  },
+  promptNewShelf(id) {
+    const n = prompt('New shelf name:');
+    if (!n || !n.trim()) return;
+    this.movePonyToShelf(id, n.trim());
+    this.closeSheet();
+  },
   async onDetailPhoto(e) {
     const files = [...(e.target.files || [])];
     if (!files.length || !detailId) return;
@@ -1608,7 +1740,7 @@ const UI = {
     Achievements.checkAll(false);
     this.openAdd({ name:w.name, generation:w.generation, type:w.type, notes:w.notes });
   },
-  filterShelf(s) { filter.chip='all'; filter.q=s; filter.page=0; Nav.go('collection'); },
+  filterShelf(s) { filter.q=s; logFilter.logSection='g1'; Nav.goLog(); filter.q=s; Render.logs(); },
   addAccessory() {
     const name = document.getElementById('accName')?.value?.trim();
     if (!name) return;
@@ -1711,6 +1843,6 @@ async function boot() {
     }
   });
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=41').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=42').catch(()=>{});
 }
 boot();

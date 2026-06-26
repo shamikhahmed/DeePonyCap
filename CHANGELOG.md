@@ -2,20 +2,22 @@
 
 ## 3.0.0 (2026-06-26) — Major release
 
-DeePonyCap 3.0 is the production-ready PWA release: full collection tracker, kid-safe design, IndexedDB storage, user-controlled updates, and 25 automated tests.
+DeePonyCap 3.0 is the production-ready PWA for private pony collectors: generation logs, pony map, McDonald's & other brands, personalization, IndexedDB storage, and user-controlled updates.
 
-### Highlights
-- **Premium delight:** Collection Timeline, Pony Passport, Storybook Mode (print/PDF)
-- **IndexedDB-first storage** — no 5 MB localStorage ceiling; photos + data on device
-- **User-controlled PWA updates** — Update now / Not now; auto-update opt-in only
-- **Schema migrations** — safe upgrades from older saved data
-- **Parent PIN sheet** — polished modal for export/import/delete protection
-- **G4 bulk photo import** — filename matching, create or update ponies
-- **Collection tools** — fuzzy search, smart suggestions, bulk shelf ops, 21 achievements
-- **Accessory gallery** — categories, search, sort
-- **Recovery snapshots** + backup validation
-- **Accessibility** — skip link, dialog semantics, keyboard cards, reduced motion
-- First version archive at `/releases/v3.0.0/` for users who want to pin this release
+### Collector features (built for real collectors)
+- **Generation logs (G1–G5)** — register view with #, name, colour, hair, type, size, year acquired, shelf
+- **Other ponies** — separate log with brand name field
+- **McDonald's ponies** — country + release year log
+- **Cutie mark & photos** — every pony supports cutie mark description and up to 5 photos
+- **Pony Map** — see every shelf/divider; tap pony for passport with whereabouts
+- **Extras tab** — playsets & accessories with photos
+- **Personalisation** — colourful accent themes in Settings
+- **iPhone polish** — safe areas, floating nav, shelf drag-and-drop
+
+### Platform
+- IndexedDB-first storage, schema migrations (v5), user-controlled PWA updates
+- Parent PIN, G4 bulk import, backup/recovery, 25+ automated tests
+- First version archive at `/releases/v3.0.0/`
 
 See entries below for incremental 2.7–2.9 development notes.
 

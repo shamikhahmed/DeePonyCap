@@ -100,30 +100,34 @@
   <p><strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!</p>
   <button class="btn-g" style="padding:8px 12px;font-size:.75rem" onclick="Install.dismiss()">✕</button>
 </div>
-<div class="install-hint demo-banner" id="demoBanner" style="display:none;background:linear-gradient(90deg,#c4367a,#9333ea);color:#fff;border-color:rgba(255,255,255,.25)">
-  <span style="font-size:1.4rem">✨</span>
-  <p><strong>Demo mode</strong> — 18 ponies + wishlist loaded. Your real collection is untouched unless you import.</p>
-  <button class="btn-g" style="padding:8px 12px;font-size:.75rem;color:#fff;border-color:rgba(255,255,255,.4)" onclick="DemoUI.dismissBanner()" aria-label="Dismiss demo banner">✕</button>
+<div class="demo-banner" id="demoBanner" style="display:none" role="status">
+  <div class="demo-banner-inner">
+    <span class="demo-banner-icon" aria-hidden="true">✨</span>
+    <p><strong>Demo collection</strong> — sample ponies loaded. Your real stable is untouched.</p>
+    <button type="button" class="demo-banner-close" onclick="DemoUI.dismissBanner()" aria-label="Dismiss demo banner">✕</button>
+  </div>
 </div>
 
 <div class="app app-shell" id="app" style="display:none">
+  <button type="button" class="app-settings-btn" onclick="Nav.go('settings')" aria-label="Settings">⚙️</button>
   <div class="main" id="main" role="main">
     <div class="screen on" id="tab-stable"></div>
-    <div class="screen" id="tab-collection"></div>
+    <div class="screen" id="tab-logs"></div>
     <div class="screen" id="tab-wishlist"></div>
-    <div class="screen" id="tab-shelves"></div>
+    <div class="screen" id="tab-map"></div>
     <div class="screen" id="tab-stats"></div>
     <div class="screen" id="tab-accessories"></div>
     <div class="screen" id="tab-settings"></div>
+    <div class="screen" id="tab-collection" hidden></div>
+    <div class="screen" id="tab-shelves" hidden></div>
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog">+</button>
   <nav class="nav" aria-label="Main navigation">
     <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
-    <button class="nav-btn" data-tab="collection" onclick="Nav.go('collection')"><div class="nav-icon">🦄</div><span class="nav-label">Collection</span></button>
+    <button class="nav-btn" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon">📋</div><span class="nav-label">Logs</span></button>
+    <button class="nav-btn" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon">🗺️</div><span class="nav-label">Map</span></button>
     <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
-    <button class="nav-btn" data-tab="shelves" onclick="Nav.go('shelves')"><div class="nav-icon">🗂️</div><span class="nav-label">Shelves</span></button>
-    <button class="nav-btn" data-tab="stats" onclick="Nav.go('stats')"><div class="nav-icon">🌈</div><span class="nav-label">Stats</span></button>
-    <button class="nav-btn" data-tab="settings" onclick="Nav.go('settings')"><div class="nav-icon">⚙️</div><span class="nav-label">Settings</span></button>
+    <button class="nav-btn" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon">🎀</div><span class="nav-label">Extras</span></button>
   </nav>
 </div>
 
@@ -136,6 +140,7 @@
 <script src="js/version.js"></script>
 <script src="js/data-store.js"></script>
 <script src="js/migrations.js"></script>
+<script src="js/collector-suite.js"></script>
 <script src="js/pony-db.js"></script>
 <script src="js/photo-store.js"></script>
 <script src="js/app-update.js"></script>

@@ -21,7 +21,7 @@ const Excellence = (() => {
 
   function matchPony(p, q) {
     if (!q) return true;
-    const fields = [p.name, p.colour, p.shelf, p.notes, TYPE_LABELS[p.type], `g${p.generation}`];
+    const fields = [p.name, p.colour, p.hairColour, p.cutieMark, p.brand, p.shelf, p.notes, p.catalogNumber, TYPE_LABELS[p.type], `g${p.generation}`, p.mcdCountry, p.mcdYear];
     if (window.ponySearchTerms) {
       ponySearchTerms(p.generation, p.name).forEach(t => fields.push(t));
     } else if (window.PONY_DB && window.PONY_DB[p.generation]) {
@@ -271,11 +271,36 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
       ? `<img src="${ph}" alt="" class="passport-hero" loading="lazy">`
       : `<div class="passport-hero passport-emoji g${p.generation}">${emoji}</div>`;
 
+    const cat = window.CollectorSuite ? CollectorSuite.ponyCategory(p) : 'mlp';
+    const badge = window.CollectorSuite ? CollectorSuite.ponyBadge(p) : `G${p.generation}`;
+    const year = window.CollectorSuite ? CollectorSuite.acquiredYear(p) : (p.acquiredDate || '').slice(0, 4);
+    const loc = p.shelf ? `🗄️ ${p.shelf}` : '📦 Unshelved';
+    const rows = [
+      ['Location', loc],
+      ['Category', CATEGORY_LABELS[cat] || cat],
+      cat === 'mlp' ? ['Generation', `G${p.generation} ${emoji}`] : null,
+      cat === 'other' ? ['Brand', p.brand || '—'] : null,
+      cat === 'mcdonalds' ? ['McDonald\'s', `${p.mcdCountry || '—'} · ${p.mcdYear || '—'}`] : null,
+      ['Log #', p.catalogNumber || '—'],
+      ['Type', TYPE_LABELS[p.type] || p.type],
+      ['Body colour', p.colour || '—'],
+      ['Hair colour', p.hairColour || '—'],
+      ['Size', SIZE_LABELS[p.size] || p.size],
+      ['Cutie mark', p.cutieMark || '—'],
+      ['Year acquired', year || '—'],
+      ['Condition', COND_LABELS[p.condition]],
+    ].filter(Boolean);
+
     UI.openSheet(`${Render.sheetHdr(E(p.name) + ' — Passport', 'UI.closeSheet()')}
       ${hero}
+      <div class="passport-location card" style="margin-bottom:12px;padding:12px 14px">
+        <div style="font-size:.75rem;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em">Whereabouts</div>
+        <div style="font-size:1.1rem;font-weight:800;margin-top:4px">${E(loc)}</div>
+        <button type="button" class="btn-g" style="width:100%;margin-top:10px" onclick="UI.closeSheet();Nav.go('map')">🗺️ View on Pony Map</button>
+      </div>
       <div class="passport-badges">${milestones.map(m => `<span class="badge">${m}</span>`).join('') || '<span style="color:var(--text-soft);font-size:.85rem">No milestones yet</span>'}
       </div>
-      ${[['Generation', `G${p.generation} ${emoji}`], ['Type', TYPE_LABELS[p.type]], ['Shelf', p.shelf || '—'], ['Acquired', p.acquiredDate || '—'], ['Condition', COND_LABELS[p.condition]]].map(([k, v]) =>
+      ${rows.map(([k, v]) =>
         `<div class="detail-row"><span>${k}</span><span>${E(String(v))}</span></div>`).join('')}
       ${linkedAcc.length ? `<div class="section-title" style="margin-top:12px">Accessories</div>${linkedAcc.map(a => `<div class="detail-row"><span>${E(a.name)}</span><span>🎀</span></div>`).join('')}` : ''}
       ${p.notes ? `<div class="passport-notes"><strong>Notes</strong><p>${E(p.notes)}</p></div>` : ''}

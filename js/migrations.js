@@ -1,6 +1,6 @@
 'use strict';
 /** Schema migrations — run on load when stored version < CURRENT_SCHEMA */
-const CURRENT_SCHEMA = 4;
+const CURRENT_SCHEMA = 5;
 
 const Migrations = {
   CURRENT: CURRENT_SCHEMA,
@@ -24,6 +24,21 @@ const Migrations = {
       };
       if (!s.settings.updatePolicy) s.settings.updatePolicy = 'ask';
       v = 4;
+    }
+    if (v < 5) {
+      s.ponies = (s.ponies || []).map(p => ({
+        ...p,
+        category: p.category || (p.mcdCountry || p.type === 'mcdonalds' ? 'mcdonalds' : (p.brand || p.generation === 0 ? 'other' : 'mlp')),
+        catalogNumber: p.catalogNumber || '',
+        hairColour: p.hairColour || '',
+        cutieMark: p.cutieMark || '',
+        brand: p.brand || '',
+        mcdCountry: p.mcdCountry || '',
+        mcdYear: p.mcdYear != null ? String(p.mcdYear) : '',
+      }));
+      s.settings = { accentTheme: 'pink', ...(s.settings || {}) };
+      if (!s.settings.accentTheme) s.settings.accentTheme = 'pink';
+      v = 5;
     }
     s.version = CURRENT_SCHEMA;
     return s;

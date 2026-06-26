@@ -23,9 +23,10 @@ test.describe('DeePonyCap smoke', () => {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
     await expect(page.locator('#demoBanner')).toBeVisible();
-    await page.locator('[data-tab="collection"]').click();
-    await expect(page.locator('#tab-collection.on')).toBeVisible();
-    await expect(page.locator('#tab-collection .pony-card').first()).toBeVisible({ timeout: 8000 });
+    await page.locator('[data-tab="logs"]').click();
+    await expect(page.locator('#tab-logs.on')).toBeVisible();
+    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
+    await expect(page.locator('#tab-logs .log-table').first()).toBeVisible({ timeout: 8000 });
     await page.locator('[data-tab="wishlist"]').click();
     await expect(page.getByText(/Must Have|on your list/i).first()).toBeVisible({ timeout: 8000 });
   });
@@ -33,7 +34,7 @@ test.describe('DeePonyCap smoke', () => {
   test('settings shows privacy and parent lock', async ({ page }) => {
     await page.goto('/?demo=1');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
-    await page.locator('[data-tab="settings"]').click();
+    await page.getByRole('button', { name: 'Settings' }).click();
     await expect(page.locator('#tab-settings.on')).toBeVisible();
     await expect(page.getByText('Parent Lock 🔒')).toBeVisible();
     await expect(page.getByRole('link', { name: /Privacy Policy/i })).toHaveAttribute('href', 'privacy.html');
@@ -44,9 +45,9 @@ test.describe('DeePonyCap smoke', () => {
     await page.goto('/?demo=1');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
-    await page.locator('[onclick*="Nav.go(\'accessories\')"]').click();
+    await page.locator('[data-tab="accessories"]').click();
     await expect(page.locator('#tab-accessories.on')).toBeVisible();
-    await expect(page.getByRole('heading', { name: /Accessory Gallery/i })).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: /Extras & Playsets/i })).toBeVisible({ timeout: 10000 });
     await expect(page.getByRole('button', { name: /Add Accessory/i })).toBeVisible();
   });
 

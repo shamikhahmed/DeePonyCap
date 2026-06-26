@@ -8,7 +8,7 @@ test.describe('DeePonyCap v2.9 update control', () => {
   });
 
   test('settings shows app version and update controls', async ({ page }) => {
-    await page.locator('[data-tab="settings"]').click();
+    await page.getByRole('button', { name: 'Settings' }).click();
     await expect(page.locator('.section-title').filter({ hasText: 'App version' })).toBeVisible();
     await expect(page.getByText(/Running v3\.0/)).toBeVisible();
     await expect(page.getByRole('button', { name: /Check for updates/i })).toBeVisible();
