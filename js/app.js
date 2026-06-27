@@ -974,8 +974,8 @@ const Render = {
         <div class="fg"><label class="fl">Priority</label><select class="sel" id="wPri"><option value="must">🔴 Must Have</option><option value="want">🟡 Want</option><option value="someday">🟢 Someday</option></select></div>
         <div class="fg-row">
           <div class="fg"><label class="fl">Target price ($)</label><input class="inp" type="number" step="0.01" id="wTarget" placeholder="optional"></div>
-          <div class="fg"><label class="fl">Reference photo</label><input type="file" id="wPhoto" accept="image/*" style="font-size:.75rem"></div>
         </div>
+        <div class="fg"><label class="fl">Reference photo</label>${PhotoPicker.html('wishPhoto', '', { multiple: false })}</div>
         <div class="fg"><label class="fl">Notes</label><input class="inp" id="wNotes" placeholder="Where to find, etc."></div>
         <button class="btn-p" onclick="UI.addWish()">Add to Wishlist ✨</button>
       </div>
@@ -1143,7 +1143,7 @@ const Render = {
         <div class="fg"><label class="fl">Name</label><input class="inp" id="accNameGal" placeholder="e.g. Ponyville Playset"></div>
         <div class="fg"><label class="fl">Category</label><select class="sel" id="accCatGal"><option value="playset">Playset</option><option value="vehicle">Vehicle</option><option value="accessory" selected>Accessory</option><option value="other">Other</option></select></div>
         <div class="fg"><label class="fl">Link to pony</label><select class="sel" id="accPonyGal"><option value="">— none —</option>${S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('')}</select></div>
-        <div class="fg"><label class="fl">Photo</label><input type="file" id="accPhotoGal" accept="image/*" capture="environment"></div>
+        <div class="fg"><label class="fl">Photo</label>${PhotoPicker.html('accPhoto', '', { multiple: false })}</div>
         <button class="btn-p" onclick="UI.addAccessoryFromGallery()">Add Accessory ✨</button>
       </div>
       ${items.length ? cards : '<div class="empty"><span>🎀</span>No extras yet — add one above</div>'}`;
@@ -1256,6 +1256,31 @@ const Anim = {
   }
 };
 
+const PhotoPicker = {
+  html(prefix, handler, opts = {}) {
+    const multi = opts.multiple ? ' multiple' : '';
+    return `
+      <div class="photo-picker" role="group" aria-label="Add photo">
+        <button type="button" class="photo-pick-btn" onclick="PhotoPicker.open('${prefix}','camera')">📷 Camera</button>
+        <button type="button" class="photo-pick-btn" onclick="PhotoPicker.open('${prefix}','gallery')">🖼️ Gallery</button>
+      </div>
+      <input type="file" id="${prefix}Cam" accept="image/*" capture="environment" style="display:none" onchange="${handler}"${multi}>
+      <input type="file" id="${prefix}Gal" accept="image/*" style="display:none" onchange="${handler}"${multi}>`;
+  },
+  open(prefix, mode) {
+    const el = document.getElementById(prefix + (mode === 'camera' ? 'Cam' : 'Gal'));
+    if (!el) return;
+    el.value = '';
+    el.click();
+    Haptic.tap();
+  },
+  firstFile(prefix) {
+    const cam = document.getElementById(prefix + 'Cam');
+    const gal = document.getElementById(prefix + 'Gal');
+    return cam?.files?.[0] || gal?.files?.[0] || null;
+  }
+};
+
 const UI = {
   openSheet(html) {
     document.getElementById('sheetBody').innerHTML = html;
@@ -1330,10 +1355,10 @@ const UI = {
         <div class="fg"><label class="fl">Release year</label><input class="inp" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
       </div>` : '';
     this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
-      <div class="photo-row">${photoGrid}<div class="photo-upload small" onclick="document.getElementById('photoIn').click()">${photos.length?'+':'📸'}</div></div>
-      <input type="file" id="photoIn" accept="image/*" capture="environment" style="display:none" onchange="UI.onPhoto(event)" multiple>
+      <div class="photo-row">${photoGrid}</div>
+      ${PhotoPicker.html('photoForm', 'UI.onPhoto(event)', { multiple: true })}
       ${cat === 'mlp' && f.generation === 4 ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 G4 bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple G4 photos — matches names from filenames or creates new ponies.</p></div>` : ''}
-      <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Tap to add photos (up to 5)'}</p>
+      <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Add up to 5 photos with camera or gallery'}</p>
       <div class="fg"><label class="fl">Category</label><div class="sel-row">${catOpts}</div></div>
       <div class="fg"><label class="fl">Log number</label><input class="inp" value="${Render.esc(f.catalogNumber)}" placeholder="Your collection # (optional)" oninput="formState.catalogNumber=this.value"></div>
       <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.generation, f.name)}</datalist></div>
@@ -1487,7 +1512,8 @@ const UI = {
   detailPhotoPlaceholder(p) {
     const g = GEN_COLORS[p.generation] || 'g5';
     const emoji = GEN_EMOJI[p.generation] || '🦄';
-    return `<div class="detail-photo detail-photo-gen g${p.generation}" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))" onclick="document.getElementById('photoIn2').click()">${emoji}</div>`;
+    return `<div class="detail-photo detail-photo-gen g${p.generation}" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))">${emoji}</div>
+      ${PhotoPicker.html('detailPhoto', 'UI.onDetailPhoto(event)', { multiple: true })}`;
   },
   openDetail(id) {
     const p = S.ponies.find(x=>x.id===id);
@@ -1495,7 +1521,8 @@ const UI = {
     detailId = id;
     const photos = p.photos?.length ? p.photos : (p.photo ? [p.photo] : []);
     const gallery = photos.length
-      ? `<div class="detail-gallery">${photos.map((ph,i)=>`<img src="${ph}" class="detail-photo${i===0?' main':''}" onclick="UI.openDetailPhoto(${i})" alt="">`).join('')}</div>`
+      ? `<div class="detail-gallery">${photos.map((ph,i)=>`<img src="${ph}" class="detail-photo${i===0?' main':''}" onclick="UI.openDetailPhoto(${i})" alt="">`).join('')}</div>
+        <div style="margin-bottom:12px">${PhotoPicker.html('detailPhoto', 'UI.onDetailPhoto(event)', { multiple: true })}</div>`
       : this.detailPhotoPlaceholder(p);
     const comps = (p.soldComps || []).slice(-5).reverse();
     const compHtml = S.settings?.collectorMode ? `
@@ -1504,7 +1531,6 @@ const UI = {
       <button class="btn-g" style="width:100%;margin-top:8px" onclick="UI.addSoldComp('${id}')">+ Log sold comp</button>` : '';
     this.openSheet(`${Render.sheetHdr(Render.esc(p.name), 'UI.closeSheet()')}
       ${gallery}
-      <input type="file" id="photoIn2" accept="image/*" style="display:none" onchange="UI.onDetailPhoto(event)">
       ${[['Generation',`G${p.generation} ${GEN_EMOJI[p.generation]}`],['Type',TYPE_LABELS[p.type]],['Colour',p.colour],['Size',SIZE_LABELS[p.size]],['Shelf',p.shelf||'—'],['Original',p.isOriginal?'Yes':'Extra'],['Condition',COND_LABELS[p.condition]],['Paid',p.purchaseValue!=null?`$${p.purchaseValue}`:'—'],['Est. Value',p.estimatedValue!=null?`$${p.estimatedValue}`:'—'],['Favourite',p.isFavourite?'❤️':'—'],['Most Played',p.isMostPlayed?'🎮':'—'],['Acquired',p.acquiredDate||'—'],['Notes',p.notes||'—']].map(([k,v])=>`<div class="detail-row"><span>${k}</span><span>${Render.esc(String(v))}</span></div>`).join('')}
       ${compHtml}
       <div class="detail-actions">
@@ -1614,8 +1640,11 @@ const UI = {
       photos.push(await Photo.compress(file));
     }
     S.ponies = S.ponies.map(x=>x.id===detailId?normalizePony({...x,photos}):x);
-    Store.save(); this.openDetail(detailId);
+    Store.save();
+    if (window.Excellence) Excellence.openPassport(detailId);
+    else this.openDetail(detailId);
   },
+  async onPassportPhoto(e) { await this.onDetailPhoto(e); },
   deletePony(id) {
     ParentGate.run('Delete pony', () => {
       if (!confirm('Remove this pony from your stable?')) return;
@@ -1725,7 +1754,7 @@ const UI = {
   addWish() {
     const name = document.getElementById('wName').value.trim();
     if (!name) return;
-    const file = document.getElementById('wPhoto')?.files?.[0];
+    const file = PhotoPicker.firstFile('wishPhoto');
     const targetRaw = document.getElementById('wTarget')?.value;
     const base = {
       id: uid(), name,
@@ -1770,7 +1799,7 @@ const UI = {
     const name = document.getElementById('accNameGal')?.value?.trim();
     if (!name) { Toast.show('Name required'); return; }
     const ponyId = document.getElementById('accPonyGal')?.value || '';
-    const file = document.getElementById('accPhotoGal')?.files?.[0];
+    const file = PhotoPicker.firstFile('accPhoto');
     let photo = null;
     if (file) {
       try { photo = await Photo.compress(file); } catch {}

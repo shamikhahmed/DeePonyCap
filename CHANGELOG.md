@@ -10,6 +10,7 @@ DeePonyCap 3.0 is the production-ready PWA for private pony collectors: generati
 - **McDonald's ponies** — country + release year log
 - **McDonald's grouping** — register grouped by country → release year; country filter chips
 - **Print / Save PDF** — printable register per generation (and Other / McDonald's)
+- **Camera or gallery** — separate 📷 Camera and 🖼️ Gallery buttons when adding pony, extras, or wishlist photos
 - **Cutie mark & photos** — every pony supports cutie mark description and up to 5 photos
 - **Pony Map** — see every shelf/divider; tap pony for passport with whereabouts
 - **Extras tab** — playsets & accessories with photos

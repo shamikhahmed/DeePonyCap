@@ -41,6 +41,15 @@ test.describe('DeePonyCap smoke', () => {
     await expect(page.getByText(/100% on-device/i)).toBeVisible();
   });
 
+  test('add pony sheet shows camera and gallery options', async ({ page }) => {
+    await page.goto('/?demo=1');
+    await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
+    await page.evaluate(() => UI.openAdd());
+    await expect(page.locator('#sheet.on')).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('button', { name: /Camera/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Gallery/i })).toBeVisible();
+  });
+
   test('accessories gallery loads', async ({ page }) => {
     await page.goto('/?demo=1');
     await page.waitForLoadState('domcontentloaded');

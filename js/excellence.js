@@ -293,6 +293,7 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
 
     UI.openSheet(`${Render.sheetHdr(E(p.name) + ' — Passport', 'UI.closeSheet()')}
       ${hero}
+      <div style="margin-bottom:12px">${PhotoPicker.html('passportPhoto', 'UI.onPassportPhoto(event)', { multiple: true })}</div>
       <div class="passport-location card" style="margin-bottom:12px;padding:12px 14px">
         <div style="font-size:.75rem;font-weight:800;color:var(--text-soft);text-transform:uppercase;letter-spacing:.04em">Whereabouts</div>
         <div style="font-size:1.1rem;font-weight:800;margin-top:4px">${E(loc)}</div>
