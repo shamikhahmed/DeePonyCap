@@ -273,6 +273,12 @@ const Store = {
 };
 
 const DemoSeed = {
+  _photo(label, color) {
+    const safe = String(label).replace(/[<>&"']/g, '').slice(0, 18);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${color}"/><stop offset="100%" stop-color="#ffffff55"/></linearGradient></defs><rect fill="url(#g)" width="240" height="240" rx="36"/><circle cx="120" cy="92" r="36" fill="#ffffff33"/><text x="120" y="178" text-anchor="middle" fill="#fff" font-size="12" font-family="system-ui,sans-serif" font-weight="600">${safe}</text></svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  },
+  _palette: ['#9333ea', '#2563eb', '#eab308', '#f472b6', '#f97316', '#10b981', '#6366f1', '#ec4899', '#14b8a6', '#8b5cf6'],
   ponies() {
     const names = [
       ['Twilight Sparkle', 4, 'mlp', 'Purple', 'Shelf 1', 'mint'],
@@ -294,18 +300,21 @@ const DemoSeed = {
       ['Twilight Sparkle (G5)', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
       ['Izzy Moonbow', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
     ];
-    const base = names.map((n, i) => normalizePony({
+    const base = names.map((n, i) => {
+      const photo = i < 10 ? DemoSeed._photo(n[0], DemoSeed._palette[i % DemoSeed._palette.length]) : null;
+      return normalizePony({
       id: uid(),
       name: n[0], generation: n[1], type: n[2], colour: n[3], category: 'mlp',
       size: n[1] === 1 ? 'mini' : 'standard', shelf: n[4],
       isOriginal: true, condition: n[5],
       isFavourite: i < 4, isMostPlayed: i === 5,
-      photos: [], photo: null,
+      photos: photo ? [photo] : [], photo,
       acquiredDate: new Date(Date.now() - (i + 1) * 86400000 * 30).toISOString().slice(0, 10),
       notes: 'Demo pony — fictional collection data',
       purchaseValue: 8 + i, estimatedValue: 12 + i * 2,
       createdAt: Date.now() - (i + 1) * 86400000,
-    }));
+    });
+    });
     const mcd = [
       ['Happy Meal Twilight', 'USA', '2014', 'Purple', 'Shelf 4'],
       ['Happy Meal Rainbow Dash', 'USA', '2015', 'Blue', 'Shelf 4'],
@@ -325,15 +334,25 @@ const DemoSeed = {
     return base.concat(mcdPonies);
   },
   wishlist() {
-    return [
-      { id: uid(), name: 'Princess Luna', generation: 4, type: 'special', priority: 'must', targetPrice: 45, notes: 'Night version — display case grail', photo: null },
-      { id: uid(), name: 'Starshine', generation: 1, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Rare G1 — watch eBay', photo: null },
-      { id: uid(), name: 'Posey', generation: 1, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', photo: null },
-      { id: uid(), name: 'Sunny Starscout', generation: 5, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'G5 movie set', photo: null },
-      { id: uid(), name: 'Meadowbrook', generation: 3, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', photo: null },
-      { id: uid(), name: 'G1 Baby Surprise', generation: 1, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', photo: null },
-      { id: uid(), name: 'Ponyville Train Set', generation: 4, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — not a pony but dream item', photo: null },
+    const items = [
+      { name: 'Princess Luna', generation: 4, type: 'special', priority: 'must', targetPrice: 45, notes: 'Night version — display case grail', color: '#312e81' },
+      { name: 'Starshine', generation: 1, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Rare G1 — watch eBay', color: '#be185d' },
+      { name: 'Posey', generation: 1, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', color: '#059669' },
+      { name: 'Sunny Starscout', generation: 5, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'G5 movie set', color: '#d97706' },
+      { name: 'Meadowbrook', generation: 3, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', color: '#7c3aed' },
+      { name: 'G1 Baby Surprise', generation: 1, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', color: '#db2777' },
+      { name: 'Ponyville Train Set', generation: 4, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — not a pony but dream item', color: '#0284c7' },
     ];
+    return items.map(w => ({
+      id: uid(),
+      name: w.name,
+      generation: w.generation,
+      type: w.type,
+      priority: w.priority,
+      targetPrice: w.targetPrice,
+      notes: w.notes,
+      photo: DemoSeed._photo(w.name, w.color),
+    }));
   },
   load(opts) {
     const silent = opts && opts.silent;
@@ -786,6 +805,21 @@ const Confetti = {
 };
 
 const Nav = {
+  _sidebarTabs: [
+    { id: 'stable', label: 'Stable', icon: '🏠' },
+    { id: 'logs', label: 'Logs', icon: '📋' },
+    { id: 'map', label: 'Map', icon: '🗺️' },
+    { id: 'wishlist', label: 'Wishlist', icon: '💫' },
+    { id: 'accessories', label: 'Extras', icon: '🎀' },
+  ],
+  _renderSidebar(activeTab) {
+    const sidebar = document.getElementById('cap-nav-sidebar');
+    if (!sidebar) return;
+    sidebar.innerHTML = '<div class="cap-sidebar-brand">DeePonyCap ✨</div>' +
+      this._sidebarTabs.map(t =>
+        `<button type="button" class="cap-side-btn${t.id === activeTab ? ' on' : ''}" data-tab="${t.id}" onclick="Nav.go('${t.id}')"><span>${t.icon}</span><span>${t.label}</span></button>`
+      ).join('');
+  },
   go(tab) {
     if (tab === 'collection') tab = 'logs';
     if (tab === 'shelves') tab = 'map';
@@ -793,6 +827,7 @@ const Nav = {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
     document.getElementById('tab-'+tab).classList.add('on');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('on', b.dataset.tab===tab));
+    this._renderSidebar(tab);
     const gear = document.querySelector('.app-settings-btn');
     if (gear) gear.hidden = tab === 'settings';
     Render.all();
@@ -1867,6 +1902,10 @@ async function boot() {
   Splash.run(() => {
     if (demo && DemoSeed && DemoSeed.load) {
       DemoSeed.load({ silent: true });
+      if (typeof CapDemo !== 'undefined') {
+        CapDemo.markActive();
+        CapDemo.showBanner('deeponycap', '<strong>Demo mode</strong> — sample pony collection on this device.');
+      }
       document.getElementById('onboard').classList.add('hide');
       document.getElementById('app').style.display = 'flex';
       Nav.go('stable');
@@ -1881,6 +1920,7 @@ async function boot() {
     } else {
       document.getElementById('onboard').classList.add('hide');
       document.getElementById('app').style.display = 'flex';
+      Nav._renderSidebar(document.querySelector('.nav-btn.on')?.dataset.tab || 'stable');
       Render.all();
       Install.maybeShow();
       Achievements.checkAll(true);

@@ -1,0 +1,22 @@
+<!-- Paste into ios/App/App/Info.plist after `npx cap add ios` -->
+
+<key>CFBundleDisplayName</key>
+<string>DeePonyCap</string>
+<key>CFBundleShortVersionString</key>
+<string>2.6.0</string>
+<key>CFBundleVersion</key>
+<string>260</string>
+<key>NSCameraUsageDescription</key>
+<string>Add photos of your ponies to your collection.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Choose photos of your ponies for your collection.</string>
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Save pony photos to your collection.</string>
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+<key>UILaunchStoryboardName</key>
+<string>LaunchScreen</string>
+<key>UISupportedInterfaceOrientations</key>
+<array>
+  <string>UIInterfaceOrientationPortrait</string>
+</array>

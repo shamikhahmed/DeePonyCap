@@ -1,5 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { navTab } = require('./nav-helpers');
 
 test.describe('DeePonyCap excellence v2.7', () => {
   test.beforeEach(async ({ page }) => {
@@ -8,7 +9,7 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('fuzzy search finds pony by partial name', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
     await page.locator('#tab-logs .search').fill('twil');
     await page.waitForTimeout(300);
@@ -36,7 +37,7 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('pony passport opens from collection card', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
     await page.locator('.view-toggle .opt').filter({ hasText: 'Cards' }).click();
     await page.locator('#tab-logs .pony-card').first().click();
@@ -46,13 +47,13 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('accessory gallery has search and categories', async ({ page }) => {
-    await page.locator('[data-tab="accessories"]').click();
+    await navTab(page, 'accessories').click();
     await expect(page.locator('.search[aria-label="Search accessories"]')).toBeVisible();
     await expect(page.getByRole('button', { name: 'playset' })).toBeVisible();
   });
 
   test('sheet closes with Escape', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
     await page.locator('.view-toggle .opt').filter({ hasText: 'Cards' }).click();
     await page.locator('#tab-logs .pony-card').first().click();
@@ -68,7 +69,7 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('stable shows smart suggestions', async ({ page }) => {
-    await page.locator('[data-tab="stable"]').click();
+    await navTab(page, 'stable').click();
     await expect(page.getByText(/Smart suggestions|Collection goals/i).first()).toBeVisible();
   });
 

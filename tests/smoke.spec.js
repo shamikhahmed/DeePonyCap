@@ -23,11 +23,11 @@ test.describe('DeePonyCap smoke', () => {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
     await expect(page.locator('#demoBanner')).toBeVisible();
-    await page.locator('[data-tab="logs"]').click();
+    await page.locator('#cap-nav-sidebar .cap-side-btn[data-tab="logs"], nav.nav .nav-btn[data-tab="logs"]').first().click();
     await expect(page.locator('#tab-logs.on')).toBeVisible();
     await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
     await expect(page.locator('#tab-logs .log-table').first()).toBeVisible({ timeout: 8000 });
-    await page.locator('[data-tab="wishlist"]').click();
+    await page.locator('#cap-nav-sidebar .cap-side-btn[data-tab="wishlist"], nav.nav .nav-btn[data-tab="wishlist"]').first().click();
     await expect(page.getByText(/Must Have|on your list/i).first()).toBeVisible({ timeout: 8000 });
   });
 
@@ -54,7 +54,7 @@ test.describe('DeePonyCap smoke', () => {
     await page.goto('/?demo=1');
     await page.waitForLoadState('domcontentloaded');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
-    await page.locator('[data-tab="accessories"]').click();
+    await page.locator('#cap-nav-sidebar .cap-side-btn[data-tab="accessories"], nav.nav .nav-btn[data-tab="accessories"]').first().click();
     await expect(page.locator('#tab-accessories.on')).toBeVisible();
     await expect(page.getByRole('heading', { name: /Extras & Playsets/i })).toBeVisible({ timeout: 10000 });
     await expect(page.getByRole('button', { name: /Add Accessory/i })).toBeVisible();

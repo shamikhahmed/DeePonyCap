@@ -1,5 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { navTab } = require('./nav-helpers');
 
 test.describe('DeePonyCap collector logs', () => {
   test.beforeEach(async ({ page }) => {
@@ -8,13 +9,13 @@ test.describe('DeePonyCap collector logs', () => {
   });
 
   test('generation log has print register button', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
     await expect(page.getByRole('button', { name: /Print \/ Save PDF/i })).toBeVisible();
   });
 
   test('McDonald\'s log groups by country and year', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: "McDonald's" }).click();
     await expect(page.locator('.mcd-country-chips .chip').filter({ hasText: 'USA' })).toBeVisible();
     await expect(page.locator('.mcd-country-hdr').filter({ hasText: 'USA' })).toBeVisible();
@@ -25,7 +26,7 @@ test.describe('DeePonyCap collector logs', () => {
   });
 
   test('print register builds printable HTML', async ({ page }) => {
-    await page.locator('[data-tab="logs"]').click();
+    await navTab(page, 'logs').click();
     await page.locator('.log-chips .chip').filter({ hasText: 'G1' }).click();
     const result = await page.evaluate(() => {
       let written = '';

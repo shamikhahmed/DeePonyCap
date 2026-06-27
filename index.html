@@ -108,7 +108,9 @@
   </div>
 </div>
 
-<div class="app app-shell" id="app" style="display:none">
+<div class="cap-desktop-shell">
+<nav id="cap-nav-sidebar" aria-label="Module navigation"></nav>
+<div class="app app-shell cap-desktop-main" id="app" style="display:none">
   <button type="button" class="app-settings-btn" onclick="Nav.go('settings')" aria-label="Settings">⚙️</button>
   <div class="main" id="main" role="main">
     <div class="screen on" id="tab-stable"></div>
@@ -122,13 +124,14 @@
     <div class="screen" id="tab-shelves" hidden></div>
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog">+</button>
-  <nav class="nav" aria-label="Main navigation">
+  <nav class="nav" id="nav" aria-label="Main navigation">
     <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
     <button class="nav-btn" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon">📋</div><span class="nav-label">Logs</span></button>
     <button class="nav-btn" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon">🗺️</div><span class="nav-label">Map</span></button>
     <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
     <button class="nav-btn" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon">🎀</div><span class="nav-label">Extras</span></button>
   </nav>
+</div>
 </div>
 
 <div class="sheet-bg" id="sheetBg" onclick="UI.closeSheet()"></div>
@@ -147,6 +150,8 @@
 <script src="js/app.js"></script>
 <script src="js/excellence.js"></script>
 <script src="js/capricorn-motion.js"></script>
+<script src="js/cap-demo-mode.js"></script>
+<script src="js/cap-desktop-nav.js"></script>
 <script src="js/capricorn-premium-nav.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {

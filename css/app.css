@@ -269,14 +269,43 @@ html,body{height:100dvh}
 body.cap-has-floating-nav{padding-bottom:0!important}
 .nav-btn{min-height:44px}
 @media (min-width:900px){
-  html{background:#1a1020}
-  .app{max-width:430px;margin:0 auto;width:100%;box-shadow:0 0 60px rgba(0,0,0,.45);position:relative}
-  .splash,.onboard,.sheet-bg{left:0;right:0;margin:0 auto;max-width:430px}
-  .nav{left:50%;right:auto;transform:translateX(-50%);width:min(410px,calc(100vw - 40px))}
-  .fab{right:max(20px,calc(50vw - 195px))}
-  .sheet{left:50%;right:auto;width:100%;max-width:430px;transform:translateX(-50%) translateY(100%)}
+  html.cap-desktop-bg{background:#1a1020}
+  .cap-desktop-shell{
+    display:flex;width:100%;max-width:1440px;margin:0 auto;min-height:100dvh;
+    box-shadow:0 0 80px rgba(0,0,0,.45);
+  }
+  .app.app-shell,.app-shell{
+    max-width:none;width:100%;margin:0;flex:1;min-width:0;
+    display:flex;flex-direction:column;min-height:100dvh;
+    box-shadow:none;
+  }
+  .app-shell{max-width:none;padding:0 24px}
+  .grid{grid-template-columns:repeat(4,1fr);gap:16px}
+  .stat-grid{grid-template-columns:repeat(4,1fr)}
+  .type-grid{grid-template-columns:repeat(6,1fr)}
+  .nav{
+    display:none!important;
+  }
+  .fab{right:24px;bottom:24px}
+  .sheet,.sheet-bg,.splash,.onboard{
+    left:0;right:0;margin:0 auto;max-width:min(560px,92vw);
+  }
   .sheet.on{transform:translateX(-50%) translateY(0)}
-  .toast-wrap{max-width:430px;width:100%}
+  .toast-wrap{max-width:480px}
+}
+@media (min-width:1600px){
+  html.cap-desktop-bg{background:#1a1020}
+  .cap-desktop-shell{max-width:1600px}
+  .app-shell{padding:0 32px 0 40px}
+  #cap-nav-sidebar{width:272px;min-width:272px}
+  .grid{grid-template-columns:repeat(5,1fr);gap:18px}
+  .stat-grid{grid-template-columns:repeat(5,1fr);gap:16px}
+  .type-grid{grid-template-columns:repeat(8,1fr);gap:12px}
+  .map-grid{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:14px}
+  .insight-grid{grid-template-columns:repeat(4,1fr);gap:12px}
+  .premium-views{justify-content:flex-start}
+  .premium-views .btn-g{flex:0 1 auto;min-width:160px}
+  .main .card{max-width:none}
 }
 @media (min-width:769px) and (hover:hover) and (pointer:fine){
   :root{--safe-t:0px;--safe-b:0px;--nav-float:0.75rem;--main-pad-b:calc(var(--nav-float) + 4.25rem + 20px)}
