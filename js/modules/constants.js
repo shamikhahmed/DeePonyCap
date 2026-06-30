@@ -1,0 +1,15 @@
+'use strict';
+const STORAGE_KEY = 'deeponycap_v2';
+const STORAGE_KEY_LEGACY = 'deePonyOS_v2';
+const STORAGE_KEY_V1 = 'deePonyOS_v1';
+const STORAGE_KEY_V1_LEGACY = 'deeponycap_v1';
+const PAGE_SIZE = 40;
+const GEN_COLORS = {1:'g1',2:'g2',3:'g3',4:'g4',5:'g5'};
+const GEN_EMOJI = {1:'💜',2:'💚',3:'💙',4:'💛',5:'🩷'};
+const TYPE_LABELS = {mlp:'🦄 MLP',filly:'🎀 Filly',velvet:'🧸 Velvet',palace_pet:'🏰 Palace',special:'✨ Special',mcdonalds:'🍟 McDonald\'s',other_brand:'🐴 Other brand'};
+const TYPE_KEYS = ['mlp','filly','velvet','palace_pet','special'];
+const CATEGORY_LABELS = {mlp:'My Little Pony',other:'Other pony brand',mcdonalds:"McDonald's pony"};
+const COND_LABELS = {mint:'✨ Mint',good:'👍 Good',played:'🎮 Played',loved:'💕 Loved'};
+const SIZE_LABELS = {mini:'Mini',standard:'Standard',large:'Large',extra_large:'XL'};
+const SHELF_SUGGEST = ['Shelf 1','Shelf 2','Windowsill','Display Case','Box'];
+const STORAGE_LIMIT = 5 * 1024 * 1024;

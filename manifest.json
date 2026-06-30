@@ -2,7 +2,7 @@
   "name": "DeePonyCap",
   "short_name": "DeePonyCap",
   "description": "Magical My Little Pony collection tracker — offline, private, kid-safe. v3.0.0",
-  "id": "./",
+  "id": "/DeePonyCap/",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -24,5 +24,9 @@
     { "name": "Add Pony", "short_name": "Add", "url": "./?action=add", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
     { "name": "Wishlist", "short_name": "Wishlist", "url": "./?tab=wishlist", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
     { "name": "Storybook", "short_name": "Storybook", "url": "./?tab=stats&view=storybook", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
+  ],
+  "screenshots": [
+    { "src": "assets/screenshot-1.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — My Collection" },
+    { "src": "assets/screenshot-2.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — Wishlist" }
   ]
 }

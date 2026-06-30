@@ -12,18 +12,26 @@
 <meta name="format-detection" content="telephone=no">
 <meta name="author" content="Capricorn Systems">
 <meta name="description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. No accounts. No ads. By Capricorn Systems.">
-<title>DeePonyCap ✨</title>
+<title>DeePonyCap — Your pony collection, beautifully tracked. · Capricorn Systems</title>
 <link rel="canonical" href="https://shamikhahmed.github.io/DeePonyCap/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Capricorn Systems">
-<meta property="og:title" content="DeePonyCap ✨">
+<meta property="og:title" content="DeePonyCap — Your pony collection, beautifully tracked.">
 <meta property="og:description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. By Capricorn Systems.">
 <meta property="og:url" content="https://shamikhahmed.github.io/DeePonyCap/">
 <meta property="og:image" content="https://shamikhahmed.github.io/assets/screenshots/deeponycap.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DeePonyCap ✨">
+<meta name="twitter:title" content="DeePonyCap — Your pony collection, beautifully tracked.">
 <meta name="twitter:description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. By Capricorn Systems.">
 <meta name="twitter:image" content="https://shamikhahmed.github.io/assets/screenshots/deeponycap.png">
+<meta name="twitter:site" content="@capricornsys">
+<meta name="twitter:creator" content="@capricornsys">
+<meta name="application-name" content="DeePonyCap">
+<meta name="msapplication-TileColor" content="#FF6B9D">
+<meta name="keywords" content="My Little Pony, MLP, pony collection, tracker, G1, G2, G3, G4, G5, offline PWA">
+<meta name="color-scheme" content="dark light">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -33,8 +41,9 @@
   <link rel="apple-touch-icon" href="icon-1024.png">
   <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
-<link rel="stylesheet" href="css/app.css">
+<link rel="preload" href="css/app.css?v=9" as="style">
 <link rel="stylesheet" href="css/capricorn-core.css">
+<link rel="stylesheet" href="css/app.css?v=9">
 <style>:root{--cap-accent:#c4367a}</style>
 <link rel="stylesheet" href="css/identity.css">
 </head>
@@ -46,6 +55,9 @@
 <div class="stars" id="stars"></div>
 <div class="confetti-wrap" id="confetti"></div>
 <div class="toast-wrap" role="status" aria-live="polite" aria-atomic="true"><div class="toast" id="toast"></div></div>
+<div id="alertWrap" role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
+<div id="offlineBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9000;background:#cc2200;color:#fff;text-align:center;font-size:13px;font-weight:600;padding:8px 16px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))" role="alert" aria-live="assertive">No internet — DeePonyCap works offline</div>
+<script>(function(){function u(){document.getElementById('offlineBanner').style.display=navigator.onLine?'none':'block';}window.addEventListener('online',u);window.addEventListener('offline',u);u();})();</script>
 
 <div class="splash" id="splash">
   <div class="splash-logo">🦄</div>
@@ -124,12 +136,12 @@
     <div class="screen" id="tab-shelves" hidden></div>
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog">+</button>
-  <nav class="nav" id="nav" aria-label="Main navigation">
-    <button class="nav-btn on" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
-    <button class="nav-btn" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon">📋</div><span class="nav-label">Logs</span></button>
-    <button class="nav-btn" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon">🗺️</div><span class="nav-label">Map</span></button>
-    <button class="nav-btn" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
-    <button class="nav-btn" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon">🎀</div><span class="nav-label">Extras</span></button>
+  <nav class="nav" id="nav" aria-label="Main navigation" role="tablist">
+    <button type="button" class="nav-btn on" role="tab" aria-selected="true" aria-controls="tab-stable" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-logs" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon">📋</div><span class="nav-label">Logs</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-map" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon">🗺️</div><span class="nav-label">Map</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-wishlist" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-accessories" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon">🎀</div><span class="nav-label">Extras</span></button>
   </nav>
 </div>
 </div>
@@ -145,8 +157,27 @@
 <script src="js/migrations.js"></script>
 <script src="js/collector-suite.js"></script>
 <script src="js/pony-db.js"></script>
+<script src="js/demo-seed.js"></script>
 <script src="js/photo-store.js"></script>
 <script src="js/app-update.js"></script>
+<script src="js/modules/constants.js"></script>
+<script src="js/modules/pony-utils.js"></script>
+<script src="js/modules/storage-health.js"></script>
+<script src="js/modules/store.js"></script>
+<script src="js/modules/theme.js"></script>
+<script src="js/modules/csv-io.js"></script>
+<script src="js/modules/backup-io.js"></script>
+<script src="js/modules/photo-utils.js"></script>
+<script src="js/modules/haptics.js"></script>
+<script src="js/modules/parent-gate.js"></script>
+<script src="js/modules/achievements.js"></script>
+<script src="js/modules/animations.js"></script>
+<script src="js/modules/splash.js"></script>
+<script src="js/modules/onboarding.js"></script>
+<script src="js/modules/photo-picker.js"></script>
+<script src="js/modules/navigation.js"></script>
+<script src="js/modules/render-core.js"></script>
+<script src="js/modules/ui-core.js"></script>
 <script src="js/app.js"></script>
 <script src="js/excellence.js"></script>
 <script src="js/capricorn-motion.js"></script>
@@ -158,6 +189,54 @@
     if (window.CapPremiumNav) CapPremiumNav.init({ nav: 'nav.nav', item: '.nav-btn' });
     if (window.CapricornMotion) CapricornMotion.init();
   });
+</script>
+
+<!-- PRO UPGRADE MODAL -->
+<div id="proUpgradeModal" style="display:none;position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:24px" role="dialog" aria-modal="true" aria-label="DeePonyCap Pro">
+  <div style="background:rgba(20,8,18,0.98);border:1px solid rgba(196,54,122,0.35);border-radius:24px;max-width:400px;width:100%;padding:36px 32px;box-shadow:0 40px 80px rgba(0,0,0,0.7)">
+    <p style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#c4367a;margin-bottom:8px">DEEPONYCAP PRO</p>
+    <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-0.02em">Your full collection. Forever.</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:28px">Free keeps your first shelf perfect. Pro unlocks every shelf, full photo gallery, export, and wishlist tracking.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px">
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:14px;padding:20px">
+        <p style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:12px">FREE</p>
+        <p style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:16px">$0</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:rgba(255,255,255,0.5)">
+          <li>✓ 1 shelf (up to 20)</li>
+          <li>✓ Photos per pony</li>
+          <li>✓ Offline PWA</li>
+          <li>✓ Condition tracking</li>
+        </ul>
+      </div>
+      <div style="background:rgba(196,54,122,0.10);border:2px solid rgba(196,54,122,0.4);border-radius:14px;padding:20px;position:relative">
+        <span style="position:absolute;top:-10px;left:16px;background:#c4367a;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:0.06em">PRO</span>
+        <p style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:2px">$4.99</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:12px">one-time purchase</p>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:rgba(255,255,255,0.5)">
+          <li>✓ Unlimited shelves</li>
+          <li>✓ Full photo gallery</li>
+          <li>✓ Wishlist tracker</li>
+          <li>✓ Export collection</li>
+          <li>✓ Accessories tracker</li>
+          <li>✓ Stats & value est.</li>
+        </ul>
+      </div>
+    </div>
+    <button onclick="document.getElementById('proUpgradeModal').style.display='none'" style="width:100%;padding:14px;background:rgba(196,54,122,0.12);border:1px solid rgba(196,54,122,0.3);color:#c4367a;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px">Join waitlist — coming soon →</button>
+    <button onclick="document.getElementById('proUpgradeModal').style.display='none'" style="width:100%;padding:10px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer">Continue with Free</button>
+  </div>
+</div>
+<script>
+(function () {
+  window.openProUpgrade = function () {
+    var m = document.getElementById('proUpgradeModal');
+    if (m) m.style.display = 'flex';
+  };
+  var modal = document.getElementById('proUpgradeModal');
+  if (modal) modal.addEventListener('click', function (e) {
+    if (e.target === modal) modal.style.display = 'none';
+  });
+})();
 </script>
 </body>
 </html>
