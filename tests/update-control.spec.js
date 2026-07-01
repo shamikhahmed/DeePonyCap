@@ -10,7 +10,8 @@ test.describe('DeePonyCap v2.9 update control', () => {
   test('settings shows app version and update controls', async ({ page }) => {
     await page.getByRole('button', { name: 'Settings' }).click();
     await expect(page.locator('.section-title').filter({ hasText: 'App version' })).toBeVisible();
-    await expect(page.getByText(/Running v3\.0/)).toBeVisible();
+    const appVersion = await page.evaluate(() => window.APP_VERSION);
+    await expect(page.getByText(new RegExp(`Running v${String(appVersion).replace(/\./g, '\\.')}`))).toBeVisible();
     await expect(page.getByRole('button', { name: /Check for updates/i })).toBeVisible();
     await expect(page.getByText(/Auto-update/i)).toBeVisible();
   });
