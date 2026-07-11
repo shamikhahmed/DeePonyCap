@@ -1,0 +1,277 @@
+{
+  "generatedAt": "2026-07-01T18:43:23.788Z",
+  "themes": [
+    "dark",
+    "light"
+  ],
+  "viewports": [
+    "mobile",
+    "desktop"
+  ],
+  "sections": [
+    {
+      "id": "onboarding",
+      "title": "Onboarding",
+      "label": "Onboarding",
+      "items": [
+        {
+          "id": "step-1",
+          "label": "Onboarding — welcome",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/onboarding/step-1.png",
+              "desktop": "dark/desktop/onboarding/step-1.png"
+            },
+            "light": {
+              "mobile": "light/mobile/onboarding/step-1.png",
+              "desktop": "light/desktop/onboarding/step-1.png"
+            }
+          },
+          "scroll": {}
+        },
+        {
+          "id": "step-2",
+          "label": "Onboarding — collection",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/onboarding/step-2.png",
+              "desktop": "dark/desktop/onboarding/step-2.png"
+            },
+            "light": {
+              "mobile": "light/mobile/onboarding/step-2.png",
+              "desktop": "light/desktop/onboarding/step-2.png"
+            }
+          },
+          "scroll": {}
+        },
+        {
+          "id": "step-3",
+          "label": "Onboarding — ready",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/onboarding/step-3.png",
+              "desktop": "dark/desktop/onboarding/step-3.png"
+            },
+            "light": {
+              "mobile": "light/mobile/onboarding/step-3.png",
+              "desktop": "light/desktop/onboarding/step-3.png"
+            }
+          },
+          "scroll": {}
+        }
+      ]
+    },
+    {
+      "id": "tabs",
+      "title": "Main tabs",
+      "label": "Main tabs",
+      "items": [
+        {
+          "id": "stable",
+          "label": "Stable",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/stable.png",
+              "desktop": "dark/desktop/tabs/stable.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/stable.png",
+              "desktop": "light/desktop/tabs/stable.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/stable-scroll.png",
+              "desktop": "dark/desktop/tabs/stable-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/stable-scroll.png",
+              "desktop": "light/desktop/tabs/stable-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "logs",
+          "label": "Collection log",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/logs.png",
+              "desktop": "dark/desktop/tabs/logs.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/logs.png",
+              "desktop": "light/desktop/tabs/logs.png"
+            }
+          },
+          "scroll": {}
+        },
+        {
+          "id": "map",
+          "label": "Shelf map",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/map.png",
+              "desktop": "dark/desktop/tabs/map.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/map.png",
+              "desktop": "light/desktop/tabs/map.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/map-scroll.png",
+              "desktop": "dark/desktop/tabs/map-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/map-scroll.png",
+              "desktop": "light/desktop/tabs/map-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "wishlist",
+          "label": "Wishlist",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/wishlist.png",
+              "desktop": "dark/desktop/tabs/wishlist.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/wishlist.png",
+              "desktop": "light/desktop/tabs/wishlist.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/wishlist-scroll.png",
+              "desktop": "dark/desktop/tabs/wishlist-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/wishlist-scroll.png",
+              "desktop": "light/desktop/tabs/wishlist-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "accessories",
+          "label": "Extras & playsets",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/accessories.png",
+              "desktop": "dark/desktop/tabs/accessories.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/accessories.png",
+              "desktop": "light/desktop/tabs/accessories.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/accessories-scroll.png",
+              "desktop": "dark/desktop/tabs/accessories-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/accessories-scroll.png",
+              "desktop": "light/desktop/tabs/accessories-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "stats",
+          "label": "Stats hub",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/stats.png",
+              "desktop": "dark/desktop/tabs/stats.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/stats.png",
+              "desktop": "light/desktop/tabs/stats.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/stats-scroll.png",
+              "desktop": "dark/desktop/tabs/stats-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/stats-scroll.png",
+              "desktop": "light/desktop/tabs/stats-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "settings",
+          "label": "Settings",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/settings.png",
+              "desktop": "dark/desktop/tabs/settings.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/settings.png",
+              "desktop": "light/desktop/tabs/settings.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/settings-scroll.png",
+              "desktop": "dark/desktop/tabs/settings-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/settings-scroll.png",
+              "desktop": "light/desktop/tabs/settings-scroll.png"
+            }
+          }
+        },
+        {
+          "id": "storybook",
+          "label": "Storybook",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/storybook.png",
+              "desktop": "dark/desktop/tabs/storybook.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/storybook.png",
+              "desktop": "light/desktop/tabs/storybook.png"
+            }
+          },
+          "scroll": {
+            "dark": {
+              "mobile": "dark/mobile/tabs/storybook-scroll.png",
+              "desktop": "dark/desktop/tabs/storybook-scroll.png"
+            },
+            "light": {
+              "mobile": "light/mobile/tabs/storybook-scroll.png",
+              "desktop": "light/desktop/tabs/storybook-scroll.png"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "sheets",
+      "title": "Sheets",
+      "label": "Sheets",
+      "items": [
+        {
+          "id": "add-pony",
+          "label": "Sheet — add pony",
+          "files": {
+            "dark": {
+              "mobile": "dark/mobile/sheets/add-pony.png",
+              "desktop": "dark/desktop/sheets/add-pony.png"
+            },
+            "light": {
+              "mobile": "light/mobile/sheets/add-pony.png",
+              "desktop": "light/desktop/sheets/add-pony.png"
+            }
+          },
+          "scroll": {}
+        }
+      ]
+    }
+  ]
+}
