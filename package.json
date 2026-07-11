@@ -11,7 +11,8 @@
     "test:e2e": "playwright test",
     "capture:screenshots": "CAPTURE_SCREENSHOTS=1 playwright test tests/screenshots.spec.js",
     "gallery": "CAPTURE_SCREENSHOTS=1 playwright test tests/screenshots.spec.js && echo '\nOpen http://127.0.0.1:8770/screen-gallery.html'",
-    "gallery:view": "python3 -m http.server 8770"
+    "gallery:view": "python3 -m http.server 8770",
+    "verify": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",

@@ -1,5 +1,11 @@
 # Changelog — DeePonyCap
 
+## 3.6.1 (2026-07-11)
+- Cap Standard: CI workflow runs full Playwright suite (32 tests) on every push.
+- viewport-helpers vendored into tests/ (CI checkout has no capricorn-tooling sibling).
+- `verify` npm script per Cap Standard contract.
+
+
 ## 3.6.0 (2026-06-30) — Accessibility, mobile, UX, and design polish to reach 100/100
 
 ### Accessibility

@@ -5,7 +5,7 @@ const {
   assertCapSharedMobile,
   assertCapSharedDesktop,
   gridColumnCount,
-} = require('../../capricorn-tooling/shared/testing/viewport-helpers');
+} = require('./helpers/viewport-helpers');
 
 test.describe('DeePonyCap viewport contract', () => {
   test.beforeEach(async ({ page }) => {

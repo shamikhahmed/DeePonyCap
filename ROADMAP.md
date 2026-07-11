@@ -12,7 +12,7 @@ Current shipped state. See `CHANGELOG.md` for how we got here.
 | Screen gallery | ✅ |
 | Version discipline | ✅ |
 | QA / e2e | ✅ |
-| CI gate | ❌ |
+| CI gate | ✅ |
 | PWA polish | ✅ |
 | Demo mode | ✅ |
 
