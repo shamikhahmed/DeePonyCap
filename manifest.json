@@ -1,7 +1,7 @@
 {
   "name": "DeePonyCap",
   "short_name": "DeePonyCap",
-  "description": "Magical My Little Pony collection tracker — offline, private, kid-safe. v3.6.3",
+  "description": "Magical My Little Pony collection tracker — offline, private, kid-safe. v3.6.4",
   "id": "/DeePonyCap/",
   "start_url": "./",
   "scope": "./",

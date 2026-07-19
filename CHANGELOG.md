@@ -1,3 +1,9 @@
+## [3.6.4] — 2026-07-19
+
+### QA
+- Capricorn QR in SW allowlist
+- SW `deeponycap-v54`
+
 ## [3.6.3] — 2026-07-19
 
 ### Pitch

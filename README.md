@@ -5,11 +5,11 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 🔗 **Live:** https://shamikhahmed.github.io/DeePonyCap/  
 📁 **Repo:** https://github.com/shamikhahmed/DeePonyCap
 
-**Version:** 3.6.3 · SW `deeponycap-v53` · see [VERSION.json](VERSION.json) · [CHANGELOG.md](CHANGELOG.md)
+**Version:** 3.6.4 · SW `deeponycap-v54` · see [VERSION.json](VERSION.json) · [CHANGELOG.md](CHANGELOG.md)
 
 ---
 
-## Features (v3.6.3)
+## Features (v3.6.4)
 
 - 🏠 **Stable** — goals, backup nudge, anniversaries, generation rainbow
 - 🦄 **Collection** — photos, filters, pony DB autocomplete, duplicate warnings
@@ -23,7 +23,7 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 
 ## Recent highlights
 
-- **3.6.3** — Capricorn OS brand lock (assets, PWA icons, favicon); SW cache `deeponycap-v53`
+- **3.6.4** — Capricorn OS brand lock (assets, PWA icons, favicon); SW cache `deeponycap-v54`
 - **3.6.x** — Cap Standard CI/verify, install banner, a11y/mobile/UX polish to 100-score pass
 - Full history: [CHANGELOG.md](CHANGELOG.md)
 
@@ -43,7 +43,7 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 - [ ] App works offline after first load
 - [ ] Safe area: nav and FAB clear home indicator
 
-## App Store readiness (v3.6.3)
+## App Store readiness (v3.6.4)
 
 ```bash
 npm run preflight   # tests + asset checks

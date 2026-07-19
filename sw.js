@@ -1,6 +1,6 @@
 importScripts('./js/version.js');
 
-const CACHE = self.SW_CACHE || 'deeponycap-v53';
+const CACHE = self.SW_CACHE || 'deeponycap-v54';
 const ASSETS = [
   './css/app.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
@@ -43,6 +43,7 @@ const ASSETS = [
   './privacy.html',
   './changelog.html',
   './VERSION.json',
+  './assets/qr-deeponycap.png',
 ];
 
 self.addEventListener('install', e => {
