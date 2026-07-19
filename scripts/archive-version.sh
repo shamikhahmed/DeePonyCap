@@ -7,7 +7,7 @@ VER="${1:?Usage: archive-version.sh X.Y.Z}"
 DEST="$ROOT/releases/v$VER"
 
 mkdir -p "$DEST"
-for item in index.html landing.html privacy.html changelog.html manifest.json icon.svg icon-192.png icon-512.png icon-1024.png VERSION.json css js public; do
+for item in index.html landing.html privacy.html changelog.html manifest.json assets VERSION.json css js public; do
   if [[ -e "$ROOT/$item" ]]; then
     cp -R "$ROOT/$item" "$DEST/"
   fi

@@ -1,9 +1,9 @@
 # DeePonyCap — Roadmap
 
-> Updated 2026-07-11. Fleet order & standard: `capricorn-tooling/shared/CAP-STANDARD.md`.
+> Updated 2026-07-19. Fleet order & standard: `capricorn-tooling/shared/CAP-STANDARD.md`.
 
-## Now — v3.6.0
-Current shipped state. See `CHANGELOG.md` for how we got here.
+## Now — v3.6.2
+Cap Family Mega-Wave brand lock shipped. See `CHANGELOG.md`.
 
 ## Cap Standard gaps
 | Cap Standard item | Status |

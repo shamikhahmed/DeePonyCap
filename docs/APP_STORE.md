@@ -40,7 +40,7 @@ Export at 1290×2796 or use Xcode Simulator → Screenshot.
 - [x] Parent PIN for export/delete
 - [x] `VERSION.json` + `sw.js` cache synced (`deeponycap-v37`)
 - [x] Privacy policy (no third-party tracking claims)
-- [x] `icon-1024.png` for App Store
+- [x] `assets/icon-1024.png` for App Store
 - [x] `ios-templates/PrivacyInfo.xcprivacy` + Info.plist snippet
 - [ ] **You:** Install CocoaPods → `npx cap add ios` → Archive in Xcode
 - [ ] **You:** Capture screenshots (checklist above)

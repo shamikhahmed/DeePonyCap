@@ -7,7 +7,7 @@
 My Little Pony collection tracker PWA — generation logs, pony map, McDonald's & other brands.
 
 ## Facts
-**Version:** 3.6.0
+**Version:** 3.6.2
 **Live:** https://shamikhahmed.github.io/DeePonyCap/
 **Repo:** https://github.com/shamikhahmed/DeePonyCap
 **Stack:** Vanilla JS PWA. IndexedDB storage, user-controlled updates, Playwright e2e.

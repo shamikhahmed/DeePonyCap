@@ -1,10 +1,14 @@
 importScripts('./js/version.js');
 
-const CACHE = self.SW_CACHE || 'deeponycap-v51';
+const CACHE = self.SW_CACHE || 'deeponycap-v52';
 const ASSETS = [
   './css/app.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
-  './manifest.json', './icon.svg', './icon-192.png', './icon-512.png', './icon-1024.png',
+  './manifest.json',
+  './assets/favicon.svg', './assets/mark.svg', './assets/apple-touch-icon-180.png',
+  './assets/icon-192.png', './assets/icon-512.png', './assets/icon-1024.png',
+  './assets/icon-maskable-192.png', './assets/icon-maskable-512.png',
+
   './js/version.js', './js/data-store.js', './js/migrations.js', './js/collector-suite.js', './js/pony-db.js', './js/photo-store.js',
   './js/app.js', './js/excellence.js', './js/app-update.js',
   './js/capricorn-motion.js',

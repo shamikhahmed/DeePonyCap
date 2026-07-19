@@ -5,13 +5,13 @@ cd "$(dirname "$0")/.."
 
 echo "==> Version sync"
 node -e "const v=require('./VERSION.json'); console.log('App', v.version, '| SW', v.swCache)"
-grep -q "deeponycap-v37" sw.js && echo "SW cache OK" || { echo "SW cache mismatch"; exit 1; }
+node -e "const v=require('./VERSION.json'); const fs=require('fs'); const sw=fs.readFileSync('sw.js','utf8'); const ver=fs.readFileSync('js/version.js','utf8'); if(!sw.includes(v.swCache)||!ver.includes(v.swCache)||!ver.includes(v.version)){console.error('SW/version mismatch'); process.exit(1);} console.log('SW cache OK', v.swCache);"
 
 echo "==> Playwright smoke"
 npm test
 
 echo "==> Required assets"
-for f in icon-1024.png icon-512.png icon-192.png privacy.html manifest.json PRIVACY.md; do
+for f in assets/icon-1024.png assets/icon-512.png assets/icon-192.png assets/icon-maskable-512.png assets/favicon.svg assets/apple-touch-icon-180.png privacy.html manifest.json PRIVACY.md; do
   test -f "$f" && echo "  ✓ $f" || { echo "  ✗ missing $f"; exit 1; }
 done
 

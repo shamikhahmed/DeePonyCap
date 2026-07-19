@@ -1,7 +1,7 @@
 {
   "name": "DeePonyCap",
   "short_name": "DeePonyCap",
-  "description": "Magical My Little Pony collection tracker — offline, private, kid-safe. v3.0.0",
+  "description": "Magical My Little Pony collection tracker — offline, private, kid-safe. v3.6.2",
   "id": "/DeePonyCap/",
   "start_url": "./",
   "scope": "./",
@@ -14,19 +14,20 @@
   "lang": "en",
   "dir": "ltr",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
-    { "src": "icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" },
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "assets/icon-1024.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" },
+    { "src": "assets/mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "shortcuts": [
-    { "name": "Add Pony", "short_name": "Add", "url": "./?action=add", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
-    { "name": "Wishlist", "short_name": "Wishlist", "url": "./?tab=wishlist", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] },
-    { "name": "Storybook", "short_name": "Storybook", "url": "./?tab=stats&view=storybook", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
+    { "name": "Add Pony", "short_name": "Add", "url": "./?action=add", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Wishlist", "short_name": "Wishlist", "url": "./?tab=wishlist", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Storybook", "short_name": "Storybook", "url": "./?tab=stats&view=storybook", "icons": [{ "src": "assets/icon-192.png", "sizes": "192x192" }] }
   ],
   "screenshots": [
-    { "src": "assets/screenshot-1.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — My Collection" },
-    { "src": "assets/screenshot-2.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — Wishlist" }
+    { "src": "assets/screenshots/deeponycap-1-light.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — My Collection" },
+    { "src": "assets/screenshots/deeponycap-1-dark.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "DeePonyCap — Dark mode" }
   ]
 }

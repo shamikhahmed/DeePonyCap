@@ -1,5 +1,10 @@
 # Changelog — DeePonyCap
 
+## 3.6.2 (2026-07-19) — Cap Family Mega-Wave
+- Capricorn OS brand lock: wired `assets/` mark, favicon, apple-touch-icon-180, and separate any/maskable PWA icons in `manifest.json` + `index.html`.
+- Purged dead root `icon.svg` / `icon-*.png`; SW precache + App Store preflight paths updated.
+- Version / SW cache bump (`deeponycap-v52`); FEATURES.md inventory; gallery + verify Cap Standard raise.
+
 ## 3.6.1 (2026-07-11)
 - Cap Standard: CI workflow runs full Playwright suite (32 tests) on every push.
 - viewport-helpers vendored into tests/ (CI checkout has no capricorn-tooling sibling).
