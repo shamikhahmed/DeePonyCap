@@ -85,6 +85,12 @@ h2{font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.03em;ma
 .deck-shot-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
 .deck-shot-frame{width:min(100%,280px);border-radius:24px;overflow:hidden;border:2px solid rgba(255,255,255,.12);box-shadow:0 20px 50px rgba(0,0,0,.35)}
 
+
+.qr-section{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:1.75rem}
+.qr-box{width:168px;height:168px;background:#fffaf3;border-radius:18px;padding:8px;display:flex;align-items:center;justify-content:center;border:2px solid #c9a227;box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 0 1px rgba(201,162,39,.28)}
+.qr-box img{width:148px;height:148px;display:block;border-radius:10px}
+.qr-label{font-size:.75rem;color:rgba(255,255,255,.45);letter-spacing:.08em;text-transform:uppercase}
+
 </style>
 
   <link rel="stylesheet" href="css/capricorn-core.css">
@@ -383,6 +389,12 @@ h2{font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:800;letter-spacing:-.03em;ma
       <a class="btn btn-s" href="presentation.html">📊 Presentation</a>
       <a class="btn btn-s" href="landing.html">🌐 Landing</a>
       <a class="btn btn-s" href="privacy.html">🔒 Privacy</a>
+    </div>
+    <div class="qr-section reveal delay-3">
+      <div class="qr-box">
+        <img src="assets/qr-deeponycap.png" width="148" height="148" alt="QR code — open DeePonyCap on your phone" decoding="async">
+      </div>
+      <span class="qr-label">Scan to open on your phone</span>
     </div>
     <p class="reveal delay-3" style="margin-top:2.5rem;font-size:.75rem;color:var(--dim);position:relative">© 2026 Shamikh Ahmed · shamikhahmed.github.io/DeePonyCap</p>
   </div>

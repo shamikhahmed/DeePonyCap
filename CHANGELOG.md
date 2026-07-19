@@ -1,3 +1,11 @@
+## [3.6.3] — 2026-07-19
+
+### Pitch
+- Premium Capricorn QR (`assets/qr-deeponycap.png`) — H ECC, Capricorn Systems center mark, gold quiet frame on CTA
+
+### Ops
+- SW `deeponycap-v53`
+
 # Changelog — DeePonyCap
 
 ## 3.6.2 (2026-07-19) — Cap Family Mega-Wave
