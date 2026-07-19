@@ -1,3 +1,9 @@
+## [3.7.0] — 2026-07-20
+
+### Beauty — graded slab / binder
+- Splash: PSA slab object (light+dark), collector chrome
+- Fraunces display; Baloo bounce retired; SW `deeponycap-v55`
+
 ## [3.6.4] — 2026-07-19
 
 ### QA

@@ -1,28 +1,29 @@
-/* DeePonyOS — toy-shelf identity overlay (base chrome in index.html) */
+/* DeePonyCap — collector binder identity (slab chrome) */
 
 :root {
-  --font-display: 'Baloo 2', 'Nunito', system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Nunito', Georgia, serif;
   --font-body: 'Nunito', system-ui, sans-serif;
 }
 
-h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .nav-label, .btn-p, .btn-g, .btn-d, .sheet h2 {
+h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   font-family: var(--font-display) !important;
 }
 
 .stat-box .n, .big-num {
   font-family: var(--font-display) !important;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
 }
 
 .fab {
-  animation: ponyBounce 2.5s ease-in-out infinite;
-}
-
-@keyframes ponyBounce {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-6px) scale(1.03); }
+  animation: none;
 }
 
 .nav-btn.on .nav-icon {
-  transform: scale(1.06) rotate(-2deg);
+  transform: none;
+}
+
+/* graded slab card chrome */
+.pony-card, .card-pony, .shelf-card {
+  border: 1px solid rgba(196, 54, 122, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 22px rgba(80, 20, 50, 0.12);
 }
