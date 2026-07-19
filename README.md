@@ -5,9 +5,11 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 🔗 **Live:** https://shamikhahmed.github.io/DeePonyCap/  
 📁 **Repo:** https://github.com/shamikhahmed/DeePonyCap
 
+**Version:** 3.6.2 · SW `deeponycap-v52` · see [VERSION.json](VERSION.json) · [CHANGELOG.md](CHANGELOG.md)
+
 ---
 
-## Features (v2.6)
+## Features (v3.6.2)
 
 - 🏠 **Stable** — goals, backup nudge, anniversaries, generation rainbow
 - 🦄 **Collection** — photos, filters, pony DB autocomplete, duplicate warnings
@@ -16,13 +18,14 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 - 🌈 **Stats** — achievements, PNG share card, generation checklist
 - 🔒 **Parent lock** — optional PIN for export/import/delete
 - 📊 **Collector mode** — sold comps, values, catalog view
+- ♿ **Accessibility** — focus-managed sheets, keyboard roles, live regions, system dark mode
 - ✨ **Demo:** append `?demo=1` to the live URL
 
-## New in v2.6
+## Recent highlights
 
-- Collection goals (G4 Mane Six, G1 Babies), achievement confetti, haptics
-- Parent PIN, privacy card, seasonal birthday sparkle
-- See [CHANGELOG.md](CHANGELOG.md)
+- **3.6.2** — Capricorn OS brand lock (assets, PWA icons, favicon); SW cache `deeponycap-v52`
+- **3.6.x** — Cap Standard CI/verify, install banner, a11y/mobile/UX polish to 100-score pass
+- Full history: [CHANGELOG.md](CHANGELOG.md)
 
 ## Install on iPhone
 
@@ -40,13 +43,13 @@ DeePonyCap by Capricorn Systems — your magical **My Little Pony collection tra
 - [ ] App works offline after first load
 - [ ] Safe area: nav and FAB clear home indicator
 
-## App Store readiness (v2.6.0)
+## App Store readiness (v3.6.2)
 
 ```bash
 npm run preflight   # tests + asset checks
 ```
 
-**Done in code:** privacy policy, parent lock, offline PWA, `icon-1024`, iOS templates, 6 smoke tests passing.
+**Done in code:** privacy policy, parent lock, offline PWA, Cap Standard icons, iOS templates, Playwright suite.
 
 **You still need on your Mac:**
 1. `brew install cocoapods`
@@ -79,7 +82,7 @@ Push to `main` — Pages serves from repo root with `.nojekyll`.
 
 ## Ideas for later
 
-- Wishlist reference photos + target price
+- Wishlist reference photos + target price polish
 - Accessory gallery with multi-pony linking
 - Smart duplicate / variant tracking
 - Trade/swap log between collectors
