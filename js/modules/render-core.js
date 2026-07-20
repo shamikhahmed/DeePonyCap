@@ -93,29 +93,68 @@ const Render = {
         ${g.missing.length ? `<div style="font-size:.75rem;color:var(--text-soft);margin-top:4px">Still need: ${g.missing.map(n => this.esc(n)).join(', ')}</div>` : ''}
       </div>`;
     }).join('') : '';
-    document.getElementById('tab-stable').innerHTML = `
-      <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
-      <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
+    const achUnlocked = Achievements.defs.filter(a => a.test()).length;
+    const achTotal = Achievements.defs.length;
+    const wishN = S.wishlist.length;
+    const shelfRail = `<aside class="stable-rail stable-rail--shelf" aria-label="Generation shelves">
+      <div class="stable-rail__label">Shelves</div>
+      <div class="stable-shelf-stack">${gens.map(x =>
+        `<button type="button" class="stable-shelf-slot g${x.g}" onclick="Nav.goLog('g${x.g}')">
+          <span class="stable-shelf-slot__gen">G${x.g} ${GEN_EMOJI[x.g]}</span>
+          <span class="stable-shelf-slot__count">${x.c}</span>
+        </button>`
+      ).join('')}${otherN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--other" onclick="Nav.goLog('other')"><span class="stable-shelf-slot__gen">🐴 Other</span><span class="stable-shelf-slot__count">${otherN}</span></button>` : ''}${mcdN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--mcd" onclick="Nav.goLog('mcd')"><span class="stable-shelf-slot__gen">🍟 McD</span><span class="stable-shelf-slot__count">${mcdN}</span></button>` : ''}</div>
+    </aside>`;
+    const toolsRail = `<aside class="stable-rail stable-rail--tools" aria-label="Stable tools">
+      <div class="stable-rail__label">Tools</div>
+      <div class="stable-tools-stack">
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.goLog('g1')">📋 Generation logs</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('map')">🗺️ Pony Map</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('stats')">🌈 Stats</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('wishlist')">💫 Wishlist · ${wishN}</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('accessories')">🎀 Extras</button>
+        <button type="button" class="btn-p stable-tool-btn" onclick="UI.openAdd()">+ Add Pony</button>
+      </div>
+      <div class="stable-tools-stat card">
+        <div class="section-title">Achievements</div>
+        <div class="stable-tools-stat__num">${achUnlocked}/${achTotal}</div>
+        <button type="button" class="btn-g" style="width:100%;margin-top:8px" onclick="Nav.go('stats')">View all →</button>
+      </div>
       ${backupNudge}
-      ${annivHtml}
-      <div class="card">
-        <div class="big-num" id="counterNum">0</div>
-        <div class="big-label">ponies in your collection</div>
-        <div class="progress-bar">${bars}</div>
-        <div class="rainbow-note">Rainbow spread across all generations</div>
-      </div>
-      ${goalsHtml ? `<div class="card"><div class="section-title">Collection goals 🎯</div>${goalsHtml}</div>` : ''}
-      ${window.Excellence ? Excellence.suggestionsHtml() : ''}
-      <div class="row-scroll">${pills}${extraPills}</div>
-      <div class="premium-views">
-        <button type="button" class="btn-g" onclick="Nav.goLog('g1')">📋 Generation logs</button>
-        <button type="button" class="btn-g" onclick="Nav.go('map')">🗺️ Pony Map</button>
-        <button type="button" class="btn-g" onclick="Nav.go('stats')">🌈 Stats</button>
-      </div>
-      <div class="type-grid">${types}</div>
-      ${recent.length?`<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
-      ${faves.length?`<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p=>this.ponyCard(p,true)).join('')}</div>`:''}
-      ${!n ? `<div style="text-align:center;padding:48px 24px"><div style="font-size:64px;margin-bottom:16px">🦄</div><div style="font-size:20px;font-weight:800;margin-bottom:8px">Your Stable is Empty</div><div style="font-size:14px;color:var(--text-soft);max-width:280px;margin:0 auto 24px">Start building your collection — add your first pony or try a demo to see how it works.</div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button type="button" class="btn-g" onclick="UI.openAddPony()">+ Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">Try Demo ✨</button></div></div>` : ''}`;
+    </aside>`;
+    const emptyHtml = !n ? `<div class="stable-empty"><div class="stable-empty__icon">🦄</div><div class="stable-empty__title">Your Stable is Empty</div><div class="stable-empty__sub">Start building your collection — add your first pony or try a demo to see how it works.</div><div class="stable-empty__actions"><button type="button" class="btn-g" onclick="UI.openAddPony()">+ Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">Try Demo ✨</button></div></div>` : '';
+    document.getElementById('tab-stable').innerHTML = `
+      <div class="stable-case">
+        <div class="stable-case__lid" aria-hidden="true"></div>
+        <div class="stable-layout">
+          ${shelfRail}
+          <div class="stable-main">
+            <div class="stable-case__clip" aria-hidden="true"></div>
+            <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
+            <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
+            <div class="stable-mobile-nudge">${backupNudge}${annivHtml}</div>
+            <div class="card stable-counter">
+              <div class="big-num" id="counterNum">0</div>
+              <div class="big-label">ponies in your collection</div>
+              <div class="progress-bar">${bars}</div>
+              <div class="rainbow-note">Rainbow spread across all generations</div>
+            </div>
+            ${goalsHtml ? `<div class="card"><div class="section-title">Collection goals 🎯</div>${goalsHtml}</div>` : ''}
+            ${window.Excellence ? Excellence.suggestionsHtml() : ''}
+            <div class="stable-mobile-shelf row-scroll">${pills}${extraPills}</div>
+            <div class="stable-mobile-tools premium-views">
+              <button type="button" class="btn-g" onclick="Nav.goLog('g1')">📋 Generation logs</button>
+              <button type="button" class="btn-g" onclick="Nav.go('map')">🗺️ Pony Map</button>
+              <button type="button" class="btn-g" onclick="Nav.go('stats')">🌈 Stats</button>
+            </div>
+            <div class="type-grid">${types}</div>
+            ${recent.length ? `<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p => this.ponyCard(p, true)).join('')}</div>` : ''}
+            ${faves.length ? `<div class="section-title">Most Loved 💕</div><div class="row-scroll">${faves.map(p => this.ponyCard(p, true)).join('')}</div>` : ''}
+            ${emptyHtml}
+          </div>
+          ${toolsRail}
+        </div>
+      </div>`;
     Anim.countUp(document.getElementById('counterNum'), n);
     } catch (err) {
       console.error('[DeePonyCap] render error (stable)', err);

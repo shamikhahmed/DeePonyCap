@@ -1,3 +1,15 @@
+## [3.7.3] — 2026-07-20
+
+### Home deep — acrylic stable case
+- Mobile: stacked stable home (counter, goals, gen pills, type grid, recent/faves)
+- Desktop ≥900px: 3-pane toy case — generation shelf rail / featured main / tools rail
+- SW `deeponycap-v58`
+
+## [3.7.2] — 2026-07-20
+
+### Visual DNA remint
+- Plastic toy stable splash + Bubblegum Sans tokens; SW `deeponycap-v57`
+
 ## [3.7.1] — 2026-07-20
 
 ### Polish
