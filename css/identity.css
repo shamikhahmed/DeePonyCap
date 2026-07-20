@@ -1,8 +1,8 @@
-/* DeePonyCap — collector binder identity (slab chrome) */
+/* DeePonyCap — plastic toy stable / acrylic case identity */
 
 :root {
-  --font-display: 'Fraunces', 'Nunito', Georgia, serif;
-  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-display: 'Bubblegum Sans', 'Comic Neue', 'Nunito', cursive, sans-serif;
+  --font-body: 'Comic Neue', 'Nunito', system-ui, sans-serif;
 }
 
 h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
@@ -22,8 +22,8 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   transform: none;
 }
 
-/* graded slab card chrome */
+/* acrylic toy-case card chrome */
 .pony-card, .card-pony, .shelf-card {
-  border: 1px solid rgba(196, 54, 122, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04), 0 8px 22px rgba(80, 20, 50, 0.12);
+  border: 2px solid rgba(255, 105, 180, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35), 0 8px 22px rgba(255, 105, 180, 0.14);
 }
