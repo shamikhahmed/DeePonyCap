@@ -1,3 +1,8 @@
+## [3.7.1] — 2026-07-20
+
+### Polish
+- Nav: SVG icons + short sidebar marks; install banner text mark; SW `deeponycap-v56`
+
 ## [3.7.0] — 2026-07-20
 
 ### Beauty — graded slab / binder

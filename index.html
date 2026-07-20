@@ -110,7 +110,7 @@
 </div>
 
 <div class="install-hint" id="installHint">
-  <span style="font-size:1.6rem">📲</span>
+  <span class="install-hint-mark" aria-hidden="true">App</span>
   <p><strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!</p>
   <button class="btn-g" style="padding:8px 12px;font-size:.75rem" onclick="Install.dismiss()">✕</button>
 </div>
@@ -125,7 +125,9 @@
 <div class="cap-desktop-shell">
 <nav id="cap-nav-sidebar" aria-label="Module navigation"></nav>
 <div class="app app-shell cap-desktop-main" id="app" style="display:none">
-  <button type="button" class="app-settings-btn" onclick="Nav.go('settings')" aria-label="Settings">⚙️</button>
+  <button type="button" class="app-settings-btn" onclick="Nav.go('settings')" aria-label="Settings">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+  </button>
   <div class="main" id="main" role="main">
     <div class="screen on" id="tab-stable"></div>
     <div class="screen" id="tab-logs"></div>
@@ -139,11 +141,11 @@
   </div>
   <button class="fab" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog">+</button>
   <nav class="nav" id="nav" aria-label="Main navigation" role="tablist">
-    <button type="button" class="nav-btn on" role="tab" aria-selected="true" aria-controls="tab-stable" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon">🏠</div><span class="nav-label">Stable</span></button>
-    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-logs" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon">📋</div><span class="nav-label">Logs</span></button>
-    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-map" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon">🗺️</div><span class="nav-label">Map</span></button>
-    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-wishlist" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon">💫</div><span class="nav-label">Wishlist</span></button>
-    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-accessories" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon">🎀</div><span class="nav-label">Extras</span></button>
+    <button type="button" class="nav-btn on" role="tab" aria-selected="true" aria-controls="tab-stable" data-tab="stable" onclick="Nav.go('stable')"><div class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-7h6v7"/></svg></div><span class="nav-label">Stable</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-logs" data-tab="logs" onclick="Nav.go('logs')"><div class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h9a2 2 0 0 1 2 2v14H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="M10 9h6M10 13h6M10 17h4"/></svg></div><span class="nav-label">Logs</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-map" data-tab="map" onclick="Nav.go('map')"><div class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6.5v13L9 17l6 2.5L21 17V4l-6 2.5L9 4z"/><path d="M9 4v13M15 6.5v13"/></svg></div><span class="nav-label">Map</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-wishlist" data-tab="wishlist" onclick="Nav.go('wishlist')"><div class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 14.2 9h5.3l-4.3 3.3 1.6 5.2L12 14.6 7.2 17.5l1.6-5.2L4.5 9h5.3L12 3.5z"/></svg></div><span class="nav-label">Wishlist</span></button>
+    <button type="button" class="nav-btn" role="tab" aria-selected="false" aria-controls="tab-accessories" data-tab="accessories" onclick="Nav.go('accessories')"><div class="nav-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v4M12 16v4M4 12h4M16 12h4"/><circle cx="12" cy="12" r="3.5"/></svg></div><span class="nav-label">Extras</span></button>
   </nav>
 </div>
 </div>

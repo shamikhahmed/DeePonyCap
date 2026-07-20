@@ -1,18 +1,18 @@
 'use strict';
 const Nav = {
   _sidebarTabs: [
-    { id: 'stable', label: 'Stable', icon: '🏠' },
-    { id: 'logs', label: 'Logs', icon: '📋' },
-    { id: 'map', label: 'Map', icon: '🗺️' },
-    { id: 'wishlist', label: 'Wishlist', icon: '💫' },
-    { id: 'accessories', label: 'Extras', icon: '🎀' },
+    { id: 'stable', label: 'Stable', mark: 'Home' },
+    { id: 'logs', label: 'Logs', mark: 'Log' },
+    { id: 'map', label: 'Map', mark: 'Map' },
+    { id: 'wishlist', label: 'Wishlist', mark: 'Wish' },
+    { id: 'accessories', label: 'Extras', mark: 'Xtra' },
   ],
   _renderSidebar(activeTab) {
     const sidebar = document.getElementById('cap-nav-sidebar');
     if (!sidebar) return;
-    sidebar.innerHTML = '<div class="cap-sidebar-brand">DeePonyCap ✨</div>' +
+    sidebar.innerHTML = '<div class="cap-sidebar-brand">DeePonyCap</div>' +
       this._sidebarTabs.map(t =>
-        `<button type="button" class="cap-side-btn${t.id === activeTab ? ' on' : ''}" data-tab="${t.id}" onclick="Nav.go('${t.id}')"><span>${t.icon}</span><span>${t.label}</span></button>`
+        `<button type="button" class="cap-side-btn${t.id === activeTab ? ' on' : ''}" data-tab="${t.id}" onclick="Nav.go('${t.id}')"><span class="nav-mark" aria-hidden="true">${t.mark}</span><span>${t.label}</span></button>`
       ).join('');
   },
   /** Navigates to the given tab id, updating active screens, nav buttons, sidebar, and page title. */
