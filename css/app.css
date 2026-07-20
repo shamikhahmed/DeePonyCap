@@ -20,7 +20,7 @@ html.cap-desktop-bg{--cap-desktop-bg:linear-gradient(135deg,#e8b4cc,#d4a0b8,#c49
     --cap-text:#2D1235;
     --cap-text-2:#4A1E3A;
     --cap-text-secondary:rgba(45,18,53,0.65);
-    --cap-accent:#C4367A;
+    --cap-accent:#FF69B4;
   }
   .cap-side-btn.on,.cap-side-btn.active{background:rgba(196,54,122,0.15)!important;color:var(--pink)!important}
   .cap-sidebar-brand{color:var(--text)}
