@@ -1,13 +1,13 @@
 # DeePonyCap — Tier 1 App Report
 
-**Released:** 2026-09-15 · **v3.8.0** / SW `deeponycap-v60` · branch `finish/deeponycap`
+**Released:** 2026-09-15 · **v3.8.0** / SW `deeponycap-v60` · merge `9834c24` · tag `v3.8.0`
 
 | Field | Value |
 |-------|--------|
 | Status | Tier 1 (P0/P1 complete) |
 | Live | https://shamikhahmed.github.io/DeePonyCap/ |
-| CI | `npm test` / `npm run verify` — **37 passed, 1 skipped** (local) |
-| Live SW | prove after deploy: `deeponycap-v60` |
+| CI | https://github.com/shamikhahmed/DeePonyCap/actions/runs/34901665309 — **success** |
+| Live SW | `curl …/js/version.js` → **deeponycap-v60**; VERSION.json **3.8.0** (proven 2026-09-15) |
 | Score (baseline → after) | 44 → ~86 |
 
 ## P0 / P1 register
@@ -39,6 +39,9 @@ D-04, P-PONY-1, G-2 (Pro modal removed), G-4 (§4.1 description + §4.2 disclaim
 - Hub/catalog sync fully closed when website Step 16 runs; products-data + lab copy updated for IP
 
 ## Release log
-- Branch `finish/deeponycap` from `origin/main`
-- Tag `v3.8.0` (after merge)
-- Hub: `shamikhahmed.github.io/js/products-data.js` + `capricorn-lab` product copy updated
+- Branch `finish/deeponycap` → merge `9834c24` on `main`
+- Tag `v3.8.0`
+- CI: https://github.com/shamikhahmed/DeePonyCap/actions/runs/34901665309 — success
+- Pages: https://github.com/shamikhahmed/DeePonyCap/actions/runs/34901664350 — success
+- Hub catalog: shamikhahmed.github.io `236c6e1`
+- Live smoke: VERSION **3.8.0**, SW **deeponycap-v60**, HTML IP-clean, demo names invented
