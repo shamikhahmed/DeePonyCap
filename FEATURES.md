@@ -1,15 +1,13 @@
-# DeePonyCap — Features (S/W/L/R)
+# DeePonyCap features
 
-**Updated:** 2026-07-19 · Cap Family Mega-Wave  
-**Codes:** S = shipped · W = this wave · L = later · R = rejected
+- User-defined series and free-text catalog browsing
+- Photo shelves (on-device IndexedDB)
+- Wishlist tiers
+- Collection map / shelf organize
+- Achievements and insights
+- Compact view + dark mode
+- Export / import backup + CSV
+- Optional app lock PIN
+- Offline PWA
 
-
-## S
-- G1–G5 catalog · photo shelves · wishlists · achievements · maps · COPPA local
-
-## W
-- Brand lock shipped (v3.6.2) · gallery + verify Cap Standard raise · push/tag
-
-## L
-- Collector value estimates
-
+Not affiliated with any toy company.

@@ -1,6 +1,6 @@
 # DeePonyCap — User Guide
 
-DeePonyCap is a **magical My Little Pony collection tracker** — soft, sparkly, and child-friendly. Track ponies, wishlists, shelves, and collection stats across five generations.
+DeePonyCap is a **magical collectible figures collection tracker** — soft, sparkly, and child-friendly. Track ponies, wishlists, shelves, and collection stats across five generations.
 
 **Live app:** https://shamikhahmed.github.io/DeePonyCap/
 
@@ -40,9 +40,9 @@ DeePonyCap is a **magical My Little Pony collection tracker** — soft, sparkly,
 
 ## Generations
 
-DeePonyCap supports five MLP generations with colour-coded pills:
+DeePonyCap supports five pony figures generations with colour-coded pills:
 
-- G1 · G2 · G3 · G4 · G5
+- Series 1 · Series 2 · Series 3 · Series 4 · Series 5
 
 Filter Collection by generation using the chip row. Stats shows a **generation checklist** — unique names owned vs the pony name database per gen.
 
@@ -99,7 +99,7 @@ Organise by physical location:
 
 ## Enterprise demo
 
-**Settings → Load Demo Collection** — 18 anonymized ponies across G1–G5 for investor walkthroughs (no code edits).
+**Settings → Load Demo Collection** — 18 anonymized ponies across Series 1–Series 5 for investor walkthroughs (no code edits).
 
 ---
 

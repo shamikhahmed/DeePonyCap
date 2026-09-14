@@ -72,12 +72,10 @@ const Store = {
     S.settings.darkMode = !!S.settings.darkMode;
     S.settings.hapticsEnabled = S.settings.hapticsEnabled !== false;
     if (!S.unlockedAchievements) S.unlockedAchievements = [];
+    if (!S.seriesList) S.seriesList = [];
+    if (typeof ensureSeriesList === 'function') ensureSeriesList(S);
     if (!S.onboardingDone && !S.ponies.length) {
-      S.ponies = [
-        {id:uid(),name:'Twilight Sparkle',generation:4,type:'mlp',colour:'Purple with pink streak',size:'standard',shelf:'Shelf 1',isOriginal:true,condition:'mint',isFavourite:true,isMostPlayed:false,photos:[],photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-3},
-        {id:uid(),name:'Pinkie Pie',generation:4,type:'mlp',colour:'Pink all over',size:'standard',shelf:'Shelf 1',isOriginal:true,condition:'good',isFavourite:true,isMostPlayed:true,photos:[],photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-2},
-        {id:uid(),name:'Baby Cotton Candy',generation:1,type:'mlp',colour:'Pink with purple hair',size:'mini',shelf:'Shelf 2',isOriginal:true,condition:'loved',isFavourite:false,isMostPlayed:false,photos:[],photo:null,acquiredDate:'',notes:'',createdAt:Date.now()-1}
-      ];
+      S.ponies = [];
     }
     Theme.apply();
   },
@@ -117,32 +115,32 @@ const DemoSeed = {
   _palette: ['#9333ea', '#2563eb', '#eab308', '#f472b6', '#f97316', '#10b981', '#6366f1', '#ec4899', '#14b8a6', '#8b5cf6'],
   ponies() {
     const names = [
-      ['Twilight Sparkle', 4, 'mlp', 'Purple', 'Shelf 1', 'mint'],
-      ['Rainbow Dash', 4, 'mlp', 'Blue', 'Shelf 1', 'good'],
-      ['Fluttershy', 4, 'mlp', 'Yellow', 'Shelf 1', 'mint'],
-      ['Rarity', 4, 'mlp', 'White', 'Display Case', 'mint'],
-      ['Applejack', 4, 'mlp', 'Orange', 'Shelf 2', 'good'],
-      ['Pinkie Pie', 4, 'mlp', 'Pink', 'Shelf 1', 'played'],
-      ['Princess Celestia', 4, 'special', 'White/gold', 'Display Case', 'mint'],
-      ['Spike', 4, 'special', 'Purple/green', 'Shelf 2', 'good'],
-      ['Baby Cotton Candy', 1, 'mlp', 'Pink', 'Shelf 3', 'loved'],
-      ['Minty', 3, 'mlp', 'Green', 'Shelf 3', 'good'],
-      ['Wysteria', 3, 'mlp', 'Purple', 'Shelf 3', 'mint'],
-      ['Star Swirl', 2, 'mlp', 'Blue', 'Windowsill', 'played'],
-      ['Firefly', 1, 'mlp', 'Pink', 'Box', 'loved'],
-      ['Gusty', 1, 'mlp', 'White', 'Box', 'good'],
-      ['Sunny Daze', 3, 'filly', 'Yellow', 'Shelf 2', 'mint'],
-      ['Cuddles', 3, 'velvet', 'Pink', 'Shelf 2', 'good'],
-      ['Twilight Sparkle (G5)', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
-      ['Izzy Moonbow', 5, 'mlp', 'Purple', 'Display Case', 'mint'],
+      ['Clover Gleam', 'Dawn Line', 1, 'mlp', 'Soft green', 'Shelf 1', 'mint'],
+      ['Midnight Bloom', 'Dawn Line', 1, 'mlp', 'Deep violet', 'Shelf 1', 'good'],
+      ['Sunny Pebble', 'Dawn Line', 1, 'mlp', 'Warm yellow', 'Shelf 1', 'mint'],
+      ['River Soft', 'Meadow Line', 2, 'mlp', 'Sky blue', 'Display Case', 'mint'],
+      ['Petal Drift', 'Meadow Line', 2, 'mlp', 'Blush pink', 'Shelf 2', 'good'],
+      ['Honey Trail', 'Meadow Line', 2, 'mlp', 'Honey orange', 'Shelf 1', 'played'],
+      ['Lumen Quill', 'Vintage Line', 3, 'special', 'Cream', 'Display Case', 'mint'],
+      ['Tiny Dewdrop', 'Vintage Line', 3, 'mlp', 'Pale pink', 'Shelf 2', 'good'],
+      ['Aurora Nest', 'Starlight Line', 4, 'mlp', 'Lavender', 'Shelf 3', 'loved'],
+      ['Moss Lantern', 'Starlight Line', 4, 'mlp', 'Forest green', 'Shelf 3', 'good'],
+      ['Cloud Thimble', 'Starlight Line', 4, 'mlp', 'Cloud white', 'Shelf 3', 'mint'],
+      ['Bramble Song', 'Meadow Line', 2, 'mlp', 'Berry red', 'Windowsill', 'played'],
+      ['Nimbus Pearl', 'Dawn Line', 1, 'mlp', 'Pearl grey', 'Box', 'loved'],
+      ['Willow Flick', 'Vintage Line', 3, 'mlp', 'Willow green', 'Box', 'good'],
+      ['Coral Wick', 'Dawn Line', 1, 'filly', 'Coral', 'Shelf 2', 'mint'],
+      ['Velvet Ember', 'Meadow Line', 2, 'velvet', 'Ember rose', 'Shelf 2', 'good'],
+      ['Starlit Cove', 'Starlight Line', 4, 'mlp', 'Night blue', 'Display Case', 'mint'],
+      ['Glint Meadow', 'Meadow Line', 2, 'mlp', 'Meadow gold', 'Display Case', 'mint'],
     ];
     const base = names.map((n, i) => {
       const photo = i < 10 ? DemoSeed._photo(n[0], DemoSeed._palette[i % DemoSeed._palette.length]) : null;
       return normalizePony({
         id: uid(),
-        name: n[0], generation: n[1], type: n[2], colour: n[3], category: 'mlp',
-        size: n[1] === 1 ? 'mini' : 'standard', shelf: n[4],
-        isOriginal: true, condition: n[5],
+        name: n[0], series: n[1], generation: n[2], type: n[3], colour: n[4], category: 'mlp',
+        size: 'standard', shelf: n[5],
+        isOriginal: true, condition: n[6],
         isFavourite: i < 4, isMostPlayed: i === 5,
         photos: photo ? [photo] : [], photo,
         acquiredDate: new Date(Date.now() - (i + 1) * 86400000 * 30).toISOString().slice(0, 10),
@@ -151,37 +149,38 @@ const DemoSeed = {
         createdAt: Date.now() - (i + 1) * 86400000,
       });
     });
-    const mcd = [
-      ['Happy Meal Twilight', 'USA', '2014', 'Purple', 'Shelf 4'],
-      ['Happy Meal Rainbow Dash', 'USA', '2015', 'Blue', 'Shelf 4'],
-      ['McDonald\'s Fluttershy', 'UK', '2012', 'Yellow', 'Shelf 4'],
-      ['McDonald\'s Applejack', 'Canada', '2013', 'Orange', 'Box'],
-      ['McDonald\'s Pinkie Pie', 'UK', '2012', 'Pink', 'Shelf 4'],
+    const promo = [
+      ['Promo Clover', 'USA', '2014', 'Green', 'Shelf 4'],
+      ['Promo Midnight', 'USA', '2015', 'Violet', 'Shelf 4'],
+      ['Promo Sunny', 'UK', '2012', 'Yellow', 'Shelf 4'],
+      ['Promo River', 'Canada', '2013', 'Blue', 'Box'],
+      ['Promo Petal', 'UK', '2012', 'Pink', 'Shelf 4'],
     ];
-    const mcdPonies = mcd.map((n, i) => normalizePony({
-      id: uid(), name: n[0], category: 'mcdonalds', type: 'mcdonalds', generation: 4,
+    const promoPonies = promo.map((n, i) => normalizePony({
+      id: uid(), name: n[0], category: 'mcdonalds', type: 'mcdonalds', series: '', generation: 0,
       mcdCountry: n[1], mcdYear: n[2], colour: n[3], shelf: n[4],
       size: 'mini', isOriginal: true, condition: 'good',
       isFavourite: false, isMostPlayed: false, photos: [], photo: null,
-      catalogNumber: String(100 + i), hairColour: n[3], cutieMark: 'Happy Meal cutie',
-      acquiredDate: `${n[2]}-06-15`, notes: 'Demo McDonald\'s pony',
+      catalogNumber: String(100 + i), hairColour: n[3], cutieMark: 'Promo mark',
+      acquiredDate: `${n[2]}-06-15`, notes: 'Demo promo toy',
       purchaseValue: 3, estimatedValue: 8, createdAt: Date.now() - (20 + i) * 86400000,
     }));
-    return base.concat(mcdPonies);
+    return base.concat(promoPonies);
   },
   wishlist() {
     const items = [
-      { name: 'Princess Luna', generation: 4, type: 'special', priority: 'must', targetPrice: 45, notes: 'Night version — display case grail', color: '#312e81' },
-      { name: 'Starshine', generation: 1, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Rare G1 — watch eBay', color: '#be185d' },
-      { name: 'Posey', generation: 1, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', color: '#059669' },
-      { name: 'Sunny Starscout', generation: 5, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'G5 movie set', color: '#d97706' },
-      { name: 'Meadowbrook', generation: 3, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', color: '#7c3aed' },
-      { name: 'G1 Baby Surprise', generation: 1, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', color: '#db2777' },
-      { name: 'Ponyville Train Set', generation: 4, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — not a pony but dream item', color: '#0284c7' },
+      { name: 'Silver Fern', series: 'Dawn Line', generation: 1, type: 'special', priority: 'must', targetPrice: 45, notes: 'Display case grail', color: '#312e81' },
+      { name: 'Amber Quill', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Watch listings', color: '#be185d' },
+      { name: 'Moss Bell', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', color: '#059669' },
+      { name: 'Nova Drift', series: 'Starlight Line', generation: 4, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'New line set', color: '#d97706' },
+      { name: 'Thistle Wren', series: 'Meadow Line', generation: 2, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', color: '#7c3aed' },
+      { name: 'Tiny Marigold', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', color: '#db2777' },
+      { name: 'Cottage Playset', series: 'Dawn Line', generation: 1, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — dream item', color: '#0284c7' },
     ];
     return items.map(w => ({
       id: uid(),
       name: w.name,
+      series: w.series,
       generation: w.generation,
       type: w.type,
       priority: w.priority,
@@ -195,14 +194,15 @@ const DemoSeed = {
     if (!silent) {
       try { localStorage.setItem('deeponycap_pin_backup', JSON.stringify(S)); } catch (e) {}
     }
-    if (!silent && !confirm('Load demo collection (18 ponies)? Replaces your current ponies.')) return;
+    if (!silent && !confirm('Load demo collection? Replaces your current ponies.')) return;
+    S.seriesList = ['Dawn Line', 'Meadow Line', 'Starlight Line', 'Vintage Line'];
     S.ponies = DemoSeed.ponies();
     S.wishlist = DemoSeed.wishlist();
     S.collector = { name: 'Demo Collector', since: '2020-01-01' };
     S.onboardingDone = true;
     Store.save();
     Render.all();
-    if (!silent) Toast.show('Demo collection loaded ✨');
+    if (!silent) Toast.show('Demo collection loaded');
     setTimeout(() => Achievements.checkAll(false), 700);
     return true;
   }

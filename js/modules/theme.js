@@ -24,7 +24,7 @@ const Theme = {
     Store.save();
     Theme.apply();
     Render.all();
-    Toast.show(S.settings.collectorMode ? 'Collector mode on 📋' : 'Magical mode on ✨');
+    Toast.show(S.settings.collectorMode ? 'Compact view on' : 'Standard view on');
   },
   /** Toggles dark mode on/off, saves state, and re-renders the app. */
   toggleDark() {
@@ -32,6 +32,6 @@ const Theme = {
     Store.save();
     Theme.apply();
     Render.all();
-    Toast.show(S.settings.darkMode ? 'Dark mode on 🌙' : 'Light mode on ☀️');
+    Toast.show(S.settings.darkMode ? 'Dark mode on' : 'Light mode on');
   }
 };

@@ -22,7 +22,7 @@ Export at 1290×2796 or use Xcode Simulator → Screenshot.
 ## App Store copy hooks
 
 - **Subtitle:** Magical pony collection tracker
-- **Keywords:** MLP, pony, collection, kids, offline, photos, wishlist
+- **Keywords:** pony figures, pony, collection, kids, offline, photos, wishlist
 - **Privacy:** No data collected — see `privacy.html`
 
 ## Child safety (shipped)

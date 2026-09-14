@@ -18,10 +18,10 @@ https://shamikhahmed.github.io/DeePonyCap/privacy.html
 
 ## Description (App Store)
 
-DeePonyCap is a sparkly, child-friendly My Little Pony collection tracker — built for young collectors and their parents.
+DeePonyCap is a sparkly, child-friendly collectible figures collection tracker — built for young collectors and their parents.
 
 **Organize your stable**
-- Add ponies with photos, generation (G1–G5), shelf, and condition
+- Add ponies with photos, generation (Series 1–Series 5), shelf, and condition
 - Search and filter your whole collection
 - Track wishlist ponies with Must / Want / Someday priorities
 
@@ -32,18 +32,18 @@ DeePonyCap is a sparkly, child-friendly My Little Pony collection tracker — bu
 
 **Collector tools**
 - Stats, achievements, and shareable collection cards
-- Collection goals (G4 Mane Six, G1 Babies)
+- Collection goals (Series 4 series set, Series 1 Babies)
 - Export backup to move to a new device
 
-Built by Capricorn Systems. Not affiliated with Hasbro or My Little Pony.
+Built by Capricorn Systems. Not affiliated with toy companies or collectible figures.
 
 ## Promotional Text (170 chars)
 
-Track your MLP ponies with photos, wishlists & shelves — offline, private, and kid-safe. Optional parent lock included.
+Track your pony figures ponies with photos, wishlists & shelves — offline, private, and kid-safe. Optional parent lock included.
 
 ## Keywords (100 chars max)
 
-pony,collection,MLP,wishlist,kids,offline,photos,toys,organizer,stable
+pony,collection,pony figures,wishlist,kids,offline,photos,toys,organizer,stable
 
 ## Support URL
 

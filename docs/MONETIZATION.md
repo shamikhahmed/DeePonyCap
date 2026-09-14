@@ -3,11 +3,11 @@
 ## Model: Freemium → One-time Pro ($4.99)
 
 ### Why someone pays
-MLP collectors are deeply invested hobbyists — many have hundreds of ponies worth thousands of dollars. Free tier (1 shelf, 20 ponies) creates real friction for serious collectors. $4.99 one-time is a no-brainer for someone tracking a $2,000 collection. No subscription fatigue — lifetime unlock feels fair for a catalog app.
+pony figures collectors are deeply invested hobbyists — many have hundreds of ponies worth thousands of dollars. Free tier (1 shelf, 20 ponies) creates real friction for serious collectors. $4.99 one-time is a no-brainer for someone tracking a $2,000 collection. No subscription fatigue — lifetime unlock feels fair for a catalog app.
 
 ### Revenue logic
 - Target: 100 purchases/mo × $4.99 = **$499/mo** (after Apple's 30% cut: ~$350/mo net)
-- Hobbyist app with rabid niche — low CAC via community forums (MLP Arena, Reddit r/mylittlepony)
+- Hobbyist app with rabid niche — low CAC via community forums (pony figures Arena, Reddit r/mylittlepony)
 - One-time purchase = higher App Store conversion than subscriptions for catalog apps
 
 ---

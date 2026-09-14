@@ -10,10 +10,10 @@ test.describe('DeePonyCap excellence v2.7', () => {
 
   test('fuzzy search finds pony by partial name', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
-    await page.locator('#tab-logs .search').fill('twil');
+    await page.locator('.log-chips .chip').filter({ hasText: 'Dawn Line' }).click();
+    await page.locator('#tab-logs .search').fill('clov');
     await page.waitForTimeout(300);
-    await expect(page.locator('#tab-logs').getByText('Twilight Sparkle').first()).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('#tab-logs').getByText('Clover Gleam').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('stats shows insights and premium views', async ({ page }) => {
@@ -38,7 +38,7 @@ test.describe('DeePonyCap excellence v2.7', () => {
 
   test('pony passport opens from collection card', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: 'Dawn Line' }).click();
     await page.locator('.view-toggle .opt').filter({ hasText: 'Cards' }).click();
     await page.locator('#tab-logs .pony-card').first().click();
     await expect(page.locator('#sheet.on')).toBeVisible({ timeout: 5000 });
@@ -54,7 +54,7 @@ test.describe('DeePonyCap excellence v2.7', () => {
 
   test('sheet closes with Escape', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: 'Dawn Line' }).click();
     await page.locator('.view-toggle .opt').filter({ hasText: 'Cards' }).click();
     await page.locator('#tab-logs .pony-card').first().click();
     await expect(page.locator('#sheet.on')).toBeVisible({ timeout: 5000 });

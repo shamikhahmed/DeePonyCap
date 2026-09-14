@@ -9,3 +9,6 @@ test-results/
 ios/
 DerivedData/
 *.xcworkspace/xcuserdata/
+
+# Archived release trees (P-PONY-1)
+releases/

@@ -32,6 +32,12 @@ const Nav = {
     document.title = tabLabel + ' — DeePonyCap';
     const gear = document.querySelector('.app-settings-btn');
     if (gear) gear.hidden = tab === 'settings';
+    const fab = document.querySelector('.fab');
+    if (fab) {
+      const showFab = tab === 'stable' || tab === 'wishlist';
+      fab.hidden = !showFab;
+      fab.setAttribute('aria-hidden', showFab ? 'false' : 'true');
+    }
     Render.all();
   },
   goLog(section) {

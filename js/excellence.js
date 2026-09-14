@@ -34,15 +34,16 @@ const Excellence = (() => {
   function computeInsights() {
     const ponies = S.ponies || [];
     const n = ponies.length;
-    const gens = [1, 2, 3, 4, 5].map(g => ({
-      g, c: ponies.filter(p => p.generation === g).length,
+    const seriesNames = [...new Set(ponies.map(p => ponySeries(p)))];
+    const gens = seriesNames.map((label, i) => ({
+      g: i + 1, label, c: ponies.filter(p => ponySeries(p) === label).length,
     }));
-    const topGen = gens.reduce((a, b) => (b.c > a.c ? b : a), { g: 0, c: 0 });
+    const topGen = gens.reduce((a, b) => (b.c > a.c ? b : a), { g: 0, c: 0, label: '' });
     const favGen = gens.reduce((a, b) => {
-      const fc = ponies.filter(p => p.generation === b.g && p.isFavourite).length;
-      const ac = ponies.filter(p => p.generation === a.g && p.isFavourite).length;
-      return fc > ac ? { g: b.g, c: fc } : a;
-    }, { g: 0, c: 0 });
+      const fc = ponies.filter(p => ponySeries(p) === b.label && p.isFavourite).length;
+      const ac = ponies.filter(p => ponySeries(p) === a.label && p.isFavourite).length;
+      return fc > ac ? { g: b.g, c: fc, label: b.label } : a;
+    }, { g: 0, c: 0, label: '' });
     const shelves = {};
     ponies.forEach(p => {
       const s = (p.shelf || '').trim() || 'Unshelved';
@@ -51,7 +52,7 @@ const Excellence = (() => {
     const topShelf = Object.entries(shelves).sort((a, b) => b[1] - a[1])[0];
     const orig = ponies.filter(p => p.isOriginal).length;
     const wishOwned = (S.wishlist || []).filter(w =>
-      ponies.some(p => p.name.toLowerCase() === w.name.toLowerCase() && p.generation === w.generation)
+      ponies.some(p => p.name.toLowerCase() === w.name.toLowerCase() && ponySeries(p).toLowerCase() === ponySeries(w).toLowerCase())
     ).length;
     const wishPct = S.wishlist?.length ? Math.round((wishOwned / S.wishlist.length) * 100) : 0;
 
@@ -86,7 +87,7 @@ const Excellence = (() => {
   function suggestions() {
     const out = [];
     if (window.collectionGoalProgress) {
-      ['g4_mane6', 'g1_babies'].forEach(id => {
+      Object.keys(window.COLLECTION_GOALS || {}).forEach(id => {
         const g = collectionGoalProgress(id, S.ponies);
         if (g && g.missing?.length) {
           out.push({ type: 'goal', title: g.title, items: g.missing, emoji: g.emoji });
@@ -94,8 +95,8 @@ const Excellence = (() => {
       });
     }
     (S.wishlist || []).slice(0, 3).forEach(w => {
-      if (!S.ponies.some(p => p.name.toLowerCase() === w.name.toLowerCase() && p.generation === w.generation)) {
-        out.push({ type: 'wishlist', title: w.name, sub: `G${w.generation} · ${w.priority}`, id: w.id });
+      if (!S.ponies.some(p => p.name.toLowerCase() === w.name.toLowerCase() && ponySeries(p).toLowerCase() === ponySeries(w).toLowerCase())) {
+        out.push({ type: 'wishlist', title: w.name, sub: `${ponySeries(w)} · ${w.priority}`, id: w.id });
       }
     });
     return out.slice(0, 5);
@@ -109,13 +110,16 @@ const Excellence = (() => {
       { id: 'first_mint', ic: '🌟', t: 'Mint Condition — first mint pony', test: () => S.ponies.some(p => p.condition === 'mint') },
       { id: 'ten', ic: '🔟', t: 'Growing Stable — 10 ponies', test: () => S.ponies.length >= 10 },
       { id: 'twentyfive', ic: '📦', t: 'Packed Stable — 25 ponies', test: () => S.ponies.length >= 25 },
-      { id: 'mane6', ic: '🌈', t: 'Complete Mane Six', test: () => {
-        const need = ['Twilight Sparkle', 'Rainbow Dash', 'Pinkie Pie', 'Applejack', 'Rarity', 'Fluttershy'];
-        const owned = new Set(S.ponies.filter(p => p.generation === 4).map(p => p.name.toLowerCase()));
-        return need.every(n => owned.has(n.toLowerCase()));
+      { id: 'series3', ic: '🌈', t: 'Series starter — 3 ponies in one series', test: () => {
+        const counts = {};
+        S.ponies.forEach(p => {
+          const s = ponySeries(p);
+          counts[s] = (counts[s] || 0) + 1;
+        });
+        return Object.values(counts).some(n => n >= 3);
       }},
-      { id: 'g1babies', ic: '👶', t: 'G1 Baby Collector — 3+ babies', test: () =>
-        S.ponies.filter(p => p.generation === 1 && /^baby /i.test(p.name)).length >= 3 },
+      { id: 'tiny3', ic: '👶', t: 'Tiny collector — 3+ mini figures', test: () =>
+        S.ponies.filter(p => p.size === 'mini').length >= 3 },
       { id: 'accessory3', ic: '🎀', t: 'Accessory Expert — 3+ items', test: () => (S.accessories || []).length >= 3 },
       { id: 'wishmaster', ic: '💫', t: 'Wishlist Master — 10+ dreams', test: () => S.wishlist.length >= 10 },
       { id: 'shelf_org', ic: '🗂️', t: 'Shelf Organizer — 5+ shelves', test: () =>
@@ -138,8 +142,8 @@ const Excellence = (() => {
     return `<div class="card excellence-insights">
       <div class="section-title">Collection insights</div>
       <div class="insight-grid">
-        <div class="insight-cell"><span class="insight-k">Top generation</span><strong>G${ins.topGen.g} ${GEN_EMOJI[ins.topGen.g]} (${ins.topGen.c})</strong></div>
-        <div class="insight-cell"><span class="insight-k">Fave generation</span><strong>G${ins.favGen.g} (${ins.favGen.c} ❤️)</strong></div>
+        <div class="insight-cell"><span class="insight-k">Top series</span><strong>${ins.topGen.label ? Render.esc(ins.topGen.label) : '—'} (${ins.topGen.c})</strong></div>
+        <div class="insight-cell"><span class="insight-k">Fave series</span><strong>${ins.favGen.label ? Render.esc(ins.favGen.label) : '—'} (${ins.favGen.c} ❤️)</strong></div>
         <div class="insight-cell"><span class="insight-k">Top shelf</span><strong>${ins.topShelf ? E(ins.topShelf[0]) + ' (' + ins.topShelf[1] + ')' : '—'}</strong></div>
         <div class="insight-cell"><span class="insight-k">Originals</span><strong>${ins.origPct}% (${ins.orig}/${ins.n})</strong></div>
         <div class="insight-cell"><span class="insight-k">Wishlist progress</span><strong>${ins.wishOwned}/${ins.wishTotal} (${ins.wishPct}%)</strong></div>
@@ -242,9 +246,9 @@ body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1F2937;backg
 .print-footer{position:fixed;bottom:8mm;left:0;right:0;text-align:center;font-size:8pt;color:#9CA3AF}
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>
-<div class="print-cover"><h1>📖 ${E(name)}'s Storybook</h1><p>${ponies.length} magical ponies · DeePonyCap · ${new Date().toLocaleDateString()}</p></div>
+<div class="print-cover"><h1>📖 ${E(name)}'s Storybook</h1><p>${ponies.length} magical ponies · DeePonyCap · ${formatLocaleDate(new Date().toISOString())}</p></div>
 ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection yet.</p>'}
-<div class="print-footer">Made with DeePonyCap ✨ · ${new Date().toLocaleDateString()}</div>
+<div class="print-footer">Made with DeePonyCap ✨ · ${formatLocaleDate(new Date().toISOString())}</div>
 </body></html>`;
     const win = window.open('', '_blank', 'noopener');
     if (!win) { Toast.show('Allow pop-ups to print storybook'); return; }
@@ -278,9 +282,9 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
     const rows = [
       ['Location', loc],
       ['Category', CATEGORY_LABELS[cat] || cat],
-      cat === 'mlp' ? ['Generation', `G${p.generation} ${emoji}`] : null,
+      cat === 'mlp' ? ['Series', `${ponySeries(p)} ${emoji}`] : null,
       cat === 'other' ? ['Brand', p.brand || '—'] : null,
-      cat === 'mcdonalds' ? ['McDonald\'s', `${p.mcdCountry || '—'} · ${p.mcdYear || '—'}`] : null,
+      cat === 'mcdonalds' ? ['Promo', `${p.mcdCountry || '—'} · ${p.mcdYear || '—'}`] : null,
       ['Log #', p.catalogNumber || '—'],
       ['Type', TYPE_LABELS[p.type] || p.type],
       ['Body colour', p.colour || '—'],
@@ -328,7 +332,7 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
     ctx.fillText(p.name, 24, 78);
     ctx.font = '14px Nunito, sans-serif'; ctx.fillStyle = '#6B7280';
     ctx.fillText(`G${p.generation} · ${TYPE_LABELS[p.type] || p.type} · ${p.colour || ''}`, 24, 104);
-    ctx.fillText(`DeePonyCap · ${new Date().toLocaleDateString()}`, 24, 290);
+    ctx.fillText(`DeePonyCap · ${formatLocaleDate(new Date().toISOString())}`, 24, 290);
     canvas.toBlob(blob => {
       if (!blob) return;
       const a = document.createElement('a');

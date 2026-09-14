@@ -8,15 +8,15 @@ test.describe('DeePonyCap collector logs', () => {
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
   });
 
-  test('generation log has print register button', async ({ page }) => {
+  test('series log has print register button', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: 'Dawn Line' }).click();
     await expect(page.getByRole('button', { name: /Print \/ Save PDF/i })).toBeVisible();
   });
 
-  test('McDonald\'s log groups by country and year', async ({ page }) => {
+  test('Promo log groups by country and year', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: "McDonald's" }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: 'Promo toys' }).click();
     await expect(page.locator('.mcd-country-chips .chip').filter({ hasText: 'USA' })).toBeVisible();
     await expect(page.locator('.mcd-country-hdr').filter({ hasText: 'USA' })).toBeVisible();
     await expect(page.locator('.mcd-year-hdr').filter({ hasText: '2014' })).toBeVisible();
@@ -27,7 +27,7 @@ test.describe('DeePonyCap collector logs', () => {
 
   test('print register builds printable HTML', async ({ page }) => {
     await navTab(page, 'logs').click();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G1' }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: 'Dawn Line' }).click();
     const result = await page.evaluate(() => {
       let written = '';
       const orig = window.open;
@@ -36,13 +36,14 @@ test.describe('DeePonyCap collector logs', () => {
         onload: null,
         print: () => {},
       });
-      logFilter.logSection = 'g1';
-      CollectorSuite.exportGenerationLogPrint('g1');
+      const id = CollectorSuite.logSections().find(s => s.label === 'Dawn Line')?.id;
+      logFilter.logSection = id;
+      CollectorSuite.exportGenerationLogPrint(id);
       window.open = orig;
       return written;
     });
-    expect(result).toContain('G1 Collection Log');
+    expect(result).toContain('Dawn Line Collection Log');
     expect(result).toContain('<table>');
-    expect(result).toContain('Baby Cotton Candy');
+    expect(result).toContain('Clover Gleam');
   });
 });

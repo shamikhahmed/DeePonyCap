@@ -15,10 +15,7 @@ async function boot() {
   Splash.run(() => {
     if (demo && DemoSeed && DemoSeed.load) {
       DemoSeed.load({ silent: true });
-      if (typeof CapDemo !== 'undefined') {
-        CapDemo.markActive();
-        CapDemo.showBanner('deeponycap', '<strong>Demo mode</strong> — sample pony collection on this device.');
-      }
+      if (typeof CapDemo !== 'undefined') CapDemo.markActive();
       document.getElementById('onboard').classList.add('hide');
       document.getElementById('app').style.display = 'flex';
       Nav.go('stable');
@@ -47,6 +44,7 @@ async function boot() {
     });
   }
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=58').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=60').catch(()=>{});
 }
 boot();
+window.__APP_READY__ = true;

@@ -25,8 +25,11 @@ const UI = {
   defaultForm(p) {
     const photos = p?.photos?.length ? [...p.photos] : (p?.photo ? [p.photo] : []);
     const category = p?.category || 'mlp';
+    const series = (p?.series && String(p.series).trim())
+      || (typeof ponySeries === 'function' && p ? ponySeries(p) : '')
+      || ((window.S && S.seriesList && S.seriesList[0]) || 'Dawn Line');
     return {
-      name: p?.name||'', category, generation: p?.generation||4, type: p?.type||'mlp',
+      name: p?.name||'', category, series, generation: p?.generation||1, type: p?.type||'mlp',
       catalogNumber: p?.catalogNumber||'', colour: p?.colour||'', hairColour: p?.hairColour||'',
       cutieMark: p?.cutieMark||'', brand: p?.brand||'', mcdCountry: p?.mcdCountry||'', mcdYear: p?.mcdYear||'',
       size: p?.size||'standard', shelf: p?.shelf||'Shelf 1',
@@ -36,20 +39,22 @@ const UI = {
       purchaseValue: p?.purchaseValue ?? null, estimatedValue: p?.estimatedValue ?? null
     };
   },
-  nameDatalist(gen, q) {
+  nameDatalist(series, q) {
     if (!window.ponyNameSuggestions) return '';
-    return window.ponyNameSuggestions(gen, q).map(n=>`<option value="${Render.esc(n)}">`).join('');
+    return window.ponyNameSuggestions(series, q).map(n=>`<option value="${Render.esc(n)}">`).join('');
   },
   openAdd(prefill) {
     editingId = null;
     formState = this.defaultForm(prefill);
     if (!prefill && logFilter.logSection) {
       const sec = logFilter.logSection;
-      if (sec.startsWith('g')) formState = { ...formState, category: 'mlp', generation: parseInt(sec.slice(1), 10) };
+      const sections = window.CollectorSuite?.logSections?.() || [];
+      const meta = sections.find(s => s.id === sec);
+      if (meta?.series) formState = { ...formState, category: 'mlp', series: meta.series };
       else if (sec === 'other') formState = { ...formState, category: 'other', type: 'other_brand' };
-      else if (sec === 'mcd') formState = { ...formState, category: 'mcdonalds', type: 'mcdonalds' };
+      else if (sec === 'mcd') formState = { ...formState, category: 'mcdonalds', type: 'mcdonalds', series: 'Promo' };
     }
-    this.renderForm('Add Pony 🦄');
+    this.renderForm('Add pony');
   },
   openEdit(id) {
     const p = S.ponies.find(x=>x.id===id);
@@ -64,7 +69,10 @@ const UI = {
     const catOpts = Object.keys(CATEGORY_LABELS).map(c =>
       `<button type="button" class="opt${cat===c?' on':''}" onclick="UI.setForm('category','${c}')">${CATEGORY_LABELS[c]}</button>`
     ).join('');
-    const gOpts = [1,2,3,4,5].map(g=>`<button type="button" class="opt g${g}${f.generation===g?' on':''}" onclick="UI.setForm('generation',${g})">G${g}</button>`).join('');
+    if (typeof ensureSeriesList === 'function') ensureSeriesList(S);
+    const seriesList = (S.seriesList || []).slice();
+    if (f.series && !seriesList.some(s => String(s).toLowerCase() === String(f.series).toLowerCase())) seriesList.unshift(f.series);
+    const seriesOpts = seriesList.map(s => `<option value="${Render.esc(s)}"${String(f.series)===String(s)?' selected':''}>${Render.esc(s)}</option>`).join('');
     const tOpts = TYPE_KEYS.map(t=>`<button type="button" class="opt${f.type===t?' on':''}" onclick="UI.setForm('type','${t}')">${TYPE_LABELS[t]}</button>`).join('');
     const sOpts = ['mini','standard','large','extra_large'].map(s=>`<button type="button" class="opt${f.size===s?' on':''}" onclick="UI.setForm('size','${s}')">${SIZE_LABELS[s]}</button>`).join('');
     const cOpts = Object.keys(COND_LABELS).map(c=>`<button type="button" class="opt${f.condition===c?' on':''}" onclick="UI.setForm('condition','${c}')">${COND_LABELS[c]}</button>`).join('');
@@ -74,7 +82,12 @@ const UI = {
     const photos = f.photos || [];
     const photoGrid = photos.map((ph,i)=>`<div class="photo-thumb${i===0?' primary':''}" onclick="UI.setPrimaryPhoto(${i})"><img src="${ph}" alt=""><button type="button" class="photo-rm" aria-label="Remove photo" onclick="event.stopPropagation();UI.removePhoto(${i})">✕</button></div>`).join('');
     const mlpFields = cat === 'mlp' ? `
-      <div class="fg"><label class="fl">Generation</label><div class="sel-row">${gOpts}</div></div>
+      <div class="fg"><label class="fl">Series</label>
+        <select class="sel" onchange="formState.series=this.value;UI.refreshNameList();UI.renderForm(editingId?'Edit pony':'Add pony')">
+          ${seriesOpts}
+          <option value="__new__">+ New series…</option>
+        </select>
+      </div>
       <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>` : '';
     const otherFields = cat === 'other' ? `
       <div class="fg"><label class="fl">Brand name</label><input class="inp" value="${Render.esc(f.brand)}" placeholder="e.g. Lisa Frank, Schleich…" oninput="formState.brand=this.value"></div>
@@ -87,11 +100,11 @@ const UI = {
     this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
       <div class="photo-row">${photoGrid}</div>
       ${PhotoPicker.html('photoForm', 'UI.onPhoto(event)', { multiple: true })}
-      ${cat === 'mlp' && f.generation === 4 ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 G4 bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple G4 photos — matches names from filenames or creates new ponies.</p></div>` : ''}
+      ${cat === 'mlp' ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 Bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple photos — matches names from filenames or creates new ponies in this series.</p></div>` : ''}
       <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Add up to 5 photos with camera or gallery'}</p>
       <div class="fg"><label class="fl">Category</label><div class="sel-row">${catOpts}</div></div>
       <div class="fg"><label class="fl">Log number</label><input class="inp" value="${Render.esc(f.catalogNumber)}" placeholder="Your collection # (optional)" oninput="formState.catalogNumber=this.value"></div>
-      <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.generation, f.name)}</datalist></div>
+      <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.series, f.name)}</datalist></div>
       ${mlpFields}${otherFields}${mcdFields}
       <div class="fg-row">
         <div class="fg"><label class="fl">Body colour</label><input class="inp" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
@@ -125,19 +138,19 @@ const UI = {
   },
   refreshNameList() {
     const dl = document.getElementById('ponyNames');
-    if (dl) dl.innerHTML = this.nameDatalist(formState.generation, formState.name);
+    if (dl) dl.innerHTML = this.nameDatalist(formState.series, formState.name);
     this.showDupWarn();
   },
   showDupWarn() {
     const el = document.getElementById('dupWarn');
     if (!el) return;
-    const dup = findDuplicate(formState.name, formState.generation, editingId);
-    const similar = findSimilarPonies(formState.name, formState.generation, editingId);
-    const inDb = window.ponyNameInDb ? ponyNameInDb(formState.generation, formState.name) : true;
+    const dup = findDuplicate(formState.name, formState.series, editingId);
+    const similar = findSimilarPonies(formState.name, formState.series, editingId);
+    const inDb = window.ponyNameInDb ? ponyNameInDb(formState.series, formState.name) : true;
     const nameTrim = (formState.name || '').trim();
     let html = '';
-    if (dup) html += `<p class="dup-warn">⚠️ You already have <strong>${Render.esc(dup.name)}</strong> (G${dup.generation}) on ${Render.esc(dup.shelf||'unshelved')}</p>`;
-    if (nameTrim.length >= 2 && !inDb) html += `<p class="dup-warn" style="background:#EDE9FE;color:#5B21B6">💡 "${Render.esc(nameTrim)}" isn't in our G${formState.generation} name list — custom names are OK!</p>`;
+    if (dup) html += `<p class="dup-warn">You already have <strong>${Render.esc(dup.name)}</strong> (${Render.esc(ponySeries(dup))}) on ${Render.esc(dup.shelf||'unshelved')}</p>`;
+    if (nameTrim.length >= 2 && !inDb) html += `<p class="dup-warn" style="background:#EDE9FE;color:#5B21B6">"${Render.esc(nameTrim)}" is a new name in this series — that's fine.</p>`;
     if (similar.length) {
       html += `<div class="dup-variant">Similar in your collection: ${similar.map(p =>
         `<button type="button" onclick="UI.openDetail('${p.id}');UI.closeSheet()">${Render.esc(p.name)}</button>`
@@ -158,23 +171,23 @@ const UI = {
   },
   async runG4BulkImport(files) {
     let created = 0, updated = 0, skipped = 0;
-    Toast.show(`Importing ${files.length} G4 photo(s)…`);
+    Toast.show(`Importing ${files.length} photo(s)…`);
     for (const file of files) {
       let url;
       try { url = await Photo.compress(file); } catch { skipped++; continue; }
       const guessed = guessNameFromFile(file.name);
-      const match = matchG4PonyByName(guessed);
+      const match = matchPonyByName(guessed, formState.series || '');
       if (match && match.id) {
         const photos = [...(match.photos || []), url].slice(0, 5);
         S.ponies = S.ponies.map(p => p.id === match.id ? normalizePony({ ...p, photos }) : p);
         updated++;
       } else {
-        const name = (match && match.suggestName) || guessed || `G4 Import ${created + 1}`;
+        const name = (match && match.suggestName) || guessed || `Import ${created + 1}`;
         S.ponies.push(normalizePony({
-          id: uid(), name, generation: 4, type: 'mlp', colour: '', size: 'standard',
+          id: uid(), name, series: formState.series || 'Dawn Line', generation: 1, type: 'mlp', colour: '', size: 'standard', category: 'mlp',
           shelf: 'Shelf 1', isOriginal: true, condition: 'good', isFavourite: false, isMostPlayed: false,
           photos: [url], photo: url, acquiredDate: new Date().toISOString().slice(0, 10),
-          notes: 'Imported via G4 bulk', createdAt: Date.now(),
+          notes: 'Imported via bulk photos', createdAt: Date.now(),
         }));
         created++;
       }
@@ -184,20 +197,34 @@ const UI = {
     Render.all();
     Achievements.checkAll(false);
     if (created || updated) { Confetti.burst(); Haptic.success(); }
-    Toast.show(`G4 bulk: ${created} new · ${updated} updated${skipped ? ` · ${skipped} skipped` : ''} ✨`);
+    Toast.show(`Bulk import: ${created} new · ${updated} updated${skipped ? ` · ${skipped} skipped` : ''}`);
   },
   updateWishSuggest(q) {
     const dl = document.getElementById('wishNames');
-    const gen = parseInt(document.getElementById('wGen')?.value || 4);
-    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(gen, q).map(n=>`<option value="${n}">`).join('');
+    const series = document.getElementById('wSeries')?.value || (S.seriesList && S.seriesList[0]) || '';
+    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(series, q).map(n=>`<option value="${n}">`).join('');
     const hint = document.getElementById('wishDbHint');
-    if (hint && window.ponyNameInDb) {
+    if (hint) {
       const name = (q || '').trim();
-      if (name.length >= 2 && !ponyNameInDb(gen, name)) hint.textContent = `💡 Custom name — not in our G${gen} list (that's OK!)`;
-      else hint.textContent = name.length >= 2 ? '✓ Known pony name' : '';
+      hint.textContent = name.length >= 2 ? 'Name will be saved as you typed it' : '';
     }
   },
-  setForm(k,v) { formState[k]=v; if (k==='generation') this.refreshNameList(); this.renderForm(editingId?'Edit Pony':'Add Pony 🦄'); },
+  setForm(k,v) {
+    if (k === 'series' && v === '__new__') {
+      const name = prompt('New series name');
+      if (!name || !name.trim()) return;
+      formState.series = name.trim();
+      if (!S.seriesList) S.seriesList = [];
+      if (!S.seriesList.some(s => String(s).toLowerCase() === formState.series.toLowerCase())) S.seriesList.push(formState.series);
+      Store.save();
+      this.refreshNameList();
+      this.renderForm(editingId ? 'Edit pony' : 'Add pony');
+      return;
+    }
+    formState[k]=v;
+    if (k==='series' || k==='generation') this.refreshNameList();
+    this.renderForm(editingId?'Edit pony':'Add pony');
+  },
   async onPhoto(e) {
     const files = [...(e.target.files || [])];
     if (!files.length) return;
@@ -227,7 +254,7 @@ const UI = {
   },
   savePony() {
     if (!formState.name.trim()) { Toast.show('Name is required 💕'); return; }
-    const dup = findDuplicate(formState.name, formState.generation, editingId);
+    const dup = findDuplicate(formState.name, formState.series, editingId);
     if (dup && !editingId && !confirm(`You already have "${dup.name}" on ${dup.shelf||'unshelved'}. Add anyway?`)) return;
     const pony = normalizePony({
       ...formState, id: editingId||uid(), name: formState.name.trim(),
@@ -240,9 +267,10 @@ const UI = {
     Achievements.checkAll(false);
   },
   detailPhotoPlaceholder(p) {
-    const g = GEN_COLORS[p.generation] || 'g5';
-    const emoji = GEN_EMOJI[p.generation] || '🦄';
-    return `<div class="detail-photo detail-photo-gen g${p.generation}" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))">${emoji}</div>
+    const series = ponySeries(p);
+    const g = seriesColorClass(series);
+    const emoji = seriesEmoji(series) || '🦄';
+    return `<div class="detail-photo detail-photo-gen ${g}" style="background:linear-gradient(135deg,var(--${g}),var(--pink-lighter))">${emoji}</div>
       ${PhotoPicker.html('detailPhoto', 'UI.onDetailPhoto(event)', { multiple: true })}`;
   },
   openDetail(id) {
@@ -261,7 +289,7 @@ const UI = {
       <button type="button" class="btn-g" style="width:100%;margin-top:8px" onclick="UI.addSoldComp('${id}')">+ Log sold comp</button>` : '';
     this.openSheet(`${Render.sheetHdr(Render.esc(p.name), 'UI.closeSheet()')}
       ${gallery}
-      ${[['Generation',`G${p.generation} ${GEN_EMOJI[p.generation]}`],['Type',TYPE_LABELS[p.type]],['Colour',p.colour],['Size',SIZE_LABELS[p.size]],['Shelf',p.shelf||'—'],['Original',p.isOriginal?'Yes':'Extra'],['Condition',COND_LABELS[p.condition]],['Paid',p.purchaseValue!=null?`$${p.purchaseValue}`:'—'],['Est. Value',p.estimatedValue!=null?`$${p.estimatedValue}`:'—'],['Favourite',p.isFavourite?'❤️':'—'],['Most Played',p.isMostPlayed?'🎮':'—'],['Acquired',p.acquiredDate||'—'],['Notes',p.notes||'—']].map(([k,v])=>`<div class="detail-row"><span>${k}</span><span>${Render.esc(String(v))}</span></div>`).join('')}
+      ${[['Series',`${ponySeries(p)} ${seriesEmoji(ponySeries(p))}`],['Type',TYPE_LABELS[p.type]],['Colour',p.colour],['Size',SIZE_LABELS[p.size]],['Shelf',p.shelf||'—'],['Original',p.isOriginal?'Yes':'Extra'],['Condition',COND_LABELS[p.condition]],['Paid',p.purchaseValue!=null?`$${p.purchaseValue}`:'—'],['Est. Value',p.estimatedValue!=null?`$${p.estimatedValue}`:'—'],['Favourite',p.isFavourite?'❤️':'—'],['Most Played',p.isMostPlayed?'🎮':'—'],['Acquired',formatLocaleDate(p.acquiredDate)],['Notes',p.notes||'—']].map(([k,v])=>`<div class="detail-row"><span>${k}</span><span>${Render.esc(String(v))}</span></div>`).join('')}
       ${compHtml}
       <div class="detail-actions">
         <button type="button" class="btn-p" onclick="UI.openEdit('${id}')">Edit</button>
@@ -279,7 +307,7 @@ const UI = {
   sharePony(id) {
     const p = S.ponies.find(x=>x.id===id);
     if (!p) return;
-    const text = `🦄 ${p.name} — G${p.generation} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyCap`;
+    const text = `🦄 ${p.name} — ${ponySeries(p)} ${TYPE_LABELS[p.type]} · ${p.colour||'My pony'} · DeePonyCap`;
     if (navigator.share) navigator.share({ title: p.name, text }).catch(()=>{});
     else { navigator.clipboard.writeText(text).then(()=>Toast.show('Copied to clipboard ✨')); }
   },
@@ -489,7 +517,8 @@ const UI = {
     const targetRaw = document.getElementById('wTarget')?.value;
     const base = {
       id: uid(), name,
-      generation: parseInt(document.getElementById('wGen').value),
+      series: document.getElementById('wSeries')?.value || (S.seriesList && S.seriesList[0]) || 'Dawn Line',
+      generation: 1,
       type: document.getElementById('wType').value,
       priority: document.getElementById('wPri').value,
       notes: document.getElementById('wNotes').value.trim(),
@@ -515,7 +544,7 @@ const UI = {
     Confetti.burst();
     Haptic.success();
     Achievements.checkAll(false);
-    this.openAdd({ name:w.name, generation:w.generation, type:w.type, notes:w.notes });
+    this.openAdd({ name:w.name, series: w.series || ponySeries(w), generation:w.generation, type:w.type, notes:w.notes });
   },
   filterShelf(s) { filter.q=s; logFilter.logSection='g1'; Nav.goLog(); filter.q=s; Render.logs(); },
   addAccessory() {
