@@ -1,30 +1,43 @@
 'use strict';
 /**
- * Collector-first views: generation logs, pony map, taxonomy helpers.
+ * Collector-first views: series logs, pony map, taxonomy helpers.
  */
 const CollectorSuite = (() => {
-  const LOG_SECTIONS = [
-    { id: 'g1', label: 'G1', emoji: '💜', gen: 1 },
-    { id: 'g2', label: 'G2', emoji: '💚', gen: 2 },
-    { id: 'g3', label: 'G3', emoji: '💙', gen: 3 },
-    { id: 'g4', label: 'G4', emoji: '💛', gen: 4 },
-    { id: 'g5', label: 'G5', emoji: '🩷', gen: 5 },
-    { id: 'other', label: 'Other', emoji: '🐴', cat: 'other' },
-    { id: 'mcd', label: "McDonald's", emoji: '🍟', cat: 'mcdonalds' },
-  ];
-
   const MCD_COUNTRIES = [
     'USA', 'UK', 'Canada', 'Australia', 'Germany', 'France', 'Japan',
     'Brazil', 'Mexico', 'Netherlands', 'Italy', 'Spain', 'Other',
   ];
 
   const ACCENT_THEMES = {
-    pink: { pink: '#C4367A', bg: '#D4A0B8', purple: '#8B5CF6', label: 'Classic Pink' },
-    purple: { pink: '#9333EA', bg: '#C4B5FD', purple: '#EC4899', label: 'Royal Purple' },
-    sunset: { pink: '#F97316', bg: '#FDBA74', purple: '#EC4899', label: 'Sunset' },
-    mint: { pink: '#14B8A6', bg: '#99F6E4', purple: '#6366F1', label: 'Mint Dream' },
-    rainbow: { pink: '#EC4899', bg: '#DDD6FE', purple: '#3B82F6', label: 'Rainbow' },
+    pink: { pink: '#C4367A', bg: '#FFE8F4', purple: '#8B5CF6', label: 'Classic Pink' },
+    purple: { pink: '#9333EA', bg: '#F3E8FF', purple: '#EC4899', label: 'Royal Purple' },
+    sunset: { pink: '#F97316', bg: '#FFF7ED', purple: '#EC4899', label: 'Sunset' },
+    mint: { pink: '#14B8A6', bg: '#ECFDF5', purple: '#6366F1', label: 'Mint Dream' },
+    rainbow: { pink: '#EC4899', bg: '#F5F3FF', purple: '#3B82F6', label: 'Rainbow' },
   };
+
+  function seriesSlug(name) {
+    return 's_' + String(name || 'unsorted').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') || 'unsorted';
+  }
+
+  function logSections() {
+    const list = (typeof ensureSeriesList === 'function' ? ensureSeriesList(window.S) : (window.S?.seriesList || []));
+    const sections = list.map(name => ({
+      id: seriesSlug(name),
+      label: name,
+      emoji: (typeof seriesEmoji === 'function' ? seriesEmoji(name) : '✨'),
+      series: name,
+    }));
+    sections.push({ id: 'other', label: 'Other', emoji: '🐴', cat: 'other' });
+    sections.push({ id: 'mcd', label: 'Promo toys', emoji: '🍟', cat: 'mcdonalds' });
+    return sections;
+  }
+
+  /** Compatibility alias — prefer logSections() */
+  const LOG_SECTIONS = [
+    { id: 'other', label: 'Other', emoji: '🐴', cat: 'other' },
+    { id: 'mcd', label: 'Promo toys', emoji: '🍟', cat: 'mcdonalds' },
+  ];
 
   function ponyCategory(p) {
     if (!p) return 'mlp';
@@ -43,20 +56,24 @@ const CollectorSuite = (() => {
 
   function ponyBadge(p) {
     const cat = ponyCategory(p);
-    if (cat === 'mlp') return `G${p.generation || '?'}`;
+    if (cat === 'mlp') return (typeof ponySeries === 'function' ? ponySeries(p) : (p.series || 'Series'));
     if (cat === 'other') return p.brand || 'Other';
     const c = p.mcdCountry || '—';
     const y = p.mcdYear || '—';
-    return `McD ${c} ${y}`;
+    return `Promo ${c} ${y}`;
   }
 
   function poniesForSection(sectionId, ponies) {
-    const sec = LOG_SECTIONS.find(s => s.id === sectionId) || LOG_SECTIONS[3];
+    const sections = logSections();
+    const sec = sections.find(s => s.id === sectionId) || sections[0];
     return (ponies || []).filter(p => {
       const cat = ponyCategory(p);
       if (sec.cat === 'other') return cat === 'other';
       if (sec.cat === 'mcdonalds') return cat === 'mcdonalds';
-      return cat === 'mlp' && p.generation === sec.gen;
+      if (sec.series) {
+        return cat === 'mlp' && String(ponySeries(p)).toLowerCase() === String(sec.series).toLowerCase();
+      }
+      return false;
     });
   }
 
@@ -163,7 +180,7 @@ const CollectorSuite = (() => {
   function renderMcdRegister(list) {
     const groups = groupMcDonalds(list);
     if (!groups.length) {
-      return '<div class="empty"><span>🍟</span><p>No McDonald\'s ponies in this log yet.</p></div>';
+      return '<div class="empty"><span>🍟</span><p>No promo toys in this log yet.</p></div>';
     }
     return groups.map(g => {
       const yearBlocks = g.yearGroups.map(yg => `
@@ -217,12 +234,13 @@ const CollectorSuite = (() => {
 
   function exportGenerationLogPrint(sectionId) {
     const state = appState();
-    const filter = { ...(window.filter || {}), ...(window.logFilter || {}), logSection: sectionId || window.logFilter?.logSection || 'g1' };
+    const sections = logSections();
+    const filter = { ...(window.filter || {}), ...(window.logFilter || {}), logSection: sectionId || window.logFilter?.logSection || sections[0]?.id };
     const section = filter.logSection;
-    const secMeta = LOG_SECTIONS.find(s => s.id === section) || LOG_SECTIONS[0];
+    const secMeta = sections.find(s => s.id === section) || sections[0];
     const list = filteredLogList(section, state, filter);
     const collector = state?.collector?.name || 'My Collection';
-    const date = new Date().toLocaleDateString();
+    const date = typeof formatLocaleDate === 'function' ? formatLocaleDate(new Date().toISOString()) : new Date().toLocaleDateString();
     const E = esc;
 
     function printTableHead(sec, groupedMcd) {
@@ -303,13 +321,14 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
   }
 
   function renderLogs(container, state, filter, renderCard) {
-    const section = filter.logSection || 'g4';
-    const secMeta = LOG_SECTIONS.find(s => s.id === section) || LOG_SECTIONS[3];
+    const sections = logSections();
+    const section = filter.logSection || sections[0]?.id;
+    const secMeta = sections.find(s => s.id === section) || sections[0];
     const list = filteredLogList(section, state, filter);
     const view = filter.logView || 'register';
-    const chips = LOG_SECTIONS.map(s => {
+    const chips = sections.map(s => {
       const n = poniesForSection(s.id, state.ponies).length;
-      return `<button type="button" class="chip${section === s.id ? ' on' : ''}" onclick="logFilter.logSection='${s.id}';logFilter.mcdCountry='all';filter.page=0;Render.logs()">${s.emoji} ${s.label}${n ? ` (${n})` : ''}</button>`;
+      return `<button type="button" class="chip${section === s.id ? ' on' : ''}" onclick="logFilter.logSection='${s.id}';logFilter.mcdCountry='all';filter.page=0;Render.logs()">${s.emoji} ${esc(s.label)}${n ? ` (${n})` : ''}</button>`;
     }).join('');
 
     const mcdCounts = section === 'mcd' ? mcdCountryCounts(state.ponies) : {};
@@ -328,7 +347,7 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
       : `<div class="empty"><span>${secMeta.emoji}</span><p>No ponies in this log yet.</p></div>`;
 
     container.innerHTML = `
-      <h1 class="greet">${secMeta.emoji} ${secMeta.label} Log</h1>
+      <h1 class="greet">${secMeta.emoji} ${esc(secMeta.label)} Log</h1>
       <p class="sub">${list.length} ponies · your private collection register</p>
       <div class="search-wrap"><input class="search" type="search" aria-label="Search log" placeholder="Search this log…" value="${esc(filter.q)}" oninput="filter.q=this.value;filter.page=0;Render.logs()"></div>
       <div class="chips log-chips">${chips}</div>
@@ -337,7 +356,7 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
         <button type="button" class="btn-p log-print-btn" onclick="CollectorSuite.exportGenerationLogPrint('${section}')">🖨️ Print / Save PDF</button>
         <div class="sort-row" style="margin:0;flex:1">
           <label for="logSort">Sort</label>
-          <select id="logSort" class="sort-select" onchange="logFilter.logSort=this.value;Render.logs()"${section === 'mcd' ? ' disabled title="McDonald\'s log is grouped by country and year"' : ''}>
+          <select id="logSort" class="sort-select" onchange="logFilter.logSort=this.value;Render.logs()"${section === 'mcd' ? ' disabled title="Promo log is grouped by country and year"' : ''}>
             <option value="name"${(filter.logSort || 'name') === 'name' ? ' selected' : ''}>Name</option>
             <option value="number"${filter.logSort === 'number' ? ' selected' : ''}>Number</option>
             <option value="year"${filter.logSort === 'year' ? ' selected' : ''}>Year acquired</option>
@@ -393,14 +412,19 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
   function applyAccent(themeId) {
     const t = ACCENT_THEMES[themeId] || ACCENT_THEMES.pink;
     const root = document.documentElement;
+    const dark = root.classList.contains('dark-mode');
     root.dataset.accent = themeId;
     root.style.setProperty('--pink', t.pink);
-    root.style.setProperty('--bg', t.bg);
     root.style.setProperty('--purple', t.purple);
-    const meta = document.getElementById('themeMeta');
-    if (meta && !document.documentElement.classList.contains('dark-mode')) {
-      meta.content = t.pink;
+    // Never paint a pastel page behind dark cards (PONY-P1-03).
+    if (dark) {
+      root.style.setProperty('--bg', '#2B1D2F');
+      root.style.setProperty('--bg-card', '#3A2942');
+    } else {
+      root.style.setProperty('--bg', t.bg);
     }
+    const meta = document.getElementById('themeMeta');
+    if (meta) meta.content = dark ? '#2B1D2F' : t.pink;
   }
 
   function accentPickerHtml(current, onchangeFn) {
@@ -410,7 +434,8 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
   }
 
   return {
-    LOG_SECTIONS,
+    get LOG_SECTIONS() { return logSections(); },
+    logSections,
     MCD_COUNTRIES,
     ACCENT_THEMES,
     ponyCategory,

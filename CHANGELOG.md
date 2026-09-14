@@ -1,3 +1,10 @@
+## [3.8.0] — 2026-09-15
+
+### Tier 1 finish (Cap Fleet)
+- **PONY-P0-01:** Removed bundled My Little Pony / Hasbro / official character catalogs; user-defined series; demo uses invented names; user-entered names never rewritten
+- **PONY-P1-01…08:** Inline sample banner · visual switches · dark page background · FAB only on Stable/Wishlist · 11px SVG tab labels · locale dates · removed `releases/` · non-affiliation + 13+ privacy copy
+- SW `deeponycap-v60`
+
 ## [3.7.3] — 2026-07-20
 
 ### Home deep — acrylic stable case
@@ -206,14 +213,14 @@ Stable, Logs, Map, Stats, Wishlist, Accessories, Settings — all tabs verified 
 
 ## 3.0.0 (2026-06-26) — Major release
 
-DeePonyCap 3.0 is the production-ready PWA for private pony collectors: generation logs, pony map, McDonald's & other brands, personalization, IndexedDB storage, and user-controlled updates.
+DeePonyCap 3.0 is the production-ready PWA for private pony collectors: generation logs, pony map, Promo & other brands, personalization, IndexedDB storage, and user-controlled updates.
 
 ### Collector features (built for real collectors)
-- **Generation logs (G1–G5)** — register view with #, name, colour, hair, type, size, year acquired, shelf
+- **Generation logs (Series 1–Series 5)** — register view with #, name, colour, hair, type, size, year acquired, shelf
 - **Other ponies** — separate log with brand name field
-- **McDonald's ponies** — country + release year log
-- **McDonald's grouping** — register grouped by country → release year; country filter chips
-- **Print / Save PDF** — printable register per generation (and Other / McDonald's)
+- **Promo ponies** — country + release year log
+- **Promo grouping** — register grouped by country → release year; country filter chips
+- **Print / Save PDF** — printable register per generation (and Other / Promo)
 - **Camera or gallery** — separate 📷 Camera and 🖼️ Gallery buttons when adding pony, extras, or wishlist photos
 - **Cutie mark & photos** — every pony supports cutie mark description and up to 5 photos
 - **Pony Map** — see every shelf/divider; tap pony for passport with whereabouts
@@ -223,7 +230,7 @@ DeePonyCap 3.0 is the production-ready PWA for private pony collectors: generati
 
 ### Platform
 - IndexedDB-first storage, schema migrations (v5), user-controlled PWA updates
-- Parent PIN, G4 bulk import, backup/recovery, 25+ automated tests
+- Parent PIN, Series 4 bulk import, backup/recovery, 25+ automated tests
 - First version archive at `/releases/v3.0.0/`
 
 See entries below for incremental 2.7–2.9 development notes.
@@ -242,7 +249,7 @@ See entries below for incremental 2.7–2.9 development notes.
 - **IndexedDB-first storage** — full collection in IDB; no 5 MB localStorage ceiling.
 - **Storage health** — shows IndexedDB quota via `navigator.storage.estimate()`.
 - **Parent PIN sheet** — polished modal replaces `prompt()` for setup & verify.
-- **G4 bulk photo import** — complete: filename matching, DB lookup, create/update ponies.
+- **Series 4 bulk photo import** — complete: filename matching, DB lookup, create/update ponies.
 - **Storybook Print/PDF** — A4 print layout via browser print dialog.
 - Recovery snapshots now stored in IndexedDB when available.
 - Service worker cache `deeponycap-v39`.
@@ -252,9 +259,9 @@ See entries below for incremental 2.7–2.9 development notes.
 - **Pony Passport** — rich profile sheet with milestones, accessories, share card, clone.
 - **Storybook Mode** — scrapbook album browse for kids.
 - **Fuzzy search** + pony DB aliases (DJ Pon-3 / Vinyl Scratch, etc.).
-- **Smart suggestions** on Stable (missing Mane Six, wishlist hints).
+- **Smart suggestions** on Stable (missing series set, wishlist hints).
 - **Collection insights** — top gen, fave gen, shelf distribution, wishlist %.
-- **12 new achievements** (First Favourite, Mane Six, Shelf Organizer, …).
+- **12 new achievements** (First Favourite, series set, Shelf Organizer, …).
 - **Accessory gallery** — categories, search, sort, linked pony counts.
 - **Collection tools** — bulk shelf move, favorite shelf, mark extras.
 - **Data safety** — backup validation, auto recovery snapshots (last 3).
@@ -267,7 +274,7 @@ See entries below for incremental 2.7–2.9 development notes.
 - **App Store Connect copy:** `docs/APP_STORE_CONNECT.md`, preflight script `npm run preflight`.
 - Expanded Playwright tests (demo, privacy, parent lock).
 - **P0–P4 polish pass:** demo wishlist + banner, sheet close fix, generation emojis on cards/detail.
-- **Collection goals** on Stable (G4 Mane Six, G1 Babies) with progress bars.
+- **Collection goals** on Stable (Series 4 series set, Series 1 Babies) with progress bars.
 - **Backup nudge** when storage ≥ 75%.
 - **Achievements** unlock confetti + haptic; Dreamer fires on demo load.
 - **Parent PIN** for export, import, delete (optional).

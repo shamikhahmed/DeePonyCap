@@ -17,7 +17,7 @@
 
 Young collectors and parents who need:
 
-- A **joyful** way to track MLP ponies
+- A **joyful** way to track pony figures ponies
 - **Photos** and shelf locations — not spreadsheets
 - **Child-safe** design — no ads, no accounts, no chat
 
@@ -39,7 +39,7 @@ Young collectors and parents who need:
 
 Unique names owned vs pony database per generation.
 
-*“You have 12 of 48 G4 names — here's what's missing.”*
+*“You have 12 of 48 Series 4 names — here's what's missing.”*
 
 Gamifies completion without pressure.
 
@@ -49,7 +49,7 @@ Gamifies completion without pressure.
 
 Ponies acquired on this calendar day in prior years surface on Stable.
 
-*“Happy 2-year anniversary, Twilight Sparkle!”*
+*“Happy 2-year anniversary, Clover Gleam!”*
 
 Emotional hook that spreadsheets can't match.
 

@@ -91,9 +91,9 @@ const AppUpdate = (() => {
       <button class="btn-p" style="width:100%;margin-top:10px" onclick="AppUpdate.checkForUpdate()">Check for updates</button>
       <div class="setting-row" style="margin-top:14px">
         <div><strong>Auto-update</strong><br><span style="font-size:.75rem;color:var(--text-soft)">When on, updates apply in the background without prompts</span></div>
-        <button type="button" class="toggle${pol==='auto'?' on':''}" role="switch" aria-checked="${pol==='auto'}" aria-label="Auto update" onclick="AppUpdate.setPolicy('${pol==='auto'?'ask':'auto'}')">${pol==='auto'?'ON':'OFF'}</button>
+        ${switchHtml(pol==='auto', 'Auto update', `AppUpdate.setPolicy('${pol==='auto'?'ask':'auto'}')`)}
       </div>
-      <p style="font-size:.75rem;color:var(--text-soft);margin-top:12px;line-height:1.5">Prefer an older UI? Archived releases live at <strong>/releases/vX.Y.Z/</strong> on the same site — your collection data is shared because it's stored per device, not per app version.</p>
+      <p style="font-size:.75rem;color:var(--text-soft);margin-top:12px;line-height:1.5">Updates keep your collection on this device. You can export a backup anytime from Settings.</p>
     </div>`;
   }
 

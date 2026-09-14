@@ -44,12 +44,12 @@ DeePonyCap is a **mature offline PWA** with strong kid-friendly identity and col
 ### Collection
 - Search is substring only — no fuzzy match, no pony DB alias matching.
 - No clone pony, no bulk shelf/favorite/delete.
-- G4 bulk photo import is **stub** — sets expectation, delivers partial behavior.
+- Series 4 bulk photo import is **stub** — sets expectation, delivers partial behavior.
 - Pony cards are `<div onclick>` — not keyboard accessible.
 
 ### Wishlist
 - "Got it!" opens add form — good flow.
-- No link from wishlist item to pony DB suggestions for missing Mane Six.
+- No link from wishlist item to pony DB suggestions for missing series set.
 - Delete wishlist has no parent gate (acceptable for kids).
 
 ### Shelves
@@ -175,7 +175,7 @@ DeePonyCap v2.7.0 delivers the three premium delight features (Timeline, Passpor
 
 | Score | Value | Notes |
 |-------|-------|-------|
-| **Product** | **98/100** | Full feature set + timeline/storybook/passport; G4 bulk complete |
+| **Product** | **98/100** | Full feature set + timeline/storybook/passport; Series 4 bulk complete |
 | **UX** | **96/100** | Parent PIN sheet, user-controlled updates, kid-safe flows |
 | **Performance** | **94/100** | IDB storage, light bundle; tab re-render acceptable |
 | **Child Safety** | **98/100** | No tracking; parent gates on export/import/CSV/delete |
@@ -201,7 +201,7 @@ Native App Store submission remains a separate track — see `docs/APP_STORE.md`
 
 1. IndexedDB-first storage migration (remove 5 MB ceiling)
 2. Polished parent PIN sheet (replace `prompt()`)
-3. G4 bulk photo import completion
+3. Series 4 bulk photo import completion
 4. iCloud / file-provider backup (still on-device)
 5. Optional print-ready storybook PDF
 

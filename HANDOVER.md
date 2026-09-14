@@ -1,51 +1,33 @@
 # DeePonyCap — Handover
 
 > Read this + `ROADMAP.md` + `~/Capricorn-Brain/01 Projects/DeePonyCap.md` before working here.
-> Last updated: 2026-07-11 · Fleet-wide standard: `capricorn-tooling/shared/CAP-STANDARD.md`
+> Last updated: 2026-09-15 · Fleet finish: Tier 1 v3.8.0
 
 ## What this is
-My Little Pony collection tracker PWA — generation logs, pony map, McDonald's & other brands.
+Track your collection, shelves and wishlist. Offline PWA by Capricorn Systems.
 
 ## Facts
-**Version:** 3.7.0
+**Version:** 3.8.0
+**SW cache:** deeponycap-v60
 **Live:** https://shamikhahmed.github.io/DeePonyCap/
 **Repo:** https://github.com/shamikhahmed/DeePonyCap
-**Stack:** Vanilla JS PWA. IndexedDB storage, user-controlled updates, Playwright e2e.
-**Data:** IndexedDB. Local-only, no accounts.
+**Stack:** Vanilla JS PWA. IndexedDB storage, Playwright e2e.
+**Data:** IndexedDB / localStorage. Local-only, no accounts. Storage key `deeponycap_v2` unchanged.
 
 ## Run & verify
 ```bash
 npm install
-npm run test:e2e
-npm run capture:screenshots   # regen gallery shots
-npm run gallery               # capture + serve hint
-npm run gallery:view          # http://127.0.0.1:8770/screen-gallery.html
+npm test && npm run verify
+npm run serve   # :8770
 ```
 
 ## Architecture
-- `js/` — app modules; `js/demo-seed.js` — demo data
-- `tests/` — Playwright: e2e, demo-unlock, screenshots.spec.js (gallery capture)
-- `screen-gallery.html` — browsable gallery (root)
-- `sw.js` — user-controlled update flow (update-control e2e guards it)
+- `js/pony-db.js` — user series helpers (no bundled character catalog)
+- `js/modules/*` — UI, store, render, navigation
+- `tests/ip-fixture.spec.js` — D-04 IP + user-data integrity
+- `releases/` removed (P-PONY-1); history keeps archives
 
-## Cap Standard status (2026-07-11)
-| Cap Standard item | Status |
-|---|---|
-| Docs pack | ✅ |
-| Screen gallery | ✅ |
-| Version discipline | ✅ |
-| QA / e2e | ✅ |
-| CI gate | ❌ |
-| PWA polish | ✅ |
-| Demo mode | ✅ |
-
-Gaps are tracked as tasks in `ROADMAP.md`.
-
-## Gotchas — read before coding
-- Update flow is user-controlled by design (v3.0 decision) — SW must never auto-activate; e2e guards this.
-- assets/screenshots is ~20 MB of committed PNGs; regenerate rather than hand-edit.
-
-## Where decisions live
-- Dated decisions: Capricorn-Brain project note (path above)
-- Release history: `CHANGELOG.md`
-- Fleet-level events: `Cap-Apps/docs/CHANGELOG.md` (master)
+## Decisions
+- D-04 independent collectible tracker; never modify user-entered names
+- Non-affiliation: "DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company."
+- Audience 13+; no COPPA/child-targeting wording

@@ -2,7 +2,7 @@
 
 **Last updated:** June 26, 2026
 
-DeePonyCap is an offline-first app for tracking My Little Pony collections. **Your data stays on your device** unless you explicitly export it.
+DeePonyCap is an offline-first app for tracking collectible figures collections. **Your data stays on your device** unless you explicitly export it.
 
 ## What we collect
 

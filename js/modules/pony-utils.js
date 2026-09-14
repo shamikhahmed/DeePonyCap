@@ -12,9 +12,12 @@ function normalizePony(p) {
   if (!photos.length && p.photo) photos.push(p.photo);
   const soldComps = Array.isArray(p.soldComps) ? p.soldComps.filter(c => c && c.amount > 0) : [];
   const category = p.category || (p.mcdCountry || p.type === 'mcdonalds' ? 'mcdonalds' : (p.brand || p.generation === 0 ? 'other' : 'mlp'));
+  const series = (p.series && String(p.series).trim())
+    || (typeof defaultSeriesFromGeneration === 'function' ? defaultSeriesFromGeneration(p.generation) : (p.generation != null ? `Series ${p.generation}` : 'Unsorted'));
   return {
     ...p, photos, photo: photos[0] || null,
     category,
+    series,
     catalogNumber: p.catalogNumber || '',
     hairColour: p.hairColour || '',
     cutieMark: p.cutieMark || '',
@@ -28,7 +31,7 @@ function normalizePony(p) {
 }
 
 function ponyBadgeLabel(p) {
-  return window.CollectorSuite ? CollectorSuite.ponyBadge(p) : `G${p.generation || '?'}`;
+  return window.CollectorSuite ? CollectorSuite.ponyBadge(p) : (p.series || `Series ${p.generation || '?'}`);
 }
 
 function ponyValue(p) {
@@ -47,34 +50,44 @@ function guessNameFromFile(filename) {
   return base.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 }
 
-function matchG4PonyByName(name) {
+function matchPonyByName(name, series) {
   const nl = (name || '').trim().toLowerCase();
   if (!nl) return null;
-  const exact = S.ponies.find(p => p.generation === 4 && p.name.trim().toLowerCase() === nl);
+  const sk = String(series || '').trim().toLowerCase();
+  const inSeries = (p) => !sk || String(ponySeries(p)).toLowerCase() === sk;
+  const exact = S.ponies.find(p => inSeries(p) && p.name.trim().toLowerCase() === nl);
   if (exact) return exact;
-  const db = (window.PONY_DB && window.PONY_DB[4]) || [];
-  const dbMatch = db.find(n => n.toLowerCase() === nl || n.toLowerCase().includes(nl) || nl.includes(n.toLowerCase()));
-  if (dbMatch) {
-    const owned = S.ponies.find(p => p.generation === 4 && p.name.trim().toLowerCase() === dbMatch.toLowerCase());
-    if (owned) return owned;
-    return { suggestName: dbMatch };
-  }
-  const partial = S.ponies.filter(p => p.generation === 4 && (p.name.toLowerCase().includes(nl) || nl.includes(p.name.toLowerCase())));
+  const partial = S.ponies.filter(p => inSeries(p) && (p.name.toLowerCase().includes(nl) || nl.includes(p.name.toLowerCase())));
   if (partial.length === 1) return partial[0];
   return null;
 }
-
-function findDuplicate(name, gen, excludeId) {
-  const nl = (name || '').trim().toLowerCase();
-  if (!nl) return null;
-  return S.ponies.find(p => p.id !== excludeId && p.name.trim().toLowerCase() === nl && p.generation === gen);
+/** @deprecated use matchPonyByName */
+function matchG4PonyByName(name) {
+  return matchPonyByName(name, '');
 }
 
-function findSimilarPonies(name, gen, excludeId) {
+function findDuplicate(name, seriesOrGen, excludeId) {
+  const nl = (name || '').trim().toLowerCase();
+  if (!nl) return null;
+  const series = typeof seriesOrGen === 'number'
+    ? defaultSeriesFromGeneration(seriesOrGen)
+    : (seriesOrGen || '');
+  const sk = String(series).toLowerCase();
+  return S.ponies.find(p => {
+    if (p.id === excludeId || p.name.trim().toLowerCase() !== nl) return false;
+    return String(ponySeries(p)).toLowerCase() === sk;
+  });
+}
+
+function findSimilarPonies(name, seriesOrGen, excludeId) {
   const nl = (name || '').trim().toLowerCase();
   if (!nl || nl.length < 2) return [];
+  const series = typeof seriesOrGen === 'number'
+    ? defaultSeriesFromGeneration(seriesOrGen)
+    : (seriesOrGen || '');
+  const sk = String(series).toLowerCase();
   return S.ponies.filter(p => {
-    if (p.id === excludeId || p.generation !== gen) return false;
+    if (p.id === excludeId || String(ponySeries(p)).toLowerCase() !== sk) return false;
     const pn = p.name.trim().toLowerCase();
     if (pn === nl) return false;
     return pn.startsWith(nl) || nl.startsWith(pn) || pn.includes(nl) || nl.includes(pn);

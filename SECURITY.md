@@ -6,12 +6,12 @@
 - **Photos** are stored in **IndexedDB** via `PhotoIDB` — metadata in localStorage, binary blobs in IDB. No cloud photo sync.
 - **No accounts**, analytics, or telemetry.
 
-## COPPA-friendly design
+## Privacy-minded design (13+)
 
 - DeePonyCap is designed for **child-friendly collection tracking** with large tap targets and simple language.
 - **Parents should supervise** device use, photo uploads, and backup exports.
 - No social features, chat, or data collection from children — all data stays on the family device.
-- Not affiliated with Hasbro or MLP brand owners — fan collection tool only.
+- DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company.
 
 ## Photo storage
 

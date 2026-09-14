@@ -11,24 +11,24 @@
 <meta name="theme-color" content="#FF69B4" id="themeMeta">
 <meta name="format-detection" content="telephone=no">
 <meta name="author" content="Capricorn Systems">
-<meta name="description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. No accounts. No ads. By Capricorn Systems.">
-<title>DeePonyCap — Your pony collection, beautifully tracked. · Capricorn Systems</title>
+<meta name="description" content="Track your collection, shelves and wishlist. Photos and checklists stay on your device. No accounts. No ads. By Capricorn Systems.">
+<title>DeePonyCap — Track your collection, shelves and wishlist · Capricorn Systems</title>
 <link rel="canonical" href="https://shamikhahmed.github.io/DeePonyCap/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Capricorn Systems">
-<meta property="og:title" content="DeePonyCap — Your pony collection, beautifully tracked.">
-<meta property="og:description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. By Capricorn Systems.">
+<meta property="og:title" content="DeePonyCap — Track your collection, shelves and wishlist">
+<meta property="og:description" content="Track your collection, shelves and wishlist. Photos and checklists stay on your device. By Capricorn Systems.">
 <meta property="og:url" content="https://shamikhahmed.github.io/DeePonyCap/">
 <meta property="og:image" content="https://shamikhahmed.github.io/assets/screenshots/deeponycap.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="DeePonyCap — Your pony collection, beautifully tracked.">
-<meta name="twitter:description" content="Child-friendly My Little Pony collection tracker — photos and checklists, all on your device. By Capricorn Systems.">
+<meta name="twitter:title" content="DeePonyCap — Track your collection, shelves and wishlist">
+<meta name="twitter:description" content="Track your collection, shelves and wishlist. Photos and checklists stay on your device. By Capricorn Systems.">
 <meta name="twitter:image" content="https://shamikhahmed.github.io/assets/screenshots/deeponycap.png">
 <meta name="twitter:site" content="@capricornsys">
 <meta name="twitter:creator" content="@capricornsys">
 <meta name="application-name" content="DeePonyCap">
 <meta name="msapplication-TileColor" content="#FF69B4">
-<meta name="keywords" content="My Little Pony, MLP, pony collection, tracker, G1, G2, G3, G4, G5, offline PWA">
+<meta name="keywords" content="pony collection, figure tracker, shelves, wishlist, offline PWA">
 <meta name="color-scheme" content="dark light">
 <link rel="dns-prefetch" href="https://fonts.googleapis.com">
 <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -67,7 +67,7 @@
     </div>
   </div>
   <div class="splash-title">DeePonyCap</div>
-  <div class="splash-sub">Plastic toy stable · rainbow case</div>
+  <div class="splash-sub">Collection tracker</div>
   <div class="splash-bar"><div id="splashFill"></div></div>
 </div>
 
@@ -76,7 +76,7 @@
     <div class="onboard-dots"><i class="on"></i><i></i><i></i></div>
     <div class="onboard-emoji">🦄✨</div>
     <h1>Welcome, Collector!</h1>
-    <p>Your magical pony toybox — soft, sparkly, and made just for you 💕</p>
+    <p>Track your figures, shelves and wishlist — all on this device.</p>
     <div class="ob-actions">
       <button class="btn-p shimmer" onclick="OB.next(2)">Let's Go! →</button>
       <button class="btn-g" onclick="OB.finish(true)">Skip intro</button>
@@ -88,7 +88,7 @@
     <h1>What's your name?</h1>
     <div class="fg" style="text-align:left">
       <label class="fl">Collector name</label>
-      <input class="inp" id="obName" placeholder="e.g. Princess Sparkle...">
+      <input class="inp" id="obName" placeholder="Your collector name">
     </div>
     <div class="fg" style="text-align:left">
       <label class="fl">Collecting since (optional)</label>
@@ -103,7 +103,7 @@
     <div class="onboard-dots"><i></i><i></i><i class="on"></i></div>
     <div class="onboard-emoji">🎉🌈</div>
     <h1>You're all set!</h1>
-    <p>Time to fill your stable with magical ponies!</p>
+    <p>Add your first figure to get started.</p>
     <div class="ob-actions">
       <button class="btn-p shimmer" onclick="OB.finish(false)">Add My First Pony 🦄</button>
       <button class="btn-g" onclick="OB.finish(true)">Skip for now — explore first</button>
@@ -114,17 +114,9 @@
 
 <div class="install-hint" id="installHint">
   <span class="install-hint-mark" aria-hidden="true">App</span>
-  <p><strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full magical app experience!</p>
+  <p><strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full app experience.</p>
   <button class="btn-g" style="padding:8px 12px;font-size:.75rem" onclick="Install.dismiss()">✕</button>
 </div>
-<div class="demo-banner" id="demoBanner" style="display:none" role="status">
-  <div class="demo-banner-inner">
-    <span class="demo-banner-icon" aria-hidden="true">✨</span>
-    <p><strong>Demo collection</strong> — sample ponies loaded. Your real stable is untouched.</p>
-    <button type="button" class="demo-banner-close" onclick="DemoUI.dismissBanner()" aria-label="Dismiss demo banner">✕</button>
-  </div>
-</div>
-
 <div class="cap-desktop-shell">
 <nav id="cap-nav-sidebar" aria-label="Module navigation"></nav>
 <div class="app app-shell cap-desktop-main" id="app" style="display:none">
@@ -132,6 +124,13 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
   </button>
   <div class="main" id="main" role="main">
+    <div class="demo-banner" id="demoBanner" style="display:none" role="status">
+      <div class="demo-banner-inner">
+        <span class="demo-banner-icon" aria-hidden="true">✨</span>
+        <p><strong>Sample data</strong> — explore freely. Your real collection stays separate.</p>
+        <button type="button" class="demo-banner-close" onclick="DemoUI.dismissBanner()" aria-label="Dismiss demo banner">✕</button>
+      </div>
+    </div>
     <div class="screen on" id="tab-stable"></div>
     <div class="screen" id="tab-logs"></div>
     <div class="screen" id="tab-wishlist"></div>
@@ -198,52 +197,5 @@
   });
 </script>
 
-<!-- PRO UPGRADE MODAL -->
-<div id="proUpgradeModal" style="display:none;position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,0.78);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:24px" role="dialog" aria-modal="true" aria-label="DeePonyCap Pro">
-  <div style="background:rgba(20,8,18,0.98);border:1px solid rgba(196,54,122,0.35);border-radius:24px;max-width:400px;width:100%;padding:36px 32px;box-shadow:0 40px 80px rgba(0,0,0,0.7)">
-    <p style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#c4367a;margin-bottom:8px">DEEPONYCAP PRO</p>
-    <h2 style="font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:4px;letter-spacing:-0.02em">Your full collection. Forever.</h2>
-    <p style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:28px">Free keeps your first shelf perfect. Pro unlocks every shelf, full photo gallery, export, and wishlist tracking.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px">
-      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:14px;padding:20px">
-        <p style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.5);margin-bottom:12px">FREE</p>
-        <p style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:16px">$0</p>
-        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:rgba(255,255,255,0.5)">
-          <li>✓ 1 shelf (up to 20)</li>
-          <li>✓ Photos per pony</li>
-          <li>✓ Offline PWA</li>
-          <li>✓ Condition tracking</li>
-        </ul>
-      </div>
-      <div style="background:rgba(196,54,122,0.10);border:2px solid rgba(196,54,122,0.4);border-radius:14px;padding:20px;position:relative">
-        <span style="position:absolute;top:-10px;left:16px;background:#c4367a;color:#fff;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:0.06em">PRO</span>
-        <p style="font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:2px">$4.99</p>
-        <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:12px">one-time purchase</p>
-        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;font-size:13px;color:rgba(255,255,255,0.5)">
-          <li>✓ Unlimited shelves</li>
-          <li>✓ Full photo gallery</li>
-          <li>✓ Wishlist tracker</li>
-          <li>✓ Export collection</li>
-          <li>✓ Accessories tracker</li>
-          <li>✓ Stats & value est.</li>
-        </ul>
-      </div>
-    </div>
-    <button onclick="document.getElementById('proUpgradeModal').style.display='none'" style="width:100%;padding:14px;background:rgba(196,54,122,0.12);border:1px solid rgba(196,54,122,0.3);color:#c4367a;border-radius:14px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px">Join waitlist — coming soon →</button>
-    <button onclick="document.getElementById('proUpgradeModal').style.display='none'" style="width:100%;padding:10px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:13px;cursor:pointer">Continue with Free</button>
-  </div>
-</div>
-<script>
-(function () {
-  window.openProUpgrade = function () {
-    var m = document.getElementById('proUpgradeModal');
-    if (m) m.style.display = 'flex';
-  };
-  var modal = document.getElementById('proUpgradeModal');
-  if (modal) modal.addEventListener('click', function (e) {
-    if (e.target === modal) modal.style.display = 'none';
-  });
-})();
-</script>
 </body>
 </html>

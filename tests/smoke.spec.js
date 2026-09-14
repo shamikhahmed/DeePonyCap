@@ -25,7 +25,7 @@ test.describe('DeePonyCap smoke', () => {
     await expect(page.locator('#demoBanner')).toBeVisible();
     await page.locator('#cap-nav-sidebar .cap-side-btn[data-tab="logs"], nav.nav .nav-btn[data-tab="logs"]').first().click();
     await expect(page.locator('#tab-logs.on')).toBeVisible();
-    await page.locator('.log-chips .chip').filter({ hasText: 'G4' }).click();
+    await page.locator('.log-chips .chip').filter({ hasText: /Dawn Line|Series|Promo/i }).first().click();
     await expect(page.locator('#tab-logs .log-table').first()).toBeVisible({ timeout: 8000 });
     await page.locator('#cap-nav-sidebar .cap-side-btn[data-tab="wishlist"], nav.nav .nav-btn[data-tab="wishlist"]').first().click();
     await expect(page.getByText(/Must Have|on your list/i).first()).toBeVisible({ timeout: 8000 });
@@ -38,7 +38,7 @@ test.describe('DeePonyCap smoke', () => {
     await expect(page.locator('#tab-settings.on')).toBeVisible();
     await expect(page.getByText('Parent Lock 🔒')).toBeVisible();
     await expect(page.getByRole('link', { name: /Privacy Policy/i })).toHaveAttribute('href', 'privacy.html');
-    await expect(page.getByText(/100% on-device/i)).toBeVisible();
+    await expect(page.getByText(/On-device only|independent collection tracker/i).first()).toBeVisible();
   });
 
   test('add pony sheet shows camera and gallery options', async ({ page }) => {

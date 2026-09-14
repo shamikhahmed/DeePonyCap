@@ -29,9 +29,9 @@ test.describe('DeePonyCap v2.8', () => {
     await expect(page.getByRole('button', { name: /Print \/ Save as PDF/i })).toBeVisible();
   });
 
-  test('settings has G4 bulk import', async ({ page }) => {
+  test('settings has bulk photo import', async ({ page }) => {
     await page.getByRole('button', { name: 'Settings' }).click();
-    await expect(page.getByRole('button', { name: /G4 bulk photo import/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Bulk photo import/i })).toBeVisible();
   });
 
   test('storage shows IndexedDB messaging', async ({ page }) => {

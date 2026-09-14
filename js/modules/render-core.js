@@ -1,7 +1,7 @@
 'use strict';
 // Core Render object with shared helpers, stable, wishlist, filteredPonies, shelfOrganize
 let filter = { chip:'all', q:'', sort:'name', page:0 };
-let logFilter = { logSection:'g1', logSort:'name', logView:'register', mcdCountry:'all' };
+let logFilter = { logSection:'', logSort:'name', logView:'register', mcdCountry:'all' };
 let accFilter = { q:'', cat:'all', sort:'name' };
 
 const Render = {
@@ -20,9 +20,10 @@ const Render = {
     return `<div class="sheet-hdr"><h2 id="sheetTitle">${title}</h2><button type="button" class="sheet-close" aria-label="Close" onclick="event.stopPropagation();${closeFn}">✕</button></div>`;
   },
   ponyCard(p, mini) {
-    const g = GEN_COLORS[p.generation]||'g5';
+    const series = ponySeries(p);
+    const g = seriesColorClass(series);
     const ph = ponyPhoto(p);
-    const emoji = GEN_EMOJI[p.generation] || '🦄';
+    const emoji = seriesEmoji(series) || '🦄';
     const cls = mini ? 'mini-card' : 'pony-card pop-in';
     const photoCount = (p.photos?.length || (p.photo ? 1 : 0));
     const openFn = `Excellence.openPassport('${p.id}')`;
@@ -39,9 +40,10 @@ const Render = {
     </div>`;
   },
   shelfPonyCard(p) {
-    const g = GEN_COLORS[p.generation]||'g5';
+    const series = ponySeries(p);
+    const g = seriesColorClass(series);
     const ph = ponyPhoto(p);
-    const emoji = GEN_EMOJI[p.generation] || '🦄';
+    const emoji = seriesEmoji(series) || '🦄';
     const id = p.id;
     return `<div class="mini-card shelf-pony" draggable="true" data-pony-id="${id}"
       ondragstart="UI.shelfDragStart(event,'${id}')" ondragend="UI.shelfDragEnd(event)"
@@ -57,13 +59,19 @@ const Render = {
     if (el && !S.ponies) { el.innerHTML = '<div class="pony-skel" style="height:120px;margin-bottom:12px"></div>'.repeat(3); return; }
     const n = S.ponies.length;
     const name = S.collector.name || 'Collector';
-    const gens = [1,2,3,4,5].map(g => ({g, c: S.ponies.filter(p=>p.generation===g).length}));
+    if (typeof ensureSeriesList === 'function') ensureSeriesList(S);
+    const sections = (window.CollectorSuite && CollectorSuite.logSections) ? CollectorSuite.logSections().filter(s => !s.cat) : [];
+    const seriesCounts = sections.map(s => ({
+      id: s.id, label: s.label, emoji: s.emoji,
+      c: S.ponies.filter(p => (p.category || 'mlp') === 'mlp' && ponySeries(p).toLowerCase() === String(s.label).toLowerCase()).length,
+      color: seriesColorClass(s.label),
+    }));
     const total = n || 1;
-    const bars = gens.map(x => `<span style="width:${(x.c/total*100)||0}%;background:var(--g${x.g})"></span>`).join('');
-    const pills = gens.map(x => `<button type="button" class="pill g${x.g}" onclick="Nav.goLog('g${x.g}')">G${x.g} ${GEN_EMOJI[x.g]} ${x.c}</button>`).join('');
+    const bars = seriesCounts.map(x => `<span style="width:${(x.c/total*100)||0}%;background:var(--${x.color})"></span>`).join('');
+    const pills = seriesCounts.filter(x => x.c).map(x => `<button type="button" class="pill ${x.color}" onclick="Nav.goLog('${x.id}')">${x.emoji} ${Render.esc(x.label)} ${x.c}</button>`).join('');
     const otherN = S.ponies.filter(p => (p.category || 'mlp') === 'other').length;
     const mcdN = S.ponies.filter(p => (p.category || '') === 'mcdonalds' || p.mcdCountry).length;
-    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:#fff" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:#F59E0B;color:#1F2937" onclick="Nav.goLog('mcd')">🍟 McD ${mcdN}</button>` : ''}`;
+    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:#fff" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:#F59E0B;color:#1F2937" onclick="Nav.goLog('mcd')">🍟 Promo ${mcdN}</button>` : ''}`;
     const types = TYPE_KEYS.map(t => `<div class="type-card"><span>${TYPE_LABELS[t].split(' ')[0]}</span>${t.replace('_',' ')}<br><strong>${S.ponies.filter(p=>p.type===t).length}</strong></div>`).join('');
     const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
     const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
@@ -75,7 +83,7 @@ const Render = {
       return d.getMonth() === today.getMonth() && d.getDate() === today.getDate() && d.getFullYear() < today.getFullYear();
     });
     const annivHtml = anniv.length
-      ? `<div class="card season-sparkle" style="margin-top:14px;border-color:var(--pink)"><div class="section-title">🎂 Collection anniversaries today</div>${anniv.map(p=>`<div style="padding:6px 0">${this.esc(p.name)} · G${p.generation} · ${new Date(p.acquiredDate).getFullYear()}</div>`).join('')}</div>`
+      ? `<div class="card season-sparkle" style="margin-top:14px;border-color:var(--pink)"><div class="section-title">🎂 Collection anniversaries today</div>${anniv.map(p=>`<div style="padding:6px 0">${this.esc(p.name)} · ${this.esc(ponySeries(p))} · ${new Date(p.acquiredDate).getFullYear()}</div>`).join('')}</div>`
       : '';
     const storPct = StorageHealth.pct();
     const backupNudge = storPct >= 75
@@ -84,31 +92,31 @@ const Render = {
         <p style="font-size:.85rem;color:var(--text-soft)">Storage is ${storPct}% full — export a backup before adding more photos.</p>
         <button type="button" class="btn-g" style="width:100%;margin-top:8px" onclick="ParentGate.run('Export backup',Backup.export)">Export Backup Now</button>
       </div>` : '';
-    const goalsHtml = window.collectionGoalProgress ? ['g4_mane6', 'g1_babies'].map(gid => {
+    const goalsHtml = window.collectionGoalProgress ? Object.keys(window.COLLECTION_GOALS || {}).map(gid => {
       const g = collectionGoalProgress(gid, S.ponies);
       if (!g || !g.total) return '';
       return `<div style="margin:10px 0">
         <div style="display:flex;justify-content:space-between;font-size:.85rem"><span>${g.emoji} ${g.title}</span><strong>${g.have}/${g.total} (${g.pct}%)</strong></div>
-        <div class="progress-bar" style="margin-top:6px"><span style="width:${g.pct}%;background:var(--g${g.generation})"></span></div>
-        ${g.missing.length ? `<div style="font-size:.75rem;color:var(--text-soft);margin-top:4px">Still need: ${g.missing.map(n => this.esc(n)).join(', ')}</div>` : ''}
+        <div class="progress-bar" style="margin-top:6px"><span style="width:${g.pct}%;background:var(--pink)"></span></div>
+        ${g.missing && g.missing.length ? `<div style="font-size:.75rem;color:var(--text-soft);margin-top:4px">Still need: ${g.missing.map(n => this.esc(n)).join(', ')}</div>` : ''}
       </div>`;
     }).join('') : '';
     const achUnlocked = Achievements.defs.filter(a => a.test()).length;
     const achTotal = Achievements.defs.length;
     const wishN = S.wishlist.length;
-    const shelfRail = `<aside class="stable-rail stable-rail--shelf" aria-label="Generation shelves">
-      <div class="stable-rail__label">Shelves</div>
-      <div class="stable-shelf-stack">${gens.map(x =>
-        `<button type="button" class="stable-shelf-slot g${x.g}" onclick="Nav.goLog('g${x.g}')">
-          <span class="stable-shelf-slot__gen">G${x.g} ${GEN_EMOJI[x.g]}</span>
+    const shelfRail = `<aside class="stable-rail stable-rail--shelf" aria-label="Series shelves">
+      <div class="stable-rail__label">Series</div>
+      <div class="stable-shelf-stack">${seriesCounts.map(x =>
+        `<button type="button" class="stable-shelf-slot ${x.color}" onclick="Nav.goLog('${x.id}')">
+          <span class="stable-shelf-slot__gen">${x.emoji} ${this.esc(x.label)}</span>
           <span class="stable-shelf-slot__count">${x.c}</span>
         </button>`
-      ).join('')}${otherN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--other" onclick="Nav.goLog('other')"><span class="stable-shelf-slot__gen">🐴 Other</span><span class="stable-shelf-slot__count">${otherN}</span></button>` : ''}${mcdN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--mcd" onclick="Nav.goLog('mcd')"><span class="stable-shelf-slot__gen">🍟 McD</span><span class="stable-shelf-slot__count">${mcdN}</span></button>` : ''}</div>
+      ).join('')}${otherN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--other" onclick="Nav.goLog('other')"><span class="stable-shelf-slot__gen">🐴 Other</span><span class="stable-shelf-slot__count">${otherN}</span></button>` : ''}${mcdN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--mcd" onclick="Nav.goLog('mcd')"><span class="stable-shelf-slot__gen">🍟 Promo</span><span class="stable-shelf-slot__count">${mcdN}</span></button>` : ''}</div>
     </aside>`;
     const toolsRail = `<aside class="stable-rail stable-rail--tools" aria-label="Stable tools">
       <div class="stable-rail__label">Tools</div>
       <div class="stable-tools-stack">
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.goLog('g1')">📋 Generation logs</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">📋 Series logs</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('map')">🗺️ Pony Map</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('stats')">🌈 Stats</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('wishlist')">💫 Wishlist · ${wishN}</button>
@@ -143,7 +151,7 @@ const Render = {
             ${window.Excellence ? Excellence.suggestionsHtml() : ''}
             <div class="stable-mobile-shelf row-scroll">${pills}${extraPills}</div>
             <div class="stable-mobile-tools premium-views">
-              <button type="button" class="btn-g" onclick="Nav.goLog('g1')">📋 Generation logs</button>
+              <button type="button" class="btn-g" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">📋 Series logs</button>
               <button type="button" class="btn-g" onclick="Nav.go('map')">🗺️ Pony Map</button>
               <button type="button" class="btn-g" onclick="Nav.go('stats')">🌈 Stats</button>
             </div>
@@ -169,20 +177,30 @@ const Render = {
       p.name.toLowerCase().includes(q) || (p.colour||'').toLowerCase().includes(q) || (p.shelf||'').toLowerCase().includes(q)
     )));
     const c = filter.chip;
-    if (c.startsWith('g')) list = list.filter(p => p.generation === parseInt(c.slice(1)));
+    if (c.startsWith('s_') || (window.CollectorSuite && CollectorSuite.logSections().some(s => s.id === c && s.series))) {
+      list = list.filter(p => {
+        const sec = CollectorSuite.logSections().find(s => s.id === c);
+        return sec && ponySeries(p).toLowerCase() === String(sec.series).toLowerCase();
+      });
+    } else if (c.startsWith('g')) list = list.filter(p => p.generation === parseInt(c.slice(1)));
     else if (TYPE_KEYS.includes(c)) list = list.filter(p => p.type === c);
     else if (c==='faves') list = list.filter(p => p.isFavourite);
     else if (c==='played') list = list.filter(p => p.isMostPlayed);
     else if (c==='originals') list = list.filter(p => p.isOriginal);
     else if (c==='extras') list = list.filter(p => !p.isOriginal);
     if (filter.sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
-    else if (filter.sort==='gen') list.sort((a,b)=>a.generation-b.generation||a.name.localeCompare(b.name));
+    else if (filter.sort==='gen') list.sort((a,b)=>ponySeries(a).localeCompare(ponySeries(b))||a.name.localeCompare(b.name));
     else if (filter.sort==='recent') list.sort((a,b)=>b.createdAt-a.createdAt);
     else if (filter.sort==='condition') { const o={mint:0,good:1,played:2,loved:3}; list.sort((a,b)=>(o[a.condition]||0)-(o[b.condition]||0)); }
     return list;
   },
   logs() {
     try {
+    if (typeof ensureSeriesList === 'function') ensureSeriesList(S);
+    if (!logFilter.logSection) {
+      const first = (window.CollectorSuite && CollectorSuite.logSections) ? CollectorSuite.logSections()[0] : null;
+      logFilter.logSection = first?.id || 'other';
+    }
     const el = document.getElementById('tab-logs');
     if (el && !S.ponies) { el.innerHTML = '<div class="pony-skel" style="height:120px;margin-bottom:12px"></div>'.repeat(3); return; }
     if (!window.CollectorSuite) {
@@ -212,7 +230,7 @@ const Render = {
         const target = w.targetPrice != null ? `$${Number(w.targetPrice).toLocaleString()}` : '';
         return `<div class="wish-item ${key}">
         ${ph ? `<div class="pony-img" style="height:120px;margin-bottom:10px;border-radius:16px;overflow:hidden"><img src="${ph}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
-        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${GEN_COLORS[w.generation]||'g5'}">G${w.generation}</span>${target ? ` <span class="badge" style="background:var(--mint);color:#1F2937">🎯 ${target}</span>` : ''}</div>
+        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${seriesColorClass(ponySeries(w))}">${this.esc(ponySeries(w))}</span>${target ? ` <span class="badge" style="background:var(--mint);color:#1F2937">🎯 ${target}</span>` : ''}</div>
         <div style="font-size:.8rem;color:var(--text-soft);margin-bottom:8px">${TYPE_LABELS[w.type]||w.type} ${w.notes? '· '+this.esc(w.notes):''}</div>
         <div style="display:flex;gap:8px">
           <button type="button" class="btn-g" onclick="UI.gotWish('${w.id}')">Got it! 🎉</button>
@@ -231,7 +249,7 @@ const Render = {
         <div class="fg"><label class="fl">Pony name</label><input class="inp" id="wName" list="wishNames" placeholder="Dream pony name..." oninput="UI.updateWishSuggest(this.value)"></div>
         <datalist id="wishNames"></datalist>
         <div id="wishDbHint" style="font-size:.75rem;color:var(--text-soft);margin:-6px 0 8px"></div>
-        <div class="fg"><label class="fl">Generation</label><select class="sel" id="wGen" onchange="UI.updateWishSuggest(document.getElementById('wName').value)">${[1,2,3,4,5].map(g=>`<option value="${g}">G${g}</option>`).join('')}</select></div>
+        <div class="fg"><label class="fl">Series</label><select class="sel" id="wSeries" onchange="UI.updateWishSuggest(document.getElementById('wName').value)">${(S.seriesList||['Dawn Line']).map(s=>`<option value="${this.esc(s)}">${this.esc(s)}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Type</label><select class="sel" id="wType">${TYPE_KEYS.map(t=>`<option value="${t}">${TYPE_LABELS[t]}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Priority</label><select class="sel" id="wPri"><option value="must">🔴 Must Have</option><option value="want">🟡 Want</option><option value="someday">🟢 Someday</option></select></div>
         <div class="fg-row">
@@ -273,8 +291,12 @@ const Render = {
   },
   stats() {
     const n = S.ponies.length;
-    const gens = [1,2,3,4,5].map(g=>({g,c:S.ponies.filter(p=>p.generation===g).length}));
-    const maxG = gens.reduce((a,b)=>b.c>a.c?b:a,{g:0,c:0});
+    if (typeof ensureSeriesList === 'function') ensureSeriesList(S);
+    const gens = (S.seriesList || []).map((label, i) => ({
+      g: i + 1, label, c: S.ponies.filter(p => ponySeries(p).toLowerCase() === String(label).toLowerCase()).length,
+      color: seriesColorClass(label), emoji: seriesEmoji(label),
+    }));
+    const maxG = gens.reduce((a,b)=>b.c>a.c?b:a,{g:0,c:0,label:''});
     const maxBubble = Math.max(...gens.map(x=>x.c),1);
     const types = TYPE_KEYS.map(t=>({t,c:S.ponies.filter(p=>p.type===t).length}));
     const conds = ['mint','good','played','loved'].map(c=>({c,n:S.ponies.filter(p=>p.condition===c).length}));
@@ -293,22 +315,21 @@ const Render = {
         ${collValue ? `<div class="stat-box" style="grid-column:1/-1"><div class="n">$${collValue.toLocaleString()}</div><div class="l">Est. Collection Value</div></div>` : ''}
       </div>
       <div class="card" style="margin-top:14px">
-        <div class="section-title">Generation checklist</div>
+        <div class="section-title">Series checklist</div>
         ${gens.map(x=>{
-          const db = (window.PONY_DB && window.PONY_DB[x.g]) ? window.PONY_DB[x.g].length : 0;
-          const owned = new Set(S.ponies.filter(p=>p.generation===x.g).map(p=>p.name.toLowerCase())).size;
-          const pct = db ? Math.min(100, Math.round((owned/db)*100)) : 0;
-          return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>G${x.g} ${GEN_EMOJI[x.g]}</span><strong>${x.c} owned · ${owned} unique names${db ? ` / ~${db} in db` : ''}</strong></div>
-            <div class="progress-bar" style="margin-top:6px"><span style="width:${pct}%;background:var(--g${x.g})"></span></div></div>`;
+          const owned = new Set(S.ponies.filter(p=>ponySeries(p).toLowerCase()===String(x.label).toLowerCase()).map(p=>p.name.toLowerCase())).size;
+          const pct = x.c ? Math.min(100, Math.round((owned/Math.max(x.c,1))*100)) : 0;
+          return `<div style="margin:8px 0"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>${x.emoji} ${this.esc(x.label)}</span><strong>${x.c} owned · ${owned} unique names</strong></div>
+            <div class="progress-bar" style="margin-top:6px"><span style="width:${pct}%;background:var(--${x.color})"></span></div></div>`;
         }).join('')}
       </div>
       <div class="card" style="margin-top:14px">
-        <div class="section-title">By Generation</div>
+        <div class="section-title">By series</div>
         <div class="bubble-chart">${gens.map(x=>{
           const sz = 50 + (x.c/maxBubble)*70;
-          return `<div class="bubble g${x.g}" style="width:${sz}px;height:${sz}px;background:var(--g${x.g});color:${x.g===2||x.g===3||x.g===4?'#1F2937':'#fff'}">G${x.g}<br><strong>${x.c}</strong></div>`;
+          return `<div class="bubble ${x.color}" style="width:${sz}px;height:${sz}px;background:var(--${x.color});color:#1F2937;font-size:.7rem;padding:4px;text-align:center">${this.esc(x.label)}<br><strong>${x.c}</strong></div>`;
         }).join('')}</div>
-        ${maxG.c?`<p class="rainbow-note">Gen ${maxG.g} is your largest generation! ${GEN_EMOJI[maxG.g]}</p>`:''}
+        ${maxG.c?`<p class="rainbow-note">${this.esc(maxG.label)} is your largest series! ${maxG.emoji||''}</p>`:''}
       </div>
       <div class="card">
         <div class="section-title">By Type</div>
@@ -348,17 +369,17 @@ const Render = {
     ctx.font = '16px Nunito, sans-serif'; ctx.fillStyle = '#6B7280';
     ctx.fillText(`${n} ponies · ${favs} favourites · ${S.wishlist.length} wishlist`, 32, 118);
     if (collValue) { ctx.fillStyle = '#9333EA'; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(`Est. value $${collValue.toLocaleString()}`, 32, 152); }
-    [1,2,3,4,5].forEach((g,i) => {
-      const c = S.ponies.filter(p => p.generation === g).length;
+    (S.seriesList || []).slice(0, 5).forEach((label, i) => {
+      const c = S.ponies.filter(p => ponySeries(p).toLowerCase() === String(label).toLowerCase()).length;
       const x = 32 + i * 108;
       ctx.fillStyle = ['#9333EA','#86EFAC','#93C5FD','#FDE047','#F9A8D4'][i];
       ctx.beginPath(); ctx.arc(x + 36, 230, 36, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = g === 2 || g === 3 || g === 4 ? '#1F2937' : '#fff';
-      ctx.font = 'bold 14px Nunito, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText(`G${g}`, x + 36, 224); ctx.fillText(String(c), x + 36, 242);
+      ctx.fillStyle = '#1F2937';
+      ctx.font = 'bold 11px Nunito, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(String(label).slice(0, 10), x + 36, 224); ctx.fillText(String(c), x + 36, 242);
     });
     ctx.textAlign = 'left'; ctx.fillStyle = '#9CA3AF'; ctx.font = '12px Nunito, sans-serif';
-    ctx.fillText(new Date().toLocaleDateString(), 32, 310);
+    ctx.fillText(formatLocaleDate(new Date().toISOString()), 32, 310);
     canvas.toBlob(blob => {
       if (!blob) { Toast.show('Could not create image'); return; }
       const a = document.createElement('a');
@@ -437,12 +458,12 @@ const Render = {
       <div class="card">
         <div class="section-title">Display</div>
         <div class="setting-row">
-          <div><strong>Collector Mode</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Clean catalog view — less sparkle, more data</span></div>
-          <button type="button" class="toggle${cm?' on':''}" role="switch" aria-checked="${cm?'true':'false'}" aria-label="Collector mode" onclick="Theme.toggle()">${cm?'ON':'OFF'}</button>
+          <div><strong>Compact view</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Show more ponies per row with fewer effects.</span></div>
+          ${switchHtml(cm, 'Compact view', 'Theme.toggle()')}
         </div>
         <div class="setting-row">
-          <div><strong>Dark Mode</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Easier on eyes at night</span></div>
-          <button type="button" class="toggle${dm?' on':''}" role="switch" aria-checked="${dm?'true':'false'}" aria-label="Dark mode" onclick="Theme.toggleDark()">${dm?'ON':'OFF'}</button>
+          <div><strong>Dark mode</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Easier on eyes at night</span></div>
+          ${switchHtml(dm, 'Dark mode', 'Theme.toggleDark()')}
         </div>
       </div>
       <div class="card">
@@ -453,20 +474,20 @@ const Render = {
       <div class="card">
         <div class="section-title">Sound & Feel</div>
         <div class="setting-row">
-          <div><strong>Haptic feedback</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Gentle vibration on taps & celebrations</span></div>
-          <button type="button" class="toggle${hx?' on':''}" role="switch" aria-checked="${hx?'true':'false'}" aria-label="Haptic feedback" onclick="UI.toggleHaptics()">${hx?'ON':'OFF'}</button>
+          <div><strong>Haptic feedback</strong><br><span style="font-size:.8rem;color:var(--text-soft)">Gentle vibration on taps and celebrations</span></div>
+          ${switchHtml(hx, 'Haptic feedback', 'UI.toggleHaptics()')}
         </div>
       </div>
       <div class="card">
         <div class="section-title">Parent Lock 🔒</div>
-        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:10px">Optional PIN for export, import, and delete — keeps little hands from wiping the collection.</p>
-        <p style="font-size:.85rem;margin-bottom:10px">${pinOn ? '🔒 Parent lock is <strong>ON</strong>' : '🔓 No parent lock set'}</p>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:10px">Optional PIN for export, import, and delete.</p>
+        <p style="font-size:.85rem;margin-bottom:10px">${pinOn ? 'App lock is on' : 'No app lock set'}</p>
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="ParentGate.setup()">${pinOn ? 'Change PIN' : 'Set Parent PIN'}</button>
         ${pinOn ? '<button type="button" class="btn-d" style="width:100%" onclick="ParentGate.disable()">Remove Parent Lock</button>' : ''}
       </div>
       <div class="card">
         <div class="section-title">Privacy & Safety</div>
-        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:10px">100% on-device — no accounts, no ads, no analytics. Safe for kids.</p>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-bottom:10px">On-device only — no accounts, no ads, no analytics. Made for a general audience 13+.</p>
         <a class="btn-g" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px" href="privacy.html">Privacy Policy</a>
         <a class="btn-g" style="display:block;text-align:center;text-decoration:none" href="changelog.html">What's New</a>
       </div>
@@ -480,7 +501,7 @@ const Render = {
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkMoveShelf()">Move shelf → shelf</button>
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkFavoriteShelf()">Favorite all on a shelf</button>
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkArchiveShelf()">Mark shelf as extras (not originals)</button>
-        <button type="button" class="btn-g" style="width:100%" onclick="document.getElementById('g4BulkSettings').click()">📦 G4 bulk photo import</button>
+        <button type="button" class="btn-g" style="width:100%" onclick="document.getElementById('g4BulkSettings').click()">📦 Bulk photo import</button>
         <input type="file" id="g4BulkSettings" accept="image/*" multiple style="display:none" onchange="UI.runG4BulkImport([...this.files]);this.value=''">
       </div>
       <div class="card">
@@ -497,7 +518,9 @@ const Render = {
       <div class="card">
         <div class="section-title">About</div>
         <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v${ver} · ${S.ponies.length} ponies</p>
-        <button type="button" class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay Onboarding</button>
+        <p style="font-size:.85rem;color:var(--text-soft);margin-top:10px">DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company.</p>
+        <p style="font-size:.8rem;color:var(--text-soft);margin-top:8px">Publisher: Capricorn Systems · Karachi, Pakistan</p>
+        <button type="button" class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay onboarding</button>
       </div>`;
   }
 };
