@@ -2,7 +2,7 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-15T13:19:44.684Z",
+  "generatedAt": "2026-09-15T13:20:38.376Z",
   "status": "PASS",
   "pass": [
     {
@@ -35,7 +35,7 @@
     },
     {
       "id": "records:APP-REPORT-size",
-      "detail": "1654 bytes (need ≥1024)"
+      "detail": "1694 bytes (need ≥1024)"
     },
     {
       "id": "suppressions",
@@ -47,7 +47,7 @@
     },
     {
       "id": "ci:main",
-      "detail": "release: DeePonyCap 3.8.3 TIER1 kill-list + evidence → success https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403"
+      "detail": "pages build and deployment → success https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974312035"
     },
     {
       "id": "tag",
