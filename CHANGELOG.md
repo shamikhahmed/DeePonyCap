@@ -1,3 +1,8 @@
+## 3.8.2 — 2026-09-15
+- C-16: Self-host Bubblegum Sans, Comic Neue, Nunito (Inter on pitch); remove Google Fonts + CSP font CDN entries.
+- C-20: Move `window.__APP_READY__` to after splash dismiss (not during splash).
+- SW `deeponycap-v62`.
+
 ## [3.8.1] — 2026-09-15
 
 ### Fix (C-14)
