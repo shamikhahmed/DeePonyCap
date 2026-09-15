@@ -50,10 +50,10 @@ const Install = {
       setTimeout(() => {
         const b = document.createElement('div');
         b.id = 'installBanner';
+        b.className = 'install-banner';
         b.setAttribute('role', 'region');
         b.setAttribute('aria-label', 'Install DeePonyCap');
-        b.style.cssText = 'position:fixed;bottom:calc(72px + env(safe-area-inset-bottom,0px));left:12px;right:12px;z-index:8500;background:var(--cap-surface-2,#1f0a14);border:1px solid var(--cap-pink,#FF6B9D);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 24px rgba(0,0,0,0.4)';
-        b.innerHTML = '<div style="font-size:28px;flex-shrink:0" aria-hidden="true">🦄</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Install DeePonyCap</div><div style="font-size:12px;opacity:.7;margin-top:2px">Works offline. Your collection, always.</div></div><button type="button" style="padding:7px 14px;background:var(--cap-pink,#FF6B9D);color:#fff;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer" aria-label="Install app" onclick="Install._doInstall()">Install</button><button type="button" style="background:none;border:none;font-size:18px;color:inherit;opacity:.5;cursor:pointer;padding:4px 8px" aria-label="Dismiss install banner" onclick="Install._dismiss()">✕</button>';
+        b.innerHTML = '<div class="install-banner-emoji" aria-hidden="true">🦄</div><div class="install-banner-copy"><div class="install-banner-title">Install DeePonyCap</div><div class="install-banner-sub">Works offline. Your collection, always.</div></div><button type="button" class="install-banner-go" aria-label="Install app" onclick="Install._doInstall()">Install</button><button type="button" class="install-banner-x" aria-label="Dismiss install banner" onclick="Install._dismiss()">✕</button>';
         document.body.appendChild(b);
         Install._deferredPrompt = e;
       }, 10000);

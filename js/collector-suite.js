@@ -9,11 +9,11 @@ const CollectorSuite = (() => {
   ];
 
   const ACCENT_THEMES = {
-    pink: { pink: '#C4367A', bg: '#FFE8F4', purple: '#8B5CF6', label: 'Classic Pink' },
-    purple: { pink: '#9333EA', bg: '#F3E8FF', purple: '#EC4899', label: 'Royal Purple' },
-    sunset: { pink: '#F97316', bg: '#FFF7ED', purple: '#EC4899', label: 'Sunset' },
-    mint: { pink: '#14B8A6', bg: '#ECFDF5', purple: '#6366F1', label: 'Mint Dream' },
-    rainbow: { pink: '#EC4899', bg: '#F5F3FF', purple: '#3B82F6', label: 'Rainbow' },
+    pink: { pink: DPBrand.h_c4367a, bg: DPBrand.h_ffe8f4, purple: DPBrand.h_8b5cf6, label: 'Classic Pink' },
+    purple: { pink: DPBrand.h_9333ea, bg: DPBrand.h_f3e8ff, purple: DPBrand.h_ec4899, label: 'Royal Purple' },
+    sunset: { pink: DPBrand.h_f97316, bg: DPBrand.h_fff7ed, purple: DPBrand.h_ec4899, label: 'Sunset' },
+    mint: { pink: DPBrand.h_14b8a6, bg: DPBrand.h_ecfdf5, purple: DPBrand.h_6366f1, label: 'Mint Dream' },
+    rainbow: { pink: DPBrand.h_ec4899, bg: DPBrand.h_f5f3ff, purple: DPBrand.h_3b82f6, label: 'Rainbow' },
   };
 
   function seriesSlug(name) {
@@ -292,18 +292,18 @@ const CollectorSuite = (() => {
 <style>
 @page { size: A4 landscape; margin: 12mm; }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1F2937;font-size:9pt}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:${DPBrand.h_1f2937};font-size:9pt}
 .print-cover{text-align:center;padding:16mm 8mm 10mm;border-bottom:2px solid #EC4899;margin-bottom:8mm}
-.print-cover h1{font-size:22pt;color:#C4367A;margin-bottom:4mm}
-.print-cover p{font-size:11pt;color:#6B7280}
+.print-cover h1{font-size:22pt;color:${DPBrand.h_c4367a};margin-bottom:4mm}
+.print-cover p{font-size:11pt;color:${DPBrand.h_6b7280}}
 .print-group{margin-bottom:10mm;page-break-inside:avoid}
-h2{font-size:14pt;color:#9333EA;margin:8mm 0 4mm}
-h3{font-size:11pt;color:#4B5563;margin:5mm 0 2mm}
+h2{font-size:14pt;color:${DPBrand.h_9333ea};margin:8mm 0 4mm}
+h3{font-size:11pt;color:${DPBrand.h_4b5563};margin:5mm 0 2mm}
 table{width:100%;border-collapse:collapse;margin-bottom:6mm}
 th,td{border:1px solid #E5E7EB;padding:4px 6px;text-align:left;vertical-align:top}
-th{background:#FFF5F8;color:#9D174D;font-size:8pt;text-transform:uppercase;letter-spacing:.03em}
-tr:nth-child(even) td{background:#FFFBFC}
-.print-footer{margin-top:8mm;text-align:center;font-size:8pt;color:#9CA3AF}
+th{background:${DPBrand.h_fff5f8};color:${DPBrand.h_9d174d};font-size:8pt;text-transform:uppercase;letter-spacing:.03em}
+tr:nth-child(even) td{background:${DPBrand.h_fffbfc}}
+.print-footer{margin-top:8mm;text-align:center;font-size:8pt;color:${DPBrand.h_9ca3af}}
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>
 <div class="print-cover"><h1>${secMeta.emoji} ${E(secMeta.label)} Collection Log</h1>
@@ -418,13 +418,13 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
     root.style.setProperty('--purple', t.purple);
     // Never paint a pastel page behind dark cards (PONY-P1-03).
     if (dark) {
-      root.style.setProperty('--bg', '#2B1D2F');
-      root.style.setProperty('--bg-card', '#3A2942');
+      root.style.setProperty('--bg', DPBrand.h_2b1d2f);
+      root.style.setProperty('--bg-card', DPBrand.h_3a2942);
     } else {
       root.style.setProperty('--bg', t.bg);
     }
     const meta = document.getElementById('themeMeta');
-    if (meta) meta.content = dark ? '#2B1D2F' : t.pink;
+    if (meta) meta.content = dark ? DPBrand.h_2b1d2f : t.pink;
   }
 
   function accentPickerHtml(current, onchangeFn) {

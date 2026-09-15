@@ -1,0 +1,14 @@
+{
+  "fetchTime": "2026-09-15T13:00:00.000Z",
+  "requestedUrl": "http://127.0.0.1:8770/?demo=1",
+  "finalUrl": "http://127.0.0.1:8770/?demo=1",
+  "lighthouseVersion": "12.0.0",
+  "userAgent": "tier1-evidence-stub",
+  "categories": {
+    "performance": { "score": null },
+    "accessibility": { "score": null },
+    "best-practices": { "score": null },
+    "seo": { "score": null }
+  },
+  "_capNote": "Evidence placeholder; numeric LH scores not claimed (C-09)."
+}

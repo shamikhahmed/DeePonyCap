@@ -3,7 +3,7 @@ const Confetti = {
   burst() {
     if (S.settings?.collectorMode) return;
     const w = document.getElementById('confetti');
-    const colors = ['#FF6B9D','#C084FC','#FCD34D','#6EE7B7','#93C5FD'];
+    const colors = [DPBrand.h_ff6b9d,DPBrand.h_c084fc,DPBrand.h_fcd34d,DPBrand.h_6ee7b7,DPBrand.h_93c5fd];
     for (let i = 0; i < 40; i++) {
       const d = document.createElement('div');
       d.className = 'confetti';

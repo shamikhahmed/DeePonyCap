@@ -29,6 +29,5 @@ window.DemoSeed = {
     S.collector = { name: 'Demo Collector', since: '2021' };
     if (typeof Store !== 'undefined' && Store.save) Store.save().catch(() => {});
     if (typeof Render !== 'undefined' && Render.all) Render.all();
-    if (!silent) console.log('[DeePonyCap] Demo seed loaded:', S.ponies.length, 'ponies');
   }
 };

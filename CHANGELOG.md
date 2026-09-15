@@ -1,3 +1,8 @@
+## 3.8.3 — 2026-09-15
+- Tier 1 gate: DPBrand palette, CapConfirm/CapPrompt, SINKS + finish-loop evidence.
+- SW `deeponycap-v63`.
+- Automated `npm run tier1` PASS; VO remains BLOCKED-EXTERNAL.
+
 ## 3.8.2 — 2026-09-15
 - C-16: Self-host Bubblegum Sans, Comic Neue, Nunito (Inter on pitch); remove Google Fonts + CSP font CDN entries.
 - C-20: Move `window.__APP_READY__` to after splash dismiss (not during splash).

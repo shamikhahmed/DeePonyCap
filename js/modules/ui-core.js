@@ -150,7 +150,7 @@ const UI = {
     const nameTrim = (formState.name || '').trim();
     let html = '';
     if (dup) html += `<p class="dup-warn">You already have <strong>${Render.esc(dup.name)}</strong> (${Render.esc(ponySeries(dup))}) on ${Render.esc(dup.shelf||'unshelved')}</p>`;
-    if (nameTrim.length >= 2 && !inDb) html += `<p class="dup-warn" style="background:#EDE9FE;color:#5B21B6">"${Render.esc(nameTrim)}" is a new name in this series — that's fine.</p>`;
+    if (nameTrim.length >= 2 && !inDb) html += `<p class="dup-warn" style="background:${DPBrand.h_ede9fe};color:${DPBrand.h_5b21b6}">"${Render.esc(nameTrim)}" is a new name in this series — that's fine.</p>`;
     if (similar.length) {
       html += `<div class="dup-variant">Similar in your collection: ${similar.map(p =>
         `<button type="button" onclick="UI.openDetail('${p.id}');UI.closeSheet()">${Render.esc(p.name)}</button>`
@@ -211,14 +211,15 @@ const UI = {
   },
   setForm(k,v) {
     if (k === 'series' && v === '__new__') {
-      const name = prompt('New series name');
-      if (!name || !name.trim()) return;
-      formState.series = name.trim();
-      if (!S.seriesList) S.seriesList = [];
-      if (!S.seriesList.some(s => String(s).toLowerCase() === formState.series.toLowerCase())) S.seriesList.push(formState.series);
-      Store.save();
-      this.refreshNameList();
-      this.renderForm(editingId ? 'Edit pony' : 'Add pony');
+      CapPrompt({ title: 'New series name', confirmLabel: 'Add' }).then((name) => {
+        if (!name || !String(name).trim()) return;
+        formState.series = String(name).trim();
+        if (!S.seriesList) S.seriesList = [];
+        if (!S.seriesList.some(s => String(s).toLowerCase() === formState.series.toLowerCase())) S.seriesList.push(formState.series);
+        Store.save();
+        this.refreshNameList();
+        this.renderForm(editingId ? 'Edit pony' : 'Add pony');
+      });
       return;
     }
     formState[k]=v;
@@ -252,10 +253,17 @@ const UI = {
     formState.photo = formState.photos[0] || null;
     this.renderForm(editingId?'Edit Pony':'Add Pony 🦄');
   },
-  savePony() {
+  async savePony() {
     if (!formState.name.trim()) { Toast.show('Name is required 💕'); return; }
     const dup = findDuplicate(formState.name, formState.series, editingId);
-    if (dup && !editingId && !confirm(`You already have "${dup.name}" on ${dup.shelf||'unshelved'}. Add anyway?`)) return;
+    if (dup && !editingId) {
+      const ok = await CapConfirm({
+        title: 'Possible duplicate',
+        body: `You already have "${dup.name}" on ${dup.shelf||'unshelved'}. Add anyway?`,
+        confirmLabel: 'Add anyway',
+      });
+      if (!ok) return;
+    }
     const pony = normalizePony({
       ...formState, id: editingId||uid(), name: formState.name.trim(),
       createdAt: editingId?(S.ponies.find(p=>p.id===editingId)?.createdAt||Date.now()):Date.now()
@@ -321,11 +329,12 @@ const UI = {
     else { navigator.clipboard.writeText(text).then(()=>Toast.show('Shelf copied to clipboard ✨')); }
   },
   renameShelf(oldName) {
-    const n = prompt('New shelf name:', oldName);
-    if (!n || !n.trim()) return;
-    const nn = n.trim();
-    S.ponies.forEach(p => { if ((p.shelf||'').trim() === oldName) p.shelf = nn; });
-    Store.save(); Render.shelves(); Toast.show('Shelf renamed ✨');
+    CapPrompt({ title: 'Rename shelf', defaultValue: oldName, confirmLabel: 'Rename' }).then((n) => {
+      if (!n || !String(n).trim()) return;
+      const nn = String(n).trim();
+      S.ponies.forEach(p => { if ((p.shelf||'').trim() === oldName) p.shelf = nn; });
+      Store.save(); Render.shelves(); Toast.show('Shelf renamed ✨');
+    });
   },
   _shelfDragId: null,
   shelfDragStart(e, id) {
@@ -384,10 +393,11 @@ const UI = {
       <div class="shelf-move-list">${btns || '<p style="font-size:.85rem;color:var(--text-soft)">No other shelves yet — create one below</p>'}</div>`);
   },
   promptNewShelf(id) {
-    const n = prompt('New shelf name:');
-    if (!n || !n.trim()) return;
-    this.movePonyToShelf(id, n.trim());
-    this.closeSheet();
+    CapPrompt({ title: 'New shelf name', confirmLabel: 'Create' }).then((n) => {
+      if (!n || !String(n).trim()) return;
+      this.movePonyToShelf(id, String(n).trim());
+      this.closeSheet();
+    });
   },
   async onDetailPhoto(e) {
     const files = [...(e.target.files || [])];
@@ -404,8 +414,14 @@ const UI = {
   },
   async onPassportPhoto(e) { await this.onDetailPhoto(e); },
   deletePony(id) {
-    ParentGate.run('Delete pony', () => {
-      if (!confirm('Remove this pony from your stable?')) return;
+    ParentGate.run('Delete pony', async () => {
+      const ok = await CapConfirm({
+        title: 'Remove pony?',
+        body: 'Remove this pony from your stable?',
+        confirmLabel: 'Remove',
+        destructive: true,
+      });
+      if (!ok) return;
       S.ponies = S.ponies.filter(p=>p.id!==id);
       Store.save(); this.closeSheet(); Render.all();
     });
@@ -423,13 +439,13 @@ const UI = {
     if (window.Excellence) Excellence.openPassport(copy.id);
     else this.openDetail(copy.id);
   },
-  bulkMoveShelf() {
-    const from = prompt('Move ponies FROM shelf (blank = unshelved):', '');
+  async bulkMoveShelf() {
+    const from = await CapPrompt({ title: 'Move FROM shelf', body: 'Leave blank for unshelved', defaultValue: '', confirmLabel: 'Next' });
     if (from === null) return;
-    const to = prompt('Move TO shelf name:', '');
-    if (!to || !to.trim()) return;
-    const fromN = from.trim();
-    const toN = to.trim();
+    const to = await CapPrompt({ title: 'Move TO shelf', confirmLabel: 'Move' });
+    if (!to || !String(to).trim()) return;
+    const fromN = String(from).trim();
+    const toN = String(to).trim();
     let n = 0;
     S.ponies.forEach(p => {
       const s = (p.shelf || '').trim();
@@ -438,10 +454,10 @@ const UI = {
     if (!n) { Toast.show('No ponies matched that shelf'); return; }
     Store.save(); Render.all(); Toast.show(`Moved ${n} ponies to ${toN} ✨`);
   },
-  bulkFavoriteShelf() {
-    const shelf = prompt('Favorite all ponies on shelf (blank = unshelved):', '');
+  async bulkFavoriteShelf() {
+    const shelf = await CapPrompt({ title: 'Favorite shelf', body: 'Leave blank for unshelved', defaultValue: '', confirmLabel: 'Favorite' });
     if (shelf === null) return;
-    const sn = shelf.trim();
+    const sn = String(shelf).trim();
     let n = 0;
     S.ponies.forEach(p => {
       const s = (p.shelf || '').trim();
@@ -450,10 +466,15 @@ const UI = {
     if (!n) { Toast.show('No ponies to favorite on that shelf'); return; }
     Store.save(); Render.all(); Achievements.checkAll(false); Toast.show(`Favorited ${n} ponies ❤️`);
   },
-  bulkArchiveShelf() {
-    const shelf = prompt('Mark all on shelf as extras (not originals). Shelf name (blank = unshelved):', '');
+  async bulkArchiveShelf() {
+    const shelf = await CapPrompt({
+      title: 'Mark extras',
+      body: 'Mark all on shelf as extras (not originals). Leave blank for unshelved.',
+      defaultValue: '',
+      confirmLabel: 'Mark extras',
+    });
     if (shelf === null) return;
-    const sn = shelf.trim();
+    const sn = String(shelf).trim();
     let n = 0;
     S.ponies.forEach(p => {
       const s = (p.shelf || '').trim();
@@ -496,11 +517,16 @@ const UI = {
     Render.settings();
     Toast.show(S.settings?.hapticsEnabled ? 'Haptics on ✨' : 'Haptics off');
   },
-  addSoldComp(id) {
-    const amount = parseFloat(prompt('Sold price ($):', ''));
+  async addSoldComp(id) {
+    const amountRaw = await CapPrompt({ title: 'Sold price ($)', placeholder: '0.00', confirmLabel: 'Next' });
+    const amount = parseFloat(amountRaw);
     if (!amount || amount <= 0) return;
-    const source = (prompt('Source (eBay, Mercari, local…):', 'eBay') || 'Manual').trim();
-    const notes = (prompt('Notes (optional):', '') || '').trim();
+    const sourceRaw = await CapPrompt({ title: 'Source', body: 'eBay, Mercari, local…', defaultValue: 'eBay', confirmLabel: 'Next' });
+    if (sourceRaw === null) return;
+    const source = (sourceRaw || 'Manual').trim() || 'Manual';
+    const notesRaw = await CapPrompt({ title: 'Notes (optional)', defaultValue: '', confirmLabel: 'Save' });
+    if (notesRaw === null) return;
+    const notes = String(notesRaw || '').trim();
     S.ponies = S.ponies.map(p => {
       if (p.id !== id) return p;
       const soldComps = [...(p.soldComps || []), { date: new Date().toISOString().slice(0, 10), amount, source, notes }];
@@ -586,6 +612,17 @@ const UI = {
     if (on === 'accessories') Render.accessoryGallery();
     else if (on === 'settings') Render.settings();
     else Render.all();
+  },
+  async replayOnboarding() {
+    const ok = await CapConfirm({
+      title: 'Replay onboarding?',
+      body: 'Shows the welcome flow again on the next load.',
+      confirmLabel: 'Replay',
+    });
+    if (!ok) return;
+    S.onboardingDone = false;
+    Store.save();
+    location.reload();
   },
   importCsv(file) {
     if (!file) return;

@@ -233,17 +233,17 @@ const Excellence = (() => {
 <style>
 @page { size: A4 portrait; margin: 14mm; }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#1F2937;background:#fff}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:${DPBrand.h_1f2937};background:${DPBrand.h_fff}}
 .print-cover{text-align:center;padding:40mm 10mm 20mm;page-break-after:always}
-.print-cover h1{font-size:28pt;color:#EC4899;margin-bottom:8mm}
-.print-cover p{font-size:12pt;color:#6B7280}
+.print-cover h1{font-size:28pt;color:${DPBrand.h_ec4899};margin-bottom:8mm}
+.print-cover p{font-size:12pt;color:${DPBrand.h_6b7280}}
 .print-page{page-break-after:always;padding:8mm 0;text-align:center;min-height:240mm;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .print-photo{max-width:100%;max-height:140mm;object-fit:contain;border-radius:12px;margin-bottom:10mm}
 .print-emoji{font-size:72pt;height:80mm;display:flex;align-items:center;justify-content:center;margin-bottom:10mm}
-.print-page h2{font-size:20pt;margin-bottom:4mm;color:#9333EA}
-.print-meta{font-size:11pt;color:#6B7280;margin-bottom:6mm}
-.print-note{font-style:italic;font-size:11pt;color:#4B5563;max-width:140mm;margin:0 auto}
-.print-footer{position:fixed;bottom:8mm;left:0;right:0;text-align:center;font-size:8pt;color:#9CA3AF}
+.print-page h2{font-size:20pt;margin-bottom:4mm;color:${DPBrand.h_9333ea}}
+.print-meta{font-size:11pt;color:${DPBrand.h_6b7280};margin-bottom:6mm}
+.print-note{font-style:italic;font-size:11pt;color:${DPBrand.h_4b5563};max-width:140mm;margin:0 auto}
+.print-footer{position:fixed;bottom:8mm;left:0;right:0;text-align:center;font-size:8pt;color:${DPBrand.h_9ca3af}}
 @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>
 <div class="print-cover"><h1>📖 ${E(name)}'s Storybook</h1><p>${ponies.length} magical ponies · DeePonyCap · ${formatLocaleDate(new Date().toISOString())}</p></div>
@@ -324,13 +324,13 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
     canvas.width = 500; canvas.height = 320;
     const ctx = canvas.getContext('2d');
     const grad = ctx.createLinearGradient(0, 0, 500, 320);
-    grad.addColorStop(0, '#FFF5F8'); grad.addColorStop(1, '#E9D5FF');
+    grad.addColorStop(0, DPBrand.h_fff5f8); grad.addColorStop(1, DPBrand.h_e9d5ff);
     ctx.fillStyle = grad; ctx.fillRect(0, 0, 500, 320);
-    ctx.fillStyle = '#EC4899'; ctx.font = 'bold 22px Nunito, sans-serif';
+    ctx.fillStyle = DPBrand.h_ec4899; ctx.font = 'bold 22px Nunito, sans-serif';
     ctx.fillText('🦄 Pony Passport', 24, 40);
-    ctx.fillStyle = '#1F2937'; ctx.font = 'bold 20px Nunito, sans-serif';
+    ctx.fillStyle = DPBrand.h_1f2937; ctx.font = 'bold 20px Nunito, sans-serif';
     ctx.fillText(p.name, 24, 78);
-    ctx.font = '14px Nunito, sans-serif'; ctx.fillStyle = '#6B7280';
+    ctx.font = '14px Nunito, sans-serif'; ctx.fillStyle = DPBrand.h_6b7280;
     ctx.fillText(`G${p.generation} · ${TYPE_LABELS[p.type] || p.type} · ${p.colour || ''}`, 24, 104);
     ctx.fillText(`DeePonyCap · ${formatLocaleDate(new Date().toISOString())}`, 24, 290);
     canvas.toBlob(blob => {

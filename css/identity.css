@@ -220,3 +220,116 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
     animation: none;
   }
 }
+
+:root {
+  --cap-accent: #ff69b4;
+}
+
+.offline-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9000;
+  background: #cc2200;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+}
+.offline-banner[hidden] {
+  display: none !important;
+}
+
+.install-banner {
+  position: fixed;
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  left: 12px;
+  right: 12px;
+  z-index: 8500;
+  background: var(--cap-surface-2, #1f0a14);
+  border: 1px solid var(--cap-pink, #ff6b9d);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.install-banner-emoji { font-size: 28px; flex-shrink: 0; }
+.install-banner-copy { flex: 1; }
+.install-banner-title { font-size: 13px; font-weight: 700; }
+.install-banner-sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+.install-banner-go {
+  padding: 7px 14px;
+  background: var(--cap-pink, #ff6b9d);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.install-banner-x {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: inherit;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.cap-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}
+.cap-dialog-sheet {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card, #fff);
+  border: 1px solid rgba(255, 105, 180, 0.28);
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  color: var(--text, #1f2937);
+}
+.cap-dialog-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+}
+.cap-dialog-body {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--text-soft, #6b7280);
+  margin: 0 0 16px;
+}
+.cap-dialog-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: var(--bg, #fff);
+  color: inherit;
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+.cap-dialog-actions {
+  display: flex;
+  gap: 8px;
+}
+.cap-dialog-actions .btn {
+  flex: 1;
+  font-size: 0.85rem;
+}

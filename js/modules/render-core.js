@@ -34,7 +34,7 @@ const Render = {
         <div class="badges">
           <span class="badge ${g}">${this.esc(ponyBadgeLabel(p))}</span>
           <span class="badge" style="background:var(--pink-light);color:var(--text)">${TYPE_LABELS[p.type]||p.type}</span>
-          ${(S.settings?.collectorMode && ponyValue(p)) ? `<span class="badge" style="background:var(--mint);color:#1F2937">$${ponyValue(p)}</span>` : ''}
+          ${(S.settings?.collectorMode && ponyValue(p)) ? `<span class="badge" style="background:var(--mint);color:${DPBrand.h_1f2937}">$${ponyValue(p)}</span>` : ''}
         </div>
       </div>
     </div>`;
@@ -71,7 +71,7 @@ const Render = {
     const pills = seriesCounts.filter(x => x.c).map(x => `<button type="button" class="pill ${x.color}" onclick="Nav.goLog('${x.id}')">${x.emoji} ${Render.esc(x.label)} ${x.c}</button>`).join('');
     const otherN = S.ponies.filter(p => (p.category || 'mlp') === 'other').length;
     const mcdN = S.ponies.filter(p => (p.category || '') === 'mcdonalds' || p.mcdCountry).length;
-    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:#fff" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:#F59E0B;color:#1F2937" onclick="Nav.goLog('mcd')">🍟 Promo ${mcdN}</button>` : ''}`;
+    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:${DPBrand.h_fff}" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:${DPBrand.h_f59e0b};color:${DPBrand.h_1f2937}" onclick="Nav.goLog('mcd')">🍟 Promo ${mcdN}</button>` : ''}`;
     const types = TYPE_KEYS.map(t => `<div class="type-card"><span>${TYPE_LABELS[t].split(' ')[0]}</span>${t.replace('_',' ')}<br><strong>${S.ponies.filter(p=>p.type===t).length}</strong></div>`).join('');
     const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
     const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
@@ -130,7 +130,7 @@ const Render = {
       </div>
       ${backupNudge}
     </aside>`;
-    const emptyHtml = !n ? `<div class="stable-empty"><div class="stable-empty__icon">🦄</div><div class="stable-empty__title">Your Stable is Empty</div><div class="stable-empty__sub">Start building your collection — add your first pony or try a demo to see how it works.</div><div class="stable-empty__actions"><button type="button" class="btn-g" onclick="UI.openAddPony()">+ Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">Try Demo ✨</button></div></div>` : '';
+    const emptyHtml = !n ? `<div class="stable-empty"><div class="stable-empty__icon">🦄</div><div class="stable-empty__title">Your Stable is Empty</div><div class="stable-empty__sub">Start building your collection — add your first pony or try a demo to see how it works.</div><div class="stable-empty__actions"><button type="button" class="btn-g" onclick="UI.openAdd()">+ Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">Try Demo ✨</button></div></div>` : '';
     document.getElementById('tab-stable').innerHTML = `
       <div class="stable-case">
         <div class="stable-case__lid" aria-hidden="true"></div>
@@ -230,7 +230,7 @@ const Render = {
         const target = w.targetPrice != null ? `$${Number(w.targetPrice).toLocaleString()}` : '';
         return `<div class="wish-item ${key}">
         ${ph ? `<div class="pony-img" style="height:120px;margin-bottom:10px;border-radius:16px;overflow:hidden"><img src="${ph}" alt="" style="width:100%;height:100%;object-fit:cover"></div>` : ''}
-        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${seriesColorClass(ponySeries(w))}">${this.esc(ponySeries(w))}</span>${target ? ` <span class="badge" style="background:var(--mint);color:#1F2937">🎯 ${target}</span>` : ''}</div>
+        <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${seriesColorClass(ponySeries(w))}">${this.esc(ponySeries(w))}</span>${target ? ` <span class="badge" style="background:var(--mint);color:${DPBrand.h_1f2937}">🎯 ${target}</span>` : ''}</div>
         <div style="font-size:.8rem;color:var(--text-soft);margin-bottom:8px">${TYPE_LABELS[w.type]||w.type} ${w.notes? '· '+this.esc(w.notes):''}</div>
         <div style="display:flex;gap:8px">
           <button type="button" class="btn-g" onclick="UI.gotWish('${w.id}')">Got it! 🎉</button>
@@ -327,7 +327,7 @@ const Render = {
         <div class="section-title">By series</div>
         <div class="bubble-chart">${gens.map(x=>{
           const sz = 50 + (x.c/maxBubble)*70;
-          return `<div class="bubble ${x.color}" style="width:${sz}px;height:${sz}px;background:var(--${x.color});color:#1F2937;font-size:.7rem;padding:4px;text-align:center">${this.esc(x.label)}<br><strong>${x.c}</strong></div>`;
+          return `<div class="bubble ${x.color}" style="width:${sz}px;height:${sz}px;background:var(--${x.color});color:${DPBrand.h_1f2937};font-size:.7rem;padding:4px;text-align:center">${this.esc(x.label)}<br><strong>${x.c}</strong></div>`;
         }).join('')}</div>
         ${maxG.c?`<p class="rainbow-note">${this.esc(maxG.label)} is your largest series! ${maxG.emoji||''}</p>`:''}
       </div>
@@ -360,25 +360,25 @@ const Render = {
     canvas.width = 600; canvas.height = 340;
     const ctx = canvas.getContext('2d');
     const grad = ctx.createLinearGradient(0, 0, 600, 340);
-    grad.addColorStop(0, '#FFF5F8'); grad.addColorStop(1, '#E9D5FF');
+    grad.addColorStop(0, DPBrand.h_fff5f8); grad.addColorStop(1, DPBrand.h_e9d5ff);
     ctx.fillStyle = grad; ctx.fillRect(0, 0, 600, 340);
-    ctx.fillStyle = '#EC4899'; ctx.font = 'bold 28px Nunito, sans-serif';
+    ctx.fillStyle = DPBrand.h_ec4899; ctx.font = 'bold 28px Nunito, sans-serif';
     ctx.fillText('🦄 DeePonyCap', 32, 52);
-    ctx.fillStyle = '#1F2937'; ctx.font = 'bold 22px Nunito, sans-serif';
+    ctx.fillStyle = DPBrand.h_1f2937; ctx.font = 'bold 22px Nunito, sans-serif';
     ctx.fillText(name, 32, 88);
-    ctx.font = '16px Nunito, sans-serif'; ctx.fillStyle = '#6B7280';
+    ctx.font = '16px Nunito, sans-serif'; ctx.fillStyle = DPBrand.h_6b7280;
     ctx.fillText(`${n} ponies · ${favs} favourites · ${S.wishlist.length} wishlist`, 32, 118);
-    if (collValue) { ctx.fillStyle = '#9333EA'; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(`Est. value $${collValue.toLocaleString()}`, 32, 152); }
+    if (collValue) { ctx.fillStyle = DPBrand.h_9333ea; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(`Est. value $${collValue.toLocaleString()}`, 32, 152); }
     (S.seriesList || []).slice(0, 5).forEach((label, i) => {
       const c = S.ponies.filter(p => ponySeries(p).toLowerCase() === String(label).toLowerCase()).length;
       const x = 32 + i * 108;
-      ctx.fillStyle = ['#9333EA','#86EFAC','#93C5FD','#FDE047','#F9A8D4'][i];
+      ctx.fillStyle = [DPBrand.h_9333ea,DPBrand.h_86efac,DPBrand.h_93c5fd,DPBrand.h_fde047,DPBrand.h_f9a8d4][i];
       ctx.beginPath(); ctx.arc(x + 36, 230, 36, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#1F2937';
+      ctx.fillStyle = DPBrand.h_1f2937;
       ctx.font = 'bold 11px Nunito, sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(String(label).slice(0, 10), x + 36, 224); ctx.fillText(String(c), x + 36, 242);
     });
-    ctx.textAlign = 'left'; ctx.fillStyle = '#9CA3AF'; ctx.font = '12px Nunito, sans-serif';
+    ctx.textAlign = 'left'; ctx.fillStyle = DPBrand.h_9ca3af; ctx.font = '12px Nunito, sans-serif';
     ctx.fillText(formatLocaleDate(new Date().toISOString()), 32, 310);
     canvas.toBlob(blob => {
       if (!blob) { Toast.show('Could not create image'); return; }
@@ -520,7 +520,7 @@ const Render = {
         <p style="font-size:.85rem;color:var(--text-soft)">DeePonyCap v${ver} · ${S.ponies.length} ponies</p>
         <p style="font-size:.85rem;color:var(--text-soft);margin-top:10px">DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company.</p>
         <p style="font-size:.8rem;color:var(--text-soft);margin-top:8px">Publisher: Capricorn Systems · Karachi, Pakistan</p>
-        <button type="button" class="btn-g" style="margin-top:10px" onclick="if(confirm('Replay onboarding?')){S.onboardingDone=false;Store.save();location.reload()}">Replay onboarding</button>
+        <button type="button" class="btn-g" style="margin-top:10px" onclick="UI.replayOnboarding()">Replay onboarding</button>
       </div>`;
   }
 };

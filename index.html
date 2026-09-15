@@ -40,7 +40,6 @@
 <link rel="stylesheet" href="css/capricorn-core.css">
 <link rel="stylesheet" href="css/app.css?v=11">
 
-<style>:root{--cap-accent:#FF69B4}</style>
 <link rel="stylesheet" href="css/identity.css">
 </head>
 <body data-cap-app="1">
@@ -52,8 +51,8 @@
 <div class="confetti-wrap" id="confetti"></div>
 <div class="toast-wrap" role="status" aria-live="polite" aria-atomic="true"><div class="toast" id="toast"></div></div>
 <div id="alertWrap" role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"></div>
-<div id="offlineBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9000;background:#cc2200;color:#fff;text-align:center;font-size:13px;font-weight:600;padding:8px 16px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))" role="alert" aria-live="assertive">No internet — DeePonyCap works offline</div>
-<script>(function(){function u(){document.getElementById('offlineBanner').style.display=navigator.onLine?'none':'block';}window.addEventListener('online',u);window.addEventListener('offline',u);u();})();</script>
+<div id="offlineBanner" class="offline-banner" hidden role="alert" aria-live="assertive">No internet — DeePonyCap works offline</div>
+<script>(function(){function u(){var b=document.getElementById('offlineBanner');if(b){b.hidden=navigator.onLine;}}window.addEventListener('online',u);window.addEventListener('offline',u);u();})();</script>
 
 <div class="splash" id="splash">
   <div class="splash-case" aria-hidden="true">
@@ -156,6 +155,8 @@
 </div>
 
 <script src="js/version.js"></script>
+<script src="js/brand/colors.js"></script>
+<script src="js/dialogs.js"></script>
 <script src="js/data-store.js"></script>
 <script src="js/migrations.js"></script>
 <script src="js/collector-suite.js"></script>

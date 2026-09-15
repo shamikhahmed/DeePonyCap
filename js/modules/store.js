@@ -112,7 +112,7 @@ const DemoSeed = {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${color}"/><stop offset="100%" stop-color="#ffffff55"/></linearGradient></defs><rect fill="url(#g)" width="240" height="240" rx="36"/><circle cx="120" cy="92" r="36" fill="#ffffff33"/><text x="120" y="178" text-anchor="middle" fill="#fff" font-size="12" font-family="system-ui,sans-serif" font-weight="600">${safe}</text></svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   },
-  _palette: ['#9333ea', '#2563eb', '#eab308', '#f472b6', '#f97316', '#10b981', '#6366f1', '#ec4899', '#14b8a6', '#8b5cf6'],
+  _palette: [DPBrand.h_9333ea, DPBrand.h_2563eb, DPBrand.h_eab308, DPBrand.h_f472b6, DPBrand.h_f97316, DPBrand.h_10b981, DPBrand.h_6366f1, DPBrand.h_ec4899, DPBrand.h_14b8a6, DPBrand.h_8b5cf6],
   ponies() {
     const names = [
       ['Clover Gleam', 'Dawn Line', 1, 'mlp', 'Soft green', 'Shelf 1', 'mint'],
@@ -169,13 +169,13 @@ const DemoSeed = {
   },
   wishlist() {
     const items = [
-      { name: 'Silver Fern', series: 'Dawn Line', generation: 1, type: 'special', priority: 'must', targetPrice: 45, notes: 'Display case grail', color: '#312e81' },
-      { name: 'Amber Quill', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Watch listings', color: '#be185d' },
-      { name: 'Moss Bell', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', color: '#059669' },
-      { name: 'Nova Drift', series: 'Starlight Line', generation: 4, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'New line set', color: '#d97706' },
-      { name: 'Thistle Wren', series: 'Meadow Line', generation: 2, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', color: '#7c3aed' },
-      { name: 'Tiny Marigold', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', color: '#db2777' },
-      { name: 'Cottage Playset', series: 'Dawn Line', generation: 1, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — dream item', color: '#0284c7' },
+      { name: 'Silver Fern', series: 'Dawn Line', generation: 1, type: 'special', priority: 'must', targetPrice: 45, notes: 'Display case grail', color: DPBrand.h_312e81 },
+      { name: 'Amber Quill', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'must', targetPrice: 120, notes: 'Watch listings', color: DPBrand.h_be185d },
+      { name: 'Moss Bell', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'want', targetPrice: 35, notes: 'Complete with brush', color: DPBrand.h_059669 },
+      { name: 'Nova Drift', series: 'Starlight Line', generation: 4, type: 'mlp', priority: 'want', targetPrice: 18, notes: 'New line set', color: DPBrand.h_d97706 },
+      { name: 'Thistle Wren', series: 'Meadow Line', generation: 2, type: 'mlp', priority: 'want', targetPrice: 28, notes: '', color: DPBrand.h_7c3aed },
+      { name: 'Tiny Marigold', series: 'Vintage Line', generation: 3, type: 'mlp', priority: 'someday', targetPrice: 55, notes: 'Mint in box if possible', color: DPBrand.h_db2777 },
+      { name: 'Cottage Playset', series: 'Dawn Line', generation: 1, type: 'special', priority: 'someday', targetPrice: 80, notes: 'Playset — dream item', color: DPBrand.h_0284c7 },
     ];
     return items.map(w => ({
       id: uid(),
@@ -189,12 +189,20 @@ const DemoSeed = {
       photo: DemoSeed._photo(w.name, w.color),
     }));
   },
-  load(opts) {
+  async load(opts) {
     const silent = opts && opts.silent;
     if (!silent) {
       try { localStorage.setItem('deeponycap_pin_backup', JSON.stringify(S)); } catch (e) {}
     }
-    if (!silent && !confirm('Load demo collection? Replaces your current ponies.')) return;
+    if (!silent) {
+      const ok = await CapConfirm({
+        title: 'Load demo collection?',
+        body: 'Replaces your current ponies.',
+        confirmLabel: 'Load demo',
+        destructive: true,
+      });
+      if (!ok) return;
+    }
     S.seriesList = ['Dawn Line', 'Meadow Line', 'Starlight Line', 'Vintage Line'];
     S.ponies = DemoSeed.ponies();
     S.wishlist = DemoSeed.wishlist();

@@ -1,7 +1,7 @@
 'use strict';
 /** Single source for app + service worker version (keep in sync with VERSION.json) */
-var APP_VERSION = '3.8.2';
-var SW_CACHE = 'deeponycap-v62';
+var APP_VERSION = '3.8.3';
+var SW_CACHE = 'deeponycap-v63';
 if (typeof self !== 'undefined') self.SW_CACHE = SW_CACHE;
 if (typeof window !== 'undefined') {
   window.APP_VERSION = APP_VERSION;
