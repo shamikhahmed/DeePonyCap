@@ -39,3 +39,7 @@ Storage uses **localStorage** and optionally **IndexedDB** for photos. Uninstall
 Built by Capricorn Systems — [GitHub Issues](https://github.com/shamikhahmed/DeePonyCap/issues)
 
 **Privacy policy URL:** https://shamikhahmed.github.io/DeePonyCap/privacy.html
+
+## Fonts
+
+Typography is self-hosted (woff2 in-repo). No Google Fonts requests.

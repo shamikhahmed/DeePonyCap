@@ -1,8 +1,9 @@
 importScripts('./js/version.js');
 
-const CACHE = self.SW_CACHE || 'deeponycap-v61';
+const CACHE = self.SW_CACHE || 'deeponycap-v62';
 const ASSETS = [
-  './css/app.css', './css/capricorn-core.css', './css/identity.css',
+  './css/app.css',
+  './css/fonts-local.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
   './manifest.json',
   './assets/favicon.svg', './assets/mark.svg', './assets/apple-touch-icon-180.png',

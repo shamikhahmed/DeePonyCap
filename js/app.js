@@ -22,6 +22,7 @@ async function boot() {
       DemoUI.maybeShow();
       Install.maybeShow();
       if (window.Excellence) Excellence.deepLink();
+      try { window.__APP_READY__ = true; document.documentElement.dataset.appReady = 'true'; } catch (_) {}
       return;
     }
     if (!S.onboardingDone) {
@@ -37,6 +38,7 @@ async function boot() {
       if (window.__loadError) Toast.show('Saved data could not load — try Recovery in Settings');
       if (window.Excellence) Excellence.deepLink();
     }
+    try { window.__APP_READY__ = true; document.documentElement.dataset.appReady = 'true'; } catch (_) {}
   });
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
@@ -44,7 +46,6 @@ async function boot() {
     });
   }
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=61').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=62').catch(()=>{});
 }
 boot();
-window.__APP_READY__ = true;
