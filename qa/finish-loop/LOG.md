@@ -11,3 +11,8 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Records: BASELINE · LOG · APP-REPORT · DOCS-INVENTORY · LH stub · finish-matrix spec
 - SW `deeponycap-v63` + brand/dialogs precache
 - VO remains ⛔ BLOCKED-EXTERNAL — fleet Tier 1 not claimed
+
+## 2026-09-15 — Tier 1 close
+- Automated TIER1 PASS at 3.8.3 / deeponycap-v63 (tag v3.8.3).
+- CI: https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403
+- Warn: matrix:shots. VO BLOCKED-EXTERNAL.
