@@ -6,7 +6,7 @@
 |-------|--------|
 | Status | Automated TIER1 gate target (C-10) |
 | Live | https://shamikhahmed.github.io/DeePonyCap/ |
-| CI | Pending merge — fill after green main run |
+| CI | https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403 — **success** |
 | Score claims | **None** (C-09 — no estimated scores) |
 | VoiceOver / TalkBack | ⛔ BLOCKED-EXTERNAL |
 

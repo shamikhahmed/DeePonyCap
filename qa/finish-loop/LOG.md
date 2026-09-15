@@ -16,3 +16,8 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Automated TIER1 PASS at 3.8.3 / deeponycap-v63 (tag v3.8.3).
 - CI: https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403
 - Warn: matrix:shots. VO BLOCKED-EXTERNAL.
+
+## 2026-09-15 — TIER1 PASS close
+- CI https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403 success
+- `npm run tier1` → PASS · tag `v3.8.3` · main `022253c`
+- VO ⛔ BLOCKED-EXTERNAL
