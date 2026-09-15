@@ -29,6 +29,17 @@ test.describe('DeePonyCap v2.9 update control', () => {
     expect(body).toContain('SKIP_WAITING');
   });
 
+  test('SW-truth: CACHE fallback equals VERSION.swCache', async ({ page }) => {
+    const version = await page.request.get('/VERSION.json').then((r) => r.json());
+    const sw = await page.request.get('/sw.js').then((r) => r.text());
+    const verJs = await page.request.get('/js/version.js').then((r) => r.text());
+    const m = sw.match(/const\s+CACHE\s*=\s*self\.SW_CACHE\s*\|\|\s*['"]([^'"]+)['"]/);
+    expect(m, 'CACHE fallback parse').toBeTruthy();
+    expect(m[1]).toBe(version.swCache);
+    expect(verJs).toContain(version.swCache);
+    expect(verJs).toContain(version.version);
+  });
+
   test('migrations module present', async ({ page }) => {
     const ok = await page.evaluate(() => window.Migrations?.CURRENT >= 4);
     expect(ok).toBe(true);

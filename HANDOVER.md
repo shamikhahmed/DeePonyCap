@@ -1,14 +1,14 @@
 # DeePonyCap — Handover
 
 > Read this + `ROADMAP.md` + `~/Capricorn-Brain/01 Projects/DeePonyCap.md` before working here.
-> Last updated: 2026-09-15 · Fleet finish: Tier 1 v3.8.0
+> Last updated: 2026-09-15 · Fleet finish: C-14 SW truth v3.8.1
 
 ## What this is
 Track your collection, shelves and wishlist. Offline PWA by Capricorn Systems.
 
 ## Facts
-**Version:** 3.8.0
-**SW cache:** deeponycap-v60
+**Version:** 3.8.1
+**SW cache:** deeponycap-v61
 **Live:** https://shamikhahmed.github.io/DeePonyCap/
 **Repo:** https://github.com/shamikhahmed/DeePonyCap
 **Stack:** Vanilla JS PWA. IndexedDB storage, Playwright e2e.

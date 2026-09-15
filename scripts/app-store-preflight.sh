@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 echo "==> Version sync"
 node -e "const v=require('./VERSION.json'); console.log('App', v.version, '| SW', v.swCache)"
-node -e "const v=require('./VERSION.json'); const fs=require('fs'); const sw=fs.readFileSync('sw.js','utf8'); const ver=fs.readFileSync('js/version.js','utf8'); if(!sw.includes(v.swCache)||!ver.includes(v.swCache)||!ver.includes(v.version)){console.error('SW/version mismatch'); process.exit(1);} console.log('SW cache OK', v.swCache);"
+node scripts/check-sw-truth.js
 
 echo "==> Playwright smoke"
 npm test

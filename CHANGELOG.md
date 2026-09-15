@@ -1,3 +1,10 @@
+## [3.8.1] — 2026-09-15
+
+### Fix (C-14)
+- SW `CACHE` fallback was stuck on `deeponycap-v55` while VERSION said `deeponycap-v60` — installed PWAs never picked up Tier 1 code
+- Aligned `sw.js` fallback, `VERSION.json`, `js/version.js`, and SW register query; SW `deeponycap-v61`
+- Added `scripts/check-sw-truth.js` (C-10.10) to `npm run verify`
+
 ## [3.8.0] — 2026-09-15
 
 ### Tier 1 finish (Cap Fleet)
