@@ -2,7 +2,7 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-16T10:47:19.653Z",
+  "generatedAt": "2026-09-16T10:51:31.694Z",
   "status": "FAIL",
   "pass": [
     {
@@ -62,12 +62,16 @@
       "detail": "tests/finish-matrix.spec.mjs"
     },
     {
-      "id": "matrix:freshness",
-      "detail": "2026-09-16T10:46:13.279Z"
+      "id": "matrix:failures",
+      "detail": "0"
     },
     {
-      "id": "gallery:freshness",
-      "detail": "assets/screenshots/gallery-manifest.json @ 2026-09-16T15:45:07+05:00"
+      "id": "matrix:shot-count",
+      "detail": "6 shots (need routes×viewports×themes = 6)"
+    },
+    {
+      "id": "matrix:freshness",
+      "detail": "2026-09-16T10:49:30.804Z"
     },
     {
       "id": "live:VERSION.json",
@@ -112,20 +116,16 @@
   ],
   "fail": [
     {
-      "id": "matrix:failures",
-      "detail": "1"
-    },
-    {
-      "id": "matrix:shot-count",
-      "detail": "0 shots (need routes×viewports×themes = 6)"
-    },
-    {
       "id": "lighthouse:files",
       "detail": "empty"
     },
     {
       "id": "axe:serious-critical",
-      "detail": "home-demo-dark.json: 14 serious/critical (aria-dialog-name,color-contrast)\nhome-demo-light.json: 9 serious/critical (aria-dialog-name,color-contrast)"
+      "detail": "home-demo-dark.json: 10 serious/critical (color-contrast)\nhome-demo-light.json: 5 serious/critical (color-contrast)"
+    },
+    {
+      "id": "gallery:freshness",
+      "detail": "gallery 2026-09-16T15:45:07+05:00 before last UI commit 2026-09-16T15:48:59+05:00"
     }
   ],
   "warn": [],

@@ -8,15 +8,24 @@ const UI = {
   openSheet(html) {
     this._lastFocus = document.activeElement;
     document.getElementById('sheetBody').innerHTML = html;
-    document.getElementById('sheetBg').classList.add('on');
-    document.getElementById('sheet').classList.add('on');
+    const bg = document.getElementById('sheetBg');
     const sheetEl = document.getElementById('sheet');
+    bg.classList.add('on');
+    bg.hidden = false;
+    sheetEl.classList.add('on');
+    sheetEl.hidden = false;
+    sheetEl.removeAttribute('aria-hidden');
     const firstFocusable = sheetEl.querySelector('button, input, select, [tabindex="0"]');
     if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
   },
   closeSheet() {
-    document.getElementById('sheetBg').classList.remove('on');
-    document.getElementById('sheet').classList.remove('on');
+    const bg = document.getElementById('sheetBg');
+    const sheetEl = document.getElementById('sheet');
+    bg.classList.remove('on');
+    bg.hidden = true;
+    sheetEl.classList.remove('on');
+    sheetEl.hidden = true;
+    sheetEl.setAttribute('aria-hidden', 'true');
     editingId = null; detailId = null;
     if (this._lastFocus && typeof this._lastFocus.focus === 'function') {
       setTimeout(() => this._lastFocus.focus(), 50);

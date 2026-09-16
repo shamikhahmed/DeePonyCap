@@ -46,3 +46,6 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 
 ## 2026-09-16 — residual a11y + matrix
 - Committed: pill ink contrast; sheet dialog a11y hidden; matrix dismisses splash/onboard overlays; honest TIER1 FAIL.
+
+## 2026-09-16 — sheet a11y JS + matrix evidence
+- Committed: excellence/ui-core sheet hidden/focus wiring; matrix-results 6/6 + shots; honest TIER1.
