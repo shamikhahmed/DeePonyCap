@@ -41,3 +41,5 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Committed: C-29 tokens.css + CSS var migration; C-31 finish-matrix CI + test:matrix; capture-axe.mjs; screenshot/gallery-manifest refresh; CI-WORKFLOW; skip-allowlist; honest TIER1 FAIL (was stale PASS).
 - Left uncommitted: none.
 - Not merging (Tier1 FAIL: matrix-results / empty LH / axe / kill:raw-hex=3).
+
+- Also: added qa/finish-loop/axe/home-demo-dark.json (real axe capture).

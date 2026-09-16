@@ -1,0 +1,609 @@
+{
+  "url": "http://127.0.0.1:8770/?demo=1",
+  "route": "home-demo",
+  "theme": "dark",
+  "timestamp": "2026-09-16T10:46:31.172Z",
+  "violations": [
+    {
+      "id": "aria-dialog-name",
+      "impact": "serious",
+      "tags": [
+        "cat.aria",
+        "best-practice"
+      ],
+      "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+      "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "aria-label",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "aria-label attribute does not exist or is empty"
+            },
+            {
+              "id": "aria-labelledby",
+              "data": null,
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+            },
+            {
+              "id": "non-empty-title",
+              "data": {
+                "messageKey": "noAttr"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element has no title attribute"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"sheet\" id=\"sheet\" onclick=\"event.stopPropagation()\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"sheetTitle\">\n  <div class=\"sheet-handle\"></div>\n  <div id=\"sheetBody\"></div>\n</div>",
+          "target": [
+            "#sheet"
+          ],
+          "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT",
+        "RGAAv4",
+        "RGAA-3.2.1"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#ffedf6",
+                "bgColor": "#ffeaf5",
+                "contrastRatio": 1.01,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"toast show\" id=\"toast\">Unlocked: First Pony! · Generation 1 Fan — 5+ G1 · Shelf Master — 3+ shelves · Dreamer — 5+ wishlist items 🎉</div>",
+                  "target": [
+                    "#toast"
+                  ]
+                },
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.01 (foreground color: #ffedf6, background color: #ffeaf5, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"toast show\" id=\"toast\">Unlocked: First Pony! · Generation 1 Fan — 5+ G1 · Shelf Master — 3+ shelves · Dreamer — 5+ wishlist items 🎉</div>",
+          "target": [
+            "#toast"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.01 (foreground color: #ffedf6, background color: #ffeaf5, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#e8c8dc",
+                "bgColor": "#f8d3e5",
+                "contrastRatio": 1.12,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"demo-banner-inner\">",
+                  "target": [
+                    ".demo-banner-inner"
+                  ]
+                },
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.12 (foreground color: #e8c8dc, background color: #f8d3e5, font size: 10.2pt (13.6px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p><strong>Sample data</strong> — explore freely. Your real collection stays separate.</p>",
+          "target": [
+            ".demo-banner-inner > p"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.12 (foreground color: #e8c8dc, background color: #f8d3e5, font size: 10.2pt (13.6px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#fff0f8",
+                "bgColor": "#f8d3e5",
+                "contrastRatio": 1.23,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"demo-banner-inner\">",
+                  "target": [
+                    ".demo-banner-inner"
+                  ]
+                },
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.23 (foreground color: #fff0f8, background color: #f8d3e5, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<strong>Sample data</strong>",
+          "target": [
+            ".demo-banner-inner > p > strong"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.23 (foreground color: #fff0f8, background color: #f8d3e5, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#fff0f8",
+                "bgColor": "#ffe8f4",
+                "contrastRatio": 1.05,
+                "fontSize": "21.0pt (28px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "3:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.05 (foreground color: #fff0f8, background color: #ffe8f4, font size: 21.0pt (28px), font weight: bold). Expected contrast ratio of 3:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<h1 class=\"greet\"><span aria-hidden=\"true\">✨ </span>Demo Collector's Stable</h1>",
+          "target": [
+            ".greet"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.05 (foreground color: #fff0f8, background color: #ffe8f4, font size: 21.0pt (28px), font weight: bold). Expected contrast ratio of 3:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#cbd5e1",
+                "bgColor": "#ffe8f4",
+                "contrastRatio": 1.27,
+                "fontSize": "11.4pt (15.2px)",
+                "fontWeight": "normal",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.27 (foreground color: #cbd5e1, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<p class=\"sub\">23 in your collection · $562 est.</p>",
+          "target": [
+            ".sub"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.27 (foreground color: #cbd5e1, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#c4367a",
+                "bgColor": "#3a2942",
+                "contrastRatio": 2.63,
+                "fontSize": "60.0pt (80px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "3:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<div class=\"card stable-counter\">",
+                  "target": [
+                    ".stable-counter"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 2.63 (foreground color: #c4367a, background color: #3a2942, font size: 60.0pt (80px), font weight: bold). Expected contrast ratio of 3:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<div class=\"big-num\" id=\"counterNum\">21</div>",
+          "target": [
+            "#counterNum"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.63 (foreground color: #c4367a, background color: #3a2942, font size: 60.0pt (80px), font weight: bold). Expected contrast ratio of 3:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#ffffff",
+                "bgColor": "#c4b5fd",
+                "contrastRatio": 1.84,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_dawn_line')\">💜 Dawn Line 5</button>",
+                  "target": [
+                    ".pill.g1[onclick=\"Nav.goLog('s_dawn_line')\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_dawn_line')\">💜 Dawn Line 5</button>",
+          "target": [
+            ".pill.g1[onclick=\"Nav.goLog('s_dawn_line')\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#ffffff",
+                "bgColor": "#c4b5fd",
+                "contrastRatio": 1.84,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_meadow_line')\">💜 Meadow Line 6</button>",
+                  "target": [
+                    ".pill.g1[onclick=\"Nav.goLog('s_meadow_line')\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_meadow_line')\">💜 Meadow Line 6</button>",
+          "target": [
+            ".pill.g1[onclick=\"Nav.goLog('s_meadow_line')\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#ffffff",
+                "bgColor": "#c4b5fd",
+                "contrastRatio": 1.84,
+                "fontSize": "10.2pt (13.6px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_starlight_line')\">💜 Starlight Line 4</button>",
+                  "target": [
+                    ".pill.g1[onclick=\"Nav.goLog('s_starlight_line')\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"pill g1\" onclick=\"Nav.goLog('s_starlight_line')\">💜 Starlight Line 4</button>",
+          "target": [
+            ".pill.g1[onclick=\"Nav.goLog('s_starlight_line')\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.84 (foreground color: #ffffff, background color: #c4b5fd, font size: 10.2pt (13.6px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#c4367a",
+                "bgColor": "#4a3550",
+                "contrastRatio": 2.16,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')\">",
+                  "target": [
+                    ".stable-mobile-tools > .btn-g[type=\"button\"]:nth-child(1)"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')\">",
+          "target": [
+            ".stable-mobile-tools > .btn-g[type=\"button\"]:nth-child(1)"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#c4367a",
+                "bgColor": "#4a3550",
+                "contrastRatio": 2.16,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('map')\">",
+                  "target": [
+                    ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('map')\"][type=\"button\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('map')\">",
+          "target": [
+            ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('map')\"][type=\"button\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#c4367a",
+                "bgColor": "#4a3550",
+                "contrastRatio": 2.16,
+                "fontSize": "12.0pt (16px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('stats')\">",
+                  "target": [
+                    ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('stats')\"][type=\"button\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('stats')\">",
+          "target": [
+            ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('stats')\"][type=\"button\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.16 (foreground color: #c4367a, background color: #4a3550, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#f9a8d4",
+                "bgColor": "#615d68",
+                "contrastRatio": 3.53,
+                "fontSize": "8.3pt (11px)",
+                "fontWeight": "bold",
+                "messageKey": null,
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<span class=\"cap-tab-indicator\" aria-hidden=\"true\"></span>",
+                  "target": [
+                    "button[aria-controls=\"tab-stable\"] > .cap-tab-indicator[aria-hidden=\"true\"]"
+                  ]
+                },
+                {
+                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
+                  "target": [
+                    "#nav"
+                  ]
+                },
+                {
+                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
+                  "target": [
+                    "body"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element has insufficient color contrast of 3.53 (foreground color: #f9a8d4, background color: #615d68, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"nav-label\">Stable</span>",
+          "target": [
+            "button[aria-controls=\"tab-stable\"] > .nav-label"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.53 (foreground color: #f9a8d4, background color: #615d68, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+        }
+      ]
+    },
+    {
+      "id": "region",
+      "impact": "moderate",
+      "tags": [
+        "cat.keyboard",
+        "best-practice",
+        "RGAAv4",
+        "RGAA-9.2.1"
+      ],
+      "description": "Ensure all page content is contained by landmarks",
+      "help": "All page content should be contained by landmarks",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "region",
+              "data": {
+                "isIframe": false
+              },
+              "relatedNodes": [],
+              "impact": "moderate",
+              "message": "Some page content is not contained by landmarks"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "moderate",
+          "html": "<div class=\"stars\" id=\"stars\">",
+          "target": [
+            "#stars"
+          ],
+          "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+        },
+        {
+          "any": [
+            {
+              "id": "region",
+              "data": {
+                "isIframe": false
+              },
+              "relatedNodes": [],
+              "impact": "moderate",
+              "message": "Some page content is not contained by landmarks"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "moderate",
+          "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
+          "target": [
+            "#nav"
+          ],
+          "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+        }
+      ]
+    }
+  ],
+  "passes": 40,
+  "incomplete": 2,
+  "inapplicable": 48
+}
