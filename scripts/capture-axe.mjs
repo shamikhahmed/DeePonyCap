@@ -76,7 +76,11 @@ try {
           onboard.hidden = true;
         }
         const toast = document.getElementById('toast');
-        if (toast) toast.classList.remove('show');
+        if (toast) {
+          toast.classList.remove('show');
+          toast.hidden = true;
+          toast.setAttribute('aria-hidden', 'true');
+        }
         const demo = document.getElementById('demoBanner');
         if (demo) demo.style.display = 'none';
       }, theme);

@@ -333,3 +333,55 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   flex: 1;
   font-size: 0.85rem;
 }
+
+/* C-35: opaque tab bar so label contrast is measurable (premium glass fails AA) */
+nav.nav.cap-premium-nav,
+#nav.cap-premium-nav {
+  background: var(--pc-fff8fc);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 8px 24px rgba(120, 60, 100, 0.14);
+}
+html.dark-mode nav.nav.cap-premium-nav,
+html.dark-mode #nav.cap-premium-nav {
+  background: var(--pc-2b1d2f);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.nav-btn.cap-premium-item,
+nav.nav.cap-premium-nav > .nav-btn {
+  color: var(--pc-374151);
+}
+.nav-btn.cap-premium-item.on,
+.nav-btn.cap-premium-item[aria-selected="true"],
+nav.nav.cap-premium-nav > .nav-btn.on {
+  color: var(--pc-9d174d);
+}
+html.dark-mode .nav-btn.cap-premium-item,
+html.dark-mode nav.nav.cap-premium-nav > .nav-btn {
+  color: var(--pc-f3f4f6);
+}
+html.dark-mode .nav-btn.cap-premium-item.on,
+html.dark-mode .nav-btn.cap-premium-item[aria-selected="true"],
+html.dark-mode nav.nav.cap-premium-nav > .nav-btn.on {
+  color: var(--pc-f9a8d4);
+}
+html.dark-mode .greet,
+html.dark-mode .sub {
+  color: var(--pc-fff0f8);
+}
+html.dark-mode .big-num {
+  color: var(--pc-f9a8d4);
+}
+html.dark-mode .btn-g {
+  color: var(--pc-fff0f8);
+  -webkit-text-fill-color: var(--pc-fff0f8);
+  background: var(--pc-4a3550);
+}
+
+/* C-35: ghost buttons need AA on white cards */
+.btn-g{color:var(--pc-374151);border:2px solid rgba(196,54,122,.28);-webkit-text-fill-color:var(--pc-374151)}
+html.dark-mode .btn-g{color:var(--pc-fff0f8);-webkit-text-fill-color:var(--pc-fff0f8);border-color:rgba(249,168,212,.35)}
+html.dark-mode .greet,html.dark-mode h1.greet{color:var(--pc-fff0f8);-webkit-text-fill-color:var(--pc-fff0f8);background:none}
+html.dark-mode .sub{color:var(--pc-e5e7eb)}
+html.dark-mode body,html.dark-mode #main{background:var(--pc-2b1d2f)}
+

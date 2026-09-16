@@ -55,3 +55,11 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 
 ## 2026-09-16 — nav contrast specificity
 - Committed: stronger nav/greet contrast selectors; axe refresh (still 1 s/c each theme — honest).
+
+## 2026-09-16 — C-35 nav/btn/toast contrast (Step R)
+### §15 mini-plan
+- Problem: axe serious color-contrast on premium nav labels, dark `.btn-g` (-webkit-text-fill), opacity-0 toast.
+- Root cause: dark glass `--tab-bar-bg` under light-theme ink; fill-color stuck on pink; toast still in a11y tree.
+- Files: css/app.css, css/identity.css, scripts/capture-axe.mjs
+- Change: opaque premium nav + AA labels; reset fill-color on dark ghost buttons; toast visibility:hidden when not shown.
+- Verification: `npm run axe` → 0 serious/critical both themes.
