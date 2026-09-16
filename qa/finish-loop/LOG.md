@@ -43,3 +43,6 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Not merging (Tier1 FAIL: matrix-results / empty LH / axe / kill:raw-hex=3).
 
 - Also: added qa/finish-loop/axe/home-demo-dark.json (real axe capture).
+
+## 2026-09-16 — residual a11y + matrix
+- Committed: pill ink contrast; sheet dialog a11y hidden; matrix dismisses splash/onboard overlays; honest TIER1 FAIL.

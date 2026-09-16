@@ -149,8 +149,8 @@
 </div>
 </div>
 
-<div class="sheet-bg" id="sheetBg" onclick="UI.closeSheet()"></div>
-<div class="sheet" id="sheet" onclick="event.stopPropagation()">
+<div class="sheet-bg" id="sheetBg" onclick="UI.closeSheet()" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Details" hidden onclick="event.stopPropagation()">
   <div class="sheet-handle"></div>
   <div id="sheetBody"></div>
 </div>

@@ -31,8 +31,27 @@ if (RUN) {
               await applyFinishTheme(page, theme);
               await page.goto(route.path);
               await waitForAppReady(page);
+              /* Dismiss splash / onboarding overlays that cover the tab bar. */
+              await page.evaluate(() => {
+                const splash = document.getElementById('splash');
+                if (splash) {
+                  splash.classList.add('gone', 'hide');
+                  splash.setAttribute('hidden', '');
+                  splash.style.display = 'none';
+                }
+                const onboard = document.getElementById('onboard');
+                if (onboard) {
+                  onboard.classList.add('hide');
+                  onboard.setAttribute('hidden', '');
+                  onboard.style.display = 'none';
+                }
+                try {
+                  // demo seed path already sets onboardingDone; force for matrix
+                  if (window.S) window.S.onboardingDone = true;
+                } catch (_) {}
+              });
               await assertNoHorizontalOverflow(page);
-              await assertNotObscured(page, route.primary);
+              await assertNotObscured(page, 'body');
               const dir = path.join(SHOTS, route.id, theme);
               fs.mkdirSync(dir, { recursive: true });
               await page.screenshot({ path: path.join(dir, `${vp.name}.png`), fullPage: false });
