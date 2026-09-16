@@ -30,3 +30,9 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Change: label-only sidebar; uiIcon SVG in controls; "N in your collection"; formatEstValue Intl USD.
 - Risks: decorative emoji remain with aria-hidden.
 - Verification: desktop sidebar readable; control buttons SVG; currency formatted.
+
+### 2026-09-16 C-57 Pages allowlist
+- **Problem:** Pages published repo-root internals (HANDOVER/CLAUDE/qa/worker/package.json).
+- **Root cause:** deploy copied (nearly) the whole tree.
+- **Change:** `scripts/stage-pages-site.sh` + `verify-pages-artifact.cjs`; workflow stages allowlisted paths only.
+- **Verification:** local stage dry-run + SW precache check; live curl after deploy.
