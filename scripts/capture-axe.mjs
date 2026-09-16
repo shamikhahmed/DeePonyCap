@@ -40,18 +40,45 @@ try {
       const page = await context.newPage();
       await page.addInitScript((t) => {
         try {
+          localStorage.clear();
           localStorage.setItem('dp_theme', t);
           document.documentElement.classList.toggle('dark-mode', t === 'dark');
           document.documentElement.setAttribute('data-theme', t);
         } catch (_) {}
       }, theme);
       await page.goto(BASE + route.path, { waitUntil: 'domcontentloaded' });
+      await page.evaluate(async () => {
+        if (navigator.serviceWorker) {
+          const regs = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(regs.map((r) => r.unregister()));
+        }
+        if (window.caches) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map((k) => caches.delete(k)));
+        }
+      });
+      await page.reload({ waitUntil: 'domcontentloaded' });
       await waitReady(page).catch(async () => {
         await page.waitForTimeout(2000);
       });
       await page.evaluate((t) => {
         document.documentElement.classList.toggle('dark-mode', t === 'dark');
+        document.documentElement.classList.remove('collector-mode');
         document.documentElement.setAttribute('data-theme', t);
+        const splash = document.getElementById('splash');
+        if (splash) {
+          splash.style.display = 'none';
+          splash.hidden = true;
+        }
+        const onboard = document.getElementById('onboard');
+        if (onboard) {
+          onboard.classList.add('hide');
+          onboard.hidden = true;
+        }
+        const toast = document.getElementById('toast');
+        if (toast) toast.classList.remove('show');
+        const demo = document.getElementById('demoBanner');
+        if (demo) demo.style.display = 'none';
       }, theme);
       await page.waitForTimeout(400);
 

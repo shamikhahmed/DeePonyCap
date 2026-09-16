@@ -49,3 +49,6 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 
 ## 2026-09-16 — sheet a11y JS + matrix evidence
 - Committed: excellence/ui-core sheet hidden/focus wiring; matrix-results 6/6 + shots; honest TIER1.
+
+## 2026-09-16 — contrast follow-up
+- Committed: nav/demo/toast contrast tokens; axe capture hardening; axe JSON refresh; CSS cache-bust v12.

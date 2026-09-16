@@ -1,5 +1,8 @@
 /* Auto-managed palette literals (C-29 hex-exempt tokens.*) — do not inline hex in product CSS. */
 :root {
+  --pc-534f5b: #534f5b;
+  --pc-e5e7eb: #e5e7eb;
+  --pc-9d174d: #9d174d;
   --pc-000000: #000000;
   --pc-00aaff: #00aaff;
   --pc-030508: #030508;
