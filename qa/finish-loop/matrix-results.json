@@ -1,0 +1,20 @@
+{
+  "failures": [
+    "stable/iphone-se3/light: Obscured or missing primary control: .nav-btn[data-tab=\"stable\"], #tab-stable, .screen.on"
+  ],
+  "shotCount": 0,
+  "expectedShots": 6,
+  "generatedAt": "2026-09-16T10:46:13.279Z",
+  "routes": [
+    "stable"
+  ],
+  "viewports": [
+    "iphone-se3",
+    "iphone-16",
+    "laptop"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ]
+}

@@ -2,7 +2,7 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-16T10:43:26.671Z",
+  "generatedAt": "2026-09-16T10:45:53.173Z",
   "status": "FAIL",
   "pass": [
     {
@@ -62,12 +62,20 @@
       "detail": "tests/finish-matrix.spec.mjs"
     },
     {
+      "id": "gallery:freshness",
+      "detail": "assets/screenshots/gallery-manifest.json @ 2026-09-16T15:45:07+05:00"
+    },
+    {
       "id": "live:VERSION.json",
       "detail": "https://shamikhahmed.github.io/DeePonyCap/VERSION.json → 200"
     },
     {
       "id": "sinks:SINKS.md",
       "detail": "present"
+    },
+    {
+      "id": "kill:raw-hex",
+      "detail": "0"
     },
     {
       "id": "kill:sub-11px",
@@ -110,19 +118,11 @@
     {
       "id": "axe:dir",
       "detail": "missing qa/finish-loop/axe/ (JSON per route×theme)"
-    },
-    {
-      "id": "gallery:freshness",
-      "detail": "assets/screenshots/gallery-manifest.json not in git history"
-    },
-    {
-      "id": "kill:raw-hex",
-      "detail": "3"
     }
   ],
   "warn": [],
   "killList": {
-    "rawHex": 3,
+    "rawHex": 0,
     "sub11": 0,
     "important": 0,
     "nativeDialog": 0,
