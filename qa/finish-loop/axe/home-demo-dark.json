@@ -1,8 +1,8 @@
 {
-  "url": "http://127.0.0.1:8770/?demo=1",
+  "url": "http://127.0.0.1:8799/?demo=1",
   "route": "home-demo",
   "theme": "dark",
-  "timestamp": "2026-09-16T10:53:07.448Z",
+  "timestamp": "2026-09-16T10:54:56.906Z",
   "violations": [
     {
       "id": "color-contrast",
@@ -62,9 +62,9 @@
             {
               "id": "color-contrast",
               "data": {
-                "fgColor": "#cbd5e1",
+                "fgColor": "#fff0f8",
                 "bgColor": "#ffe8f4",
-                "contrastRatio": 1.27,
+                "contrastRatio": 1.05,
                 "fontSize": "11.4pt (15.2px)",
                 "fontWeight": "normal",
                 "messageKey": null,
@@ -79,7 +79,7 @@
                 }
               ],
               "impact": "serious",
-              "message": "Element has insufficient color contrast of 1.27 (foreground color: #cbd5e1, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
+              "message": "Element has insufficient color contrast of 1.05 (foreground color: #fff0f8, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
             }
           ],
           "all": [],
@@ -89,41 +89,7 @@
           "target": [
             ".sub"
           ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.27 (foreground color: #cbd5e1, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
-        },
-        {
-          "any": [
-            {
-              "id": "color-contrast",
-              "data": {
-                "fgColor": "#c4367a",
-                "bgColor": "#3a2942",
-                "contrastRatio": 2.63,
-                "fontSize": "60.0pt (80px)",
-                "fontWeight": "bold",
-                "messageKey": null,
-                "expectedContrastRatio": "3:1"
-              },
-              "relatedNodes": [
-                {
-                  "html": "<div class=\"card stable-counter\">",
-                  "target": [
-                    ".stable-counter"
-                  ]
-                }
-              ],
-              "impact": "serious",
-              "message": "Element has insufficient color contrast of 2.63 (foreground color: #c4367a, background color: #3a2942, font size: 60.0pt (80px), font weight: bold). Expected contrast ratio of 3:1"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "serious",
-          "html": "<div class=\"big-num\" id=\"counterNum\">23</div>",
-          "target": [
-            "#counterNum"
-          ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.63 (foreground color: #c4367a, background color: #3a2942, font size: 60.0pt (80px), font weight: bold). Expected contrast ratio of 3:1"
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.05 (foreground color: #fff0f8, background color: #ffe8f4, font size: 11.4pt (15.2px), font weight: normal). Expected contrast ratio of 4.5:1"
         },
         {
           "any": [
@@ -368,6 +334,6 @@
     }
   ],
   "passes": 40,
-  "incomplete": 0,
+  "incomplete": 1,
   "inapplicable": 49
 }

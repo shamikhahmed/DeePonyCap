@@ -1,8 +1,8 @@
 {
-  "url": "http://127.0.0.1:8770/?demo=1",
+  "url": "http://127.0.0.1:8797/?demo=1",
   "route": "home-demo",
   "theme": "light",
-  "timestamp": "2026-09-16T10:52:53.183Z",
+  "timestamp": "2026-09-16T11:02:30.173Z",
   "violations": [
     {
       "id": "color-contrast",
@@ -29,205 +29,101 @@
               "id": "color-contrast",
               "data": {
                 "fgColor": "#ff69b4",
-                "bgColor": "#615d68",
-                "contrastRatio": 2.42,
-                "fontSize": "8.3pt (11px)",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.64,
+                "fontSize": "12.0pt (16px)",
                 "fontWeight": "bold",
                 "messageKey": null,
                 "expectedContrastRatio": "4.5:1"
               },
               "relatedNodes": [
                 {
-                  "html": "<span class=\"cap-tab-indicator\" aria-hidden=\"true\"></span>",
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')\">",
                   "target": [
-                    "button[aria-controls=\"tab-stable\"] > .cap-tab-indicator[aria-hidden=\"true\"]"
-                  ]
-                },
-                {
-                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
-                  "target": [
-                    "#nav"
-                  ]
-                },
-                {
-                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
-                  "target": [
-                    "body"
+                    ".stable-mobile-tools > .btn-g[type=\"button\"]:nth-child(1)"
                   ]
                 }
               ],
               "impact": "serious",
-              "message": "Element has insufficient color contrast of 2.42 (foreground color: #ff69b4, background color: #615d68, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+              "message": "Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
             }
           ],
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<span class=\"nav-label\">Stable</span>",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')\">",
           "target": [
-            "button[aria-controls=\"tab-stable\"] > .nav-label"
+            ".stable-mobile-tools > .btn-g[type=\"button\"]:nth-child(1)"
           ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.42 (foreground color: #ff69b4, background color: #615d68, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
         },
         {
           "any": [
             {
               "id": "color-contrast",
               "data": {
-                "fgColor": "#6b7280",
-                "bgColor": "#534f5b",
-                "contrastRatio": 1.64,
-                "fontSize": "8.3pt (11px)",
+                "fgColor": "#ff69b4",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.64,
+                "fontSize": "12.0pt (16px)",
                 "fontWeight": "bold",
                 "messageKey": null,
                 "expectedContrastRatio": "4.5:1"
               },
               "relatedNodes": [
                 {
-                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('map')\">",
                   "target": [
-                    "#nav"
-                  ]
-                },
-                {
-                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
-                  "target": [
-                    "body"
+                    ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('map')\"][type=\"button\"]"
                   ]
                 }
               ],
               "impact": "serious",
-              "message": "Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+              "message": "Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
             }
           ],
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<span class=\"nav-label\">Logs</span>",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('map')\">",
           "target": [
-            "button[aria-controls=\"tab-logs\"] > .nav-label"
+            ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('map')\"][type=\"button\"]"
           ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
         },
         {
           "any": [
             {
               "id": "color-contrast",
               "data": {
-                "fgColor": "#6b7280",
-                "bgColor": "#534f5b",
-                "contrastRatio": 1.64,
-                "fontSize": "8.3pt (11px)",
+                "fgColor": "#ff69b4",
+                "bgColor": "#ffffff",
+                "contrastRatio": 2.64,
+                "fontSize": "12.0pt (16px)",
                 "fontWeight": "bold",
                 "messageKey": null,
                 "expectedContrastRatio": "4.5:1"
               },
               "relatedNodes": [
                 {
-                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
+                  "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('stats')\">",
                   "target": [
-                    "#nav"
-                  ]
-                },
-                {
-                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
-                  "target": [
-                    "body"
+                    ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('stats')\"][type=\"button\"]"
                   ]
                 }
               ],
               "impact": "serious",
-              "message": "Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+              "message": "Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
             }
           ],
           "all": [],
           "none": [],
           "impact": "serious",
-          "html": "<span class=\"nav-label\">Map</span>",
+          "html": "<button type=\"button\" class=\"btn-g\" onclick=\"Nav.go('stats')\">",
           "target": [
-            "button[aria-controls=\"tab-map\"] > .nav-label"
+            ".stable-mobile-tools > .btn-g[onclick=\"Nav.go('stats')\"][type=\"button\"]"
           ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-        },
-        {
-          "any": [
-            {
-              "id": "color-contrast",
-              "data": {
-                "fgColor": "#6b7280",
-                "bgColor": "#534f5b",
-                "contrastRatio": 1.64,
-                "fontSize": "8.3pt (11px)",
-                "fontWeight": "bold",
-                "messageKey": null,
-                "expectedContrastRatio": "4.5:1"
-              },
-              "relatedNodes": [
-                {
-                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
-                  "target": [
-                    "#nav"
-                  ]
-                },
-                {
-                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
-                  "target": [
-                    "body"
-                  ]
-                }
-              ],
-              "impact": "serious",
-              "message": "Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "serious",
-          "html": "<span class=\"nav-label\">Wishlist</span>",
-          "target": [
-            "button[aria-controls=\"tab-wishlist\"] > .nav-label"
-          ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-        },
-        {
-          "any": [
-            {
-              "id": "color-contrast",
-              "data": {
-                "fgColor": "#6b7280",
-                "bgColor": "#534f5b",
-                "contrastRatio": 1.64,
-                "fontSize": "8.3pt (11px)",
-                "fontWeight": "bold",
-                "messageKey": null,
-                "expectedContrastRatio": "4.5:1"
-              },
-              "relatedNodes": [
-                {
-                  "html": "<nav class=\"nav cap-premium-nav\" id=\"nav\" aria-label=\"Main navigation\" role=\"tablist\" data-cap-premium-nav=\"1\">",
-                  "target": [
-                    "#nav"
-                  ]
-                },
-                {
-                  "html": "<body data-cap-app=\"1\" class=\"cap-has-floating-nav\">",
-                  "target": [
-                    "body"
-                  ]
-                }
-              ],
-              "impact": "serious",
-              "message": "Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "serious",
-          "html": "<span class=\"nav-label\">Extras</span>",
-          "target": [
-            "button[aria-controls=\"tab-accessories\"] > .nav-label"
-          ],
-          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.64 (foreground color: #6b7280, background color: #534f5b, font size: 8.3pt (11px), font weight: bold). Expected contrast ratio of 4.5:1"
+          "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.64 (foreground color: #ff69b4, background color: #ffffff, font size: 12.0pt (16px), font weight: bold). Expected contrast ratio of 4.5:1"
         }
       ]
     },

@@ -2,7 +2,7 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-16T10:54:00.575Z",
+  "generatedAt": "2026-09-16T11:02:41.661Z",
   "status": "FAIL",
   "pass": [
     {
@@ -113,7 +113,7 @@
   "fail": [
     {
       "id": "matrix:freshness",
-      "detail": "matrix 2026-09-16T10:49:30.804Z before last UI commit 2026-09-16T15:51:34+05:00"
+      "detail": "matrix 2026-09-16T10:49:30.804Z before last UI commit 2026-09-16T15:54:01+05:00"
     },
     {
       "id": "lighthouse:files",
@@ -121,11 +121,11 @@
     },
     {
       "id": "axe:serious-critical",
-      "detail": "home-demo-dark.json: 8 serious/critical (color-contrast)\nhome-demo-light.json: 5 serious/critical (color-contrast)"
+      "detail": "home-demo-dark.json: 7 serious/critical (color-contrast)\nhome-demo-light.json: 3 serious/critical (color-contrast)"
     },
     {
       "id": "gallery:freshness",
-      "detail": "gallery 2026-09-16T15:45:07+05:00 before last UI commit 2026-09-16T15:51:34+05:00"
+      "detail": "gallery 2026-09-16T15:45:07+05:00 before last UI commit 2026-09-16T15:54:01+05:00"
     }
   ],
   "warn": [],

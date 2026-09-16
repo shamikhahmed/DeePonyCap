@@ -52,3 +52,6 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 
 ## 2026-09-16 — contrast follow-up
 - Committed: nav/demo/toast contrast tokens; axe capture hardening; axe JSON refresh; CSS cache-bust v12.
+
+## 2026-09-16 — nav contrast specificity
+- Committed: stronger nav/greet contrast selectors; axe refresh (still 1 s/c each theme — honest).
