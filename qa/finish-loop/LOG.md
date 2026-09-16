@@ -21,3 +21,9 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - CI https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403 success
 - `npm run tier1` → PASS · tag `v3.8.3` · main `022253c`
 - VO ⛔ BLOCKED-EXTERNAL
+
+### 2026-09-16 C-57 Pages allowlist
+- **Problem:** Pages published repo-root internals.
+- **Root cause:** deploy copied (nearly) the whole tree.
+- **Change:** allowlisted stage script + SW verify; workflow stages public paths only.
+- **Verification:** local stage dry-run; live curl after deploy.
