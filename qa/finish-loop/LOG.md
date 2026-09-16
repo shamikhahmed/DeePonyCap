@@ -63,3 +63,12 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Files: css/app.css, css/identity.css, scripts/capture-axe.mjs
 - Change: opaque premium nav + AA labels; reset fill-color on dark ghost buttons; toast visibility:hidden when not shown.
 - Verification: `npm run axe` → 0 serious/critical both themes.
+
+## 2026-09-16 — Review 3 product loop (hardened tier1)
+### §15 mini-plan
+- Problem: hardened tier1 fails on kill-list, missing matrix-results, CI-WORKFLOW, axe dir.
+- Root cause: C-29 removed brandOk CSS exemptions; evidence files never committed; CI workflow name unset.
+- Change: hex→`tokens.css`/`brand-palette*`; PulseCap `capricorn-core`; `CI-WORKFLOW.txt`; skip-allowlist; `writeMatrixResults` + FINISH_MATRIX CI job; real axe JSON.
+- Risks: LH/gallery freshness still open; DeePony dark theme toggle flaky under axe.
+- Verification: `npm run tier1` recorded FAIL honestly (no PASS claim).
+

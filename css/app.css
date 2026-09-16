@@ -582,7 +582,7 @@ html.dark-mode .shelf-sec { color: var(--text); }
 .ui-ico{display:inline-block;vertical-align:-0.2em;margin-right:0.3em;flex-shrink:0}
 .btn-g .ui-ico,.btn-p .ui-ico,.btn-d .ui-ico{margin-right:0.35em}
 
-/* C-35 contrast: premium glass nav (#615d68 blend) fails WCAG with dark label colors.
+/* C-35 contrast: premium glass nav blend fails WCAG with dark label colors.
    Force opaque bar + readable labels; lighten active pill so text isn't measured on gray glass. */
 #nav.cap-premium-nav,
 nav.nav.cap-premium-nav{

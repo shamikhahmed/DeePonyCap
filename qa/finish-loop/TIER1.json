@@ -2,7 +2,7 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-16T11:02:41.661Z",
+  "generatedAt": "2026-09-16T11:22:20.492Z",
   "status": "FAIL",
   "pass": [
     {
@@ -70,6 +70,18 @@
       "detail": "6 shots (need routes×viewports×themes = 6)"
     },
     {
+      "id": "matrix:freshness",
+      "detail": "2026-09-16T11:20:20.344Z"
+    },
+    {
+      "id": "lighthouse:home-demo-desktop.json",
+      "detail": "perf 97 a11y 96 bp 96 LCP 837.4281 TBT 0 CLS 0.000008151650468435337"
+    },
+    {
+      "id": "axe:serious-critical",
+      "detail": "2 JSON clean"
+    },
+    {
       "id": "live:VERSION.json",
       "detail": "https://shamikhahmed.github.io/DeePonyCap/VERSION.json → 200"
     },
@@ -112,20 +124,16 @@
   ],
   "fail": [
     {
-      "id": "matrix:freshness",
-      "detail": "matrix 2026-09-16T10:49:30.804Z before last UI commit 2026-09-16T15:54:01+05:00"
+      "id": "lighthouse:home-demo-mobile.json",
+      "detail": "fetchTime 2026-09-16T11:04:14.223Z before last UI commit 2026-09-16T16:15:32+05:00"
     },
     {
-      "id": "lighthouse:files",
-      "detail": "empty"
-    },
-    {
-      "id": "axe:serious-critical",
-      "detail": "home-demo-dark.json: 7 serious/critical (color-contrast)\nhome-demo-light.json: 3 serious/critical (color-contrast)"
+      "id": "lighthouse:passing",
+      "detail": "1/2 files meet thresholds"
     },
     {
       "id": "gallery:freshness",
-      "detail": "gallery 2026-09-16T15:45:07+05:00 before last UI commit 2026-09-16T15:54:01+05:00"
+      "detail": "gallery 2026-09-16T15:45:07+05:00 before last UI commit 2026-09-16T16:15:32+05:00"
     }
   ],
   "warn": [],
