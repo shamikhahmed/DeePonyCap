@@ -572,3 +572,7 @@ html.dark-mode .progress-bar { background: #4A3550; }
 html.dark-mode .dup-warn { background: #4A3550; color: #FDE68A; }
 html.dark-mode .photo-hint { color: #C8A8BC; }
 html.dark-mode .shelf-sec { color: var(--text); }
+
+/* Inline SVG icons in controls (C-39) */
+.ui-ico{display:inline-block;vertical-align:-0.2em;margin-right:0.3em;flex-shrink:0}
+.btn-g .ui-ico,.btn-p .ui-ico,.btn-d .ui-ico{margin-right:0.35em}

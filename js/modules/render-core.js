@@ -116,10 +116,10 @@ const Render = {
     const toolsRail = `<aside class="stable-rail stable-rail--tools" aria-label="Stable tools">
       <div class="stable-rail__label">Tools</div>
       <div class="stable-tools-stack">
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">📋 Series logs</button>
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('map')">🗺️ Pony Map</button>
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('stats')">🌈 Stats</button>
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('wishlist')">💫 Wishlist · ${wishN}</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">${uiIcon('list')} Series logs</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('map')">${uiIcon('map')} Pony Map</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('stats')">${uiIcon('chart')} Stats</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('wishlist')">${uiIcon('star')} Wishlist · ${wishN}</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('accessories')">🎀 Extras</button>
         <button type="button" class="btn-p stable-tool-btn" onclick="UI.openAdd()">+ Add Pony</button>
       </div>
@@ -130,7 +130,7 @@ const Render = {
       </div>
       ${backupNudge}
     </aside>`;
-    const emptyHtml = !n ? `<div class="stable-empty"><div class="stable-empty__icon">🦄</div><div class="stable-empty__title">Your Stable is Empty</div><div class="stable-empty__sub">Start building your collection — add your first pony or try a demo to see how it works.</div><div class="stable-empty__actions"><button type="button" class="btn-g" onclick="UI.openAdd()">+ Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">Try Demo ✨</button></div></div>` : '';
+    const emptyHtml = !n ? `<div class="stable-empty"><div class="stable-empty__icon" aria-hidden="true">🦄</div><div class="stable-empty__title">Your Stable is Empty</div><div class="stable-empty__sub">Start building your collection — add your first pony or try a demo to see how it works.</div><div class="stable-empty__actions"><button type="button" class="btn-g" onclick="UI.openAdd()">${uiIcon('plus')} Add Pony</button><button type="button" class="btn-d" onclick="DemoSeed.load()">${uiIcon('spark')} Try Demo</button></div></div>` : '';
     document.getElementById('tab-stable').innerHTML = `
       <div class="stable-case">
         <div class="stable-case__lid" aria-hidden="true"></div>
@@ -138,8 +138,8 @@ const Render = {
           ${shelfRail}
           <div class="stable-main">
             <div class="stable-case__clip" aria-hidden="true"></div>
-            <h1 class="greet">✨ ${this.esc(name)}'s Stable</h1>
-            <p class="sub">${n ? `You have ${n} magical ponies! 🎉` : 'Your stable awaits its first pony!'}${collValue ? ` · Est. $${collValue.toLocaleString()}` : ''}</p>
+            <h1 class="greet"><span aria-hidden="true">✨ </span>${this.esc(name)}'s Stable</h1>
+            <p class="sub">${n ? `${n} in your collection` : 'Your stable awaits its first pony!'}${collValue ? ` · ${formatEstValue(collValue)}` : ''}</p>
             <div class="stable-mobile-nudge">${backupNudge}${annivHtml}</div>
             <div class="card stable-counter">
               <div class="big-num" id="counterNum">0</div>
@@ -147,13 +147,13 @@ const Render = {
               <div class="progress-bar">${bars}</div>
               <div class="rainbow-note">Rainbow spread across all generations</div>
             </div>
-            ${goalsHtml ? `<div class="card"><div class="section-title">Collection goals 🎯</div>${goalsHtml}</div>` : ''}
+            ${goalsHtml ? `<div class="card"><div class="section-title">Collection goals</div>${goalsHtml}</div>` : ''}
             ${window.Excellence ? Excellence.suggestionsHtml() : ''}
             <div class="stable-mobile-shelf row-scroll">${pills}${extraPills}</div>
             <div class="stable-mobile-tools premium-views">
-              <button type="button" class="btn-g" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">📋 Series logs</button>
-              <button type="button" class="btn-g" onclick="Nav.go('map')">🗺️ Pony Map</button>
-              <button type="button" class="btn-g" onclick="Nav.go('stats')">🌈 Stats</button>
+              <button type="button" class="btn-g" onclick="Nav.goLog((CollectorSuite.logSections()[0]||{}).id||'other')">${uiIcon('list')} Series logs</button>
+              <button type="button" class="btn-g" onclick="Nav.go('map')">${uiIcon('map')} Pony Map</button>
+              <button type="button" class="btn-g" onclick="Nav.go('stats')">${uiIcon('chart')} Stats</button>
             </div>
             <div class="type-grid">${types}</div>
             ${recent.length ? `<div class="section-title">Recently Added 🆕</div><div class="row-scroll">${recent.map(p => this.ponyCard(p, true)).join('')}</div>` : ''}
@@ -233,7 +233,7 @@ const Render = {
         <div style="font-weight:800;margin-bottom:4px">${this.esc(w.name)} <span class="badge ${seriesColorClass(ponySeries(w))}">${this.esc(ponySeries(w))}</span>${target ? ` <span class="badge" style="background:var(--mint);color:${DPBrand.h_1f2937}">🎯 ${target}</span>` : ''}</div>
         <div style="font-size:.8rem;color:var(--text-soft);margin-bottom:8px">${TYPE_LABELS[w.type]||w.type} ${w.notes? '· '+this.esc(w.notes):''}</div>
         <div style="display:flex;gap:8px">
-          <button type="button" class="btn-g" onclick="UI.gotWish('${w.id}')">Got it! 🎉</button>
+          <button type="button" class="btn-g" onclick="UI.gotWish('${w.id}')">${uiIcon('check')} Got it</button>
           <button type="button" class="btn-d" onclick="UI.delWish('${w.id}')">Delete</button>
         </div></div>`;
       }).join('') : '';
@@ -257,7 +257,7 @@ const Render = {
         </div>
         <div class="fg"><label class="fl">Reference photo</label>${PhotoPicker.html('wishPhoto', '', { multiple: false })}</div>
         <div class="fg"><label class="fl">Notes</label><input class="inp" id="wNotes" placeholder="Where to find, etc."></div>
-        <button type="button" class="btn-p" onclick="UI.addWish()">Add to Wishlist ✨</button>
+        <button type="button" class="btn-p" onclick="UI.addWish()">${uiIcon('plus')} Add to Wishlist</button>
       </div></details>`;
   },
   shelves() { this.ponyMap(); },
@@ -312,7 +312,7 @@ const Render = {
         <div class="stat-box"><div class="n">${S.wishlist.length}</div><div class="l">Wishlist</div></div>
         <div class="stat-box"><div class="n">${S.ponies.filter(p=>p.isFavourite).length}</div><div class="l">Favourites</div></div>
         <div class="stat-box"><div class="n">${(S.accessories||[]).length}</div><div class="l">Accessories</div></div>
-        ${collValue ? `<div class="stat-box" style="grid-column:1/-1"><div class="n">$${collValue.toLocaleString()}</div><div class="l">Est. Collection Value</div></div>` : ''}
+        ${collValue ? `<div class="stat-box" style="grid-column:1/-1"><div class="n">${formatEstValue(collValue)}</div><div class="l">Est. collection value (USD)</div></div>` : ''}
       </div>
       <div class="card" style="margin-top:14px">
         <div class="section-title">Series checklist</div>
@@ -368,7 +368,7 @@ const Render = {
     ctx.fillText(name, 32, 88);
     ctx.font = '16px Nunito, sans-serif'; ctx.fillStyle = DPBrand.h_6b7280;
     ctx.fillText(`${n} ponies · ${favs} favourites · ${S.wishlist.length} wishlist`, 32, 118);
-    if (collValue) { ctx.fillStyle = DPBrand.h_9333ea; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(`Est. value $${collValue.toLocaleString()}`, 32, 152); }
+    if (collValue) { ctx.fillStyle = DPBrand.h_9333ea; ctx.font = 'bold 20px Nunito, sans-serif'; ctx.fillText(formatEstValue(collValue), 32, 152); }
     (S.seriesList || []).slice(0, 5).forEach((label, i) => {
       const c = S.ponies.filter(p => ponySeries(p).toLowerCase() === String(label).toLowerCase()).length;
       const x = 32 + i * 108;
@@ -424,7 +424,7 @@ const Render = {
         <div class="fg"><label class="fl">Category</label><select class="sel" id="accCatGal"><option value="playset">Playset</option><option value="vehicle">Vehicle</option><option value="accessory" selected>Accessory</option><option value="other">Other</option></select></div>
         <div class="fg"><label class="fl">Link to pony</label><select class="sel" id="accPonyGal"><option value="">— none —</option>${S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Photo</label>${PhotoPicker.html('accPhoto', '', { multiple: false })}</div>
-        <button type="button" class="btn-p" onclick="UI.addAccessoryFromGallery()">Add Accessory ✨</button>
+        <button type="button" class="btn-p" onclick="UI.addAccessoryFromGallery()">${uiIcon('plus')} Add Accessory</button>
       </div>
       ${items.length ? cards : '<div style="text-align:center;padding:32px 24px"><div style="font-size:48px;margin-bottom:12px">🎀</div><div style="font-size:17px;font-weight:700;margin-bottom:8px">No Accessories Yet</div><div style="font-size:14px;color:var(--text-soft);max-width:260px;margin:0 auto">Add playsets, vehicles, and accessories to link them to your ponies above.</div></div>'}`;
   },

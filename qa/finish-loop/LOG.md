@@ -21,3 +21,12 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - CI https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974097403 success
 - `npm run tier1` → PASS · tag `v3.8.3` · main `022253c`
 - VO ⛔ BLOCKED-EXTERNAL
+
+## 2026-09-16 — C-39
+### §15 mini-plan
+- Problem: sidebar HOME/LOG collide with labels; emoji in controls; magical ponies copy; USD hardcode.
+- Root cause: dual mark+label in sidebar; emoji in button text; toLocaleString \$ only.
+- Files: navigation.js, constants.js, render-core.js, ui-core.js, app.css
+- Change: label-only sidebar; uiIcon SVG in controls; "N in your collection"; formatEstValue Intl USD.
+- Risks: decorative emoji remain with aria-hidden.
+- Verification: desktop sidebar readable; control buttons SVG; currency formatted.

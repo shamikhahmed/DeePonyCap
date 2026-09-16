@@ -132,7 +132,7 @@ const UI = {
       <div id="dupWarn"></div>
       <div class="form-actions">
         <button type="button" class="btn-g" onclick="UI.closeSheet()">Cancel</button>
-        <button type="button" class="btn-p" onclick="UI.savePony()">Save Pony ✨</button>
+        <button type="button" class="btn-p" onclick="UI.savePony()">${uiIcon('check')} Save Pony</button>
       </div>`);
     setTimeout(() => UI.showDupWarn(), 0);
   },
@@ -383,7 +383,7 @@ const UI = {
     const btns = [
       ...shelves.filter(s => s !== cur).map(s => {
         const js = String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        return `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','${js}');UI.closeSheet()">🗄️ ${Render.esc(s)}</button>`;
+        return `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','${js}');UI.closeSheet()">${uiIcon('shelf')} ${Render.esc(s)}</button>`;
       }),
       cur ? `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','');UI.closeSheet()">📦 Unshelved</button>` : '',
       `<button type="button" class="btn-g" onclick="UI.promptNewShelf('${id}')">+ New shelf…</button>`
