@@ -71,7 +71,7 @@ const Render = {
     const pills = seriesCounts.filter(x => x.c).map(x => `<button type="button" class="pill ${x.color}" onclick="Nav.goLog('${x.id}')">${x.emoji} ${Render.esc(x.label)} ${x.c}</button>`).join('');
     const otherN = S.ponies.filter(p => (p.category || 'mlp') === 'other').length;
     const mcdN = S.ponies.filter(p => (p.category || '') === 'mcdonalds' || p.mcdCountry).length;
-    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:${DPBrand.h_fff}" onclick="Nav.goLog('other')">🐴 Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:${DPBrand.h_f59e0b};color:${DPBrand.h_1f2937}" onclick="Nav.goLog('mcd')">🍟 Promo ${mcdN}</button>` : ''}`;
+    const extraPills = `${otherN ? `<button type="button" class="pill" style="background:var(--coral);color:${DPBrand.h_fff}" onclick="Nav.goLog('other')">Other ${otherN}</button>` : ''}${mcdN ? `<button type="button" class="pill" style="background:${DPBrand.h_f59e0b};color:${DPBrand.h_1f2937}" onclick="Nav.goLog('mcd')">Promo ${mcdN}</button>` : ''}`;
     const types = TYPE_KEYS.map(t => `<div class="type-card"><span>${TYPE_LABELS[t].split(' ')[0]}</span>${t.replace('_',' ')}<br><strong>${S.ponies.filter(p=>p.type===t).length}</strong></div>`).join('');
     const recent = [...S.ponies].sort((a,b)=>b.createdAt-a.createdAt).slice(0,5);
     const faves = S.ponies.filter(p=>p.isFavourite).slice(0,8);
@@ -108,10 +108,10 @@ const Render = {
       <div class="stable-rail__label">Series</div>
       <div class="stable-shelf-stack">${seriesCounts.map(x =>
         `<button type="button" class="stable-shelf-slot ${x.color}" onclick="Nav.goLog('${x.id}')">
-          <span class="stable-shelf-slot__gen">${x.emoji} ${this.esc(x.label)}</span>
+          <span class="stable-shelf-slot__gen">${this.esc(x.label)}</span>
           <span class="stable-shelf-slot__count">${x.c}</span>
         </button>`
-      ).join('')}${otherN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--other" onclick="Nav.goLog('other')"><span class="stable-shelf-slot__gen">🐴 Other</span><span class="stable-shelf-slot__count">${otherN}</span></button>` : ''}${mcdN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--mcd" onclick="Nav.goLog('mcd')"><span class="stable-shelf-slot__gen">🍟 Promo</span><span class="stable-shelf-slot__count">${mcdN}</span></button>` : ''}</div>
+      ).join('')}${otherN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--other" onclick="Nav.goLog('other')"><span class="stable-shelf-slot__gen">Other</span><span class="stable-shelf-slot__count">${otherN}</span></button>` : ''}${mcdN ? `<button type="button" class="stable-shelf-slot stable-shelf-slot--mcd" onclick="Nav.goLog('mcd')"><span class="stable-shelf-slot__gen">Promo</span><span class="stable-shelf-slot__count">${mcdN}</span></button>` : ''}</div>
     </aside>`;
     const toolsRail = `<aside class="stable-rail stable-rail--tools" aria-label="Stable tools">
       <div class="stable-rail__label">Tools</div>
@@ -120,7 +120,7 @@ const Render = {
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('map')">${uiIcon('map')} Pony Map</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('stats')">${uiIcon('chart')} Stats</button>
         <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('wishlist')">${uiIcon('star')} Wishlist · ${wishN}</button>
-        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('accessories')">🎀 Extras</button>
+        <button type="button" class="btn-g stable-tool-btn" onclick="Nav.go('accessories')">${uiIcon('spark')} Extras</button>
         <button type="button" class="btn-p stable-tool-btn" onclick="UI.openAdd()">+ Add Pony</button>
       </div>
       <div class="stable-tools-stat card">
@@ -344,12 +344,12 @@ const Render = {
       </div>
       ${window.Excellence ? Excellence.insightsHtml() : ''}
       <div class="premium-views">
-        <button type="button" class="btn-g" onclick="Excellence.renderTimeline()">📅 Collection Timeline</button>
-        <button type="button" class="btn-g" onclick="Excellence.renderStorybook()">📖 Storybook Mode</button>
+        <button type="button" class="btn-g" onclick="Excellence.renderTimeline()">${uiIcon('list')} Collection Timeline</button>
+        <button type="button" class="btn-g" onclick="Excellence.renderStorybook()">${uiIcon('list')} Storybook Mode</button>
       </div>
       <div class="section-title">Achievements</div>
       ${achs.map(a=>`<div class="ach${a.ok?' unlocked':''}"><span class="ic">${a.ic}</span><span>${a.t}</span></div>`).join('')}
-      <button type="button" class="share-card-btn" onclick="Render.exportShareCard()">🖼️ Save Collection Card (PNG)</button>`;
+      <button type="button" class="share-card-btn" onclick="Render.exportShareCard()">${uiIcon('plus')} Save Collection Card (PNG)</button>`;
   },
   exportShareCard() {
     const n = S.ponies.length;
@@ -405,7 +405,7 @@ const Render = {
       const ph = a.photo || (a.photos && a.photos[0]) || '';
       return `<div class="card" style="margin-bottom:12px;cursor:pointer" role="button" tabindex="0" aria-label="${this.esc(a.name)} — ${this.esc(a.category||'accessory')}" onclick="UI.openAccessory('${a.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();UI.openAccessory('${a.id}')}">
         ${ph ? `<div style="height:140px;border-radius:16px;overflow:hidden;margin-bottom:10px"><img src="${ph}" alt="${this.esc(a.name)}" style="width:100%;height:100%;object-fit:cover"></div>` : `<div style="height:100px;border-radius:16px;background:linear-gradient(135deg,var(--pink-lighter),var(--purple-light));display:flex;align-items:center;justify-content:center;font-size:2rem;margin-bottom:10px" aria-hidden="true">🎀</div>`}
-        <div style="font-weight:800;font-size:1rem">${this.esc(a.name)} <span class="badge" style="font-size:.65rem">${this.esc(a.category || 'accessory')}</span></div>
+        <div style="font-weight:800;font-size:1rem">${this.esc(a.name)} <span class="badge" style="font-size: 0.6875rem">${this.esc(a.category || 'accessory')}</span></div>
         ${linked.length ? `<div style="font-size:.8rem;color:var(--text-soft);margin-top:6px">${linked.length} pony${linked.length > 1 ? 'ies' : ''}: ${linked.map(p => `🦄 ${this.esc(p.name)}`).join(' · ')}</div>` : '<div style="font-size:.8rem;color:var(--text-soft);margin-top:6px">No pony linked</div>'}
       </div>`;
     }).join('');
@@ -501,7 +501,7 @@ const Render = {
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkMoveShelf()">Move shelf → shelf</button>
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkFavoriteShelf()">Favorite all on a shelf</button>
         <button type="button" class="btn-g" style="width:100%;margin-bottom:8px" onclick="UI.bulkArchiveShelf()">Mark shelf as extras (not originals)</button>
-        <button type="button" class="btn-g" style="width:100%" onclick="document.getElementById('g4BulkSettings').click()">📦 Bulk photo import</button>
+        <button type="button" class="btn-g" style="width:100%" onclick="document.getElementById('g4BulkSettings').click()">${uiIcon('plus')} Bulk photo import</button>
         <input type="file" id="g4BulkSettings" accept="image/*" multiple style="display:none" onchange="UI.runG4BulkImport([...this.files]);this.value=''">
       </div>
       <div class="card">

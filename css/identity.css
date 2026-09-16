@@ -6,12 +6,12 @@
 }
 
 h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
-  font-family: var(--font-display) !important;
+  font-family: var(--font-display);
 }
 
 .stat-box .n, .big-num {
-  font-family: var(--font-display) !important;
-  font-weight: 700 !important;
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 .fab {
@@ -222,7 +222,7 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
 }
 
 :root {
-  --cap-accent: #ff69b4;
+  --cap-accent: var(--pc-ff69b4);
 }
 
 .offline-banner {
@@ -231,8 +231,8 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   left: 0;
   right: 0;
   z-index: 9000;
-  background: #cc2200;
-  color: #fff;
+  background: var(--pc-cc2200);
+  color: var(--pc-ffffff);
   text-align: center;
   font-size: 13px;
   font-weight: 600;
@@ -240,7 +240,7 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
 }
 .offline-banner[hidden] {
-  display: none !important;
+  display: none;
 }
 
 .install-banner {
@@ -249,8 +249,8 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   left: 12px;
   right: 12px;
   z-index: 8500;
-  background: var(--cap-surface-2, #1f0a14);
-  border: 1px solid var(--cap-pink, #ff6b9d);
+  background: var(--cap-surface-2, var(--pc-1f0a14));
+  border: 1px solid var(--cap-pink, var(--pc-ff6b9d));
   border-radius: 16px;
   padding: 14px 16px;
   display: flex;
@@ -264,8 +264,8 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
 .install-banner-sub { font-size: 12px; opacity: 0.7; margin-top: 2px; }
 .install-banner-go {
   padding: 7px 14px;
-  background: var(--cap-pink, #ff6b9d);
-  color: #fff;
+  background: var(--cap-pink, var(--pc-ff6b9d));
+  color: var(--pc-ffffff);
   border: none;
   border-radius: 10px;
   font-size: 12px;
@@ -297,12 +297,12 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
 .cap-dialog-sheet {
   width: 100%;
   max-width: 420px;
-  background: var(--bg-card, #fff);
+  background: var(--bg-card, var(--pc-ffffff));
   border: 1px solid rgba(255, 105, 180, 0.28);
   border-radius: 20px;
   padding: 20px 18px;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
-  color: var(--text, #1f2937);
+  color: var(--text, var(--pc-1f2937));
 }
 .cap-dialog-title {
   font-size: 1.05rem;
@@ -312,7 +312,7 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
 .cap-dialog-body {
   font-size: 0.88rem;
   line-height: 1.45;
-  color: var(--text-soft, #6b7280);
+  color: var(--text-soft, var(--pc-6b7280));
   margin: 0 0 16px;
 }
 .cap-dialog-input {
@@ -320,7 +320,7 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
   padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  background: var(--bg, #fff);
+  background: var(--bg, var(--pc-ffffff));
   color: inherit;
   font-size: 1rem;
   margin-bottom: 14px;

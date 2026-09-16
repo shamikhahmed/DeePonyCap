@@ -2,8 +2,8 @@
   "app": "DeePonyCap",
   "version": "3.8.3",
   "swCache": "deeponycap-v63",
-  "generatedAt": "2026-09-15T13:20:38.376Z",
-  "status": "PASS",
+  "generatedAt": "2026-09-16T10:43:26.671Z",
+  "status": "FAIL",
   "pass": [
     {
       "id": "version:field",
@@ -42,12 +42,16 @@
       "detail": "none"
     },
     {
+      "id": "test-skip",
+      "detail": "none"
+    },
+    {
       "id": "app-ready",
-      "detail": "window.__APP_READY__ referenced"
+      "detail": "window.__APP_READY__ assigned in product code"
     },
     {
       "id": "ci:main",
-      "detail": "pages build and deployment → success https://github.com/shamikhahmed/DeePonyCap/actions/runs/34974312035"
+      "detail": "DeePonyCap CI @ 4942677 → success https://github.com/shamikhahmed/DeePonyCap/actions/runs/35084673328"
     },
     {
       "id": "tag",
@@ -58,16 +62,12 @@
       "detail": "tests/finish-matrix.spec.mjs"
     },
     {
-      "id": "lighthouse:files",
-      "detail": "1 JSON"
+      "id": "live:VERSION.json",
+      "detail": "https://shamikhahmed.github.io/DeePonyCap/VERSION.json → 200"
     },
     {
       "id": "sinks:SINKS.md",
       "detail": "present"
-    },
-    {
-      "id": "kill:raw-hex",
-      "detail": "0"
     },
     {
       "id": "kill:sub-11px",
@@ -98,15 +98,31 @@
       "detail": "27 sinks; SINKS.md ok"
     }
   ],
-  "fail": [],
-  "warn": [
+  "fail": [
     {
-      "id": "matrix:shots",
-      "detail": "qa/finish-loop/shots missing (run matrix)"
+      "id": "matrix:results",
+      "detail": "missing qa/finish-loop/matrix-results.json (CI must set FINISH_MATRIX=1)"
+    },
+    {
+      "id": "lighthouse:files",
+      "detail": "empty"
+    },
+    {
+      "id": "axe:dir",
+      "detail": "missing qa/finish-loop/axe/ (JSON per route×theme)"
+    },
+    {
+      "id": "gallery:freshness",
+      "detail": "assets/screenshots/gallery-manifest.json not in git history"
+    },
+    {
+      "id": "kill:raw-hex",
+      "detail": "3"
     }
   ],
+  "warn": [],
   "killList": {
-    "rawHex": 0,
+    "rawHex": 3,
     "sub11": 0,
     "important": 0,
     "nativeDialog": 0,
