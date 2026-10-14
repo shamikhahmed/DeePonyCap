@@ -1,37 +1,27 @@
 # DeePonyCap — Perfection v3 STATE
-Updated: 2026-10-14T11:12:00Z · Builder: Builder-DeePonyCap
+Updated: 2026-10-14T11:45:00Z · Builder: Builder-DeePonyCap
 
 ## Phase
-**F · Verify (hand-off)** — Wave B P1 tickets DPY-V3-1 / DPY-V3-2 FIXED; Auditor re-run required.
+**I · Release complete** · **J · APP-REPORT-v3** written — hand Conductor.
 
-## Branch
-`perfection/deeponycap-v3` (from `main` @ `716beb7` — finish/deeponycap-stepR merged)
+## Branch / tag
+`main` @ merge `8984c12` · tag `v3.9.0` · release commit `2347173`  
+G-8: **3.9.0** · SW `deeponycap-v64` · register `sw.js?v=64`
 
-## Last commit
-Fix `9f2cc29` · branch `perfection/deeponycap-v3` (pushed; see `git log -1 --oneline`)
+## What's done
+- DPY-V3-1/2/3 ✅ VERIFIED (Auditor 2026-10-14)
+- Phase I: version bump, merge `--no-ff`, tag, push, Pages deploy green
+- Live device-qa **7/7** → `qa/perfection/live-v3.9.0/`
+- Live `VERSION.json` = 3.9.0 / deeponycap-v64
+- `qa/perfection/APP-REPORT-v3.md`
 
-## What's running / done
-- Phase A: branch + baseline device-qa → `qa/perfection/baseline/device-qa.json` (**7/7 hard-clean**; Chromium soft: vibrate-before-activation ×2).
-- DPY-V3-3: Phase 0 merge already on `main` (`716beb7`) — closed as FIXED by Conductor merge.
-- DPY-V3-1: decorative `.star` emoji 0.6875rem → **16px** + `aria-hidden` (Stars.init).
-- DPY-V3-2: `Haptic.canVibrate()` requires `navigator.userActivation.hasBeenActive`; silent demo `Achievements.checkAll(true)`.
-- Post-fix: `qa/perfection/device/device-qa.json` — **7/7 hard-clean**, **0 console / 0 hub-console**, tiny=0, tap=0.
-- Inventory / MATRIX / ITEMS seeded (§13.6).
+## Open
+- DPY-V3-4 gallery v3 (P2)
 
-## Next 3 actions (Auditor)
-1. Clean checkout of `perfection/deeponycap-v3`; serve app under `/DeePonyCap/`.
-2. Re-run device-qa with `PW_CORE` + `PLAYWRIGHT_BROWSERS_PATH` against local `?demo=1`; confirm Chromium errors=[] (no vibrate block).
-3. Spot-check `.star` computed `font-size` ≥ 16px and `aria-hidden="true"`.
-
-## Reproduce current checks
+## Live verify commands
 ```bash
-cd DeePonyCap
-git checkout perfection/deeponycap-v3
-mkdir -p /tmp/deeponycap-serve/DeePonyCap && rsync -a --exclude node_modules --exclude .git ./ /tmp/deeponycap-serve/DeePonyCap/
-python3 -m http.server 8771 --bind 127.0.0.1 --directory /tmp/deeponycap-serve
-# other terminal:
+curl -sS https://shamikhahmed.github.io/DeePonyCap/VERSION.json
 export PW_CORE=/Users/shamikhahmed/Projects/Cap/Cap-Apps/MasteryCap/node_modules/playwright-core
-export PLAYWRIGHT_BROWSERS_PATH="$HOME/Library/Caches/ms-playwright"
-node ../capricorn-tooling/scripts/device-qa.mjs qa/perfection/verify --apps=DeePonyCap \
-  --url='DeePonyCap=http://127.0.0.1:8771/DeePonyCap/?demo=1'
+export PLAYWRIGHT_BROWSERS_PATH=$HOME/Library/Caches/ms-playwright
+node ../capricorn-tooling/scripts/device-qa.mjs qa/perfection/live-check --apps=DeePonyCap
 ```

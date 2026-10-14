@@ -2,7 +2,7 @@
 
 **Version / tag:** 3.9.0 / `v3.9.0`  
 **Live URL:** https://shamikhahmed.github.io/DeePonyCap/?demo=1  
-**App SHA (main):** `8984c12` (+ CI fix forward)  
+**App SHA (main):** merge `8984c12` · tip after CI fix (see `git log -1`)  
 **Report date:** 2026-10-14
 
 ## Gates (§8.2)

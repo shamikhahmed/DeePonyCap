@@ -62,7 +62,7 @@ test.describe('DeePonyCap smoke', () => {
 
   test('privacy policy page is valid', async ({ page }) => {
     await page.goto('/privacy.html');
-    await expect(page.getByRole('heading', { name: /Privacy Policy/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /DeePonyCap privacy|Privacy Policy/i })).toBeVisible();
     await expect(page.getByText(/Nothing/i).first()).toBeVisible();
     await expect(page.getByText(/VaultCap|LedgerCap/i)).toHaveCount(0);
   });
