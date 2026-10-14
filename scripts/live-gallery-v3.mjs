@@ -20,12 +20,13 @@ const VIEWPORTS = {
 };
 
 const SCREENS = [
-  { nav: 'stable', group: 'Collection', screen: 'Stable', caption: 'Collection home (demo).' },
-  { nav: 'logs', group: 'Collection', screen: 'Logs', caption: 'Series logs and history.' },
-  { nav: 'map', group: 'Organize', screen: 'Map', caption: 'Shelf map and organization.' },
-  { nav: 'wishlist', group: 'Wishlist', screen: 'Wishlist', caption: 'Must, want, someday tiers.' },
-  { nav: 'accessories', group: 'Extras', screen: 'Accessories', caption: 'Accessories and playsets.' },
-  { nav: 'settings', group: 'System', screen: 'Settings', caption: 'Theme, haptics, export.' },
+  { nav: 'stable', group: 'Collection', screen: 'Stable', caption: 'Your collection, front and centre.' },
+  { nav: 'wishlist', group: 'Collection', screen: 'Wishlist', caption: 'Wishlist tiers for what you want next.' },
+  { nav: 'map', group: 'Collection', screen: 'Map', caption: 'Where everything lives.' },
+  { nav: 'stats', group: 'Insights', screen: 'Stats', caption: 'Achievements and collection insights.' },
+  { nav: 'logs', group: 'Insights', screen: 'Logs', caption: 'History of what you added and changed.' },
+  { nav: 'accessories', group: 'Collection', screen: 'Accessories', caption: 'Accessories and extras.' },
+  { nav: 'settings', group: 'System', screen: 'Settings', caption: 'Compact view, dark mode, app lock and backups.' },
 ];
 
 function slug(s) {
@@ -117,7 +118,12 @@ async function main() {
         await setTheme(page, theme);
 
         for (const scr of SCREENS) {
-          await goNav(page, scr.nav);
+          try {
+            await goNav(page, scr.nav);
+          } catch (err) {
+            process.stdout.write(`skip ${theme}/${device} ${scr.nav || scr.path}: unreachable — skipped\n`);
+            continue;
+          }
           await setTheme(page, theme);
           const rel = shotPath(theme, device, scr.group, scr.screen);
           const webpPath = join(GALLERY_DIR, rel);
