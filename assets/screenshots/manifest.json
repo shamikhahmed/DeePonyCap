@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-20T10:33:24.736Z",
+  "generatedAt": "2026-09-16T10:41:07.519Z",
   "themes": [
     "dark",
     "light"
@@ -273,5 +273,6 @@
         }
       ]
     }
-  ]
+  ],
+  "stepRNote": "Primary stable shots regenerated 2026-09-16 (C-39); full suite hung on onboarding loop under load"
 }

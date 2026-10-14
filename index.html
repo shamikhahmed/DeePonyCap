@@ -36,9 +36,10 @@
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180">
 <link rel="stylesheet" href="css/fonts-local.css">
-  <link rel="preload" href="css/app.css?v=11" as="style">
+  <link rel="preload" href="css/app.css?v=12" as="style">
+<link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/capricorn-core.css">
-<link rel="stylesheet" href="css/app.css?v=11">
+<link rel="stylesheet" href="css/app.css?v=12">
 
 <link rel="stylesheet" href="css/identity.css">
 </head>
@@ -148,8 +149,8 @@
 </div>
 </div>
 
-<div class="sheet-bg" id="sheetBg" onclick="UI.closeSheet()"></div>
-<div class="sheet" id="sheet" onclick="event.stopPropagation()">
+<div class="sheet-bg" id="sheetBg" onclick="UI.closeSheet()" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Details" hidden onclick="event.stopPropagation()">
   <div class="sheet-handle"></div>
   <div id="sheetBody"></div>
 </div>

@@ -26,7 +26,10 @@ jobs:
       - name: Stage allowlisted site (C-57)
         env:
           ALLOW_PATHS: >-
-            index.html landing.html pitch.html presentation.html privacy.html changelog.html screen-gallery.html sw.js manifest.json VERSION.json css js assets
+            index.html landing.html pitch.html presentation.html privacy.html
+            changelog.html screen-gallery.html
+            sw.js manifest.json VERSION.json
+            css js assets
           FORBIDDEN_EXTRA: scripts docs
         run: bash scripts/stage-pages-site.sh _site
       - uses: actions/upload-pages-artifact@v3

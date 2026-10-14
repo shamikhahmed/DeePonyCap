@@ -1,18 +1,18 @@
 'use strict';
 const Nav = {
   _sidebarTabs: [
-    { id: 'stable', label: 'Stable', mark: 'Home' },
-    { id: 'logs', label: 'Logs', mark: 'Log' },
-    { id: 'map', label: 'Map', mark: 'Map' },
-    { id: 'wishlist', label: 'Wishlist', mark: 'Wish' },
-    { id: 'accessories', label: 'Extras', mark: 'Xtra' },
+    { id: 'stable', label: 'Stable' },
+    { id: 'logs', label: 'Logs' },
+    { id: 'map', label: 'Map' },
+    { id: 'wishlist', label: 'Wishlist' },
+    { id: 'accessories', label: 'Extras' },
   ],
   _renderSidebar(activeTab) {
     const sidebar = document.getElementById('cap-nav-sidebar');
     if (!sidebar) return;
     sidebar.innerHTML = '<div class="cap-sidebar-brand">DeePonyCap</div>' +
       this._sidebarTabs.map(t =>
-        `<button type="button" class="cap-side-btn${t.id === activeTab ? ' on' : ''}" data-tab="${t.id}" onclick="Nav.go('${t.id}')"><span class="nav-mark" aria-hidden="true">${t.mark}</span><span>${t.label}</span></button>`
+        `<button type="button" class="cap-side-btn${t.id === activeTab ? ' on' : ''}" data-tab="${t.id}" onclick="Nav.go('${t.id}')">${t.label}</button>`
       ).join('');
   },
   /** Navigates to the given tab id, updating active screens, nav buttons, sidebar, and page title. */

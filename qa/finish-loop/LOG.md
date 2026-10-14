@@ -22,8 +22,53 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - `npm run tier1` → PASS · tag `v3.8.3` · main `022253c`
 - VO ⛔ BLOCKED-EXTERNAL
 
+## 2026-09-16 — C-39
+### §15 mini-plan
+- Problem: sidebar HOME/LOG collide with labels; emoji in controls; magical ponies copy; USD hardcode.
+- Root cause: dual mark+label in sidebar; emoji in button text; toLocaleString \$ only.
+- Files: navigation.js, constants.js, render-core.js, ui-core.js, app.css
+- Change: label-only sidebar; uiIcon SVG in controls; "N in your collection"; formatEstValue Intl USD.
+- Risks: decorative emoji remain with aria-hidden.
+- Verification: desktop sidebar readable; control buttons SVG; currency formatted.
+
 ### 2026-09-16 C-57 Pages allowlist
-- **Problem:** Pages published repo-root internals.
+- **Problem:** Pages published repo-root internals (HANDOVER/CLAUDE/qa/worker/package.json).
 - **Root cause:** deploy copied (nearly) the whole tree.
-- **Change:** allowlisted stage script + SW verify; workflow stages public paths only.
-- **Verification:** local stage dry-run; live curl after deploy.
+- **Change:** `scripts/stage-pages-site.sh` + `verify-pages-artifact.cjs`; workflow stages allowlisted paths only.
+- **Verification:** local stage dry-run + SW precache check; live curl after deploy.
+
+## 2026-09-16 — Finish Review 3 follow-up (finish/deeponycap-stepR)
+- Committed: C-29 tokens.css + CSS var migration; C-31 finish-matrix CI + test:matrix; capture-axe.mjs; screenshot/gallery-manifest refresh; CI-WORKFLOW; skip-allowlist; honest TIER1 FAIL (was stale PASS).
+- Left uncommitted: none.
+- Not merging (Tier1 FAIL: matrix-results / empty LH / axe / kill:raw-hex=3).
+
+- Also: added qa/finish-loop/axe/home-demo-dark.json (real axe capture).
+
+## 2026-09-16 — residual a11y + matrix
+- Committed: pill ink contrast; sheet dialog a11y hidden; matrix dismisses splash/onboard overlays; honest TIER1 FAIL.
+
+## 2026-09-16 — sheet a11y JS + matrix evidence
+- Committed: excellence/ui-core sheet hidden/focus wiring; matrix-results 6/6 + shots; honest TIER1.
+
+## 2026-09-16 — contrast follow-up
+- Committed: nav/demo/toast contrast tokens; axe capture hardening; axe JSON refresh; CSS cache-bust v12.
+
+## 2026-09-16 — nav contrast specificity
+- Committed: stronger nav/greet contrast selectors; axe refresh (still 1 s/c each theme — honest).
+
+## 2026-09-16 — C-35 nav/btn/toast contrast (Step R)
+### §15 mini-plan
+- Problem: axe serious color-contrast on premium nav labels, dark `.btn-g` (-webkit-text-fill), opacity-0 toast.
+- Root cause: dark glass `--tab-bar-bg` under light-theme ink; fill-color stuck on pink; toast still in a11y tree.
+- Files: css/app.css, css/identity.css, scripts/capture-axe.mjs
+- Change: opaque premium nav + AA labels; reset fill-color on dark ghost buttons; toast visibility:hidden when not shown.
+- Verification: `npm run axe` → 0 serious/critical both themes.
+
+## 2026-09-16 — Review 3 product loop (hardened tier1)
+### §15 mini-plan
+- Problem: hardened tier1 fails on kill-list, missing matrix-results, CI-WORKFLOW, axe dir.
+- Root cause: C-29 removed brandOk CSS exemptions; evidence files never committed; CI workflow name unset.
+- Change: hex→`tokens.css`/`brand-palette*`; PulseCap `capricorn-core`; `CI-WORKFLOW.txt`; skip-allowlist; `writeMatrixResults` + FINISH_MATRIX CI job; real axe JSON.
+- Risks: LH/gallery freshness still open; DeePony dark theme toggle flaky under axe.
+- Verification: `npm run tier1` recorded FAIL honestly (no PASS claim).
+

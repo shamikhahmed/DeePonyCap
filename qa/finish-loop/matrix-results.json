@@ -1,0 +1,18 @@
+{
+  "failures": [],
+  "shotCount": 6,
+  "expectedShots": 6,
+  "generatedAt": "2026-09-16T11:20:20.344Z",
+  "routes": [
+    "stable"
+  ],
+  "viewports": [
+    "iphone-se3",
+    "iphone-16",
+    "laptop"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ]
+}

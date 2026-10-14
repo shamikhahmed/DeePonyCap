@@ -8,15 +8,24 @@ const UI = {
   openSheet(html) {
     this._lastFocus = document.activeElement;
     document.getElementById('sheetBody').innerHTML = html;
-    document.getElementById('sheetBg').classList.add('on');
-    document.getElementById('sheet').classList.add('on');
+    const bg = document.getElementById('sheetBg');
     const sheetEl = document.getElementById('sheet');
+    bg.classList.add('on');
+    bg.hidden = false;
+    sheetEl.classList.add('on');
+    sheetEl.hidden = false;
+    sheetEl.removeAttribute('aria-hidden');
     const firstFocusable = sheetEl.querySelector('button, input, select, [tabindex="0"]');
     if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
   },
   closeSheet() {
-    document.getElementById('sheetBg').classList.remove('on');
-    document.getElementById('sheet').classList.remove('on');
+    const bg = document.getElementById('sheetBg');
+    const sheetEl = document.getElementById('sheet');
+    bg.classList.remove('on');
+    bg.hidden = true;
+    sheetEl.classList.remove('on');
+    sheetEl.hidden = true;
+    sheetEl.setAttribute('aria-hidden', 'true');
     editingId = null; detailId = null;
     if (this._lastFocus && typeof this._lastFocus.focus === 'function') {
       setTimeout(() => this._lastFocus.focus(), 50);
@@ -132,7 +141,7 @@ const UI = {
       <div id="dupWarn"></div>
       <div class="form-actions">
         <button type="button" class="btn-g" onclick="UI.closeSheet()">Cancel</button>
-        <button type="button" class="btn-p" onclick="UI.savePony()">Save Pony ✨</button>
+        <button type="button" class="btn-p" onclick="UI.savePony()">${uiIcon('check')} Save Pony</button>
       </div>`);
     setTimeout(() => UI.showDupWarn(), 0);
   },
@@ -383,7 +392,7 @@ const UI = {
     const btns = [
       ...shelves.filter(s => s !== cur).map(s => {
         const js = String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        return `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','${js}');UI.closeSheet()">🗄️ ${Render.esc(s)}</button>`;
+        return `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','${js}');UI.closeSheet()">${uiIcon('shelf')} ${Render.esc(s)}</button>`;
       }),
       cur ? `<button type="button" class="btn-g" onclick="UI.movePonyToShelf('${id}','');UI.closeSheet()">📦 Unshelved</button>` : '',
       `<button type="button" class="btn-g" onclick="UI.promptNewShelf('${id}')">+ New shelf…</button>`

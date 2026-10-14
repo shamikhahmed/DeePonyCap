@@ -1,0 +1,8 @@
+{
+  "entries": [
+    {
+      "pattern": "screenshots.spec",
+      "reason": "Screenshot capture gated behind CAPTURE_SCREENSHOTS=1 — gallery-equivalent skip (C-32)"
+    }
+  ]
+}

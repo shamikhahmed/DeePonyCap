@@ -370,8 +370,15 @@ ${pages || '<p style="text-align:center;padding:40mm">No ponies in collection ye
     if (sheet) {
       sheet.setAttribute('role', 'dialog');
       sheet.setAttribute('aria-modal', 'true');
-      sheet.setAttribute('aria-labelledby', 'sheetTitle');
+      sheet.setAttribute('aria-label', 'Details');
+      sheet.removeAttribute('aria-labelledby');
+      if (!sheet.classList.contains('on')) {
+        sheet.hidden = true;
+        sheet.setAttribute('aria-hidden', 'true');
+      }
     }
+    const bg = document.getElementById('sheetBg');
+    if (bg && !bg.classList.contains('on')) bg.hidden = true;
     document.querySelectorAll('.nav-btn').forEach(btn => {
       const label = btn.querySelector('.nav-label')?.textContent?.trim() || btn.dataset.tab;
       if (label) btn.setAttribute('aria-label', label);
