@@ -12,6 +12,7 @@
     "test:e2e": "playwright test",
     "capture:screenshots": "CAPTURE_SCREENSHOTS=1 playwright test tests/screenshots.spec.js",
     "gallery": "CAPTURE_SCREENSHOTS=1 playwright test tests/screenshots.spec.js && echo '\nOpen http://127.0.0.1:8770/screen-gallery.html'",
+    "gallery:v3": "node scripts/live-gallery-v3.mjs",
     "gallery:view": "python3 -m http.server 8770",
     "verify": "node scripts/check-sw-truth.js && playwright test",
     "test:matrix": "FINISH_MATRIX=1 playwright test tests/finish-matrix.spec.mjs",

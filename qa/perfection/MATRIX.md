@@ -16,7 +16,10 @@ Evidence root: `qa/perfection/baseline/` (before) · `qa/perfection/device/` (af
 | light×MacBook 1440×webkit | ✅ | `device/DeePonyCap-webkit-macbook.png` |
 | light×MacBook 1440×chromium | ✅ | `device/DeePonyCap-chromium-macbook.png` (post-fix: 0 vibrate) |
 | light×Android 412×chromium | ✅ | `device/DeePonyCap-chromium-android.png` (post-fix: 0 vibrate) |
-| dark×*×* | ⏳ | Phase C — force dark + capture |
+| dark×iPhone 390×* | ✅ | `docs/screenshots/gallery/dark/iphone/*` (v3 Wave G) |
+| dark×iPad 1180×* | ✅ | `docs/screenshots/gallery/dark/ipad/*` |
+| dark×MacBook 1440×* | ✅ | `docs/screenshots/gallery/dark/mac/*` |
+| light×gallery v3 primary | ✅ | `docs/screenshots/gallery/gallery-manifest.json` (24 shots) |
 | wide 1920×* | ⏳ | Phase C |
 
 ## Other inventory × states

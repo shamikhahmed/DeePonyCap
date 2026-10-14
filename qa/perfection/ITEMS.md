@@ -26,5 +26,7 @@ Test: branch cut from merged main; baseline 7/7 hard-clean
 Auditor: ✅ VERIFIED 2026-10-14T11:30:00Z — auditor-independent 7/7 hard=0 tap=0 text=0 pageErr=0 hubConsole=0 @ 957d868
 
 ### DPY-V3-4 — gallery manifest v3
-severity: P2     status: ⏳ OPEN
-Where: Playwright gallery both themes × device classes · Phase G
+severity: P2     status: ✅ FIXED
+Where: `docs/screenshots/gallery/` · live @ shamikhahmed.github.io/DeePonyCap/?demo=1
+Evidence: schema v2 · 24 WebP (Stable, Wishlist, Accessories, Settings × light/dark × iphone/ipad/mac)
+Fix: `scripts/live-gallery-v3.mjs` + shared `screen-gallery.*`
