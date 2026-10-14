@@ -36,7 +36,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;bac
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;background:
   radial-gradient(circle at 12px 12px,rgba(180,120,150,.22) 1.7px,transparent 0) 0 0/38px 38px}
 .stars{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.star{position:absolute;font-size: 0.6875rem;opacity:.35;animation:float 3s ease-in-out infinite}
+.star{position:absolute;font-size:16px;line-height:1;opacity:.35;animation:float 3s ease-in-out infinite;pointer-events:none}
 .splash{position:fixed;inset:0;z-index:900;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--pc-2b1d2f) 0%,var(--pc-3a2842) 45%,var(--pc-4a3055) 100%);transition:opacity .5s ease,visibility .5s}
 html:not(.dark-mode) .splash{background:linear-gradient(160deg,var(--pc-fff5fa) 0%,var(--pc-ffe8f4) 50%,var(--pc-ffd6ec) 100%)}
 .splash.hide{opacity:0;visibility:hidden;pointer-events:none}

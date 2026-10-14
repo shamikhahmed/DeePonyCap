@@ -4,7 +4,7 @@ Track your collection, shelves and wishlist.
 
 Offline PWA by Capricorn Systems. Photos, shelves, wishlist and series logs stay on your device.
 
-**Live:** https://shamikhahmed.github.io/DeePonyCap/
+**Version:** 3.9.0 · **Tag:** `v3.9.0` · **Live:** https://shamikhahmed.github.io/DeePonyCap/
 
 ## Run
 

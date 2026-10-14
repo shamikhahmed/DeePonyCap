@@ -211,7 +211,8 @@ const DemoSeed = {
     Store.save();
     Render.all();
     if (!silent) Toast.show('Demo collection loaded');
-    setTimeout(() => Achievements.checkAll(false), 700);
+    // Silent demo boot must not celebrate/vibrate before userActivation (DPY-V3-2).
+    setTimeout(() => Achievements.checkAll(!!silent), 700);
     return true;
   }
 };

@@ -12,3 +12,8 @@ DerivedData/
 
 # Archived release trees (P-PONY-1)
 releases/
+
+# Perfection loop screenshots (JSON evidence only in git)
+qa/perfection/**/*.png
+qa/perfection/**/*.jpg
+

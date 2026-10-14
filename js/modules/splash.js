@@ -2,10 +2,13 @@
 const Stars = {
   init() {
     const w = document.getElementById('stars');
+    if (!w) return;
+    w.setAttribute('aria-hidden', 'true');
     const em = ['✨','⭐','💫','🌟','💖'];
     for (let i = 0; i < 18; i++) {
       const s = document.createElement('span');
       s.className = 'star';
+      s.setAttribute('aria-hidden', 'true');
       s.textContent = em[i % em.length];
       s.style.left = (Math.random() * 100) + '%';
       s.style.top = (Math.random() * 100) + '%';

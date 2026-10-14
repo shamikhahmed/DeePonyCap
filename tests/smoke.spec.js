@@ -66,4 +66,29 @@ test.describe('DeePonyCap smoke', () => {
     await expect(page.getByText(/Nothing/i).first()).toBeVisible();
     await expect(page.getByText(/VaultCap|LedgerCap/i)).toHaveCount(0);
   });
+
+  test('demo boot: no vibrate-before-activation; decorative stars ≥16px', async ({ page }) => {
+    const errors = [];
+    page.on('console', (m) => {
+      if (m.type() === 'error') errors.push(m.text());
+    });
+    await page.goto('/?demo=1');
+    await page.waitForFunction(() => window.__APP_READY__ === true, { timeout: 15000 });
+    await page.waitForTimeout(1200);
+    const vibrateBlocked = errors.filter((e) => /navigator\.vibrate|user hasn't tapped/i.test(e));
+    expect(vibrateBlocked).toEqual([]);
+    const starMetrics = await page.evaluate(() => {
+      const stars = [...document.querySelectorAll('.star')];
+      return {
+        count: stars.length,
+        minPx: stars.length
+          ? Math.min(...stars.map((el) => parseFloat(getComputedStyle(el).fontSize)))
+          : 0,
+        ariaHidden: stars.every((el) => el.getAttribute('aria-hidden') === 'true'),
+      };
+    });
+    expect(starMetrics.count).toBeGreaterThan(0);
+    expect(starMetrics.minPx).toBeGreaterThanOrEqual(16);
+    expect(starMetrics.ariaHidden).toBe(true);
+  });
 });

@@ -1,8 +1,15 @@
 'use strict';
 const Haptic = {
   enabled() { return S.settings?.hapticsEnabled !== false; },
-  tap() { if (this.enabled() && navigator.vibrate) navigator.vibrate(8); },
-  success() { if (this.enabled() && navigator.vibrate) navigator.vibrate([10, 35, 18]); },
+  /** Chromium blocks vibrate until a prior user activation (§7.5 / DPY-V3-2). */
+  canVibrate() {
+    if (!this.enabled() || typeof navigator.vibrate !== 'function') return false;
+    const ua = navigator.userActivation;
+    if (ua && !ua.hasBeenActive) return false;
+    return true;
+  },
+  tap() { if (this.canVibrate()) navigator.vibrate(8); },
+  success() { if (this.canVibrate()) navigator.vibrate([10, 35, 18]); },
 };
 
 const Seasonal = {
