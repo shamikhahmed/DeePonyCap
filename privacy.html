@@ -15,6 +15,9 @@ h1{font-size:1.75rem;margin:24px 0 12px;letter-spacing:-.02em}
 h2{font-size:1.15rem;margin:20px 0 8px;color:#ff6b9d}
 p,li{font-size:15px;color:#c4a0b0;margin-bottom:10px}
 ul{margin:8px 0 16px 20px}
+table{width:100%;border-collapse:collapse;margin:12px 0 16px;font-size:14px}
+th,td{border:1px solid rgba(255,255,255,.1);padding:8px;text-align:left;color:#c4a0b0}
+th{color:#fff5f8}
 footer{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;color:#c4a0b0}
 </style>
 <link rel="stylesheet" href="css/capricorn-core.css">
@@ -25,42 +28,49 @@ footer{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.0
   <a href="index.html">App</a>
 </nav>
 <article>
-  <h1>DeePonyCap — Privacy Policy</h1>
-  <p><strong>Last updated:</strong> September 15, 2026</p>
-  <p>DeePonyCap is an offline-first app for tracking your collectible figures. <strong>Your data stays on your device</strong> unless you explicitly export it.</p>
+  <h1>DeePonyCap privacy</h1>
+  <p><strong>Effective:</strong> 14 October 2026 · Published by Capricorn Systems, Karachi, Pakistan</p>
+  <p>DeePonyCap works on your device. We don't have accounts, analytics, ads or tracking, and we don't sell data.</p>
 
-  <h2>What we collect</h2>
+  <h2>What stays on your device</h2>
   <ul>
-    <li><strong>Nothing.</strong> No accounts, analytics, advertising, or third-party trackers.</li>
-    <li>No data is sent to Capricorn Systems or any server when you use the app.</li>
+    <li>Collection (names, photos, shelves, wishlist, accessories) in <strong>localStorage</strong> / <strong>IndexedDB</strong>.</li>
+    <li>Optional parent PIN (stored as a hash on device only).</li>
+    <li>Preferences (theme, collector mode, haptics).</li>
+    <li>Camera / photo-library access only when you choose to add a photo; images stay local.</li>
+    <li>Haptics use the browser Vibration API locally after a user gesture (never sent to a server).</li>
   </ul>
 
-  <h2>What is stored on your device</h2>
-  <ul>
-    <li>Pony collection (names, photos, shelves, wishlist, accessories)</li>
-    <li>Optional parent PIN (stored as a hash on device only)</li>
-    <li>Preferences (theme, collector mode, haptics)</li>
-  </ul>
-  <p>Storage uses <strong>localStorage</strong> and optionally <strong>IndexedDB</strong> for photos.</p>
+  <h2>What leaves your device</h2>
+  <p><strong>Nothing</strong> for collection data, sync, or analytics. CSP <code>connect-src 'self'</code> — no third-party APIs.</p>
+  <table>
+    <thead><tr><th>Service</th><th>What is sent</th><th>Why</th><th>When</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>GitHub Pages (static host)</td>
+        <td>Normal browser request metadata for HTML/JS/CSS/icons</td>
+        <td>Serve the PWA</td>
+        <td>First visit and when the service worker refreshes cached assets</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>After first load, the app works offline via the service worker. No cloud backup unless you export a file yourself.</p>
 
-  <h2>Photos &amp; camera</h2>
-  <p>Photos you add are saved locally. Camera or photo library access is requested only when you choose to add a photo.</p>
-
-  <h2>Network</h2>
-  <ul>
-    <li>The web app loads static files from GitHub Pages on first visit.</li>
-    <li>After first load, the app works offline via the service worker.</li>
-    <li>No cloud backup unless you export a file yourself.</li>
-  </ul>
+  <h2>Your controls</h2>
+  <p>Export / import / erase from Settings. Optional Parent Lock PIN can gate export, import, and delete. Clearing site data removes local copies.</p>
 
   <h2>Children</h2>
-  <p>DeePonyCap is child-friendly. Parents can enable an optional Parent Lock PIN for export, import, and delete. We recommend supervising exports and device sharing.</p>
+  <p>DeePonyCap is intended for a general audience aged 13 and over. Parents can enable an optional Parent Lock PIN; supervise exports and device sharing.</p>
+
+  <h2>Independence</h2>
+  <p>DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company.</p>
+
+  <h2>Changes</h2>
+  <p>We'll update this page and its effective date if anything changes.</p>
 
   <h2>Contact</h2>
-  <p>Built by Capricorn Systems — <a href="https://github.com/shamikhahmed/DeePonyCap/issues">GitHub Issues</a></p>
-<h2>Independence</h2>
-  <p>DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company.</p>
+  <p><a href="https://shamikhahmed.github.io/support.html">Support</a> · <a href="https://github.com/shamikhahmed/DeePonyCap/issues">GitHub Issues</a> · No personal support email (G-4).</p>
 </article>
-<footer>© 2026 Shamikh Ahmed · <a href="https://github.com/shamikhahmed/DeePonyCap">GitHub</a></footer>
+<footer>© 2026 Capricorn Systems · <a href="https://github.com/shamikhahmed/DeePonyCap">GitHub</a></footer>
 </body>
 </html>

@@ -2,6 +2,7 @@
 - DPY-V3-1: decorative star emoji ≥16px + `aria-hidden` (no sub-11px icon glyphs).
 - DPY-V3-2: haptics gated on `navigator.userActivation.hasBeenActive`; silent demo skips celebrate vibrate.
 - Perfection Wave B docs: `qa/perfection/{STATE,ITEMS,INVENTORY,MATRIX}.md` + device-qa JSON.
+- Docs (§11): HANDOVER branch + version; privacy network honesty (13+; nothing leaves except GitHub Pages static).
 
 ## 3.8.3 — 2026-09-15
 - Tier 1 gate: DPBrand palette, CapConfirm/CapPrompt, SINKS + finish-loop evidence.
