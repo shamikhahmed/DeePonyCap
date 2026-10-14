@@ -46,6 +46,6 @@ async function boot() {
     });
   }
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=62').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=64').catch(()=>{});
 }
 boot();

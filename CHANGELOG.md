@@ -1,8 +1,11 @@
-## Unreleased — perfection/deeponycap-v3
+## 3.9.0 — 2026-10-14
+- Perfection Loop v3 Wave B release (G-8).
 - DPY-V3-1: decorative star emoji ≥16px + `aria-hidden` (no sub-11px icon glyphs).
 - DPY-V3-2: haptics gated on `navigator.userActivation.hasBeenActive`; silent demo skips celebrate vibrate.
-- Perfection Wave B docs: `qa/perfection/{STATE,ITEMS,INVENTORY,MATRIX}.md` + device-qa JSON.
-- Docs (§11): HANDOVER branch + version; privacy network honesty (13+; nothing leaves except GitHub Pages static).
+- DPY-V3-3: `finish/deeponycap-stepR` a11y/contrast on main (Phase 0).
+- Perfection docs: `qa/perfection/{STATE,ITEMS,INVENTORY,MATRIX}.md` + device-qa JSON.
+- Docs (§11): HANDOVER + privacy network honesty (13+; nothing leaves except GitHub Pages static).
+- SW `deeponycap-v64` · register `sw.js?v=64`.
 
 ## 3.8.3 — 2026-09-15
 - Tier 1 gate: DPBrand palette, CapConfirm/CapPrompt, SINKS + finish-loop evidence.
