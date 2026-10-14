@@ -19,6 +19,32 @@
       "h": 2532
     },
     {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "light",
+      "device": "iphone",
+      "file": "light/iphone/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 1170,
+      "h": 2532
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "light",
+      "device": "iphone",
+      "file": "light/iphone/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
+      "w": 1170,
+      "h": 2532
+    },
+    {
       "id": "wishlist--wishlist--demo",
       "group": "Wishlist",
       "screen": "Wishlist",
@@ -67,6 +93,32 @@
       "file": "dark/iphone/collection--stable--demo.webp",
       "route": "#stable",
       "caption": "Collection home (demo).",
+      "w": 1170,
+      "h": 2532
+    },
+    {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "dark",
+      "device": "iphone",
+      "file": "dark/iphone/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 1170,
+      "h": 2532
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "dark",
+      "device": "iphone",
+      "file": "dark/iphone/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
       "w": 1170,
       "h": 2532
     },
@@ -123,6 +175,32 @@
       "h": 1640
     },
     {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "light",
+      "device": "ipad",
+      "file": "light/ipad/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 2360,
+      "h": 1640
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "light",
+      "device": "ipad",
+      "file": "light/ipad/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
+      "w": 2360,
+      "h": 1640
+    },
+    {
       "id": "wishlist--wishlist--demo",
       "group": "Wishlist",
       "screen": "Wishlist",
@@ -171,6 +249,32 @@
       "file": "dark/ipad/collection--stable--demo.webp",
       "route": "#stable",
       "caption": "Collection home (demo).",
+      "w": 2360,
+      "h": 1640
+    },
+    {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "dark",
+      "device": "ipad",
+      "file": "dark/ipad/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 2360,
+      "h": 1640
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "dark",
+      "device": "ipad",
+      "file": "dark/ipad/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
       "w": 2360,
       "h": 1640
     },
@@ -227,6 +331,32 @@
       "h": 1800
     },
     {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "light",
+      "device": "mac",
+      "file": "light/mac/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 2880,
+      "h": 1800
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "light",
+      "device": "mac",
+      "file": "light/mac/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
+      "w": 2880,
+      "h": 1800
+    },
+    {
       "id": "wishlist--wishlist--demo",
       "group": "Wishlist",
       "screen": "Wishlist",
@@ -275,6 +405,32 @@
       "file": "dark/mac/collection--stable--demo.webp",
       "route": "#stable",
       "caption": "Collection home (demo).",
+      "w": 2880,
+      "h": 1800
+    },
+    {
+      "id": "collection--logs--demo",
+      "group": "Collection",
+      "screen": "Logs",
+      "state": "demo",
+      "theme": "dark",
+      "device": "mac",
+      "file": "dark/mac/collection--logs--demo.webp",
+      "route": "#logs",
+      "caption": "Series logs and history.",
+      "w": 2880,
+      "h": 1800
+    },
+    {
+      "id": "organize--map--demo",
+      "group": "Organize",
+      "screen": "Map",
+      "state": "demo",
+      "theme": "dark",
+      "device": "mac",
+      "file": "dark/mac/organize--map--demo.webp",
+      "route": "#map",
+      "caption": "Shelf map and organization.",
       "w": 2880,
       "h": 1800
     },

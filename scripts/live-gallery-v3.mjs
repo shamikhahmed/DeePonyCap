@@ -21,6 +21,8 @@ const VIEWPORTS = {
 
 const SCREENS = [
   { nav: 'stable', group: 'Collection', screen: 'Stable', caption: 'Collection home (demo).' },
+  { nav: 'logs', group: 'Collection', screen: 'Logs', caption: 'Series logs and history.' },
+  { nav: 'map', group: 'Organize', screen: 'Map', caption: 'Shelf map and organization.' },
   { nav: 'wishlist', group: 'Wishlist', screen: 'Wishlist', caption: 'Must, want, someday tiers.' },
   { nav: 'accessories', group: 'Extras', screen: 'Accessories', caption: 'Accessories and playsets.' },
   { nav: 'settings', group: 'System', screen: 'Settings', caption: 'Theme, haptics, export.' },

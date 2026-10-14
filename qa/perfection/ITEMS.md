@@ -28,5 +28,5 @@ Auditor: ✅ VERIFIED 2026-10-14T11:30:00Z — auditor-independent 7/7 hard=0 ta
 ### DPY-V3-4 — gallery manifest v3
 severity: P2     status: ✅ FIXED
 Where: `docs/screenshots/gallery/` · live @ shamikhahmed.github.io/DeePonyCap/?demo=1
-Evidence: schema v2 · 24 WebP (Stable, Wishlist, Accessories, Settings × light/dark × iphone/ipad/mac)
+Evidence: schema v2 · **36** WebP (6 primary tabs × light/dark × iphone/ipad/mac) · `npm run gallery:v3`
 Fix: `scripts/live-gallery-v3.mjs` + shared `screen-gallery.*`
