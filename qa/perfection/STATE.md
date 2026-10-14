@@ -8,7 +8,7 @@ Updated: 2026-10-14T11:12:00Z · Builder: Builder-DeePonyCap
 `perfection/deeponycap-v3` (from `main` @ `716beb7` — finish/deeponycap-stepR merged)
 
 ## Last commit
-_(set after push)_ · tip on `perfection/deeponycap-v3`
+Fix `9f2cc29` · tip `833aea5` docs · branch `perfection/deeponycap-v3`
 
 ## What's running / done
 - Phase A: branch + baseline device-qa → `qa/perfection/baseline/device-qa.json` (**7/7 hard-clean**; Chromium soft: vibrate-before-activation ×2).
