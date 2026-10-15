@@ -44,7 +44,7 @@
 <link rel="stylesheet" href="css/identity.css">
 </head>
 <body data-cap-app="1">
-<a href="#main" class="skip-link">Skip to content</a>
+<a href="#main" class="cap-skip-link skip-link">Skip to content</a>
 <div class="cap-ambient" aria-hidden="true"></div>
 <canvas id="cap-scene" class="cap-scene-canvas cap-scene-canvas--subtle" aria-hidden="true"></canvas>
 <div class="cap-scroll-progress" aria-hidden="true"></div>
@@ -112,7 +112,7 @@
 <div class="install-hint" id="installHint">
   <span class="install-hint-mark" aria-hidden="true">App</span>
   <p><strong>Install DeePonyCap</strong> — tap Share → <strong>Add to Home Screen</strong> for the full app experience.</p>
-  <button class="btn-g" style="padding:8px 12px;font-size:.75rem" onclick="Install.dismiss()">✕</button>
+  <button type="button" class="btn-g" style="padding:8px 12px;font-size:.75rem;min-width:44px;min-height:44px" onclick="Install.dismiss()" aria-label="Dismiss install hint">✕</button>
 </div>
 <div class="cap-desktop-shell">
 <nav id="cap-nav-sidebar" aria-label="Module navigation"></nav>
