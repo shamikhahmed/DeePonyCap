@@ -1,3 +1,7 @@
+## 3.9.5 — 2026-10-16
+
+- Skip install hint on demo; install-hint contrast; SW deeponycap-v69.
+
 ## 3.9.4 — 2026-10-16
 - V5 §3d: skip splash entirely on `?demo=1` / reduced-motion
 - SW `deeponycap-v68`
