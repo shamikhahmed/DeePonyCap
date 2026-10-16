@@ -23,7 +23,14 @@ const Splash = {
     const demo = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fill = document.getElementById('splashFill');
-    const ms = (demo || reduce) ? 40 : 280;
+    /* Demo / reduce: skip splash entirely — main-thread free for Stable LCP (v5 §3d). */
+    if (demo || reduce) {
+      const splash = document.getElementById('splash');
+      if (splash) { splash.classList.add('hide'); splash.style.display = 'none'; }
+      cb();
+      return;
+    }
+    const ms = 200;
     requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
     setTimeout(() => {
       const splash = document.getElementById('splash');

@@ -1,3 +1,7 @@
+## 3.9.4 — 2026-10-16
+- V5 §3d: skip splash entirely on `?demo=1` / reduced-motion
+- SW `deeponycap-v68`
+
 ## 3.9.3 — 2026-10-16
 - Short splash (40ms demo); defer Stars.init
 - SW `deeponycap-v67`
