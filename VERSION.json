@@ -2,5 +2,6 @@
   "name": "DeePonyCap",
   "version": "3.9.5",
   "buildDate": "2026-10-16",
-  "channel": "stable"
+  "channel": "stable",
+  "swCache": "deeponycap-v69"
 }
