@@ -1,3 +1,7 @@
+## 3.9.1 — 2026-10-16
+- V5 §3 Performance: async-load capricorn-core + identity CSS (tokens+app stay blocking)
+- SW `deeponycap-v65` · register `sw.js?v=65`
+
 ## 3.9.0 — 2026-10-14
 - Perfection Loop v3 Wave B release (G-8).
 - DPY-V3-1: decorative star emoji ≥16px + `aria-hidden` (no sub-11px icon glyphs).

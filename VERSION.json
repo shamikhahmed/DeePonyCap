@@ -1,6 +1,7 @@
 {
   "app": "DeePonyCap",
-  "version": "3.9.0",
-  "swCache": "deeponycap-v64",
-  "updated": "2026-10-14"
+  "version": "3.9.1",
+  "swCache": "deeponycap-v65",
+  "updated": "2026-10-16",
+  "notes": "V5 §3: reduce render-blocking CSS sheets"
 }
