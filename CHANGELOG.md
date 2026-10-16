@@ -1,3 +1,7 @@
+## 3.9.3 — 2026-10-16
+- Short splash (40ms demo); defer Stars.init
+- SW `deeponycap-v67`
+
 ## 3.9.2 — 2026-10-16
 - V5 §3b Performance: idle-load collector / photo / excellence / motion after Stable paints
 - Cold path keeps shell + demo seed only

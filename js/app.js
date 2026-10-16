@@ -9,7 +9,9 @@ async function boot() {
   if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
     document.documentElement.classList.add('standalone');
   }
-  Stars.init();
+  /* Stars/confetti off cold path — TBT (v5 §3c). */
+  if ('requestIdleCallback' in window) requestIdleCallback(function () { try { Stars.init(); } catch (e) {} }, { timeout: 2000 });
+  else setTimeout(function () { try { Stars.init(); } catch (e) {} }, 800);
   await Store.load();
   const demo = new URLSearchParams(location.search).get('demo') === '1';
   Splash.run(() => {
@@ -46,6 +48,6 @@ async function boot() {
     });
   }
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=66').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=67').catch(()=>{});
 }
 boot();

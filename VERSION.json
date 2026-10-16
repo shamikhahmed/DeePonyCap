@@ -1,7 +1,7 @@
 {
   "app": "DeePonyCap",
-  "version": "3.9.2",
-  "swCache": "deeponycap-v66",
+  "version": "3.9.3",
+  "swCache": "deeponycap-v67",
   "updated": "2026-10-16",
-  "notes": "V5 §3b: idle-load secondary JS after Stable paints"
+  "notes": "V5 §3c: short splash; defer Stars.init"
 }

@@ -20,12 +20,16 @@ const Stars = {
 
 const Splash = {
   run(cb) {
+    const demo = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const fill = document.getElementById('splashFill');
+    const ms = (demo || reduce) ? 40 : 280;
     requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
     setTimeout(() => {
-      document.getElementById('splash').classList.add('hide');
+      const splash = document.getElementById('splash');
+      if (splash) splash.classList.add('hide');
       cb();
-    }, 1600);
+    }, ms);
   }
 };
 
