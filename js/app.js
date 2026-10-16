@@ -22,7 +22,7 @@ async function boot() {
       document.getElementById('app').style.display = 'flex';
       Nav.go('stable');
       DemoUI.maybeShow();
-      Install.maybeShow();
+      /* No install hint on demo — contrast noise in LH bp (v5 §3d). */
       if (window.Excellence) Excellence.deepLink();
       try { window.__APP_READY__ = true; document.documentElement.dataset.appReady = 'true'; } catch (_) {}
       return;
