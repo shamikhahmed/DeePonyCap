@@ -32,4 +32,25 @@ test.describe('DeePonyCap viewport contract', () => {
     const cols = await gridColumnCount(typeGrid);
     expect(cols).toBeGreaterThanOrEqual(6);
   });
+
+  test('375px — no content clipped behind bottom nav on primary tabs', async ({ page }) => {
+    await resize(page, 'mobile');
+    for (const tab of ['stable', 'logs', 'map', 'wishlist', 'accessories']) {
+      await page.locator(`nav.nav .nav-btn[data-tab="${tab}"]`).click();
+      await page.waitForTimeout(400);
+      const ok = await page.evaluate(() => {
+        const main = document.querySelector('.main');
+        const nav = document.querySelector('nav.nav');
+        if (!main || !nav) return false;
+        main.scrollTop = main.scrollHeight;
+        // .main padding-bottom (var(--main-pad-b)) is the anti-clip contract.
+        const pad = parseFloat(getComputedStyle(main).paddingBottom) || 0;
+        const navH = nav.getBoundingClientRect().height;
+        if (pad + 1 < navH) return false;
+        const contentBottom = main.getBoundingClientRect().bottom - pad;
+        return contentBottom <= nav.getBoundingClientRect().top + 2;
+      });
+      expect(ok, `tab ${tab}: content clear of bottom nav`).toBe(true);
+    }
+  });
 });
