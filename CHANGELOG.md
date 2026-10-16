@@ -1,3 +1,8 @@
+## 3.9.2 — 2026-10-16
+- V5 §3b Performance: idle-load collector / photo / excellence / motion after Stable paints
+- Cold path keeps shell + demo seed only
+- SW `deeponycap-v66` · register `sw.js?v=66`
+
 ## 3.9.1 — 2026-10-16
 - V5 §3 Performance: async-load capricorn-core + identity CSS (tokens+app stay blocking)
 - SW `deeponycap-v65` · register `sw.js?v=65`

@@ -1,7 +1,7 @@
 {
   "app": "DeePonyCap",
-  "version": "3.9.1",
-  "swCache": "deeponycap-v65",
+  "version": "3.9.2",
+  "swCache": "deeponycap-v66",
   "updated": "2026-10-16",
-  "notes": "V5 §3: reduce render-blocking CSS sheets"
+  "notes": "V5 §3b: idle-load secondary JS after Stable paints"
 }
