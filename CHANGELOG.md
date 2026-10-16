@@ -1,3 +1,7 @@
+## 3.9.6 — 2026-10-16
+- Fix corrupt `css/app.css` href byte that 404'd main stylesheet (mobile LH)
+- SW `deeponycap-v70`
+
 ## 3.9.5 — 2026-10-16
 
 - Skip install hint on demo; install-hint contrast; SW deeponycap-v69.

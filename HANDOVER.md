@@ -7,7 +7,7 @@
 Track your collection, shelves and wishlist. Offline PWA by Capricorn Systems. Independent collectible tracker (D-04 — no third-party IP).
 
 ## Facts
-**Version:** 3.9.0  
+**Version:** 3.9.6  
 **SW cache:** `deeponycap-v64`  
 **Live:** https://shamikhahmed.github.io/DeePonyCap/  
 **Repo:** https://github.com/shamikhahmed/DeePonyCap  
