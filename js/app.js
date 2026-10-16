@@ -17,7 +17,15 @@ async function boot() {
   Splash.run(() => {
     if (demo && DemoSeed && DemoSeed.load) {
       DemoSeed.load({ silent: true });
-      if (typeof CapDemo !== 'undefined') CapDemo.markActive();
+      var markDemo = function () { if (typeof CapDemo !== 'undefined') CapDemo.markActive(); };
+      if (typeof CapDemo !== 'undefined') markDemo();
+      else {
+        var ds = document.createElement('script');
+        ds.src = 'js/cap-demo-mode.js';
+        ds.onload = markDemo;
+        ds.onerror = markDemo;
+        document.head.appendChild(ds);
+      }
       document.getElementById('onboard').classList.add('hide');
       document.getElementById('app').style.display = 'flex';
       Nav.go('stable');
@@ -48,6 +56,6 @@ async function boot() {
     });
   }
   if (window.AppUpdate) AppUpdate.register();
-  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=69').catch(()=>{});
+  else if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js?v=71').catch(()=>{});
 }
 boot();

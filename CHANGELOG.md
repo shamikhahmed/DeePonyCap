@@ -1,3 +1,8 @@
+## 3.9.7 — 2026-10-16
+
+- Idle-load migrations, pony-db, haptics, app-update, cap-demo-mode off cold path (demo TBT).
+- SW `deeponycap-v71`
+
 ## 3.9.6 — 2026-10-16
 - Fix corrupt `css/app.css` href byte that 404'd main stylesheet (mobile LH)
 - SW `deeponycap-v70`

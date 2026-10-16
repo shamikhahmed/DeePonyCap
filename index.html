@@ -162,17 +162,11 @@
 <script src="js/brand/colors.js"></script>
 <script src="js/dialogs.js"></script>
 <script src="js/data-store.js"></script>
-<script src="js/migrations.js"></script>
-<script src="js/pony-db.js"></script>
 <script src="js/demo-seed.js"></script>
-<script src="js/app-update.js"></script>
-<script src="js/cap-demo-mode.js"></script>
 <script src="js/modules/constants.js"></script>
 <script src="js/modules/pony-utils.js"></script>
-<script src="js/modules/storage-health.js"></script>
 <script src="js/modules/store.js"></script>
 <script src="js/modules/theme.js"></script>
-<script src="js/modules/haptics.js"></script>
 <script src="js/modules/splash.js"></script>
 <script src="js/modules/onboarding.js"></script>
 <script src="js/modules/navigation.js"></script>
@@ -183,6 +177,12 @@
 /* Idle-load secondary modules after first paint (v5 §3b TBT). */
 (function () {
   var files = [
+    'js/migrations.js',
+    'js/pony-db.js',
+    'js/app-update.js',
+    'js/cap-demo-mode.js',
+    'js/modules/storage-health.js',
+    'js/modules/haptics.js',
     'js/photo-store.js',
     'js/collector-suite.js',
     'js/modules/csv-io.js',
