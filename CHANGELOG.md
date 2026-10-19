@@ -1,3 +1,13 @@
+## 3.9.8 — 2026-10-19
+
+- Restore cold-path for nav/photo/excellence/demo deps (idle-load raced CI clicks + PhotoPicker).
+- SW `deeponycap-v72`
+
+## 3.9.8 — 2026-10-19
+
+- Restore eager load for photo-picker, nav, excellence, collector, migrations (CI race with idle-load).
+- SW `deeponycap-v72`
+
 ## 3.9.7 — 2026-10-16
 
 - Idle-load migrations, pony-db, haptics, app-update, cap-demo-mode off cold path (demo TBT).

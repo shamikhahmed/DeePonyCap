@@ -157,50 +157,52 @@
   <div id="sheetBody"></div>
 </div>
 
-<!-- Cold path: shell + Stable render only (v5 §3b TBT). -->
+<!-- Cold path: shell + Stable + nav/photo (CI + demo must not race idle). -->
 <script src="js/version.js"></script>
 <script src="js/brand/colors.js"></script>
 <script src="js/dialogs.js"></script>
 <script src="js/data-store.js"></script>
+<script src="js/migrations.js"></script>
+<script src="js/pony-db.js"></script>
 <script src="js/demo-seed.js"></script>
+<script src="js/app-update.js"></script>
+<script src="js/cap-demo-mode.js"></script>
 <script src="js/modules/constants.js"></script>
 <script src="js/modules/pony-utils.js"></script>
+<script src="js/modules/storage-health.js"></script>
 <script src="js/modules/store.js"></script>
 <script src="js/modules/theme.js"></script>
+<script src="js/modules/haptics.js"></script>
 <script src="js/modules/splash.js"></script>
 <script src="js/modules/onboarding.js"></script>
 <script src="js/modules/navigation.js"></script>
+<script src="js/modules/photo-utils.js"></script>
+<script src="js/modules/photo-picker.js"></script>
 <script src="js/modules/render-core.js"></script>
 <script src="js/modules/ui-core.js"></script>
+<script src="js/collector-suite.js"></script>
+<script src="js/excellence.js"></script>
+<script src="js/cap-desktop-nav.js"></script>
+<script src="js/capricorn-premium-nav.js"></script>
 <script src="js/app.js"></script>
 <script>
-/* Idle-load secondary modules after first paint (v5 §3b TBT). */
+try {
+  if (window.CapPremiumNav) CapPremiumNav.init({ nav: 'nav.nav', item: '.nav-btn' });
+} catch (e) {}
+/* Idle-load true secondary after first paint (v5 §3b TBT). */
 (function () {
   var files = [
-    'js/migrations.js',
-    'js/pony-db.js',
-    'js/app-update.js',
-    'js/cap-demo-mode.js',
-    'js/modules/storage-health.js',
-    'js/modules/haptics.js',
     'js/photo-store.js',
-    'js/collector-suite.js',
     'js/modules/csv-io.js',
     'js/modules/backup-io.js',
-    'js/modules/photo-utils.js',
     'js/modules/parent-gate.js',
     'js/modules/achievements.js',
     'js/modules/animations.js',
-    'js/modules/photo-picker.js',
-    'js/excellence.js',
-    'js/capricorn-motion.js',
-    'js/cap-desktop-nav.js',
-    'js/capricorn-premium-nav.js'
+    'js/capricorn-motion.js'
   ];
   function loadNext(i) {
     if (i >= files.length) {
       try {
-        if (window.CapPremiumNav) CapPremiumNav.init({ nav: 'nav.nav', item: '.nav-btn' });
         if (window.CapricornMotion) CapricornMotion.init();
         if (window.Render && Render.all) Render.all();
       } catch (e) {}
