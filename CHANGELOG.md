@@ -1,3 +1,8 @@
+## 3.9.9 — 2026-10-19
+
+- Eager-load achievements/parent-gate/csv/backup — Stable render required Achievements (idle race blanked demo).
+- SW `deeponycap-v73`
+
 ## 3.9.8 — 2026-10-19
 
 - Restore cold-path for nav/photo/excellence/demo deps (idle-load raced CI clicks + PhotoPicker).

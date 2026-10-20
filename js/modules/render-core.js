@@ -163,7 +163,12 @@ const Render = {
           ${toolsRail}
         </div>
       </div>`;
-    Anim.countUp(document.getElementById('counterNum'), n);
+    /* Anim is idle-loaded — never throw if pack not ready yet. */
+    if (typeof Anim !== 'undefined' && Anim.countUp) Anim.countUp(document.getElementById('counterNum'), n);
+    else {
+      const counter = document.getElementById('counterNum');
+      if (counter) counter.textContent = String(n);
+    }
     } catch (err) {
       console.error('[DeePonyCap] render error (stable)', err);
       const el = document.getElementById('tab-stable');
