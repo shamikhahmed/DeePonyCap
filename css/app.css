@@ -627,3 +627,6 @@ html.dark-mode .btn-g{
   border-color:rgba(249,168,212,.35);
 }
 
+
+/* hig-v7-chip-hard */
+button.chip, .chip { min-height: 44px !important; display: inline-flex !important; align-items: center !important; box-sizing: border-box !important; }
