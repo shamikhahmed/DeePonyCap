@@ -114,3 +114,15 @@ Parents stay in control.
 🦄 Add your first pony in 60 seconds
 
 *Built by Shamikh Ahmed for collectors who still believe in magic.*
+
+---
+
+## Slide — Real people (illustrative)
+
+Three fictional personas show how people use DeePonyCap day to day — before/after numbers, timeline screenshots, and a short silent video with captions.
+
+**Stories:** https://shamikhahmed.github.io/apps/deeponycap/  
+**Index:** https://shamikhahmed.github.io/stories/
+
+*Illustrative story. People and data are fictional.*
+

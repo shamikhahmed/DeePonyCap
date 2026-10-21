@@ -1,3 +1,9 @@
+## [3.9.10] — 2026-10-21
+
+- HIG v7: iOS tokens / native feel; Dynamic Type & hit targets where applicable
+- Real-people stories live on hub (`/apps/<slug>/` + `/stories/`)
+- Pitch/presentation/README synced to 3.9.10
+
 ## 3.9.9 — 2026-10-19
 
 - Eager-load achievements/parent-gate/csv/backup — Stable render required Achievements (idle race blanked demo).
