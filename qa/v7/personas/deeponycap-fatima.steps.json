@@ -23,6 +23,12 @@
       "action": "screenshot",
       "route": "home",
       "alt": "deeponycap-fatima home screen with sample data"
+    },
+    {
+      "id": "02-task",
+      "title": "Primary task",
+      "action": "screenshot",
+      "alt": "deeponycap-fatima primary task view"
     }
   ]
 }
