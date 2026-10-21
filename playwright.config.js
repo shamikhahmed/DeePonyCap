@@ -7,7 +7,8 @@ module.exports = defineConfig({
   webServer: {
     command: 'python3 -m http.server 8770',
     url: 'http://127.0.0.1:8770',
-    reuseExistingServer: true,
+    // Never attach to a foreign/stale process on 8770 (v7-fix flakes)
+    reuseExistingServer: false,
     timeout: 120000,
   },
 });
