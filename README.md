@@ -17,7 +17,7 @@ DeePonyCap is an independent collection tracker and isn't affiliated with or end
 
 Publisher: Capricorn Systems · Karachi, Pakistan
 
-## Real stories
+## Example stories
 
 Illustrative day-in-the-life stories (fictional personas) with screenshots and captions:
 
