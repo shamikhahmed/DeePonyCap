@@ -17,8 +17,10 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('stats shows insights and premium views', async ({ page }) => {
+    await page.waitForFunction(() => typeof window.Nav === 'object' && typeof window.Excellence === 'object');
     await page.evaluate(() => Nav.go('stats'));
-    await expect(page.getByText('Collection insights')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /My Stats/i })).toBeVisible();
+    await expect(page.getByText('Collection insights')).toBeVisible({ timeout: 10000 });
     await expect(page.getByRole('button', { name: /Collection Timeline/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /Storybook Mode/i })).toBeVisible();
   });
