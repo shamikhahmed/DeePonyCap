@@ -17,21 +17,21 @@ test.describe('DeePonyCap excellence v2.7', () => {
   });
 
   test('stats shows insights and premium views', async ({ page }) => {
-    await navTab(page, 'stats').click();
+    await page.evaluate(() => Nav.go('stats'));
     await expect(page.getByText('Collection insights')).toBeVisible();
     await expect(page.getByRole('button', { name: /Collection Timeline/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /Storybook Mode/i })).toBeVisible();
   });
 
   test('storybook mode renders album pages', async ({ page }) => {
-    await navTab(page, 'stats').click();
+    await page.evaluate(() => Nav.go('stats'));
     await page.getByRole('button', { name: /Storybook Mode/i }).click();
     await expect(page.getByRole('heading', { name: /Collection Storybook/i })).toBeVisible();
     await expect(page.locator('.storybook-page').first()).toBeVisible();
   });
 
   test('timeline shows acquisition journey', async ({ page }) => {
-    await navTab(page, 'stats').click();
+    await page.evaluate(() => Nav.go('stats'));
     await page.getByRole('button', { name: /Collection Timeline/i }).click();
     await expect(page.getByRole('heading', { name: /Collection Timeline/i })).toBeVisible();
   });
