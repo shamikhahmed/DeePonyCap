@@ -70,10 +70,10 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 
 | Viewport | Light | Dark |
 |---|---|---|
-| iphone-se | PASS | FAIL (hit-target,axe) |
+| iphone-se | PASS | PASS |
 | iphone-16-pro | PASS | PASS |
-| ipad-air | FAIL (hit-target,axe) | FAIL (axe) |
-| macbook-14 | FAIL (axe) | FAIL (hit-target,axe) |
+| ipad-air | FAIL (axe) | FAIL (axe) |
+| macbook-14 | FAIL (axe) | FAIL (axe) |
 
 ## Device / chrome checklist (§2.2 layout)
 
@@ -88,7 +88,7 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 | No horizontal overflow | PASS | hig-check rule `horizontal-overflow` |
 | axe serious/critical = 0 | FAIL | hig-check axe block (or noted FAIL) |
 | Body ≥17px computed | PASS | hig-check `body-font` |
-| Interactive ≥44px (or data-hit-dense ≥28) | FAIL | hig-check `hit-target` |
+| Interactive ≥44px (or data-hit-dense ≥28) | PASS | hig-check `hit-target` |
 | Min font ≥11px | PASS | hig-check `min-font` |
 | Skip link / landmark where web | PASS | index.html / layout landmarks (spot) |
 | Focus visible | PASS | :focus-visible / browser default on controls |
