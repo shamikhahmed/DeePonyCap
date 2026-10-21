@@ -1,7 +1,9 @@
 {
   "name": "DeePonyCap",
-  "version": "3.9.9",
+  "version": "3.9.10",
   "buildDate": "2026-10-19",
   "channel": "stable",
-  "swCache": "deeponycap-v73"
+  "swCache": "deeponycap-v3910",
+  "updated": "2026-10-21",
+  "notes": "v7 HIG ios-tokens scaffold"
 }
