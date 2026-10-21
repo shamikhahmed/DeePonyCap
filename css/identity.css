@@ -387,3 +387,7 @@ html.dark-mode .greet,html.dark-mode h1.greet{color:var(--pc-fff0f8);-webkit-tex
 html.dark-mode .sub{color:var(--pc-e5e7eb)}
 html.dark-mode body,html.dark-mode #main{background:var(--pc-2b1d2f)}
 
+
+/* v7 HIG: shelf slots ≥44 on all widths */
+.stable-shelf-slot{min-height:44px;box-sizing:border-box}
+.pill{min-height:44px;box-sizing:border-box}
