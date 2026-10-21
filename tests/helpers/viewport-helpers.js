@@ -40,7 +40,10 @@ async function resize(page, name) {
  * @param {import('@playwright/test').Expect} ex
  */
 async function assertCapSharedMobile(page, ex) {
-  await ex(page.locator('#cap-nav-sidebar')).toBeHidden();
+  await page.waitForFunction(() => {
+    const side = document.getElementById('cap-nav-sidebar');
+    return side && getComputedStyle(side).display === 'none';
+  }, null, { timeout: 8000 });
   await ex(page.locator('#nav')).toBeVisible();
   await ex(page.locator('body')).not.toHaveClass(/cap-desktop-nav/);
   const app = page.locator('#app');
