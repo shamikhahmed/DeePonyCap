@@ -68,26 +68,26 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 
 | Viewport | Light | Dark |
 |---|---|---|
-| iphone-se | pending | pending |
-| iphone-16-pro | pending | pending |
-| ipad-air | pending | pending |
-| macbook-14 | pending | pending |
+| iphone-se | FAIL (hit-target) | FAIL (hit-target,axe) |
+| iphone-16-pro | FAIL (hit-target,axe) | FAIL (hit-target) |
+| ipad-air | FAIL (hit-target,axe) | pending |
+| macbook-14 | pending | FAIL (hit-target,axe) |
 
 ## Device / chrome checklist (§2.2 layout)
 
 | Rule | Result | Evidence |
 |---|---|---|
-| iPhone SE 375 width usable | pending | hig-check `iphone-se` (see evidence dir) |
-| iPhone 16 Pro 393×852 | pending | hig-check `iphone-16-pro` |
-| iPad Air 820×1180 | pending | hig-check `ipad-air` |
-| MacBook 14 1512×982 | pending | hig-check `macbook-14` |
-| Light mode | pending | hig-check `--color-scheme=light` |
-| Dark mode | pending | hig-check `--color-scheme=dark` |
-| No horizontal overflow | pending | hig-check rule `horizontal-overflow` |
-| axe serious/critical = 0 | pending | hig-check axe block (or noted FAIL) |
-| Body ≥17px computed | pending | hig-check `body-font` |
-| Interactive ≥44px (or data-hit-dense ≥28) | pending | hig-check `hit-target` |
-| Min font ≥11px | pending | hig-check `min-font` |
+| iPhone SE 375 width usable | mixed — see matrix | hig-check `iphone-se` (see evidence dir) |
+| iPhone 16 Pro 393×852 | mixed — see matrix | hig-check `iphone-16-pro` |
+| iPad Air 820×1180 | mixed — see matrix | hig-check `ipad-air` |
+| MacBook 14 1512×982 | mixed — see matrix | hig-check `macbook-14` |
+| Light mode | mixed — see matrix | hig-check `--color-scheme=light` |
+| Dark mode | mixed — see matrix | hig-check `--color-scheme=dark` |
+| No horizontal overflow | PASS | hig-check rule `horizontal-overflow` |
+| axe serious/critical = 0 | FAIL | hig-check axe block (or noted FAIL) |
+| Body ≥17px computed | PASS | hig-check `body-font` |
+| Interactive ≥44px (or data-hit-dense ≥28) | FAIL | hig-check `hit-target` |
+| Min font ≥11px | PASS | hig-check `min-font` |
 | Skip link / landmark where web | PASS | index.html / layout landmarks (spot) |
 | Focus visible | PASS | :focus-visible / browser default on controls |
 | Empty states explain + first action | PASS | Inventory §7.9 empty states |
@@ -102,4 +102,4 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 | D-04 no third-party IP | Screenshots/content stay clean |
 | Full VoiceOver every control | Spot-check 10 controls in sim — see APP-REPORT |
 
-**Gate:** 0 FAIL rows remaining for §2.2 acceptance on shipped UI chrome.
+**Gate:** 8 FAIL rows remaining for §2.2 acceptance on shipped UI chrome.
