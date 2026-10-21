@@ -1,9 +1,9 @@
 {
   "name": "DeePonyCap",
-  "version": "3.9.10",
+  "version": "3.9.11",
   "buildDate": "2026-10-19",
   "channel": "stable",
-  "swCache": "deeponycap-v3910",
+  "swCache": "deeponycap-v3911",
   "updated": "2026-10-21",
-  "notes": "v7 HIG ios-tokens scaffold"
+  "notes": "v7-fix: sync APP_VERSION/SW with VERSION"
 }

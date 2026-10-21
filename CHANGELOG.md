@@ -1,5 +1,10 @@
 ## [3.9.10] — 2026-10-21
 
+## 3.9.11 — 2026-10-21
+
+- **v7-fix:** Sync `APP_VERSION` / `SW_CACHE` with `VERSION.json` (`deeponycap-v3911`).
+
+
 - HIG v7: iOS tokens / native feel; Dynamic Type & hit targets where applicable
 - Real-people stories live on hub (`/apps/<slug>/` + `/stories/`)
 - Pitch/presentation/README synced to 3.9.10
