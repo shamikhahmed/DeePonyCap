@@ -12,15 +12,20 @@ async function resize(page, name) {
   const vp = VIEWPORTS[name];
   if (!vp) throw new Error(`Unknown viewport: ${name}`);
   await page.setViewportSize(vp);
+  // Cap fleet shell breakpoint is ≥700 (iPad mini → sidebar), not 900
+  await page.evaluate(() => {
+    if (window.CapDesktopNav && typeof window.CapDesktopNav.sync === 'function') {
+      window.CapDesktopNav.sync();
+    }
+  });
   await page.waitForFunction(
     (w) => {
-      const desktop900 = w >= 900;
+      const desktop = w >= 700;
       if (typeof window.CapDesktopNav !== 'undefined') {
-        return document.body.classList.contains('cap-desktop-nav') === desktop900;
+        return document.body.classList.contains('cap-desktop-nav') === desktop;
       }
       if (document.getElementById('nav-sidebar')) {
-        const lc = document.body.classList.contains('lc-desktop-nav');
-        return lc === desktop900;
+        return document.body.classList.contains('lc-desktop-nav') === desktop;
       }
       return true;
     },

@@ -1,9 +1,9 @@
 {
   "name": "DeePonyCap",
-  "version": "3.9.12",
+  "version": "3.9.13",
   "buildDate": "2026-10-19",
   "channel": "stable",
-  "swCache": "deeponycap-v3912",
+  "swCache": "deeponycap-v3913",
   "updated": "2026-10-21",
   "notes": "v7-fix: sync APP_VERSION/SW with VERSION"
 }

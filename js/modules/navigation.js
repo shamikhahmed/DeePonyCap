@@ -45,3 +45,5 @@ const Nav = {
     Nav.go('logs');
   }
 };
+
+if (typeof window !== 'undefined') window.Nav = Nav;

@@ -1,6 +1,6 @@
 importScripts('./js/version.js');
 
-const CACHE = self.SW_CACHE || 'deeponycap-v3912';
+const CACHE = self.SW_CACHE || 'deeponycap-v3913';
 const ASSETS = [
   './css/app.css',
   './css/fonts-local.css', './css/capricorn-core.css', './css/identity.css',
