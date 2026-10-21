@@ -1,0 +1,34 @@
+{
+  "id": "deeponycap-ali",
+  "name": "Ali Hassan",
+  "age": 27,
+  "city": "Karachi, Pakistan",
+  "role": "Sneaker collector",
+  "tech": "medium",
+  "accessibility": "standard",
+  "device": "iPhone 15",
+  "goal": "Wishlist tiers and shelf photos offline",
+  "pain_before": [
+    "Scattered notes",
+    "Forgot to log"
+  ],
+  "how_she_uses_it": [
+    "photo-shelves",
+    "wishlist-tiers"
+  ],
+  "numbers": {
+    "before": {
+      "minutes_lost": 15
+    },
+    "after": {
+      "minutes_lost": 2
+    }
+  },
+  "quote": "My grails live on the phone, not in chats.",
+  "seed": "qa/v7/personas/deeponycap-ali.seed.json",
+  "features_used": [
+    "photo-shelves",
+    "wishlist-tiers"
+  ],
+  "fictional": true
+}

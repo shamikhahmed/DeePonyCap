@@ -1,0 +1,34 @@
+{
+  "id": "deeponycap-george",
+  "name": "George Palmer",
+  "age": 61,
+  "city": "Manchester, UK",
+  "role": "Vinyl collector",
+  "tech": "medium",
+  "accessibility": "uses Larger Text (AX2)",
+  "device": "iPhone 15",
+  "goal": "Condition notes and large labels",
+  "pain_before": [
+    "Scattered notes",
+    "Forgot to log"
+  ],
+  "how_she_uses_it": [
+    "independent-tracker",
+    "photo-shelves"
+  ],
+  "numbers": {
+    "before": {
+      "minutes_lost": 15
+    },
+    "after": {
+      "minutes_lost": 2
+    }
+  },
+  "quote": "Every pressing has a story in one place.",
+  "seed": "qa/v7/personas/deeponycap-george.seed.json",
+  "features_used": [
+    "independent-tracker",
+    "photo-shelves"
+  ],
+  "fictional": true
+}

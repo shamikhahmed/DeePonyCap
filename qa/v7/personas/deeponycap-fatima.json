@@ -1,0 +1,34 @@
+{
+  "id": "deeponycap-fatima",
+  "name": "Fatima Noor",
+  "age": 36,
+  "city": "Dubai, UAE",
+  "role": "Parent",
+  "tech": "medium",
+  "accessibility": "standard",
+  "device": "iPhone 15",
+  "goal": "Kids' book shelves with custom series",
+  "pain_before": [
+    "Scattered notes",
+    "Forgot to log"
+  ],
+  "how_she_uses_it": [
+    "user-defined-series",
+    "photo-shelves"
+  ],
+  "numbers": {
+    "before": {
+      "minutes_lost": 15
+    },
+    "after": {
+      "minutes_lost": 2
+    }
+  },
+  "quote": "Each kid gets their own shelf.",
+  "seed": "qa/v7/personas/deeponycap-fatima.seed.json",
+  "features_used": [
+    "user-defined-series",
+    "photo-shelves"
+  ],
+  "fictional": true
+}
