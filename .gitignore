@@ -17,3 +17,4 @@ releases/
 qa/perfection/**/*.png
 qa/perfection/**/*.jpg
 
+build/
