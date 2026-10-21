@@ -1,5 +1,10 @@
 ## [3.9.10] — 2026-10-21
 
+## 3.9.12 — 2026-10-21
+
+- **v7-fix:** Expose `window.UI`; Stats nav uses `navTab`; FAB for add-pony smoke.
+
+
 ## 3.9.11 — 2026-10-21
 
 - **v7-fix:** Sync `APP_VERSION` / `SW_CACHE` with `VERSION.json` (`deeponycap-v3911`).

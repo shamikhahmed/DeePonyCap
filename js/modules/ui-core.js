@@ -662,3 +662,5 @@ const UI = {
     Toast.show(n ? `Compressed ${n} photo(s) 💾` : 'Photos already optimized');
   }
 };
+
+if (typeof window !== 'undefined') window.UI = UI;

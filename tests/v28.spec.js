@@ -1,5 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { navTab } = require('./nav-helpers');
 
 test.describe('DeePonyCap v2.8', () => {
   test.beforeEach(async ({ page }) => {
@@ -24,7 +25,7 @@ test.describe('DeePonyCap v2.8', () => {
   });
 
   test('storybook has print PDF button', async ({ page }) => {
-    await page.getByRole('button', { name: /Stats/i }).click();
+    await navTab(page, 'stats').click();
     await page.getByRole('button', { name: /Storybook Mode/i }).click();
     await expect(page.getByRole('button', { name: /Print \/ Save as PDF/i })).toBeVisible();
   });
