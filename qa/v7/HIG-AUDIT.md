@@ -104,4 +104,4 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 | D-04 no third-party IP | Screenshots/content stay clean |
 | Full VoiceOver every control | Spot-check 10 controls in sim — see APP-REPORT |
 
-**Gate:** 0 FAIL rows remaining for §2.2 acceptance on shipped UI chrome.
+**Gate:** 5 FAIL viewport-runs remaining (rules: axe, hit-target) for §2.2 acceptance on shipped UI chrome.
