@@ -148,10 +148,10 @@ html.dark-mode .sort-row select,html.dark-mode .sort-select{background-color:var
 .pony-body{padding:10px 12px 12px}
 .pony-name{font-weight:800;font-size:.9rem;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .badges{display:flex;flex-wrap:wrap;gap:4px}
-.badge{font-size: 0.6875rem;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);color:var(--pc-ffffff)}
-.badge.g1{background:var(--g1)}.badge.g2{background:var(--g2);color:var(--pc-1f2937)}
-.badge.g3{background:var(--g3);color:var(--pc-1f2937)}.badge.g4{background:var(--g4);color:var(--pc-1f2937)}
-.badge.g5{background:var(--g5)}
+.badge{font-size: 0.6875rem;font-weight:700;padding:3px 8px;border-radius:var(--r-pill);color:var(--pc-1f2937)}
+.badge.g1{background:var(--g1)}.badge.g2{background:var(--g2)}
+.badge.g3{background:var(--g3)}.badge.g4{background:var(--g4)}
+.badge.g5{background:var(--g5);color:var(--pc-1f2937)}
 .mini-card{flex:0 0 110px;background:var(--bg-card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow-sm);border:2px solid rgba(249,168,212,.24)}
 .mini-card .pony-img{height:80px;font-size:2rem}
 .mini-card .pony-body{padding:8px}

@@ -391,3 +391,33 @@ html.dark-mode body,html.dark-mode #main{background:var(--pc-2b1d2f)}
 /* v7 HIG: shelf slots ≥44 on all widths */
 .stable-shelf-slot{min-height:44px;box-sizing:border-box}
 .pill{min-height:44px;box-sizing:border-box}
+
+/* v7 HIG: desktop sidebar on light pink shell — capricorn-core --cap-text is dark-theme cream */
+@media (min-width: 900px) {
+  body.cap-desktop-nav #cap-nav-sidebar {
+    background: var(--pc-fff0f8);
+  }
+  body.cap-desktop-nav .cap-sidebar-brand {
+    color: var(--pc-4a1e4a);
+  }
+  body.cap-desktop-nav .cap-side-btn {
+    color: var(--pc-5b3d5b);
+  }
+  body.cap-desktop-nav .cap-side-btn.on,
+  body.cap-desktop-nav .cap-side-btn.active {
+    background: rgba(255, 105, 180, 0.22);
+    color: var(--pc-831843);
+    font-weight: 600;
+  }
+  html.dark-mode body.cap-desktop-nav .cap-sidebar-brand {
+    color: var(--pc-fff0f8);
+  }
+  html.dark-mode body.cap-desktop-nav .cap-side-btn {
+    color: var(--pc-e8c8dc);
+  }
+  html.dark-mode body.cap-desktop-nav .cap-side-btn.on,
+  html.dark-mode body.cap-desktop-nav .cap-side-btn.active {
+    background: rgba(255, 105, 180, 0.28);
+    color: var(--pc-ffc8e4);
+  }
+}

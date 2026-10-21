@@ -60,6 +60,8 @@ Legend: PASS / FAIL / N/A · Evidence = path or test name.
 |---|---|
 | No web DT applicator | Added `js/hig-dt.js` + link |
 | `.chip` / `.pill` <44 | `css/app.css` min-height 44 + inline-flex; sidebar/nav 44 |
+| axe color-contrast (badges) | `.badge.g1` dark text on pastel fills |
+| axe color-contrast (desktop sidebar) | `identity.css` sidebar brand + side-btn on pink shell |
 | axe color-contrast (dark soft) | Bumped dark `--text-soft` |
 
 ## hig-check evidence
@@ -72,21 +74,21 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 |---|---|---|
 | iphone-se | PASS | PASS |
 | iphone-16-pro | PASS | PASS |
-| ipad-air | FAIL (axe) | FAIL (axe) |
-| macbook-14 | FAIL (axe) | FAIL (axe) |
+| ipad-air | PASS | PASS |
+| macbook-14 | PASS | PASS |
 
 ## Device / chrome checklist (§2.2 layout)
 
 | Rule | Result | Evidence |
 |---|---|---|
-| iPhone SE 375 width usable | mixed — see matrix | hig-check `iphone-se` (see evidence dir) |
-| iPhone 16 Pro 393×852 | mixed — see matrix | hig-check `iphone-16-pro` |
-| iPad Air 820×1180 | mixed — see matrix | hig-check `ipad-air` |
-| MacBook 14 1512×982 | mixed — see matrix | hig-check `macbook-14` |
-| Light mode | mixed — see matrix | hig-check `--color-scheme=light` |
-| Dark mode | mixed — see matrix | hig-check `--color-scheme=dark` |
+| iPhone SE 375 width usable | PASS | hig-check `iphone-se` (see evidence dir) |
+| iPhone 16 Pro 393×852 | PASS | hig-check `iphone-16-pro` |
+| iPad Air 820×1180 | PASS | hig-check `ipad-air` |
+| MacBook 14 1512×982 | PASS | hig-check `macbook-14` |
+| Light mode | PASS | hig-check `--color-scheme=light` |
+| Dark mode | PASS | hig-check `--color-scheme=dark` |
 | No horizontal overflow | PASS | hig-check rule `horizontal-overflow` |
-| axe serious/critical = 0 | FAIL | hig-check axe block (or noted FAIL) |
+| axe serious/critical = 0 | PASS | hig-check axe block (or noted FAIL) |
 | Body ≥17px computed | PASS | hig-check `body-font` |
 | Interactive ≥44px (or data-hit-dense ≥28) | PASS | hig-check `hit-target` |
 | Min font ≥11px | PASS | hig-check `min-font` |
