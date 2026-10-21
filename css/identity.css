@@ -153,6 +153,8 @@ h1, h2, h3, .greet, .section-title, .pony-name, .shelf-hdr, .splash-title {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
     padding: 10px 12px;
     border-radius: 14px;
     border: 2px solid rgba(255, 105, 180, 0.25);

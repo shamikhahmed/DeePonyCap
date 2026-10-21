@@ -59,6 +59,8 @@ Legend: PASS / FAIL / N/A · Evidence = path or test name.
 | Was | Fix |
 |---|---|
 | No web DT applicator | Added `js/hig-dt.js` + link |
+| `.chip` / `.pill` <44 | `css/app.css` min-height 44 + inline-flex; sidebar/nav 44 |
+| axe color-contrast (dark soft) | Bumped dark `--text-soft` |
 
 ## hig-check evidence
 
@@ -68,10 +70,10 @@ Script: `capricorn-tooling/scripts/hig-check.mjs --url … --out … --viewport=
 
 | Viewport | Light | Dark |
 |---|---|---|
-| iphone-se | FAIL (hit-target) | FAIL (hit-target,axe) |
-| iphone-16-pro | FAIL (hit-target,axe) | FAIL (hit-target) |
-| ipad-air | FAIL (hit-target,axe) | pending |
-| macbook-14 | pending | FAIL (hit-target,axe) |
+| iphone-se | FAIL (hit-target,axe) | FAIL (hit-target,axe) |
+| iphone-16-pro | PASS | PASS |
+| ipad-air | FAIL (hit-target,axe) | FAIL (hit-target,axe) |
+| macbook-14 | FAIL (hit-target,axe) | FAIL (axe) |
 
 ## Device / chrome checklist (§2.2 layout)
 
