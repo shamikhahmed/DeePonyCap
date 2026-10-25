@@ -3,6 +3,8 @@ importScripts('./js/version.js');
 const CACHE = self.SW_CACHE || 'deeponycap-v3913';
 const ASSETS = [
   './css/app.css',
+  './css/cascade.css', './css/design/tokens.css', './css/design/system.css', './css/design/deepony.css',
+  './js/scroll-lock.js',
   './css/fonts-local.css', './css/capricorn-core.css', './css/identity.css',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
   './manifest.json',
@@ -59,7 +61,7 @@ self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    )
   );
 });
 

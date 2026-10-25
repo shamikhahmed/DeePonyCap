@@ -1,0 +1,225 @@
+/**
+ * DeePonyCap — HIG design tokens (render-blocking, unlayered).
+ * Ported from the ScentCap 3.0 system (via VaultCap 6): semantic colours for light / dark / increased contrast,
+ * SF system type at 17pt body, 44pt targets. DeePonyCap keeps its own accent — the user's accent theme
+ * (Classic Pink by default, see CollectorSuite.applyAccent → --pink). The tint is derived from it so it stays AA:
+ * darkened on light backgrounds, lightened on dark ones.
+ * Theme = `html.dark-mode` (js/modules/theme.js); light is the default.
+ */
+
+:root {
+  --bg: #f2f2f7;
+  --surface: #ffffff;
+  --surface-2: #f7f7fa;
+  --surface-elevated: #ffffff;
+  --fill: rgba(120, 120, 128, 0.12);
+  --fill-2: rgba(120, 120, 128, 0.2);
+  --separator: rgba(60, 60, 67, 0.18);
+  --label: #000000;
+  --label-2: rgba(60, 60, 67, 0.78);
+  --label-3: rgba(60, 60, 67, 0.64);
+  --label-4: rgba(60, 60, 67, 0.3);
+  --accent-src: var(--pink, #c4367a);
+  /* Classic Pink → about 6:1 on white; mint / sunset accents also land above 4.5:1 */
+  --tint: color-mix(in oklab, var(--accent-src) 65%, #000);
+  --tint-hover: color-mix(in oklab, var(--accent-src) 55%, #000);
+  --tint-soft: color-mix(in srgb, var(--accent-src) 14%, transparent);
+  --on-tint: #ffffff;
+  --success: #248a3d;
+  --warning: #b25000;
+  --danger: #d70015;
+  --glass-material: rgba(249, 249, 251, 0.78);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 6px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-3: 0 18px 50px rgba(0, 0, 0, 0.1);
+  --scrim: rgba(0, 0, 0, 0.35);
+  --seg-thumb: #ffffff;
+  color-scheme: light;
+}
+
+html.dark-mode {
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-2: #232326;
+  --surface-elevated: #2c2c2e;
+  --fill: rgba(118, 118, 128, 0.24);
+  --fill-2: rgba(118, 118, 128, 0.32);
+  --separator: rgba(84, 84, 88, 0.6);
+  --label: #ffffff;
+  --label-2: rgba(235, 235, 245, 0.75);
+  --label-3: rgba(235, 235, 245, 0.6);
+  --label-4: rgba(235, 235, 245, 0.28);
+  --tint: color-mix(in oklab, var(--accent-src) 72%, #fff);
+  --tint-hover: color-mix(in oklab, var(--accent-src) 60%, #fff);
+  --tint-soft: color-mix(in srgb, var(--accent-src) 22%, transparent);
+  --on-tint: #000000;
+  --success: #30d158;
+  --warning: #ff9f0a;
+  --danger: #ff453a;
+  --glass-material: rgba(28, 28, 30, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --shadow-1: none;
+  --shadow-2: 0 0 0 0.5px rgba(255, 255, 255, 0.06);
+  --shadow-3: 0 18px 50px rgba(0, 0, 0, 0.5);
+  --scrim: rgba(0, 0, 0, 0.5);
+  --seg-thumb: #636366;
+  color-scheme: dark;
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --label-2: rgba(60, 60, 67, 0.9);
+    --label-3: rgba(60, 60, 67, 0.82);
+    --separator: rgba(60, 60, 67, 0.4);
+    --tint: color-mix(in oklab, var(--accent-src) 50%, #000);
+  }
+  html.dark-mode {
+    --label-2: rgba(235, 235, 245, 0.9);
+    --label-3: rgba(235, 235, 245, 0.8);
+    --separator: rgba(140, 140, 145, 0.8);
+    --tint: color-mix(in oklab, var(--accent-src) 55%, #fff);
+  }
+}
+
+:root {
+  /* Type (rem so Dynamic Type --dt-scale on html cascades) */
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", sans-serif;
+  --font-rounded: ui-rounded, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono-ui: ui-monospace, "SF Mono", "IBM Plex Mono", monospace;
+  --t-large: 2.125rem;     /* 34 largeTitle */
+  --t-title1: 1.75rem;     /* 28 */
+  --t-title2: 1.375rem;    /* 22 */
+  --t-title3: 1.25rem;     /* 20 */
+  --t-headline: 1.0625rem; /* 17 semibold */
+  --t-body: 1.0625rem;     /* 17 */
+  --t-callout: 1rem;       /* 16 */
+  --t-subhead: 0.9375rem;  /* 15 */
+  --t-footnote: 0.8125rem; /* 13 */
+  --t-caption: 0.75rem;    /* 12 */
+  --t-caption2: 0.6875rem; /* 11 floor */
+
+  /* Shape + motion */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --dur: 220ms;
+  --hit: 44px;
+  --gutter: 20px;
+  --tabbar-h: 58px;
+}
+
+/* ---------- Legacy bridge: 3.x screens inherit the HIG palette ---------- */
+
+:root,
+html.dark-mode,
+html.collector-mode {
+  --bg-card: var(--surface);
+  --text: var(--label);
+  --text-soft: var(--label-2);
+  --pink-light: var(--tint-soft);
+  --pink-lighter: var(--tint-soft);
+  --purple-light: var(--fill);
+  --shadow: var(--shadow-2);
+  --shadow-sm: var(--shadow-1);
+  --r: var(--r-lg);
+  --r-card: var(--r-lg);
+  --r-btn: var(--r-md);
+  --cap-accent: var(--tint);
+  --cap-text: var(--label);
+  --cap-text-secondary: var(--label-2);
+  --cap-surface-1: var(--glass-material);
+  --cap-border: var(--separator);
+  --cap-font-body: var(--font-ui);
+  --cap-desktop-bg: var(--bg);
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--label);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- iOS / PWA touch behaviour (ScentCap 3.0.1 recipe) ---------- */
+
+/* No sideways wobble: clip (unlike hidden) doesn't create a scroll container, so sticky + scroll keep working. */
+html,
+body {
+  overflow-x: clip;
+}
+
+/* Programmatic scrolls (new screen → top, sheet restore) land instantly: smooth scrolling read as auto-scroll on iPhone */
+html,
+body {
+  scroll-behavior: auto !important;
+}
+
+/* Native rubber-band vertically; no accidental horizontal back-swipe bounce. */
+body {
+  overscroll-behavior-x: none;
+  overscroll-behavior-y: auto;
+}
+
+/* iOS zooms (and shifts the page) when focusing inputs under 16px. */
+input,
+select,
+textarea {
+  font-size: max(16px, 1em);
+}
+
+/* 5.x inline sub-16px sizes on fields (sort selects, compact inputs) */
+input[style*="font-size:0."],
+select[style*="font-size:0."],
+textarea[style*="font-size:0."],
+input[style*="font-size: 0."],
+select[style*="font-size: 0."],
+textarea[style*="font-size: 0."] {
+  font-size: 16px !important;
+}
+
+/* Instant taps (no double-tap-zoom delay), no long-press callouts on controls. */
+a,
+button,
+input,
+select,
+textarea,
+label,
+summary,
+[role="button"],
+[role="radio"],
+[role="tab"],
+[role="menuitem"],
+[data-act] {
+  touch-action: manipulation;
+}
+
+button,
+.nav-btn,
+.cap-side-btn,
+.btn-p,
+.btn-g,
+.chip,
+.accent-swatch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Programmatic focus targets (sheet titles) — no ring; interactive controls keep theirs */
+[tabindex="-1"]:focus,
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}

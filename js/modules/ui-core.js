@@ -15,8 +15,11 @@ const UI = {
     sheetEl.classList.add('on');
     sheetEl.hidden = false;
     sheetEl.removeAttribute('aria-hidden');
-    const firstFocusable = sheetEl.querySelector('button, input, select, [tabindex="0"]');
-    if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
+    // Focus the sheet title (announced by VoiceOver) rather than auto-selecting Cancel
+    const title = sheetEl.querySelector('#sheetTitle');
+    if (title) title.setAttribute('tabindex', '-1');
+    const firstFocusable = title || sheetEl.querySelector('button, input, select, [tabindex="0"]');
+    if (firstFocusable) setTimeout(() => firstFocusable.focus({ preventScroll: true }), 50);
   },
   closeSheet() {
     const bg = document.getElementById('sheetBg');
@@ -28,7 +31,7 @@ const UI = {
     sheetEl.setAttribute('aria-hidden', 'true');
     editingId = null; detailId = null;
     if (this._lastFocus && typeof this._lastFocus.focus === 'function') {
-      setTimeout(() => this._lastFocus.focus(), 50);
+      setTimeout(() => this._lastFocus.focus({ preventScroll: true }), 50);
     }
   },
   defaultForm(p) {
@@ -106,7 +109,7 @@ const UI = {
         <div class="fg"><label class="fl">Country</label><select class="sel" onchange="formState.mcdCountry=this.value">${mcdCountries}</select></div>
         <div class="fg"><label class="fl">Release year</label><input class="inp" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
       </div>` : '';
-    this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
+    this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()', { label: 'Save', act: 'UI.savePony()' })}
       <div class="photo-row">${photoGrid}</div>
       ${PhotoPicker.html('photoForm', 'UI.onPhoto(event)', { multiple: true })}
       ${cat === 'mlp' ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 Bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple photos — matches names from filenames or creates new ponies in this series.</p></div>` : ''}
@@ -140,7 +143,6 @@ const UI = {
       <div class="fg"><label class="fl">Notes</label><textarea class="ta" oninput="formState.notes=this.value">${Render.esc(f.notes)}</textarea></div>
       <div id="dupWarn"></div>
       <div class="form-actions">
-        <button type="button" class="btn-g" onclick="UI.closeSheet()">Cancel</button>
         <button type="button" class="btn-p" onclick="UI.savePony()">${uiIcon('check')} Save Pony</button>
       </div>`);
     setTimeout(() => UI.showDupWarn(), 0);

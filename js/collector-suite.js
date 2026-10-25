@@ -416,15 +416,11 @@ ${body || '<p style="text-align:center;padding:20mm">No ponies in this log yet.<
     root.dataset.accent = themeId;
     root.style.setProperty('--pink', t.pink);
     root.style.setProperty('--purple', t.purple);
-    // Never paint a pastel page behind dark cards (PONY-P1-03).
-    if (dark) {
-      root.style.setProperty('--bg', DPBrand.h_2b1d2f);
-      root.style.setProperty('--bg-card', DPBrand.h_3a2942);
-    } else {
-      root.style.setProperty('--bg', t.bg);
-    }
+    // HIG: the accent only tints controls; page + card colours come from css/design/tokens.css
+    root.style.removeProperty('--bg');
+    root.style.removeProperty('--bg-card');
     const meta = document.getElementById('themeMeta');
-    if (meta) meta.content = dark ? DPBrand.h_2b1d2f : t.pink;
+    if (meta) meta.content = dark ? DPBrand.h_000000 : DPBrand.h_f2f2f7;
   }
 
   function accentPickerHtml(current, onchangeFn) {

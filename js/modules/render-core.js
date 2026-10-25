@@ -16,7 +16,11 @@ const Render = {
     if (on==='settings') this.settings();
   },
   esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); },
-  sheetHdr(title, closeFn) {
+  /** HIG sheet bar. With `done` ({label, act}) it is Cancel / Title / Done; otherwise Title + close glyph. */
+  sheetHdr(title, closeFn, done) {
+    if (done) {
+      return `<div class="sheet-hdr sheet-hdr--bar"><button type="button" class="sheet-bar-cancel" onclick="event.stopPropagation();${closeFn}">Cancel</button><h2 id="sheetTitle">${title}</h2><button type="button" class="sheet-bar-done" onclick="event.stopPropagation();${done.act}">${done.label}</button></div>`;
+    }
     return `<div class="sheet-hdr"><h2 id="sheetTitle">${title}</h2><button type="button" class="sheet-close" aria-label="Close" onclick="event.stopPropagation();${closeFn}">✕</button></div>`;
   },
   ponyCard(p, mini) {

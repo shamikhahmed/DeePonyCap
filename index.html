@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="DeePonyCap">
-<meta name="theme-color" content="#FF69B4" id="themeMeta">
+<meta name="theme-color" content="#F2F2F7" id="themeMeta">
 <meta name="format-detection" content="telephone=no">
 <meta name="author" content="Capricorn Systems">
 <meta name="description" content="Track your collection, shelves and wishlist. Photos and checklists stay on your device. No accounts. No ads. By Capricorn Systems.">
@@ -27,32 +27,23 @@
 <meta name="twitter:site" content="@capricornsys">
 <meta name="twitter:creator" content="@capricornsys">
 <meta name="application-name" content="DeePonyCap">
-<meta name="msapplication-TileColor" content="#FF69B4">
+<meta name="msapplication-TileColor" content="#F2F2F7">
 <meta name="keywords" content="pony collection, figure tracker, shelves, wishlist, offline PWA">
 <meta name="color-scheme" content="dark light">
-<noscript>
-    <link rel="stylesheet" href="css/ios-tokens.css" />
-
-</noscript>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180">
-<link rel="stylesheet" href="css/fonts-local.css">
+<!-- HIG design: legacy 3.x CSS sits in @layer legacy under the HIG components (css/cascade.css, DESIGN.md). -->
+<link rel="preload" href="css/app.css" as="style">
+<link rel="preload" href="css/capricorn-core.css" as="style">
+<link rel="preload" href="css/design/system.css" as="style">
+<link rel="preload" href="css/design/deepony.css" as="style">
 <link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/ios-tokens.css">
-<link rel="stylesheet" href="css/app.css">
-<link rel="stylesheet" href="css/capricorn-core.css" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="css/identity.css" media="print" onload="this.media='all'">
-<noscript>
-<link rel="stylesheet" href="css/capricorn-core.css">
-<link rel="stylesheet" href="css/identity.css">
-</noscript>
+<link rel="stylesheet" href="css/design/tokens.css">
+<link rel="stylesheet" href="css/cascade.css">
 </head>
 <body data-cap-app="1">
 <a href="#main" class="cap-skip-link skip-link">Skip to content</a>
-<div class="cap-ambient" aria-hidden="true"></div>
-<canvas id="cap-scene" class="cap-scene-canvas cap-scene-canvas--subtle" aria-hidden="true"></canvas>
-<div class="cap-scroll-progress" aria-hidden="true"></div>
 <div class="stars" id="stars"></div>
 <div class="confetti-wrap" id="confetti"></div>
 <div class="toast-wrap" role="status" aria-live="polite" aria-atomic="true"><div class="toast" id="toast"></div></div>
@@ -122,6 +113,7 @@
 <div class="cap-desktop-shell">
 <nav id="cap-nav-sidebar" aria-label="Module navigation"></nav>
 <div class="app app-shell cap-desktop-main" id="app" style="display:none">
+  <button type="button" class="app-add-btn" onclick="UI.openAdd()" aria-label="Add pony" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
   <button type="button" class="app-settings-btn" onclick="Nav.go('settings')" aria-label="Settings">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
   </button>
@@ -178,6 +170,7 @@
 <script src="js/modules/haptics.js"></script>
 <script src="js/modules/splash.js"></script>
 <script src="js/modules/onboarding.js"></script>
+<script src="js/scroll-lock.js"></script>
 <script src="js/modules/navigation.js"></script>
 <script src="js/modules/photo-utils.js"></script>
 <script src="js/modules/photo-picker.js"></script>
@@ -200,13 +193,11 @@ try {
 (function () {
   var files = [
     'js/photo-store.js',
-    'js/modules/animations.js',
-    'js/capricorn-motion.js'
+    'js/modules/animations.js'
   ];
   function loadNext(i) {
     if (i >= files.length) {
       try {
-        if (window.CapricornMotion) CapricornMotion.init();
         if (window.Render && Render.all) Render.all();
       } catch (e) {}
       return;

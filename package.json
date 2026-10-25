@@ -3,6 +3,7 @@
   "version": "3.9.13",
   "private": true,
   "scripts": {
+    "ios:check": "node scripts/ios-behaviour-check.mjs",
     "test": "playwright test",
     "serve": "python3 -m http.server 8770",
     "preflight": "bash scripts/app-store-preflight.sh",
