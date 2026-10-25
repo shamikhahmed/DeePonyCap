@@ -15,8 +15,11 @@ const UI = {
     sheetEl.classList.add('on');
     sheetEl.hidden = false;
     sheetEl.removeAttribute('aria-hidden');
-    const firstFocusable = sheetEl.querySelector('button, input, select, [tabindex="0"]');
-    if (firstFocusable) setTimeout(() => firstFocusable.focus(), 50);
+    // Focus the sheet title (announced by VoiceOver) rather than auto-selecting Cancel
+    const title = sheetEl.querySelector('#sheetTitle');
+    if (title) title.setAttribute('tabindex', '-1');
+    const firstFocusable = title || sheetEl.querySelector('button, input, select, [tabindex="0"]');
+    if (firstFocusable) setTimeout(() => firstFocusable.focus({ preventScroll: true }), 50);
   },
   closeSheet() {
     const bg = document.getElementById('sheetBg');
@@ -28,7 +31,7 @@ const UI = {
     sheetEl.setAttribute('aria-hidden', 'true');
     editingId = null; detailId = null;
     if (this._lastFocus && typeof this._lastFocus.focus === 'function') {
-      setTimeout(() => this._lastFocus.focus(), 50);
+      setTimeout(() => this._lastFocus.focus({ preventScroll: true }), 50);
     }
   },
   defaultForm(p) {
@@ -106,7 +109,7 @@ const UI = {
         <div class="fg"><label class="fl">Country</label><select class="sel" onchange="formState.mcdCountry=this.value">${mcdCountries}</select></div>
         <div class="fg"><label class="fl">Release year</label><input class="inp" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
       </div>` : '';
-    this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()')}
+    this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()', { label: 'Save', act: 'UI.savePony()' })}
       <div class="photo-row">${photoGrid}</div>
       ${PhotoPicker.html('photoForm', 'UI.onPhoto(event)', { multiple: true })}
       ${cat === 'mlp' ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 Bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple photos — matches names from filenames or creates new ponies in this series.</p></div>` : ''}
@@ -140,7 +143,6 @@ const UI = {
       <div class="fg"><label class="fl">Notes</label><textarea class="ta" oninput="formState.notes=this.value">${Render.esc(f.notes)}</textarea></div>
       <div id="dupWarn"></div>
       <div class="form-actions">
-        <button type="button" class="btn-g" onclick="UI.closeSheet()">Cancel</button>
         <button type="button" class="btn-p" onclick="UI.savePony()">${uiIcon('check')} Save Pony</button>
       </div>`);
     setTimeout(() => UI.showDupWarn(), 0);
@@ -211,7 +213,7 @@ const UI = {
   updateWishSuggest(q) {
     const dl = document.getElementById('wishNames');
     const series = document.getElementById('wSeries')?.value || (S.seriesList && S.seriesList[0]) || '';
-    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(series, q).map(n=>`<option value="${n}">`).join('');
+    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(series, q).map(n=>`<option value="${Render.esc(n)}">`).join('');
     const hint = document.getElementById('wishDbHint');
     if (hint) {
       const name = (q || '').trim();
@@ -610,8 +612,8 @@ const UI = {
     const ph = a.photo || (a.photos && a.photos[0]) || '';
     const linked = (a.ponyIds || []).map(pid => S.ponies.find(p => p.id === pid)).filter(Boolean);
     this.openSheet(`${Render.sheetHdr(Render.esc(a.name), 'UI.closeSheet()')}
-      ${ph ? `<img src="${ph}" style="width:100%;border-radius:var(--r);margin-bottom:12px" alt="">` : '<div style="text-align:center;font-size:3rem;padding:24px">🎀</div>'}
-      ${linked.length ? `<div class="section-title">Linked ponies</div>${linked.map(p => `<div style="padding:8px 0;cursor:pointer" onclick="UI.closeSheet();UI.openDetail('${p.id}')">🦄 ${Render.esc(p.name)} · G${p.generation}</div>`).join('')}` : '<p style="font-size:.85rem;color:var(--text-soft)">No pony linked</p>'}
+      ${ph ? `<img src="${ph}" style="width:100%;border-radius:var(--r);margin-bottom:12px" alt="${Render.esc(a.name)}">` : '<div style="text-align:center;font-size:3rem;padding:24px" aria-hidden="true">🎀</div>'}
+      ${linked.length ? `<div class="section-title">Linked ponies</div>${linked.map(p => `<div role="button" tabindex="0" style="padding:8px 0;cursor:pointer;min-height:44px" aria-label="Open ${Render.esc(p.name)}" onclick="UI.closeSheet();UI.openDetail('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();UI.closeSheet();UI.openDetail('${p.id}')}">🦄 ${Render.esc(p.name)} · G${p.generation}</div>`).join('')}` : '<p style="font-size:.85rem;color:var(--text-soft)">No pony linked</p>'}
       <button type="button" class="btn-d" style="width:100%;margin-top:12px" onclick="UI.delAccessory('${a.id}');UI.closeSheet()">Remove</button>`);
   },
   delAccessory(id) {

@@ -1,3 +1,25 @@
+## 4.0.1 — 2026-10-25
+
+Release-gate fixes after HIG 4.0.0: finish-matrix expects the top-right Add control; staged Pages no longer 404s shell CSS (cascade no longer `@import`s through the service worker); form labels and contrast for selected chips, tab labels, achievements, and map meta.
+
+### Under the hood
+- Finish-matrix primary → `.app-add-btn` (≥44pt, unobscured)
+- Legacy CSS linked from `index.html` + `@layer legacy` wrap; `cascade.css` is layer order only
+- Axe: `for`/ids on settings, accessories, add-sheet fields; tint/`on-tint` for `.opt.on`; solid AA greys for muted UI
+- SW cache `deeponycap-v401`
+
+## 4.0.0 — 2026-10-25
+
+A full redesign so DeePonyCap feels at home on iPhone: clearer type and colour, a floating tab bar, Add and Settings up top, and sheets with Cancel / title / Save. Your accent colour still tints buttons and highlights (not whole pastel backgrounds). Scrolling and sheets behave like a native app — no jumpy “auto-scroll,” and opening a sheet keeps your place on the page. Offline works more reliably after install. Wishlist name suggestions and linked-pony picks are safer and clearer for VoiceOver. If storage is full, you get a toast instead of a silent save failure.
+
+### Under the hood
+
+- HIG design system (`css/design/*` + cascade layers); tint via `color-mix` from the user accent; FAB retired for top-right Add
+- Document scroll + ScrollLock; `scroll-behavior: auto`; SW no `clients.claim`; cache `deeponycap-v400`
+- Precache shell CSS (`tokens`, `ios-tokens`), Dynamic Type script, local fonts
+- Wishlist datalist escape; accessory linked-pony roles/names; storybook photo `alt`; manifest colours → `#F2F2F7`
+- Quota toast; privacy links `rel=noopener noreferrer`; `check-sw-truth` shell asserts; prod-ready audit harness
+
 ## [3.9.10] — 2026-10-21
 
 ## 3.9.12 — 2026-10-21

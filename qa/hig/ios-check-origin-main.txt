@@ -1,0 +1,18 @@
+PASS  tab bar + top bar tappable
+PASS  hit areas (tabs ≥44pt, pills ≥34pt + slop)
+PASS  no sideways overflow · stable
+FAIL  document scrolls (no inner scroller) · stable  ({"sw":393,"iw":393,"docScroll":false,"inner":"auto"})
+PASS  no sideways overflow · logs
+FAIL  document scrolls (no inner scroller) · logs  ({"sw":393,"iw":393,"docScroll":false,"inner":"auto"})
+PASS  no sideways overflow · map
+FAIL  document scrolls (no inner scroller) · map  ({"sw":393,"iw":393,"docScroll":false,"inner":"auto"})
+PASS  no sideways overflow · wishlist
+FAIL  document scrolls (no inner scroller) · wishlist  ({"sw":393,"iw":393,"docScroll":false,"inner":"auto"})
+PASS  no sideways overflow · accessories
+FAIL  document scrolls (no inner scroller) · accessories  ({"sw":393,"iw":393,"docScroll":false,"inner":"auto"})
+PASS  tab tap navigates (no reload)
+PASS  new screen opens at top
+FAIL  sheet flow  (locator.tap: Timeout 8000ms exceeded.)
+PASS  inputs ≥16px (no zoom-on-focus)
+PASS  no reload during session
+FAIL  SW: no auto skipWaiting/clients.claim

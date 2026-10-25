@@ -1,8 +1,9 @@
 {
   "name": "deeponycap",
-  "version": "3.9.13",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
+    "ios:check": "node scripts/ios-behaviour-check.mjs",
     "test": "playwright test",
     "serve": "python3 -m http.server 8770",
     "preflight": "bash scripts/app-store-preflight.sh",

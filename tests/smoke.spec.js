@@ -44,7 +44,8 @@ test.describe('DeePonyCap smoke', () => {
   test('add pony sheet shows camera and gallery options', async ({ page }) => {
     await page.goto('/?demo=1');
     await page.waitForFunction(() => document.getElementById('app')?.style.display === 'flex', { timeout: 15000 });
-    await page.locator('button.fab[aria-label="Add pony"]').click();
+    // 3.10 HIG: Add lives in the top bar (no floating action button)
+    await page.locator('button.app-add-btn[aria-label="Add pony"]').click();
     await expect(page.locator('#sheet.on')).toBeVisible({ timeout: 5000 });
     await expect(page.getByRole('button', { name: /Camera/i })).toBeVisible();
     await expect(page.getByRole('button', { name: /Gallery/i })).toBeVisible();

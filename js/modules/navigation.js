@@ -22,6 +22,8 @@ const Nav = {
     Haptic.tap();
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('on'));
     document.getElementById('tab-'+tab).classList.add('on');
+    // 3.10: the document scrolls (no inner .main scroller); a new screen opens at the top
+    if (window.ScrollLock) ScrollLock.scrollTo(0); else window.scrollTo(0, 0);
     document.querySelectorAll('.nav-btn').forEach(b => {
       const active = b.dataset.tab===tab;
       b.classList.toggle('on', active);

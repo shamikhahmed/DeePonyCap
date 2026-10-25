@@ -194,8 +194,8 @@ const Excellence = (() => {
       const ph = ponyPhoto(p);
       const emoji = GEN_EMOJI[p.generation] || '🦄';
       const img = ph
-        ? `<img src="${ph}" alt="" class="storybook-photo" loading="lazy">`
-        : `<div class="storybook-photo storybook-emoji g${p.generation}">${emoji}</div>`;
+        ? `<img src="${ph}" alt="${E(p.name)}" class="storybook-photo" loading="lazy">`
+        : `<div class="storybook-photo storybook-emoji g${p.generation}" aria-hidden="true">${emoji}</div>`;
       return `<div class="storybook-page">
         ${img}
         <h3>${E(p.name)}</h3>

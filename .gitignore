@@ -18,3 +18,7 @@ qa/perfection/**/*.png
 qa/perfection/**/*.jpg
 
 build/
+_site/
+qa/prod-ready/shots/
+qa/prod-ready/audit-findings.json
+playwright-report/

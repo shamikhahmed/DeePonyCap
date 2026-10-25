@@ -9,7 +9,7 @@ const Theme = {
     if (window.CollectorSuite) CollectorSuite.applyAccent(S.settings?.accentTheme || 'pink');
     if (window.Seasonal) Seasonal.apply();
     const meta = document.getElementById('themeMeta');
-    if (meta) meta.content = S.settings?.darkMode ? DPBrand.h_1f2937 : (S.settings?.collectorMode ? DPBrand.h_6d28d9 : DPBrand.h_ff6b9d);
+    if (meta) meta.content = useDark ? DPBrand.h_000000 : DPBrand.h_f2f2f7; // HIG grouped background
   },
   setAccent(id) {
     S.settings.accentTheme = id;

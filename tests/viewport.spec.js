@@ -42,7 +42,8 @@ test.describe('DeePonyCap viewport contract', () => {
         const main = document.querySelector('.main');
         const nav = document.querySelector('nav.nav');
         if (!main || !nav) return false;
-        main.scrollTop = main.scrollHeight;
+        // 3.10: the document scrolls (no inner .main scroller)
+        document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
         // .main padding-bottom (var(--main-pad-b)) is the anti-clip contract.
         const pad = parseFloat(getComputedStyle(main).paddingBottom) || 0;
         const navH = nav.getBoundingClientRect().height;

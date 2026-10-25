@@ -1,6 +1,8 @@
 /* DeePonyCap brand palette — Tier 1 brandOk path. Do not inline hex outside this file. */
 (function (global) {
   const DPBrand = {
+    h_000000: '#000000',
+    h_f2f2f7: '#F2F2F7',
     h_0284c7: '#0284c7',
     h_059669: '#059669',
     h_10b981: '#10b981',

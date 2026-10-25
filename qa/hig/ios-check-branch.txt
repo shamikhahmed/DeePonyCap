@@ -1,0 +1,20 @@
+PASS  tab bar + top bar tappable
+PASS  hit areas (tabs ≥44pt, pills ≥34pt + slop)
+PASS  no sideways overflow · stable
+PASS  document scrolls (no inner scroller) · stable
+PASS  no sideways overflow · logs
+PASS  document scrolls (no inner scroller) · logs
+PASS  no sideways overflow · map
+PASS  document scrolls (no inner scroller) · map
+PASS  no sideways overflow · wishlist
+PASS  document scrolls (no inner scroller) · wishlist
+PASS  no sideways overflow · accessories
+PASS  document scrolls (no inner scroller) · accessories
+PASS  programmatic scroll lands instantly
+PASS  tab tap navigates (no reload)
+PASS  new screen opens at top
+PASS  page locked behind sheet
+PASS  sheet keeps scroll position
+PASS  inputs ≥16px (no zoom-on-focus)
+PASS  no reload during session
+PASS  SW: no auto skipWaiting/clients.claim
