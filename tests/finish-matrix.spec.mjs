@@ -12,7 +12,9 @@ import {
 } from './helpers/finish-matrix.mjs';
 
 const SHOTS = path.join('qa', 'finish-loop', 'shots');
-const ROUTES = [{ id: 'stable', path: '/?demo=1', primary: '.nav-btn[data-tab="stable"], #tab-stable, .screen.on' }];
+/* primary must be in-viewport (fixed tab). Pre-HIG used `body`; document scroll
+ * makes body taller than the viewport so elementFromPoint(center) is null. */
+const ROUTES = [{ id: 'stable', path: '/?demo=1', primary: 'nav.nav .nav-btn[data-tab="stable"]' }];
 const RUN = process.env.FINISH_MATRIX === '1' || process.env.FINISH_MATRIX_FULL === '1';
 
 // Gate with env so routine verify stays fast; CI job sets FINISH_MATRIX=1 (C-31).
@@ -51,7 +53,7 @@ if (RUN) {
                 } catch (_) {}
               });
               await assertNoHorizontalOverflow(page);
-              await assertNotObscured(page, 'body');
+              await assertNotObscured(page, route.primary);
               const dir = path.join(SHOTS, route.id, theme);
               fs.mkdirSync(dir, { recursive: true });
               await page.screenshot({ path: path.join(dir, `${vp.name}.png`), fullPage: false });

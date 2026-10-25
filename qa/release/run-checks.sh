@@ -7,6 +7,8 @@
 # Then: full Playwright --retries=0, ios-behaviour-check (WebKit) on staged
 # site, prod-ready audit harness, version coherence @ 4.0.0 / deeponycap-v400.
 #
+# Continues after step failures: runs ALL steps, then exits non-zero if any failed.
+#
 # Usage: bash qa/release/run-checks.sh
 # Logs:  qa/release/logs/   Summary: qa/release/SUMMARY.md
 set -euo pipefail
@@ -71,6 +73,10 @@ echo "DeePonyCap release gate — expect ${EXPECTED_VERSION} / ${EXPECTED_SW}"
 echo "Logs → ${LOG_DIR#"$ROOT"/}"
 echo
 
+_finish=0
+_stage_ok=0
+_server_ok=0
+
 # ---------------------------------------------------------------------------
 # 0) Preconditions (no silent engine fallbacks)
 # ---------------------------------------------------------------------------
@@ -79,67 +85,67 @@ if [[ ! -d node_modules/@playwright/test ]]; then
   _finish=1
 else
   record "pre: node_modules" "PASS" "playwright present"
-  _finish=0
 fi
 
 # ---------------------------------------------------------------------------
 # 1) CI · verify — check-sw-truth (part of npm run verify)
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
-  if run_logged "01-sw-truth" node scripts/check-sw-truth.js; then
-    record "ci:verify/sw-truth" "PASS" "$(tail -1 "$LOG_DIR/01-sw-truth.log" | tr -d '\r')"
-  else
-    record "ci:verify/sw-truth" "FAIL" "see 01-sw-truth.log"
-    _finish=1
-  fi
+if run_logged "01-sw-truth" node scripts/check-sw-truth.js; then
+  record "ci:verify/sw-truth" "PASS" "$(tail -1 "$LOG_DIR/01-sw-truth.log" | tr -d '\r')"
+else
+  record "ci:verify/sw-truth" "FAIL" "see 01-sw-truth.log"
+  _finish=1
 fi
 
 # ---------------------------------------------------------------------------
 # 2) Full Playwright suite — retries=0 (also covers ci.yml verify playwright)
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
-  if run_logged "02-playwright" npx playwright test --retries=0; then
-    # key number: passed tests from summary line if present
-    local_n="$(grep -E 'passed|failed' "$LOG_DIR/02-playwright.log" | tail -1 | tr -d '\r' || true)"
-    record "playwright --retries=0" "PASS" "${local_n:-ok}"
-  else
-    local_n="$(grep -E 'passed|failed|flaky' "$LOG_DIR/02-playwright.log" | tail -1 | tr -d '\r' || true)"
-    record "playwright --retries=0" "FAIL" "${local_n:-see 02-playwright.log}"
-    _finish=1
-  fi
+if [[ ! -d node_modules/@playwright/test ]]; then
+  record "playwright --retries=0" "FAIL" "skipped: no @playwright/test"
+  _finish=1
+elif run_logged "02-playwright" npx playwright test --retries=0; then
+  local_n="$(grep -E 'passed|failed' "$LOG_DIR/02-playwright.log" | tail -1 | tr -d '\r' || true)"
+  record "playwright --retries=0" "PASS" "${local_n:-ok}"
+else
+  local_n="$(grep -E 'passed|failed|flaky' "$LOG_DIR/02-playwright.log" | tail -1 | tr -d '\r' || true)"
+  record "playwright --retries=0" "FAIL" "${local_n:-see 02-playwright.log}"
+  _finish=1
 fi
 
 # ---------------------------------------------------------------------------
 # 3) CI · finish-matrix (FINISH_MATRIX=1)
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
-  if run_logged "03-finish-matrix" env FINISH_MATRIX=1 npx playwright test tests/finish-matrix.spec.mjs --retries=0; then
-    record "ci:finish-matrix" "PASS" "FINISH_MATRIX=1"
-  else
-    record "ci:finish-matrix" "FAIL" "see 03-finish-matrix.log"
-    _finish=1
-  fi
+if [[ ! -d node_modules/@playwright/test ]]; then
+  record "ci:finish-matrix" "FAIL" "skipped: no @playwright/test"
+  _finish=1
+elif run_logged "03-finish-matrix" env FINISH_MATRIX=1 npx playwright test tests/finish-matrix.spec.mjs --retries=0; then
+  record "ci:finish-matrix" "PASS" "FINISH_MATRIX=1"
+else
+  record "ci:finish-matrix" "FAIL" "see 03-finish-matrix.log"
+  _finish=1
 fi
 
 # ---------------------------------------------------------------------------
 # 4) CI · pages stage (C-57 allowlist) — same env as pages.yml
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
-  export ALLOW_PATHS="index.html landing.html pitch.html presentation.html privacy.html changelog.html screen-gallery.html sw.js manifest.json VERSION.json css js assets"
-  export FORBIDDEN_EXTRA="scripts docs"
-  if run_logged "04-stage-pages" bash scripts/stage-pages-site.sh "$STAGE_DIR"; then
-    nfiles="$(find "$STAGE_DIR" -type f 2>/dev/null | wc -l | tr -d ' ')"
-    record "ci:pages/stage" "PASS" "${nfiles} files → _site"
-  else
-    record "ci:pages/stage" "FAIL" "see 04-stage-pages.log"
-    _finish=1
-  fi
+export ALLOW_PATHS="index.html landing.html pitch.html presentation.html privacy.html changelog.html screen-gallery.html sw.js manifest.json VERSION.json css js assets"
+export FORBIDDEN_EXTRA="scripts docs"
+if run_logged "04-stage-pages" bash scripts/stage-pages-site.sh "$STAGE_DIR"; then
+  nfiles="$(find "$STAGE_DIR" -type f 2>/dev/null | wc -l | tr -d ' ')"
+  record "ci:pages/stage" "PASS" "${nfiles} files → _site"
+  _stage_ok=1
+else
+  record "ci:pages/stage" "FAIL" "see 04-stage-pages.log"
+  _finish=1
 fi
 
 # ---------------------------------------------------------------------------
 # 5) Serve staged site + ios-behaviour-check (WebKit only — no fallback)
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
+if [[ "$_stage_ok" -ne 1 ]]; then
+  record "ios:check (staged WebKit)" "FAIL" "skipped: stage failed"
+  _finish=1
+else
   (
     cd "$STAGE_DIR"
     python3 -m http.server "$STAGE_PORT" --bind 127.0.0.1
@@ -153,24 +159,32 @@ if [[ "$_finish" -eq 0 ]]; then
     sleep 0.3
   done
   if ! curl -sf "http://127.0.0.1:${STAGE_PORT}/" >/dev/null 2>&1; then
-    record "ios:check (staged)" "FAIL" "staged server not up on :${STAGE_PORT}"
+    record "ios:check (staged WebKit)" "FAIL" "staged server not up on :${STAGE_PORT}"
     _finish=1
   elif run_logged "05-ios-check" node scripts/ios-behaviour-check.mjs "http://127.0.0.1:${STAGE_PORT}/"; then
     pass_n="$(grep -c '^PASS' "$LOG_DIR/05-ios-check.log" || true)"
     fail_n="$(grep -c '^FAIL' "$LOG_DIR/05-ios-check.log" || true)"
     record "ios:check (staged WebKit)" "PASS" "${pass_n} pass / ${fail_n} fail"
+    _server_ok=1
   else
     pass_n="$(grep -c '^PASS' "$LOG_DIR/05-ios-check.log" || true)"
     fail_n="$(grep -c '^FAIL' "$LOG_DIR/05-ios-check.log" || true)"
     record "ios:check (staged WebKit)" "FAIL" "${pass_n} pass / ${fail_n} fail — see 05-ios-check.log"
     _finish=1
+    # keep server up for prod-ready if it is listening
+    if curl -sf "http://127.0.0.1:${STAGE_PORT}/" >/dev/null 2>&1; then
+      _server_ok=1
+    fi
   fi
 fi
 
 # ---------------------------------------------------------------------------
 # 6) Prod-ready audit harness (against staged site)
 # ---------------------------------------------------------------------------
-if [[ "$_finish" -eq 0 ]]; then
+if [[ "$_server_ok" -ne 1 ]]; then
+  record "prod-ready audit" "FAIL" "skipped: staged server not available"
+  _finish=1
+else
   if run_logged "06-prod-ready-audit" node scripts/prod-ready-audit.mjs "http://127.0.0.1:${STAGE_PORT}/"; then
     :
   else
