@@ -1,4 +1,4 @@
-## [Unreleased] — HIG design (ScentCap 3.0 system)
+## [4.0.0] — 2026-10-25 — HIG design (ScentCap 3.0 system)
 
 - Apple-HIG redesign: `css/design/tokens.css` (semantic light/dark/increased-contrast tokens, tint derived from the user's accent theme so it stays AA, legacy bridge), `css/design/system.css` (`ui-*` primitives), `css/design/deepony.css` (shell + shared-class reskin); 3.x CSS demoted to `@layer legacy` via `css/cascade.css`
 - Shell: floating glass tab bar, sticky glass sidebar from 700 px, Add + Settings top-right (FAB retired), SF / SF Rounded type, star field / ambient / WebGL scene / motion script out of the app shell
@@ -6,7 +6,7 @@
 - iPhone (Safari + Home Screen PWA): document scrolling (no inner `.main` scroller), `scroll-behavior: auto` (smooth scroll read as auto-scroll), body pinned under sheets with exact restore, ≥16px fields, `touch-action`, hover guards
 - SW: no `clients.claim` on activate (user-initiated update path unchanged)
 - `scripts/ios-behaviour-check.mjs` (`npm run ios:check`): origin/main 7 FAIL → 20/20 PASS · gate `tests/hig-design.spec.js`; smoke/viewport specs follow the new contract (top-bar Add, document scroll)
-- Release note: bump `APP_VERSION` / `SW_CACHE` / `VERSION.json` together at release (check-sw-truth) so installed apps pick up the new CSS
+- Version 4.0.0 · SW cache `deeponycap-v400` (installed apps pick up the new CSS) · `js/cap-desktop-nav.js` regenerated from shared/design-system (≥700px header)
 
 ## [3.9.10] — 2026-10-21
 
