@@ -1,23 +1,14 @@
-## [Unreleased] — Prod-ready audit (HIG 3)
+## 4.0.0 — 2026-10-25
 
-- SW precache: `css/tokens.css`, `css/ios-tokens.css`, `js/hig-dt.js`, local font woff2s (offline shell)
-- `check-sw-truth.js` asserts shell assets are listed
-- Escape wishlist name datalist options (XSS parity with add form)
-- Accessory linked-pony rows: `role="button"`, keyboard, named photo `alt`
-- Storybook photo `alt` from pony name
-- Manifest `theme_color` / `background_color` aligned to HIG `--bg` (`#F2F2F7`)
-- Quota save failure surfaces a Toast; privacy external links `rel=noopener noreferrer`
-- Docs: README / HANDOVER → 4.0.0; `qa/prod-ready/{INVENTORY,REPORT}.md`; `scripts/prod-ready-audit.mjs`
+A full redesign so DeePonyCap feels at home on iPhone: clearer type and colour, a floating tab bar, Add and Settings up top, and sheets with Cancel / title / Save. Your accent colour still tints buttons and highlights (not whole pastel backgrounds). Scrolling and sheets behave like a native app — no jumpy “auto-scroll,” and opening a sheet keeps your place on the page. Offline works more reliably after install. Wishlist name suggestions and linked-pony picks are safer and clearer for VoiceOver. If storage is full, you get a toast instead of a silent save failure.
 
-## [4.0.0] — 2026-10-25 — HIG design (ScentCap 3.0 system)
+### Under the hood
 
-- Apple-HIG redesign: `css/design/tokens.css` (semantic light/dark/increased-contrast tokens, tint derived from the user's accent theme so it stays AA, legacy bridge), `css/design/system.css` (`ui-*` primitives), `css/design/deepony.css` (shell + shared-class reskin); 3.x CSS demoted to `@layer legacy` via `css/cascade.css`
-- Shell: floating glass tab bar, sticky glass sidebar from 700 px, Add + Settings top-right (FAB retired), SF / SF Rounded type, star field / ambient / WebGL scene / motion script out of the app shell
-- Add/edit pony sheet: Cancel / Title / Save bar, focus on the title; accent themes tint controls only (no pastel page backgrounds)
-- iPhone (Safari + Home Screen PWA): document scrolling (no inner `.main` scroller), `scroll-behavior: auto` (smooth scroll read as auto-scroll), body pinned under sheets with exact restore, ≥16px fields, `touch-action`, hover guards
-- SW: no `clients.claim` on activate (user-initiated update path unchanged)
-- `scripts/ios-behaviour-check.mjs` (`npm run ios:check`): origin/main 7 FAIL → 20/20 PASS · gate `tests/hig-design.spec.js`; smoke/viewport specs follow the new contract (top-bar Add, document scroll)
-- Version 4.0.0 · SW cache `deeponycap-v400` (installed apps pick up the new CSS) · `js/cap-desktop-nav.js` regenerated from shared/design-system (≥700px header)
+- HIG design system (`css/design/*` + cascade layers); tint via `color-mix` from the user accent; FAB retired for top-right Add
+- Document scroll + ScrollLock; `scroll-behavior: auto`; SW no `clients.claim`; cache `deeponycap-v400`
+- Precache shell CSS (`tokens`, `ios-tokens`), Dynamic Type script, local fonts
+- Wishlist datalist escape; accessory linked-pony roles/names; storybook photo `alt`; manifest colours → `#F2F2F7`
+- Quota toast; privacy links `rel=noopener noreferrer`; `check-sw-truth` shell asserts; prod-ready audit harness
 
 ## [3.9.10] — 2026-10-21
 
