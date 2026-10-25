@@ -10,7 +10,7 @@ Source of truth:
 | `css/design/tokens.css` | Semantic tokens (light / dark / increased contrast) + legacy bridge | render-blocking, unlayered |
 | `css/design/system.css` | `ui-*` primitives (ScentCap port) | `@layer components` via `css/app.css` |
 | `css/design/deepony.css` | Reskin of 3.x shell + shared classes (`.nav`, `.nav-btn`, `.card`, `.btn-p/-g`, `.chip`, `.sheet`) | `@layer components` |
-| `css/cascade.css` | Cascade orchestrator: 3.x CSS demoted to `@layer legacy` (preloaded) | render-blocking |
+| `css/cascade.css` | Declares `@layer legacy, components` only — sheets are `<link>`ed from `index.html` (no `@import`; SW-cached `@import` was resolving to `/` and 404ing on Pages) | render-blocking |
 
 ## Principles
 
@@ -54,6 +54,15 @@ Identical to ScentCap minus the bottle-specific classes (`ui-plinth`, `ui-bottle
 - ≥700px: sticky glass sidebar via CSS (`js/cap-desktop-nav.js` is generated from `shared/design-system`, still 900px).
 - Add / edit pony sheet: grabber, Cancel / Title / Save bar (`Render.sheetHdr(title, close, done)`); focus lands on the title.
 - SF type, SF Rounded for titles (friendly, still system). Check with `npm run ios:check`.
+
+### Documented scroll exceptions (HIG rule 1)
+
+Inner `overflow: auto|scroll` is allowed only on:
+
+- `.sheet` / `.ui-sheet` — sheet body (modal leaf; document stays locked via `position: fixed` while open)
+- `#cap-nav-sidebar` — desktop sidebar when nav items exceed the viewport height
+
+No `.page` / `.main` / `.screen` / `.view` / `.pb` / `#view` scrollers.
 
 ## Copy
 
