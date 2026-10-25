@@ -32,6 +32,29 @@ if (!verJs.includes(`'${version.version}'`) && !verJs.includes(`"${version.versi
   failures.push(`js/version.js missing APP_VERSION ${version.version}`);
 }
 
+/** Shell files referenced by index / cascade that must be in ASSETS for offline reload. */
+const shellMust = [
+  'css/tokens.css',
+  'css/ios-tokens.css',
+  'css/cascade.css',
+  'css/design/tokens.css',
+  'css/design/system.css',
+  'css/design/deepony.css',
+  'css/fonts-local.css',
+  'css/app.css',
+  'js/scroll-lock.js',
+  'js/hig-dt.js',
+];
+for (const rel of shellMust) {
+  const quoted = `./${rel}`;
+  if (!sw.includes(`'${quoted}'`) && !sw.includes(`"${quoted}"`)) {
+    failures.push(`sw.js ASSETS missing shell file ${quoted}`);
+  }
+  if (!fs.existsSync(path.join(root, rel))) {
+    failures.push(`shell file missing on disk: ${rel}`);
+  }
+}
+
 if (failures.length) {
   console.error('SW-truth FAIL:');
   for (const f of failures) console.error('  -', f);

@@ -3,9 +3,12 @@ importScripts('./js/version.js');
 const CACHE = self.SW_CACHE || 'deeponycap-v400';
 const ASSETS = [
   './css/app.css',
+  './css/tokens.css', './css/ios-tokens.css',
   './css/cascade.css', './css/design/tokens.css', './css/design/system.css', './css/design/deepony.css',
-  './js/scroll-lock.js',
+  './js/scroll-lock.js', './js/hig-dt.js',
   './css/fonts-local.css', './css/capricorn-core.css', './css/identity.css',
+  './assets/fonts/bubblegum-sans.woff2', './assets/fonts/comic-neue-400.woff2',
+  './assets/fonts/comic-neue-700.woff2', './assets/fonts/nunito.woff2',
   './', './index.html', './landing.html', './presentation.html', './pitch.html',
   './manifest.json',
   './assets/favicon.svg', './assets/mark.svg', './assets/apple-touch-icon-180.png',
