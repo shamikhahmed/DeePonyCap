@@ -503,10 +503,25 @@ async function main() {
   };
 
   fs.writeFileSync(path.join(OUT, 'audit-findings.json'), JSON.stringify(summary, null, 2));
+  const axeBad = findings.filter(
+    (x) => x.area === 'G' && (x.severity === 'critical' || x.severity === 'high') && /axe/i.test(x.message || ''),
+  ).length;
+  const offlineBad = findings.filter(
+    (x) =>
+      x.area === 'H' &&
+      /offline/i.test(`${x.screen || ''} ${x.message || ''}`) &&
+      (x.severity === 'critical' || x.severity === 'high'),
+  ).length;
+  const gateOk =
+    axeBad === 0 &&
+    summary.consoleErrorCount === 0 &&
+    summary.httpBadCount === 0 &&
+    offlineBad === 0;
   console.log(
     JSON.stringify(
       {
-        ok: !(summary.bySeverity.critical || summary.bySeverity.high),
+        ok: gateOk,
+        gate: { axeBad, consoleN: summary.consoleErrorCount, httpN: summary.httpBadCount, offlineBad },
         findings: summary.findingsCount,
         bySeverity: summary.bySeverity,
         shots: shotCount,
@@ -518,6 +533,7 @@ async function main() {
   );
 
   await browser.close();
+  if (!gateOk) process.exit(1);
 }
 
 main().catch((e) => {
