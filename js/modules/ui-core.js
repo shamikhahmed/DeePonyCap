@@ -213,7 +213,7 @@ const UI = {
   updateWishSuggest(q) {
     const dl = document.getElementById('wishNames');
     const series = document.getElementById('wSeries')?.value || (S.seriesList && S.seriesList[0]) || '';
-    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(series, q).map(n=>`<option value="${n}">`).join('');
+    if (dl && window.ponyNameSuggestions) dl.innerHTML = window.ponyNameSuggestions(series, q).map(n=>`<option value="${Render.esc(n)}">`).join('');
     const hint = document.getElementById('wishDbHint');
     if (hint) {
       const name = (q || '').trim();
@@ -612,8 +612,8 @@ const UI = {
     const ph = a.photo || (a.photos && a.photos[0]) || '';
     const linked = (a.ponyIds || []).map(pid => S.ponies.find(p => p.id === pid)).filter(Boolean);
     this.openSheet(`${Render.sheetHdr(Render.esc(a.name), 'UI.closeSheet()')}
-      ${ph ? `<img src="${ph}" style="width:100%;border-radius:var(--r);margin-bottom:12px" alt="">` : '<div style="text-align:center;font-size:3rem;padding:24px">🎀</div>'}
-      ${linked.length ? `<div class="section-title">Linked ponies</div>${linked.map(p => `<div style="padding:8px 0;cursor:pointer" onclick="UI.closeSheet();UI.openDetail('${p.id}')">🦄 ${Render.esc(p.name)} · G${p.generation}</div>`).join('')}` : '<p style="font-size:.85rem;color:var(--text-soft)">No pony linked</p>'}
+      ${ph ? `<img src="${ph}" style="width:100%;border-radius:var(--r);margin-bottom:12px" alt="${Render.esc(a.name)}">` : '<div style="text-align:center;font-size:3rem;padding:24px" aria-hidden="true">🎀</div>'}
+      ${linked.length ? `<div class="section-title">Linked ponies</div>${linked.map(p => `<div role="button" tabindex="0" style="padding:8px 0;cursor:pointer;min-height:44px" aria-label="Open ${Render.esc(p.name)}" onclick="UI.closeSheet();UI.openDetail('${p.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();UI.closeSheet();UI.openDetail('${p.id}')}">🦄 ${Render.esc(p.name)} · G${p.generation}</div>`).join('')}` : '<p style="font-size:.85rem;color:var(--text-soft)">No pony linked</p>'}
       <button type="button" class="btn-d" style="width:100%;margin-top:12px" onclick="UI.delAccessory('${a.id}');UI.closeSheet()">Remove</button>`);
   },
   delAccessory(id) {
