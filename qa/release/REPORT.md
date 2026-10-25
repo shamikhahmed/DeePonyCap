@@ -41,4 +41,7 @@ Paste `qa/release/SUMMARY.md` (or the stdout table) back if any step FAILs for a
 
 ## Commits (this release-prep pass)
 
-Listed in the stdout summary after commit.
+- `df531bb` docs(changelog): finalize 4.0.0 user-facing entry
+- `9387afb` docs(release): 4.0.0 RELEASE.md and ignore stage/audit artifacts
+- `5c91b03` test(release): one-command gate and live-smoke for 4.0.0
+- `f774620`+ docs(release): REPORT (+ SHA list amend)
