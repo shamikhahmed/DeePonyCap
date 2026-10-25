@@ -94,53 +94,53 @@ const UI = {
     const photos = f.photos || [];
     const photoGrid = photos.map((ph,i)=>`<div class="photo-thumb${i===0?' primary':''}" onclick="UI.setPrimaryPhoto(${i})"><img src="${ph}" alt=""><button type="button" class="photo-rm" aria-label="Remove photo" onclick="event.stopPropagation();UI.removePhoto(${i})">✕</button></div>`).join('');
     const mlpFields = cat === 'mlp' ? `
-      <div class="fg"><label class="fl">Series</label>
-        <select class="sel" onchange="formState.series=this.value;UI.refreshNameList();UI.renderForm(editingId?'Edit pony':'Add pony')">
+      <div class="fg"><label class="fl" for="formSeries">Series</label>
+        <select class="sel" id="formSeries" aria-label="Series" onchange="formState.series=this.value;UI.refreshNameList();UI.renderForm(editingId?'Edit pony':'Add pony')">
           ${seriesOpts}
           <option value="__new__">+ New series…</option>
         </select>
       </div>
-      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>` : '';
+      <div class="fg"><span class="fl" id="formTypeLbl">Type</span><div class="sel-row" role="group" aria-labelledby="formTypeLbl">${tOpts}</div></div>` : '';
     const otherFields = cat === 'other' ? `
-      <div class="fg"><label class="fl">Brand name</label><input class="inp" value="${Render.esc(f.brand)}" placeholder="e.g. Lisa Frank, Schleich…" oninput="formState.brand=this.value"></div>
-      <div class="fg"><label class="fl">Type</label><div class="sel-row">${tOpts}</div></div>` : '';
+      <div class="fg"><label class="fl" for="formBrand">Brand name</label><input class="inp" id="formBrand" value="${Render.esc(f.brand)}" placeholder="e.g. Lisa Frank, Schleich…" oninput="formState.brand=this.value"></div>
+      <div class="fg"><span class="fl" id="formTypeLbl">Type</span><div class="sel-row" role="group" aria-labelledby="formTypeLbl">${tOpts}</div></div>` : '';
     const mcdFields = cat === 'mcdonalds' ? `
       <div class="fg-row">
-        <div class="fg"><label class="fl">Country</label><select class="sel" onchange="formState.mcdCountry=this.value">${mcdCountries}</select></div>
-        <div class="fg"><label class="fl">Release year</label><input class="inp" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
+        <div class="fg"><label class="fl" for="formMcdCountry">Country</label><select class="sel" id="formMcdCountry" aria-label="Country" onchange="formState.mcdCountry=this.value">${mcdCountries}</select></div>
+        <div class="fg"><label class="fl" for="formMcdYear">Release year</label><input class="inp" id="formMcdYear" type="number" min="1980" max="2030" value="${Render.esc(f.mcdYear)}" placeholder="e.g. 2012" oninput="formState.mcdYear=this.value"></div>
       </div>` : '';
     this.openSheet(`${Render.sheetHdr(title, 'UI.closeSheet()', { label: 'Save', act: 'UI.savePony()' })}
       <div class="photo-row">${photoGrid}</div>
       ${PhotoPicker.html('photoForm', 'UI.onPhoto(event)', { multiple: true })}
       ${cat === 'mlp' ? `<div class="g4-bulk-panel"><label><input type="file" id="g4BulkIn" accept="image/*" multiple style="display:none" onchange="UI.onG4Bulk(event)"><span onclick="document.getElementById('g4BulkIn').click()">📦 Bulk photo import</span></label><p style="margin:6px 0 0;font-size:.75rem;color:var(--text-soft)">Select multiple photos — matches names from filenames or creates new ponies in this series.</p></div>` : ''}
       <p class="photo-hint">${photos.length?`${photos.length} photo(s) — tap star photo to set primary`:'Add up to 5 photos with camera or gallery'}</p>
-      <div class="fg"><label class="fl">Category</label><div class="sel-row">${catOpts}</div></div>
-      <div class="fg"><label class="fl">Log number</label><input class="inp" value="${Render.esc(f.catalogNumber)}" placeholder="Your collection # (optional)" oninput="formState.catalogNumber=this.value"></div>
-      <div class="fg"><label class="fl">Name *</label><input class="inp" list="ponyNames" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.series, f.name)}</datalist></div>
+      <div class="fg"><span class="fl" id="formCatLbl">Category</span><div class="sel-row" role="group" aria-labelledby="formCatLbl">${catOpts}</div></div>
+      <div class="fg"><label class="fl" for="formCatalog">Log number</label><input class="inp" id="formCatalog" value="${Render.esc(f.catalogNumber)}" placeholder="Your collection # (optional)" oninput="formState.catalogNumber=this.value"></div>
+      <div class="fg"><label class="fl" for="formName">Name *</label><input class="inp" id="formName" list="ponyNames" aria-required="true" value="${Render.esc(f.name)}" oninput="formState.name=this.value;UI.refreshNameList()"><datalist id="ponyNames">${this.nameDatalist(f.series, f.name)}</datalist></div>
       ${mlpFields}${otherFields}${mcdFields}
       <div class="fg-row">
-        <div class="fg"><label class="fl">Body colour</label><input class="inp" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
-        <div class="fg"><label class="fl">Hair colour</label><input class="inp" value="${Render.esc(f.hairColour)}" placeholder="Purple, rainbow…" oninput="formState.hairColour=this.value"></div>
+        <div class="fg"><label class="fl" for="formColour">Body colour</label><input class="inp" id="formColour" value="${Render.esc(f.colour)}" placeholder="Pink with purple mane" oninput="formState.colour=this.value"></div>
+        <div class="fg"><label class="fl" for="formHair">Hair colour</label><input class="inp" id="formHair" value="${Render.esc(f.hairColour)}" placeholder="Purple, rainbow…" oninput="formState.hairColour=this.value"></div>
       </div>
-      <div class="fg"><label class="fl">Size</label><div class="sel-row">${sOpts}</div></div>
-      <div class="fg"><label class="fl">Cutie mark</label><input class="inp" value="${Render.esc(f.cutieMark)}" placeholder="Stars, balloons, or none" oninput="formState.cutieMark=this.value"></div>
-      <div class="fg"><label class="fl">Shelf / divider location</label><input class="inp" list="shelfDL" value="${Render.esc(f.shelf)}" oninput="formState.shelf=this.value"><datalist id="shelfDL">${shelfList}</datalist></div>
-      <div class="fg"><label class="fl">Original or Extra</label><div class="toggle-row">
+      <div class="fg"><span class="fl" id="formSizeLbl">Size</span><div class="sel-row" role="group" aria-labelledby="formSizeLbl">${sOpts}</div></div>
+      <div class="fg"><label class="fl" for="formCutie">Cutie mark</label><input class="inp" id="formCutie" value="${Render.esc(f.cutieMark)}" placeholder="Stars, balloons, or none" oninput="formState.cutieMark=this.value"></div>
+      <div class="fg"><label class="fl" for="formShelf">Shelf / divider location</label><input class="inp" id="formShelf" list="shelfDL" value="${Render.esc(f.shelf)}" oninput="formState.shelf=this.value"><datalist id="shelfDL">${shelfList}</datalist></div>
+      <div class="fg"><span class="fl" id="formOrigLbl">Original or Extra</span><div class="toggle-row" role="group" aria-labelledby="formOrigLbl">
         <button type="button" class="opt${f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',true)">Original ✓</button>
         <button type="button" class="opt${!f.isOriginal?' on':''}" onclick="UI.setForm('isOriginal',false)">Extra 📦</button></div></div>
-      <div class="fg"><label class="fl">Condition</label><div class="sel-row">${cOpts}</div></div>
-      <div class="fg"><label class="fl">Favourite?</label><div class="toggle-row">
+      <div class="fg"><span class="fl" id="formCondLbl">Condition</span><div class="sel-row" role="group" aria-labelledby="formCondLbl">${cOpts}</div></div>
+      <div class="fg"><span class="fl" id="formFavLbl">Favourite?</span><div class="toggle-row" role="group" aria-labelledby="formFavLbl">
         <button type="button" class="opt${f.isFavourite?' on':''}" onclick="UI.setForm('isFavourite',true)">❤️ Yes</button>
         <button type="button" class="opt${!f.isFavourite?' on':''}" onclick="UI.setForm('isFavourite',false)">No</button></div></div>
-      <div class="fg"><label class="fl">Most Played?</label><div class="toggle-row">
+      <div class="fg"><span class="fl" id="formPlayLbl">Most Played?</span><div class="toggle-row" role="group" aria-labelledby="formPlayLbl">
         <button type="button" class="opt${f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',true)">🎮 Yes</button>
         <button type="button" class="opt${!f.isMostPlayed?' on':''}" onclick="UI.setForm('isMostPlayed',false)">No</button></div></div>
-      <div class="fg"><label class="fl">Year acquired</label><input class="inp" type="date" value="${f.acquiredDate}" oninput="formState.acquiredDate=this.value"></div>
+      <div class="fg"><label class="fl" for="formAcquired">Year acquired</label><input class="inp" id="formAcquired" type="date" value="${f.acquiredDate}" oninput="formState.acquiredDate=this.value"></div>
       <div class="fg-row">
-        <div class="fg"><label class="fl">Paid ($)</label><input class="inp" type="number" step="0.01" value="${f.purchaseValue??''}" placeholder="optional" oninput="formState.purchaseValue=this.value?parseFloat(this.value):null"></div>
-        <div class="fg"><label class="fl">Est. value ($)</label><input class="inp" type="number" step="0.01" value="${f.estimatedValue??''}" placeholder="optional" oninput="formState.estimatedValue=this.value?parseFloat(this.value):null"></div>
+        <div class="fg"><label class="fl" for="formPaid">Paid ($)</label><input class="inp" id="formPaid" type="number" step="0.01" value="${f.purchaseValue??''}" placeholder="optional" oninput="formState.purchaseValue=this.value?parseFloat(this.value):null"></div>
+        <div class="fg"><label class="fl" for="formEst">Est. value ($)</label><input class="inp" id="formEst" type="number" step="0.01" value="${f.estimatedValue??''}" placeholder="optional" oninput="formState.estimatedValue=this.value?parseFloat(this.value):null"></div>
       </div>
-      <div class="fg"><label class="fl">Notes</label><textarea class="ta" oninput="formState.notes=this.value">${Render.esc(f.notes)}</textarea></div>
+      <div class="fg"><label class="fl" for="formNotes">Notes</label><textarea class="ta" id="formNotes" oninput="formState.notes=this.value">${Render.esc(f.notes)}</textarea></div>
       <div id="dupWarn"></div>
       <div class="form-actions">
         <button type="button" class="btn-p" onclick="UI.savePony()">${uiIcon('check')} Save Pony</button>

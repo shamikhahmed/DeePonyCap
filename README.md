@@ -4,7 +4,7 @@ Track your collection, shelves and wishlist.
 
 Offline PWA by Capricorn Systems. Photos, shelves, wishlist and series logs stay on your device.
 
-**Version:** 4.0.0 · **SW cache:** `deeponycap-v400` · **Live:** https://shamikhahmed.github.io/DeePonyCap/
+**Version:** 4.0.1 · **SW cache:** `deeponycap-v401` · **Live:** https://shamikhahmed.github.io/DeePonyCap/
 
 Design: Apple HIG–aligned shell (`DESIGN.md`) with tint derived from the user’s accent theme.
 

@@ -5,7 +5,7 @@
 #   .github/workflows/ci.yml     → jobs verify, finish-matrix
 #   .github/workflows/pages.yml  → job deploy (stage allowlisted site only)
 # Then: full Playwright --retries=0, ios-behaviour-check (WebKit) on staged
-# site, prod-ready audit harness, version coherence @ 4.0.0 / deeponycap-v400.
+# site, prod-ready audit harness, version coherence @ 4.0.1 / deeponycap-v401.
 #
 # Continues after step failures: runs ALL steps, then exits non-zero if any failed.
 #
@@ -16,8 +16,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 
-EXPECTED_VERSION="4.0.0"
-EXPECTED_SW="deeponycap-v400"
+EXPECTED_VERSION="4.0.1"
+EXPECTED_SW="deeponycap-v401"
 STAGE_DIR="$ROOT/_site"
 STAGE_PORT="8881"
 LOG_DIR="$ROOT/qa/release/logs"
@@ -78,7 +78,17 @@ _stage_ok=0
 _server_ok=0
 
 # ---------------------------------------------------------------------------
-# 0) Preconditions (no silent engine fallbacks)
+# 0) HIG static guards (rules 1–4) — first gate, no browser
+# ---------------------------------------------------------------------------
+if run_logged "00-hig-guards" node scripts/hig-guards.mjs; then
+  record "hig-guards" "PASS" "$(tail -1 "$LOG_DIR/00-hig-guards.log" | tr -d '\r')"
+else
+  record "hig-guards" "FAIL" "see 00-hig-guards.log"
+  _finish=1
+fi
+
+# ---------------------------------------------------------------------------
+# 0b) Preconditions (no silent engine fallbacks)
 # ---------------------------------------------------------------------------
 if [[ ! -d node_modules/@playwright/test ]]; then
   record "pre: node_modules" "FAIL" "missing @playwright/test (npm ci locally; no sandbox)"
@@ -224,7 +234,7 @@ process.exit(ok?0:1);
 fi
 
 # ---------------------------------------------------------------------------
-# 7) Version coherence — 4.0.0 + SW cache match
+# 7) Version coherence — 4.0.1 + SW cache match
 # ---------------------------------------------------------------------------
 if EXPECT_V="$EXPECTED_VERSION" EXPECT_SW="$EXPECTED_SW" run_logged "07-version-coherence" node -e "
 const fs=require('fs');

@@ -1,3 +1,5 @@
+/* Demoted into @layer legacy (see css/cascade.css / DESIGN.md). */
+@layer legacy {
 /* DeePonyCap — plastic toy stable / acrylic case identity */
 
 :root {
@@ -421,3 +423,5 @@ html.dark-mode body,html.dark-mode #main{background:var(--pc-2b1d2f)}
     color: var(--pc-ffc8e4);
   }
 }
+
+} /* @layer legacy */

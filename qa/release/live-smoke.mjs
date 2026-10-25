@@ -5,7 +5,7 @@
  *
  *   node qa/release/live-smoke.mjs https://shamikhahmed.github.io/DeePonyCap/
  *
- * Asserts: app-ready, no console/pageerrors, no HTTP ≥400, VERSION 4.0.0,
+ * Asserts: app-ready, no console/pageerrors, no HTTP ≥400, VERSION 4.0.1,
  * core ios checks (tab bar tappable, document scrolls, sheet lock/restore,
  * swipe at top does not reload). Exit 1 on any FAIL.
  */
@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '../..');
-const EXPECTED_VERSION = '4.0.0';
+const EXPECTED_VERSION = '4.0.1';
 const LIVE_DEFAULT = 'https://shamikhahmed.github.io/DeePonyCap/';
 
 const rawUrl = process.argv[2] || LIVE_DEFAULT;

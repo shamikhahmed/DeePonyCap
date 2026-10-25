@@ -7,14 +7,14 @@ import {
   waitForAppReady,
   assertNoHorizontalOverflow,
   assertNotObscured,
+  assertMinHitTarget,
   applyFinishTheme,
   writeMatrixResults,
 } from './helpers/finish-matrix.mjs';
 
 const SHOTS = path.join('qa', 'finish-loop', 'shots');
-/* primary must be in-viewport (fixed tab). Pre-HIG used `body`; document scroll
- * makes body taller than the viewport so elementFromPoint(center) is null. */
-const ROUTES = [{ id: 'stable', path: '/?demo=1', primary: 'nav.nav .nav-btn[data-tab="stable"]' }];
+/* HIG: FAB retired; primary Add is top-right glass `.app-add-btn` (must stay ≥44pt, unobscured). */
+const ROUTES = [{ id: 'stable', path: '/?demo=1', primary: '.app-add-btn' }];
 const RUN = process.env.FINISH_MATRIX === '1' || process.env.FINISH_MATRIX_FULL === '1';
 
 // Gate with env so routine verify stays fast; CI job sets FINISH_MATRIX=1 (C-31).
@@ -53,6 +53,7 @@ if (RUN) {
                 } catch (_) {}
               });
               await assertNoHorizontalOverflow(page);
+              await assertMinHitTarget(page, route.primary, 44);
               await assertNotObscured(page, route.primary);
               const dir = path.join(SHOTS, route.id, theme);
               fs.mkdirSync(dir, { recursive: true });

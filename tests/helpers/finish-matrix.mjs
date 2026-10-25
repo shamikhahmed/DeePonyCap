@@ -70,12 +70,31 @@ export async function assertNotObscured(page, selector) {
     const el = document.querySelector(sel);
     if (!el) return false;
     const r = el.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return false;
+    const style = window.getComputedStyle(el);
+    if (style.visibility === 'hidden' || style.display === 'none' || Number(style.opacity) === 0) {
+      return false;
+    }
     const x = r.left + r.width / 2;
     const y = r.top + r.height / 2;
     const top = document.elementFromPoint(x, y);
     return !!(top && (top === el || el.contains(top)));
   }, selector);
   if (!ok) throw new Error(`Obscured or missing primary control: ${selector}`);
+}
+
+/** Fail unless the control’s layout box is at least minPx on both axes (HIG 44pt). */
+export async function assertMinHitTarget(page, selector, minPx = 44) {
+  const box = await page.evaluate((sel) => {
+    const el = document.querySelector(sel);
+    if (!el) return null;
+    const r = el.getBoundingClientRect();
+    return { w: r.width, h: r.height };
+  }, selector);
+  if (!box) throw new Error(`Missing hit target: ${selector}`);
+  if (box.w + 0.5 < minPx || box.h + 0.5 < minPx) {
+    throw new Error(`Hit target too small: ${selector} ${Math.round(box.w)}×${Math.round(box.h)} (need ≥${minPx})`);
+  }
 }
 
 /** Apply light/dark for matrix runs (emulateMedia + common class/dataset hooks). */

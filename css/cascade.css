@@ -2,13 +2,8 @@
  * DeePonyCap — cascade order: legacy 3.x CSS < HIG components (system.css primitives + deepony.css reskin).
  * Tokens (css/tokens.css palette + css/design/tokens.css) load unlayered, so they always win;
  * legacy screens inherit the HIG palette through the bridge in design/tokens.css. Docs: DESIGN.md.
+ *
+ * Stylesheets are linked from index.html (not @import). Relative @import inside a SW-cached
+ * cascade sheet was resolving against the document URL (/ios-tokens.css) → 404 on staged Pages.
  */
 @layer legacy, components;
-
-@import url("fonts-local.css") layer(legacy);
-@import url("ios-tokens.css") layer(legacy);
-@import url("app.css") layer(legacy);
-@import url("capricorn-core.css") layer(legacy);
-@import url("identity.css") layer(legacy);
-@import url("design/system.css");
-@import url("design/deepony.css");

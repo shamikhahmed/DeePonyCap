@@ -1,9 +1,9 @@
 {
   "name": "DeePonyCap",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "buildDate": "2026-10-19",
   "channel": "stable",
-  "swCache": "deeponycap-v400",
-  "updated": "2026-10-21",
-  "notes": "v7-fix: sync APP_VERSION/SW with VERSION"
+  "swCache": "deeponycap-v401",
+  "updated": "2026-10-25",
+  "notes": "4.0.1: finish-matrix Add btn; cascade link (no SW @import 404); axe labels/contrast"
 }
