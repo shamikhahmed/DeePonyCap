@@ -27,9 +27,9 @@
 | Sev | Screen / area | Cause | Fix commit |
 |---|---|---|---|
 | high | Offline / H | SW ASSETS omitted `css/tokens.css`, `css/ios-tokens.css` (cascade `@import`), `js/hig-dt.js`, font files | `fix(pwa): precache shell CSS, Dynamic Type, fonts` |
-| high | Wishlist / J | `updateWishSuggest` built `<option value="${n}">` without `Render.esc` | `fix(xss): escape wishlist name datalist` |
-| medium | Accessory sheet / G | Linked pony rows were clickable `div`s without role/keyboard/name; photo `alt=""` | `fix(a11y): accessory links and storybook alts` |
-| medium | Storybook / G | Decorative empty `alt` on photos | same |
+| high | Wishlist / J | `updateWishSuggest` built `<option value="${n}">` without `Render.esc` | `fix(xss): escape wishlist name datalist` (same commit: accessory linked-pony a11y) |
+| medium | Accessory sheet / G | Linked pony rows were clickable `div`s without role/keyboard/name; photo `alt=""` | included in xss commit above |
+| medium | Storybook / G | Decorative empty `alt` on photos | `fix(a11y): name storybook photos…` |
 | medium | Install / H | Manifest theme/background pastel pink ≠ HIG `--bg` `#F2F2F7` | `fix(pwa): align manifest colours with HIG tokens` |
 | low | Privacy / J | External anchors lacked `rel=noopener` | `fix(privacy): noopener + storage quota toast` |
 | low | Save / J | Quota/LS failure silent | same |
