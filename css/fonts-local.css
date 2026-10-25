@@ -1,3 +1,5 @@
+/* Demoted into @layer legacy (see css/cascade.css / DESIGN.md). */
+@layer legacy {
 @font-face {
   font-family: 'Bubblegum Sans';
   font-style: normal;
@@ -29,3 +31,5 @@
   font-display: swap;
   src: url('../assets/fonts/nunito.woff2') format('woff2');
 }
+
+} /* @layer legacy */

@@ -1,3 +1,5 @@
+/* Demoted into @layer legacy (see css/cascade.css / DESIGN.md). */
+@layer legacy {
 /* {app} — iOS HIG tokens (v7). Brand accent unchanged; structure follows Apple HIG. */
 /* Loaded after tokens.css; does not replace brand colours — maps semantic aliases. */
 
@@ -265,3 +267,5 @@ body {
   display: inline-flex;
   align-items: center;
 }
+
+} /* @layer legacy */

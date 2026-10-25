@@ -33,7 +33,8 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" sizes="180x180">
-<!-- HIG design: legacy 3.x CSS sits in @layer legacy under the HIG components (css/cascade.css, DESIGN.md). -->
+<!-- HIG design: legacy 3.x CSS in @layer legacy; HIG in @layer components (css/cascade.css, DESIGN.md).
+     Link each sheet from HTML — do not @import from cascade (SW-cached @import resolved to / and 404'd). -->
 <link rel="preload" href="css/app.css" as="style">
 <link rel="preload" href="css/capricorn-core.css" as="style">
 <link rel="preload" href="css/design/system.css" as="style">
@@ -41,6 +42,13 @@
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/design/tokens.css">
 <link rel="stylesheet" href="css/cascade.css">
+<link rel="stylesheet" href="css/fonts-local.css">
+<link rel="stylesheet" href="css/ios-tokens.css">
+<link rel="stylesheet" href="css/app.css">
+<link rel="stylesheet" href="css/capricorn-core.css">
+<link rel="stylesheet" href="css/identity.css">
+<link rel="stylesheet" href="css/design/system.css">
+<link rel="stylesheet" href="css/design/deepony.css">
 </head>
 <body data-cap-app="1">
 <a href="#main" class="cap-skip-link skip-link">Skip to content</a>

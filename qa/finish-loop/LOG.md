@@ -72,3 +72,13 @@ SW cache aligned `deeponycap-v61`→`v62`; self-hosted fonts; `__APP_READY__` af
 - Risks: LH/gallery freshness still open; DeePony dark theme toggle flaky under axe.
 - Verification: `npm run tier1` recorded FAIL honestly (no PASS claim).
 
+
+## 2026-10-25 — 4.0.1 release-gate re-run fixes
+- Matrix: primary `.app-add-btn` + ≥44pt.
+- 404s: `/ios-tokens.css`, `/app.css`, `/design/system.css`, … caused by cascade `@import` resolving to document root under SW cache — fixed by HTML `<link>` + `@layer legacy` wraps.
+- Axe: label `for`/ids; `.opt.on` tint; ach/map/nav contrast.
+
+## 2026-10-25 — prod-ready axeBad=2 (keep 4.0.1)
+- Root: dark selected `.nav-label` tint (~72% mix) failed AA on translucent glass+fill; `.map-slot-meta` `#aeaeb2` on still-white `.map-slot`.
+- Fix: dark `.nav-btn.on` → 45% accent mix; dark `.map-slot` → `--surface`. Legacy `html/body overflow:hidden` + `.main overflow-y:auto` + `scroll-behavior:smooth` cleared for HIG.
+- Added `scripts/hig-guards.mjs` (wired first in `qa/release/run-checks.sh`). Verified: hig-guards PASS, sw-truth 4.0.1 / v401. Browser axe/playwright not run in sandbox.

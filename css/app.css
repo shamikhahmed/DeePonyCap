@@ -1,3 +1,5 @@
+/* Demoted into @layer legacy (see css/cascade.css / DESIGN.md). */
+@layer legacy {
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --pink:var(--pc-ff69b4);--pink-light:var(--pc-ff8dc7);--pink-lighter:var(--pc-ffc8e4);
@@ -25,7 +27,7 @@ html.cap-desktop-bg{--cap-desktop-bg:linear-gradient(135deg,var(--pc-ffe8f4),var
   .cap-side-btn.on,.cap-side-btn.active{background:rgba(255,105,180,0.15);color:var(--pink)}
   .cap-sidebar-brand{color:var(--text)}
 }
-html,body{height:100%;font-family:'Comic Neue','Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:600;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;line-height:1.45}
+html,body{height:100%;font-family:'Comic Neue','Nunito',-apple-system,BlinkMacSystemFont,'SF Pro Rounded','Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);font-weight:600;overflow-x:clip;overflow-y:visible;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;line-height:1.45;scroll-behavior:auto}
 html.standalone body{padding:0}
 button,input,select,textarea{font:inherit;-webkit-user-select:text;user-select:text}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:
@@ -68,7 +70,7 @@ html:not(.dark-mode) .splash-sub{color:var(--text-soft)}
 .toast{background:var(--pc-1f2937);color:var(--pc-ffffff);padding:12px 20px;border-radius:var(--r-pill);font-size:.85rem;font-weight:700;box-shadow:var(--shadow);opacity:0;transition:opacity .3s}
 .toast.show{opacity:1;visibility:visible}
 .app{height:100dvh;min-height:0;display:flex;flex-direction:column;padding-top:var(--safe-t);position:relative;z-index:1}
-.main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px var(--main-pad-b);scroll-padding-bottom:var(--main-pad-b)}
+.main{flex:1;overflow:visible;-webkit-overflow-scrolling:auto;padding:12px 16px var(--main-pad-b);scroll-padding-bottom:var(--main-pad-b)}
 .main.demo-active{padding-top:8px}
 .app-settings-btn{position:fixed;top:calc(6px + var(--safe-t));right:12px;z-index:85;width:44px;height:44px;border-radius:14px;border:2px solid rgba(249,168,212,.45);background:rgba(255,255,255,.92);backdrop-filter:blur(8px);font-size:1.25rem;cursor:pointer;box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center}
 .app-settings-btn[hidden]{display:none}
@@ -541,9 +543,9 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible {
 @keyframes shimmerSkel { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 .skel { background: linear-gradient(90deg, rgba(196,54,122,0.08) 25%, rgba(196,54,122,0.16) 50%, rgba(196,54,122,0.08) 75%); background-size:200% 100%; animation: shimmerSkel 1.5s infinite; border-radius:10px; }
 
-/* ── Smooth scroll ── */
-html { scroll-behavior: smooth; }
-.tab-content, #app > div { overscroll-behavior: contain; scroll-behavior: smooth; }
+/* ── Document scroll (instant — smooth felt like auto-scroll on iPhone) ── */
+html { scroll-behavior: auto; }
+.tab-content, #app > div { overscroll-behavior: contain; scroll-behavior: auto; }
 
 /* ── Touch target minimums (iOS HIG 44px) ── */
 .btn-g, .btn-d, .btn-p { min-height: 44px; }
@@ -630,3 +632,5 @@ html.dark-mode .btn-g{
 
 /* hig-v7-chip-hard */
 button.chip, .chip { min-height: 44px !important; display: inline-flex !important; align-items: center !important; box-sizing: border-box !important; }
+
+} /* @layer legacy */

@@ -159,16 +159,23 @@ html.dark-mode .nav-btn {
   justify-content: center;
   border-radius: 999px;
   background: transparent;
-  color: var(--label-2);
+  /* Stronger than --label-2: glass bar failed axe color-contrast on inactive tabs */
+  color: var(--label);
   font-size: 10.5px;
   font-weight: 600;
 }
 
-.nav-btn.on,
-html.dark-mode .nav-btn.on {
+.nav-btn.on {
   color: var(--tint);
   background: var(--fill);
 }
+
+/* Selected tab: lighten tint on dark glass+fill (72% mix failed axe AA over translucent bar) */
+html.dark-mode .nav-btn.on {
+  color: color-mix(in oklab, var(--accent-src) 45%, #fff);
+  background: var(--fill);
+}
+
 
 .nav-btn .nav-icon,
 .nav-btn.on .nav-icon {
@@ -375,6 +382,55 @@ html.dark-mode .demo-banner-inner strong {
   background: var(--label);
   color: var(--bg);
   border: 0;
+}
+
+/* Selected option chips — tint (AA) instead of raw --pink on white text */
+.opt.on,
+button.opt.on {
+  background: var(--tint);
+  color: var(--on-tint);
+  border-color: var(--tint);
+  -webkit-text-fill-color: var(--on-tint);
+}
+
+.stat-box .n,
+.big-num {
+  color: var(--tint);
+}
+
+/* Achievements: mute with solid AA greys, not opacity (opacity×text failed axe) */
+.ach {
+  opacity: 1;
+  color: #6c6c70; /* ≥4.5:1 on white */
+  background: var(--surface);
+}
+
+html.dark-mode .ach {
+  color: #aeaeb2; /* ≥4.5:1 on graphite cards */
+}
+
+.ach.unlocked {
+  color: var(--label);
+  border: 2px solid var(--warning);
+}
+
+.ach > span:nth-child(2) {
+  color: inherit;
+}
+
+.map-slot-meta {
+  color: #6c6c70;
+  font-weight: 600;
+}
+
+/* Slots were still white in dark → #aeaeb2 meta failed AA; graphite surface matches HIG cards */
+html.dark-mode .map-slot {
+  background: var(--surface);
+  border-color: var(--separator);
+}
+
+html.dark-mode .map-slot-meta {
+  color: #aeaeb2; /* ≥4.5:1 on --surface */
 }
 
 /* ---------- Fields ---------- */

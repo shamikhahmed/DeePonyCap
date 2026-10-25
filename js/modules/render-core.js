@@ -429,9 +429,9 @@ const Render = {
         <option value="linked"${accFilter.sort==='linked'?' selected':''}>Most linked</option>
       </select></div>
       <div class="card">
-        <div class="fg"><label class="fl">Name</label><input class="inp" id="accNameGal" placeholder="e.g. Ponyville Playset"></div>
-        <div class="fg"><label class="fl">Category</label><select class="sel" id="accCatGal"><option value="playset">Playset</option><option value="vehicle">Vehicle</option><option value="accessory" selected>Accessory</option><option value="other">Other</option></select></div>
-        <div class="fg"><label class="fl">Link to pony</label><select class="sel" id="accPonyGal"><option value="">— none —</option>${S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('')}</select></div>
+        <div class="fg"><label class="fl" for="accNameGal">Name</label><input class="inp" id="accNameGal" placeholder="e.g. Ponyville Playset"></div>
+        <div class="fg"><label class="fl" for="accCatGal">Category</label><select class="sel" id="accCatGal" aria-label="Category"><option value="playset">Playset</option><option value="vehicle">Vehicle</option><option value="accessory" selected>Accessory</option><option value="other">Other</option></select></div>
+        <div class="fg"><label class="fl" for="accPonyGal">Link to pony</label><select class="sel" id="accPonyGal" aria-label="Link to pony"><option value="">— none —</option>${S.ponies.map(p => `<option value="${p.id}">${this.esc(p.name)}</option>`).join('')}</select></div>
         <div class="fg"><label class="fl">Photo</label>${PhotoPicker.html('accPhoto', '', { multiple: false })}</div>
         <button type="button" class="btn-p" onclick="UI.addAccessoryFromGallery()">${uiIcon('plus')} Add Accessory</button>
       </div>
@@ -477,8 +477,8 @@ const Render = {
       </div>
       <div class="card">
         <div class="section-title">Collector Profile</div>
-        <div class="fg"><label class="fl">Name</label><input class="inp" id="setName" value="${this.esc(S.collector.name)}" onchange="S.collector.name=this.value;Store.save()"></div>
-        <div class="fg"><label class="fl">Collecting since</label><input class="inp" type="date" id="setSince" value="${S.collector.since||''}" onchange="S.collector.since=this.value;Store.save()"></div>
+        <div class="fg"><label class="fl" for="setName">Name</label><input class="inp" id="setName" autocomplete="nickname" value="${this.esc(S.collector.name)}" onchange="S.collector.name=this.value;Store.save()"></div>
+        <div class="fg"><label class="fl" for="setSince">Collecting since</label><input class="inp" type="date" id="setSince" value="${S.collector.since||''}" onchange="S.collector.since=this.value;Store.save()"></div>
       </div>
       <div class="card">
         <div class="section-title">Sound & Feel</div>
