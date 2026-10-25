@@ -101,7 +101,13 @@ const Store = {
       await StorageHealth.refreshEstimate();
     };
     persist().catch(() => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); } catch {}
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(S));
+      } catch (e) {
+        if (typeof Toast !== 'undefined') {
+          Toast.show('Storage full — export a backup, then compress or remove photos');
+        }
+      }
     });
   }
 };
