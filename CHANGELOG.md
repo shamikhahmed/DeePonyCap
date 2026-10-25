@@ -1,3 +1,14 @@
+## [Unreleased] — Prod-ready audit (HIG 3)
+
+- SW precache: `css/tokens.css`, `css/ios-tokens.css`, `js/hig-dt.js`, local font woff2s (offline shell)
+- `check-sw-truth.js` asserts shell assets are listed
+- Escape wishlist name datalist options (XSS parity with add form)
+- Accessory linked-pony rows: `role="button"`, keyboard, named photo `alt`
+- Storybook photo `alt` from pony name
+- Manifest `theme_color` / `background_color` aligned to HIG `--bg` (`#F2F2F7`)
+- Quota save failure surfaces a Toast; privacy external links `rel=noopener noreferrer`
+- Docs: README / HANDOVER → 4.0.0; `qa/prod-ready/{INVENTORY,REPORT}.md`; `scripts/prod-ready-audit.mjs`
+
 ## [4.0.0] — 2026-10-25 — HIG design (ScentCap 3.0 system)
 
 - Apple-HIG redesign: `css/design/tokens.css` (semantic light/dark/increased-contrast tokens, tint derived from the user's accent theme so it stays AA, legacy bridge), `css/design/system.css` (`ui-*` primitives), `css/design/deepony.css` (shell + shared-class reskin); 3.x CSS demoted to `@layer legacy` via `css/cascade.css`
