@@ -1,5 +1,7 @@
 ## Gallery Wave 2 — 2026-11-26
 
+<!-- gallery-regen: 2026-11-26 DeePonyCap Wave 2 -->
+
 - Regenerated screen gallery v3 (**42** webp) post-motion; live `capturedAt` in `gallery-manifest.json`.
 
 ## Motion craft — 2026-11-26

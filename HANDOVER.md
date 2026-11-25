@@ -1,5 +1,7 @@
 # DeePonyCap — Handover
 
+<!-- gallery-regen: 2026-11-26 DeePonyCap Wave 2 -->
+
 > Read this + `ROADMAP.md` + `~/Capricorn-Brain/01 Projects/DeePonyCap.md` before working here.  
 > Last updated: 2026-10-25 · Branch: `design/hig-3`
 

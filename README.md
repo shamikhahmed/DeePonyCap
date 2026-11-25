@@ -1,3 +1,5 @@
+<!-- gallery-regen: 2026-11-26 DeePonyCap Wave 2 -->
+
 Track your collection, shelves and wishlist.
 
 # DeePonyCap
