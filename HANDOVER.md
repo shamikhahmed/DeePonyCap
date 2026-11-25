@@ -43,6 +43,12 @@ Perfection state: `qa/perfection/STATE.md`. Prod-ready: `qa/prod-ready/REPORT.md
 - Audience 13+; no COPPA/child-targeting wording
 - HIG: document scroll (no inner `.main` scroller); FAB hidden; Add/Settings top-right; SW no `clients.claim`
 
+## Gallery Wave 2 — 2026-11-26
+
+- `npm run gallery:v3` against local `?demo=1` → **42** webp (7 tabs × light/dark × iphone/ipad/mac).
+- Manifest `docs/screenshots/gallery/gallery-manifest.json` `capturedAt` live ISO (no hardcoded Oct stamp).
+- Classic `npm run gallery` (PNG `assets/screenshots`) left unrestored after browser-closed flake; v3 is the Wave 2 canonical set.
+
 ## Motion contract (2026-11-26)
 
 - Motion contract: re-synced `capricorn-core.css` + `capricorn-motion.js` from `capricorn-tooling/shared/design-system` (tokens `--cap-dur-*`, splash, view transitions). App shells keep `data-cap-app="1"` instant reveals (no marketing scrub). See `docs/MOTION.md`.

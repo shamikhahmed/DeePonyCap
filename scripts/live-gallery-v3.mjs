@@ -10,7 +10,7 @@ const GALLERY_DIR = join(ROOT, 'docs', 'screenshots', 'gallery');
 const MANIFEST = join(GALLERY_DIR, 'gallery-manifest.json');
 const BASE = process.env.GALLERY_BASE_URL || 'https://shamikhahmed.github.io/DeePonyCap/?demo=1';
 const ACCENT = '#ff6eb4';
-const CAPTURED_AT = '2026-10-14T09:41:00Z';
+// Frozen demo clock for deterministic UI; capturedAt is set live when writing the manifest.
 const CLOCK_MS = Date.parse('2026-10-14T09:41:00.000Z');
 
 const VIEWPORTS = {
@@ -154,10 +154,11 @@ async function main() {
   }
 
   const version = JSON.parse(readFileSync(join(ROOT, 'VERSION.json'), 'utf8')).version;
+  const capturedAt = new Date().toISOString();
   writeFileSync(
     MANIFEST,
     JSON.stringify(
-      { app: 'DeePonyCap', version, capturedAt: CAPTURED_AT, accent: ACCENT, schema: 2, shots },
+      { app: 'DeePonyCap', version, capturedAt, accent: ACCENT, schema: 2, shots },
       null,
       2,
     ),
