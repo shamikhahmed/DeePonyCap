@@ -4,6 +4,7 @@
   "buildDate": "2026-10-19",
   "channel": "stable",
   "swCache": "deeponycap-v401",
-  "updated": "2026-10-25",
-  "notes": "4.0.1: finish-matrix Add btn; cascade link (no SW @import 404); axe labels/contrast"
+  "updated": "2026-11-26",
+  "notes": "4.0.1: finish-matrix Add btn; cascade link (no SW @import 404); axe labels/contrast",
+  "motionContract": "capricorn-tooling/shared/design-system/MOTION.md"
 }

@@ -1,3 +1,7 @@
+## Motion craft — 2026-11-26
+
+- Motion contract: re-synced `capricorn-core.css` + `capricorn-motion.js` from `capricorn-tooling/shared/design-system` (tokens `--cap-dur-*`, splash, view transitions). App shells keep `data-cap-app="1"` instant reveals (no marketing scrub). See `docs/MOTION.md`.
+
 ## 4.0.1 — 2026-10-25
 
 Release-gate fixes after HIG 4.0.0: finish-matrix expects the top-right Add control; staged Pages no longer 404s shell CSS (cascade no longer `@import`s through the service worker); form labels and contrast for selected chips, tab labels, achievements, and map meta.

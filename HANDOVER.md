@@ -42,3 +42,9 @@ Perfection state: `qa/perfection/STATE.md`. Prod-ready: `qa/prod-ready/REPORT.md
 - Non-affiliation: "DeePonyCap is an independent collection tracker and isn't affiliated with or endorsed by any toy company."
 - Audience 13+; no COPPA/child-targeting wording
 - HIG: document scroll (no inner `.main` scroller); FAB hidden; Add/Settings top-right; SW no `clients.claim`
+
+## Motion contract (2026-11-26)
+
+- Motion contract: re-synced `capricorn-core.css` + `capricorn-motion.js` from `capricorn-tooling/shared/design-system` (tokens `--cap-dur-*`, splash, view transitions). App shells keep `data-cap-app="1"` instant reveals (no marketing scrub). See `docs/MOTION.md`.
+
+Source: `../capricorn-tooling/shared/design-system/` via `node scripts/sync-design-system.mjs`.
