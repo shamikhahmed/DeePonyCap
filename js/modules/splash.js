@@ -22,21 +22,37 @@ const Splash = {
   run(cb) {
     const demo = /(?:^|[?&])demo=1(?:&|$)/.test(location.search);
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let splashSeen = false;
+    try {
+      splashSeen = sessionStorage.getItem('deepony_splash_seen') === '1';
+    } catch (_) {}
     const fill = document.getElementById('splashFill');
     /* Demo / reduce: skip splash entirely — main-thread free for Stable LCP (v5 §3d). */
-    if (demo || reduce) {
+    if (demo || reduce || splashSeen) {
       const splash = document.getElementById('splash');
       if (splash) { splash.classList.add('hide'); splash.style.display = 'none'; }
+      try { sessionStorage.setItem('deepony_splash_seen', '1'); } catch (_) {}
       cb();
       return;
     }
-    const ms = 200;
-    requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
-    setTimeout(() => {
+    try { sessionStorage.setItem('deepony_splash_seen', '1'); } catch (_) {}
+    let splashDone = false;
+    let splashTimer = null;
+    function dismissSplash() {
+      if (splashDone) return;
+      splashDone = true;
+      if (splashTimer != null) clearTimeout(splashTimer);
+      window.removeEventListener('pointerdown', dismissSplash);
+      window.removeEventListener('keydown', dismissSplash);
       const splash = document.getElementById('splash');
       if (splash) splash.classList.add('hide');
       cb();
-    }, ms);
+    }
+    window.addEventListener('pointerdown', dismissSplash, { once: true, passive: true });
+    window.addEventListener('keydown', dismissSplash, { once: true });
+    const ms = 200;
+    requestAnimationFrame(() => { if (fill) fill.style.width = '100%'; });
+    splashTimer = setTimeout(dismissSplash, ms);
   }
 };
 
